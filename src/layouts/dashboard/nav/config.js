@@ -1,7 +1,7 @@
 // routes
-import { PATH_DASHBOARD } from '../../../routes/paths';
+import { PATH_BENEFICIARY, PATH_DASHBOARD, PATH_PROJECTS, PATH_VENDORS } from '@routes/paths';
 // components
-import SvgColor from '../../../components/svg-color';
+import SvgColor from '@components/svg-color';
 
 // ----------------------------------------------------------------------
 
@@ -18,27 +18,50 @@ const navConfig = [
   // GENERAL
   // ----------------------------------------------------------------------
   {
-    subheader: 'New Header',
-    items: [
-      { title: 'One', path: PATH_DASHBOARD.one, icon: ICONS.dashboard },
-      { title: 'Two', path: PATH_DASHBOARD.two, icon: ICONS.ecommerce },
-      { title: 'Three', path: PATH_DASHBOARD.three, icon: ICONS.analytics },
-    ],
-  },
-
-  // MANAGEMENT
-  // ----------------------------------------------------------------------
-  {
-    subheader: 'management',
     items: [
       {
-        title: 'user',
-        path: PATH_DASHBOARD.user.root,
-        icon: ICONS.user,
+        title: 'Dashboard',
+        path: PATH_DASHBOARD.one,
+        icon: ICONS.dashboard,
+      },
+      {
+        title: 'Projects',
+        path: PATH_PROJECTS.root,
+        icon: ICONS.ecommerce,
+      },
+      {
+        title: 'Beneficiary',
+        path: PATH_BENEFICIARY.root,
+        icon: ICONS.analytics,
+      },
+      {
+        title: 'Vendors',
+        path: PATH_VENDORS.root,
+        icon: ICONS.analytics,
+      },
+      {
+        title: 'Mobilizers',
+        path: PATH_DASHBOARD.three,
+        icon: ICONS.analytics,
+      },
+      {
+        title: 'Financial Institutions',
+        path: PATH_DASHBOARD.three,
+        icon: ICONS.analytics,
+      },
+      {
+        title: 'Administation',
+        path: PATH_DASHBOARD.three,
+        icon: ICONS.analytics,
         children: [
-          { title: 'Four', path: PATH_DASHBOARD.user.four },
-          { title: 'Five', path: PATH_DASHBOARD.user.five },
-          { title: 'Six', path: PATH_DASHBOARD.user.six },
+          {
+            title: 'Campaigns',
+            path: PATH_DASHBOARD.three,
+          },
+          {
+            title: 'Users',
+            path: PATH_DASHBOARD.three,
+          },
         ],
       },
     ],

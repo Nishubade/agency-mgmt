@@ -12,6 +12,7 @@
       "@contexts/*": ["src/contexts/*"],
       "@hooks/*": ["src/hooks/*"],
       "@web3/*": ["src/web3/*"],
+      "@sections/*": ["src/sections/*"],
       "@config": ["src/config.js"]
     }
   },
