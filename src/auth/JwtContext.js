@@ -1,60 +1,25 @@
+import { isValid } from 'date-fns';
 import PropTypes from 'prop-types';
-import { createContext, useEffect, useReducer, useCallback } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 // utils
-import axios from '../utils/axios';
-//
-import { isValidToken, setSession } from './utils';
-
-// ----------------------------------------------------------------------
-
-// NOTE:
-// We only build demo at basic level.
-// Customer will need to do some extra handling yourself if you want to extend the logic and other features...
+// import { isValidToken, setSession } from '../utils/jwt';
+import { isValidToken, saveAccessToken, getAccessToken, deleteAccessToken } from '../utils/sessionManager';
 
 // ----------------------------------------------------------------------
 
 const initialState = {
+  isAuthenticated: false, // should be false by default,
   isInitialized: false,
-  isAuthenticated: false,
+  token: null,
   user: null,
 };
 
-const reducer = (state, action) => {
-  if (action.type === 'INITIAL') {
-    return {
-      isInitialized: true,
-      isAuthenticated: action.payload.isAuthenticated,
-      user: action.payload.user,
-    };
-  }
-  if (action.type === 'LOGIN') {
-    return {
-      ...state,
-      isAuthenticated: true,
-      user: action.payload.user,
-    };
-  }
-  if (action.type === 'REGISTER') {
-    return {
-      ...state,
-      isAuthenticated: true,
-      user: action.payload.user,
-    };
-  }
-  if (action.type === 'LOGOUT') {
-    return {
-      ...state,
-      isAuthenticated: false,
-      user: null,
-    };
-  }
-
-  return state;
-};
-
-// ----------------------------------------------------------------------
-
-export const AuthContext = createContext(null);
+const AppAuthContext = createContext({
+  ...initialState,
+  method: 'jwt',
+  addToken: () => {},
+  deleteToken: () => {},
+});
 
 // ----------------------------------------------------------------------
 
@@ -62,109 +27,58 @@ AuthProvider.propTypes = {
   children: PropTypes.node,
 };
 
-export function AuthProvider({ children }) {
-  const [state, dispatch] = useReducer(reducer, initialState);
+const localToken = getAccessToken();
 
-  const initialize = useCallback(async () => {
-    try {
-      const accessToken = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : '';
+function AuthProvider({ children }) {
+  const [authState, setAuthState] = useState(initialState);
 
-      if (accessToken && isValidToken(accessToken)) {
-        setSession(accessToken);
-
-        const response = await axios.get('/api/account/my-account');
-
-        const { user } = response.data;
-
-        dispatch({
-          type: 'INITIAL',
-          payload: {
-            isAuthenticated: true,
-            user,
-          },
-        });
-      } else {
-        dispatch({
-          type: 'INITIAL',
-          payload: {
-            isAuthenticated: false,
-            user: null,
-          },
-        });
-      }
-    } catch (error) {
-      console.error(error);
-      dispatch({
-        type: 'INITIAL',
-        payload: {
-          isAuthenticated: false,
-          user: null,
-        },
-      });
+  const addToken = (payload) => {
+    if (!isValid(payload)) {
+      return 'Invalid token';
     }
-  }, []);
+    if (payload) {
+      setAuthState((prev) => ({ ...prev, token: payload }));
+      saveAccessToken(payload);
+    }
+  };
 
   useEffect(() => {
+    const initialize = async () => {
+      setAuthState((prev) => ({ ...prev, isInitialized: true }));
+      try {
+        if (localToken && isValidToken(localToken)) {
+          setAuthState((prev) => ({
+            ...prev,
+            isAuthenticated: true,
+            token: localToken,
+          }));
+
+          //  const response = await axios.get('/api/account/my-account');
+          //  const { user } = response.data;
+        } else {
+          setAuthState((prev) => ({ ...prev, isAuthenticated: false }));
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
     initialize();
-  }, [initialize]);
+  }, []);
 
-  // LOGIN
-  const login = async (email, password) => {
-    const response = await axios.post('/api/account/login', {
-      email,
-      password,
-    });
-    const { accessToken, user } = response.data;
-
-    setSession(accessToken);
-
-    dispatch({
-      type: 'LOGIN',
-      payload: {
-        user,
-      },
-    });
+  const deleteToken = () => {
+    deleteAccessToken();
+    setAuthState((prev) => ({ ...prev, isInitialized: true, token: '' }));
+  };
+  const contextProps = {
+    ...authState,
+    deleteToken,
+    addToken,
   };
 
-  // REGISTER
-  const register = async (email, password, firstName, lastName) => {
-    const response = await axios.post('/api/account/register', {
-      email,
-      password,
-      firstName,
-      lastName,
-    });
-    const { accessToken, user } = response.data;
-
-    localStorage.setItem('accessToken', accessToken);
-
-    dispatch({
-      type: 'REGISTER',
-      payload: {
-        user,
-      },
-    });
-  };
-
-  // LOGOUT
-  const logout = async () => {
-    setSession(null);
-    dispatch({
-      type: 'LOGOUT',
-    });
-  };
-
-  return (
-    <AuthContext.Provider
-      value={{
-        ...state,
-        method: 'jwt',
-        login,
-        logout,
-        register,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AppAuthContext.Provider value={contextProps}>{children}</AppAuthContext.Provider>;
 }
+
+export { AppAuthContext, AuthProvider };
+
+export const useAppAuthContext = () => useContext(AppAuthContext);

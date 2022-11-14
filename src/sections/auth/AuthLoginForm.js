@@ -7,15 +7,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, Stack, Alert, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // auth
-import { useAuthContext } from '../../auth/useAuthContext';
 // components
 import Iconify from '../../components/iconify';
 import FormProvider, { RHFTextField } from '../../components/hook-form';
+import { useLoginContext } from '@pages/auth/login/context';
 
 // ----------------------------------------------------------------------
 
 export default function AuthLoginForm() {
-  const { login } = useAuthContext();
+  const { loginHandler } = useLoginContext();
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -43,7 +43,7 @@ export default function AuthLoginForm() {
 
   const onSubmit = async (data) => {
     try {
-      await login(data.email, data.password);
+      await loginHandler(data);
     } catch (error) {
       console.error(error);
 

@@ -8,9 +8,6 @@ export const HOST_API = process.env.NEXT_PUBLIC_HOST_API || '';
 
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || 'Rahat';
 
-export const USE_WEB_3 = process.env.NEXT_PUBLIC_USE_WEB_3 || true;
-
-
 export const COGNITO_API = {
   userPoolId: process.env.AWS_COGNITO_USER_POOL_ID,
   clientId: process.env.AWS_COGNITO_CLIENT_ID,

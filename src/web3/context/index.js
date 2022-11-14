@@ -1,6 +1,5 @@
 import { createContext, useContext, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { USE_WEB_3 } from '@config';
 
 const initialState = {};
 
@@ -12,10 +11,6 @@ Web3Provider.propTypes = {
 
 export function Web3Provider({ children }) {
   const [web3Api, setWeb3Api] = useState(initialState);
-
-  if (!USE_WEB_3) {
-    return children;
-  }
 
   // const _web3Api = useMemo(() => {
   //   return {

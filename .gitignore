@@ -38,3 +38,7 @@ yarn-error.log*
 .netlify
 
 _static
+
+.yarn/
+
+
