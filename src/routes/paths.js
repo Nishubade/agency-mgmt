@@ -33,6 +33,8 @@ export const PATH_DASHBOARD = {
 export const PATH_PROJECTS = {
   root: ROOTS_PROJECTS,
   list: path(ROOTS_PROJECTS, '/list'),
+  view: path(ROOTS_PROJECTS, '/[id]/view'),
+  addBudget: path(ROOTS_PROJECTS, '/[id]/add-budget'),
 };
 
 export const PATH_BENEFICIARY = {

@@ -6,22 +6,27 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+import { Button, Chip } from '@mui/material';
+import { useRouter } from 'next/router';
 
 const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
+  {
+    name: 'Project 1',
+    location: 'Location 1',
+    projectManager: 'Project Manager 1',
+    createdAt: '2021-01-01',
+    status: 'Active',
+    balance: '200',
+    id: '1',
+  },
 ];
 
 export default function ListTable() {
+  const router = useRouter();
+
+  const handleView = (id) => () => {
+    router.push(`/projects/${id}/view`);
+  };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -30,7 +35,7 @@ export default function ListTable() {
             <TableCell>SN.</TableCell>
             <TableCell align="right">Name</TableCell>
             <TableCell align="right">Location</TableCell>
-            <TableCell align="right">Project Manger</TableCell>
+            <TableCell align="right">Project Manager</TableCell>
             <TableCell align="right">Created Date</TableCell>
             <TableCell align="right">Status</TableCell>
             <TableCell align="right">Balance</TableCell>
@@ -43,10 +48,19 @@ export default function ListTable() {
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="right">{row.name}</TableCell>
+              <TableCell align="right">{row.location}</TableCell>
+              <TableCell align="right">{row.projectManager}</TableCell>
+              <TableCell align="right">{row.createdAt}</TableCell>
+              <TableCell align="right">
+                <Chip label={row.status} />
+              </TableCell>
+              <TableCell align="right">{row.balance}</TableCell>
+              <TableCell align="right">
+                <Button onClick={handleView(row.id)} variant="text">
+                  View
+                </Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

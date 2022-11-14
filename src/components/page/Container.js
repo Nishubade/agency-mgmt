@@ -5,7 +5,7 @@ import { PATH_DASHBOARD } from '@routes/paths';
 import Headerbreadcrumbs from '@components/Headerbreadcrumbs';
 import { useSettingsContext } from '@components/settings';
 
-const ContainerComponent = ({ children, title, action, breadcrumbLinks }) => {
+const ContainerComponent = ({ children, title, action, breadcrumbLinks, noCard }) => {
   const { themeStretch } = useSettingsContext();
 
   return (
@@ -14,11 +14,10 @@ const ContainerComponent = ({ children, title, action, breadcrumbLinks }) => {
       <MuiContainer maxWidth={themeStretch ? false : 'lg'}>
         <Headerbreadcrumbs
           heading={title}
-          links={[{ name: 'Dashboard', href: PATH_DASHBOARD.root }, ...breadcrumbLinks]}
+          links={[{ name: '', href: PATH_DASHBOARD.root }, ...breadcrumbLinks]}
           action={action}
         />
-
-        <Card>{children}</Card>
+        {noCard ? children : <Card sx={{ p: 3 }}>{children}</Card>}
       </MuiContainer>
     </>
   );

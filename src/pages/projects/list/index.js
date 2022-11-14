@@ -13,7 +13,7 @@ export default function ProjectsList() {
   const { themeStretch } = useSettingsContext();
 
   return (
-    <Page title={PAGE_TITLE} breadcrumbLinks={[{ name: 'List', href: PATH_BENEFICIARY.root }]}>
+    <Page title={PAGE_TITLE}>
       <Container maxWidth={themeStretch ? false : 'xl'}>
         <TableContainer />
       </Container>

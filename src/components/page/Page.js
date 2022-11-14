@@ -16,7 +16,7 @@ const Page = forwardRef(({ children, title = '', meta, breadcrumbAction, breadcr
     </Head>
 
     <Box ref={ref} {...other}>
-      <Container title={title} action={breadcrumbAction} breadcrumbLinks={breadcrumbLinks}>
+      <Container title={title} action={breadcrumbAction} breadcrumbLinks={breadcrumbLinks} {...other}>
         {children}
       </Container>
     </Box>
