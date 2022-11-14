@@ -9,6 +9,8 @@ import { Page } from '@components/page';
 
 // ----------------------------------------------------------------------
 
+const PAGE_TITLE = 'Home';
+
 PageOne.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
 // ----------------------------------------------------------------------
@@ -18,7 +20,7 @@ export default function PageOne() {
 
   return (
     <Page
-      title={'Home'}
+      title={PAGE_TITLE}
       breadcrumbAction={<Button>New Page</Button>}
       breadcrumbLinks={[{ name: 'Page One', href: '/' }]}
     >

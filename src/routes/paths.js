@@ -5,6 +5,11 @@ function path(root, sublink) {
 }
 
 const ROOTS_DASHBOARD = '/dashboard';
+const ROOTS_PROJECTS = '/projects';
+const ROOTS_BENEFICIARY = '/beneficiary';
+const ROOTS_VENDORS = '/vendors';
+const ROOTS_MOBILIZERS = '/mobilizers';
+const ROOTS_FINANCIAL_INSTITUTIONS = '/financial-institutions';
 
 // ----------------------------------------------------------------------
 
@@ -23,4 +28,26 @@ export const PATH_DASHBOARD = {
     five: path(ROOTS_DASHBOARD, '/user/five'),
     six: path(ROOTS_DASHBOARD, '/user/six'),
   },
+};
+
+export const PATH_PROJECTS = {
+  root: ROOTS_PROJECTS,
+  list: path(ROOTS_PROJECTS, '/list'),
+};
+
+export const PATH_BENEFICIARY = {
+  root: ROOTS_BENEFICIARY,
+  list: path(ROOTS_BENEFICIARY, '/list'),
+};
+
+export const PATH_VENDORS = {
+  root: ROOTS_VENDORS,
+};
+
+export const PATH_MOBILIZERS = {
+  root: ROOTS_MOBILIZERS,
+};
+
+export const PATH_FINANCIAL_INSTITUTIONS = {
+  root: ROOTS_FINANCIAL_INSTITUTIONS,
 };
