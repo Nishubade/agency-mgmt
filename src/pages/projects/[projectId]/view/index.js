@@ -4,22 +4,29 @@ import PropTypes from 'prop-types';
 import DashboardLayout from '@layouts/dashboard';
 import { Page } from '@components/page';
 import { useSettingsContext } from '@components/settings';
-import { Container, Grid } from '@mui/material';
-import { ActionMenu, BasicInfoCard, ChartCard, MoreInfoCard } from '@sections/projects/view';
+import { Box, Container, Grid, Stack } from '@mui/material';
+import { ActionMenu, BasicInfoCard, ChartCard, MoreInfoCard, ViewTabs } from '@sections/projects/view';
+import { useRouter } from 'next/router';
 
 const PAGE_TITLE = 'Project: View';
 
 const ProjectView = (props) => {
   const { themeStretch } = useSettingsContext();
+  const {
+    push: routerPush,
+    query: { projectId },
+  } = useRouter();
 
   const actionMenuItems = [
     {
       name: 'Edit Project',
-      href: '/projects/[projectId]/edit',
+      href: `/projects/${projectId}/edit`,
+      onClick: () => routerPush(`/projects/${projectId}/edit`),
     },
     {
       name: 'Add Budget',
-      href: '/projects/[projectId]/edit',
+      href: `/projects/${projectId}/add-budget`,
+      onClick: () => routerPush(`/projects/${projectId}/add-budget`),
     },
   ];
 
@@ -28,15 +35,18 @@ const ProjectView = (props) => {
       <Container maxWidth={themeStretch ? false : 'xl'}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={8}>
-            <BasicInfoCard />
-          </Grid>
-          <Grid item xs={12} md={8}>
-            <MoreInfoCard />
+            <Grid container direction="column" justifyContent="center" alignItems="flex-start">
+              <BasicInfoCard />
+              <MoreInfoCard />
+            </Grid>
           </Grid>
           <Grid item xs={12} md={4}>
             <ChartCard />
           </Grid>
         </Grid>
+        <Stack sx={{ mt: 2 }}>
+          <ViewTabs />
+        </Stack>
       </Container>
     </Page>
   );

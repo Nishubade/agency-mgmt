@@ -3,6 +3,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import Iconify from '@components/iconify';
 
 ActionMenu.propTypes = {
   menuItems: PropTypes.array.isRequired,
@@ -28,6 +29,7 @@ export default function ActionMenu({ menuItems, actionTitle }) {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
         variant="contained"
+        endIcon={<Iconify icon={open ? 'akar-icons:chevron-up' : 'akar-icons:chevron-down'} />}
       >
         {actionTitle}
       </Button>
@@ -41,7 +43,7 @@ export default function ActionMenu({ menuItems, actionTitle }) {
         }}
       >
         {menuItems.map((item, index) => (
-          <MenuItem key={index} onClick={handleClose}>
+          <MenuItem key={index} onClick={item.onClick}>
             {item.name}
           </MenuItem>
         ))}
