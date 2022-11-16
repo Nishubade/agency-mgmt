@@ -28,7 +28,7 @@ export default function ActionMenu({ menuItems, actionTitle }) {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        variant="contained"
+        variant="outlined"
         endIcon={<Iconify icon={open ? 'akar-icons:chevron-up' : 'akar-icons:chevron-down'} />}
       >
         {actionTitle}
