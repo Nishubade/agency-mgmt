@@ -6,7 +6,9 @@ const MoreInfoCard = (props) => (
   <Card sx={{ width: '100%' }}>
     <CardContent>
       <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={12}>
-        <Typography variant="h5">More Information</Typography>
+        <Typography variant="body1" sx={{ fontSize: 21, fontWeight: 600 }}>
+          More Information
+        </Typography>
       </Stack>
 
       <Stack sx={{ p: 2 }} direction="row" justifyContent="space-between" alignItems="center" spacing={12}>

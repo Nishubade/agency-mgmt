@@ -3,6 +3,7 @@ import React from 'react';
 import ListTableToolbar from './ListTableToolbar';
 import ListTable from './ListTable';
 import { useRouter } from 'next/router';
+import Iconify from '@components/iconify';
 
 const rows = [
   {
@@ -13,6 +14,15 @@ const rows = [
     status: 'Active',
     balance: '200',
     id: '1',
+  },
+  {
+    name: 'Jal',
+    location: 'Location 1',
+    projectManager: 'Project Manager 1',
+    createdAt: '2021-01-05',
+    status: 'Active',
+    balance: '1000',
+    id: '5',
   },
 ];
 
@@ -79,7 +89,7 @@ const TableContainer = () => {
               <TableCell align={tableHeadersList['balance'].align}>{row.balance}</TableCell>
               <TableCell align={tableHeadersList['action'].align}>
                 <Button onClick={handleView(row.id)} variant="text">
-                  View
+                  <Iconify icon="ic:outline-remove-red-eye" />
                 </Button>
               </TableCell>
             </TableRow>

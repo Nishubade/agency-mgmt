@@ -6,7 +6,9 @@ const BasicInfoCard = (props) => (
   <Card sx={{ width: '100%', mb: 1 }}>
     <CardContent>
       <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={12}>
-        <Typography variant="h5">Mini Project_2 - 15,20 Sep 2022</Typography>
+        <Typography variant="body1" sx={{ fontSize: 21, fontWeight: 600 }}>
+          Mini Project_2 - 15,20 Sep 2022
+        </Typography>
 
         <Chip label="DEFAULT PROJECT" />
       </Stack>
