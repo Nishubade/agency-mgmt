@@ -33,15 +33,15 @@ export default function ViewTabs() {
               </TabList>
             </Box>
             <TabPanel value="beneficiaries">
-              <TabsTable rows={beneficiaryRows} tableHead={BEN_TABLE_HEAD} tab={'beneficiaries'} />
+              <TabsTable rows={beneficiaryRows} tableHead={BEN_TABLE_HEAD} />
             </TabPanel>
             <TabPanel value="vendors">
               {' '}
-              <TabsTable rows={vendors} tableHead={VEN_TABLE_HEAD} tab={'vendors'} />
+              <TabsTable rows={vendors} tableHead={VEN_TABLE_HEAD} />
             </TabPanel>
             <TabPanel value="mobilizers">
               {' '}
-              <TabsTable rows={mobilizers} tableHead={MOB_TABLE_HEAD} tab={'mobilizers'} />
+              <TabsTable rows={mobilizers} tableHead={MOB_TABLE_HEAD} />
             </TabPanel>
           </TabContext>
         </Box>

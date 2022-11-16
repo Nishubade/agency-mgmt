@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Button, Card, CardActions, CardContent, Grid, Stack, Typography } from '@mui/material';
+import { Card, CardContent, Grid, Stack, Typography } from '@mui/material';
 
 const MoreInfoCard = (props) => (
   <Card sx={{ width: '100%' }}>

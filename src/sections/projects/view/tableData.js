@@ -3,7 +3,7 @@ const beneficiaryRows = [
     name: 'Beneficiary 1',
     address: 'Location 1',
     phone: '986262355',
-    token: '2021-01-01',
+    token: '25',
   },
 ];
 

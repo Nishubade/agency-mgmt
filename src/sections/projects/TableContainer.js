@@ -1,9 +1,9 @@
 import { Box, Button, Chip, TableCell, TableRow } from '@mui/material';
 import React from 'react';
 import ListTableToolbar from './ListTableToolbar';
-import ListTable from './ListTable';
 import { useRouter } from 'next/router';
 import Iconify from '@components/iconify';
+import ListTable from '@components/table/ListTable';
 
 const rows = [
   {
