@@ -11,8 +11,9 @@ ListTableToolbar.propTypes = {};
 export default function ListTableToolbar() {
   return (
     <Stack spacing={2} direction={{ xs: 'column', sm: 'row' }} sx={{ py: 2.5, px: 0 }}>
-      <ListSearchField />
-      <ListSelectFilter label={'Status'} />
+      <ListSelectFilter label={'Phone'} />
+      <ListSelectFilter label={'Ward'} />
+      <ListSearchField label={'Enter Phone'} />
     </Stack>
   );
 }

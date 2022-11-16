@@ -2,25 +2,14 @@ import { useEffect } from 'react';
 import { MenuItem, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
 
-const ListSelectFilter = ({ label }) => {
-  const optionsData = [
-    {
-      label: 'Ward',
-      value: 'ward',
-    },
-    {
-      label: 'Village',
-      value: 'village',
-    },
-  ];
-
+const ListSelectFilter = ({ label, onSelectChange = () => {}, value = '', options = [] }) => {
   return (
     <TextField
       fullWidth
       select
       label={label}
-      value={'s'}
-      onChange={() => {}}
+      value={value}
+      onChange={onSelectChange}
       SelectProps={{
         MenuProps: {
           sx: { '& .MuiPaper-root': { maxHeight: 260 } },
@@ -31,7 +20,7 @@ const ListSelectFilter = ({ label }) => {
         textTransform: 'capitalize',
       }}
     >
-      {[].map((option) => (
+      {options.map((option) => (
         <MenuItem
           key={option.id}
           value={option.tag}
@@ -52,6 +41,9 @@ const ListSelectFilter = ({ label }) => {
 
 ListSelectFilter.propTypes = {
   label: PropTypes.string.isRequired,
+  onSelectChange: PropTypes.func,
+  value: PropTypes.string,
+  options: PropTypes.array,
 };
 
 export default ListSelectFilter;

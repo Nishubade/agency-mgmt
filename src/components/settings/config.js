@@ -6,6 +6,6 @@ export const defaultSettings = {
   themeDirection: 'ltr',
   themeContrast: 'bold',
   themeLayout: 'vertical',
-  themeColorPresets: 'default',
+  themeColorPresets: 'cyan',
   themeStretch: false,
 };

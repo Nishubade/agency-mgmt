@@ -11,7 +11,7 @@ ListTable.propTypes = {
 };
 
 export default function ListTable({
-  size = 'large',
+  size = 'small',
   tableRowsList = [{ basic: 'Initial Table' }],
   tableHeadersList = {
     basic: {
@@ -42,6 +42,7 @@ export default function ListTable({
         })}
       </TableRow>
     ));
+
   return (
     <TableContainer>
       <Table size={size}>
