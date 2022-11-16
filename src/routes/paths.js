@@ -6,7 +6,7 @@ function path(root, sublink) {
 
 const ROOTS_DASHBOARD = '/dashboard';
 const ROOTS_PROJECTS = '/projects';
-const ROOTS_BENEFICIARY = '/beneficiary';
+const ROOTS_BENEFICIARY = '/beneficiaries';
 const ROOTS_VENDORS = '/vendors';
 const ROOTS_MOBILIZERS = '/mobilizers';
 const ROOTS_FINANCIAL_INSTITUTIONS = '/financial-institutions';
