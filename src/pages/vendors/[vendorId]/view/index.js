@@ -4,40 +4,36 @@ import PropTypes from 'prop-types';
 import DashboardLayout from '@layouts/dashboard';
 import { Page } from '@components/page';
 import { useSettingsContext } from '@components/settings';
-import { Box, Container, Grid, Stack } from '@mui/material';
-import { ActionMenu, BasicInfoCard, MoreInfoCard, ProjectsInvolved, TokenDetails } from '@sections/beneficiaries/view';
+import { Container, Grid, Stack } from '@mui/material';
+import { ActionMenu, BasicInfoCard, MoreInfoCard, ProjectsInvolved, TokenDetails } from '@sections/vendors/view';
 import { useRouter } from 'next/router';
 import HistoryTable from '@sections/transactionTable';
 
-const PAGE_TITLE = 'Beneficairy: Details';
+const PAGE_TITLE = 'Vendors: Details';
 
-const BeneficiaryView = (props) => {
+const VendorsView = (props) => {
   const { themeStretch } = useSettingsContext();
   const {
     push: routerPush,
-    query: { projectId },
+    query: { vendorId },
   } = useRouter();
 
   const actionMenuItems = [
     {
-      name: 'Edit Beneficairy',
-      href: `/beneficiaries/${projectId}/edit`,
-      onClick: () => routerPush(`/beneficiaries/${projectId}/edit`),
+      name: 'Edit Vendor',
+      href: `/vendors/${vendorId}/edit`,
+      onClick: () => routerPush(`/vendors/${vendorId}/edit`),
+    },
+
+    {
+      name: 'Add to Project',
+      href: `/vendors/${vendorId}/add-to-project`,
+      onClick: () => routerPush(`/vendors/${vendorId}/add-to-project`),
     },
     {
-      name: 'Issue Token',
-      href: `/beneficiaries/${projectId}/add-budget`,
-      onClick: () => routerPush(`/beneficiaries/${projectId}/add-budget`),
-    },
-    {
-      name: 'Switch Project',
-      href: `/beneficiaries/${projectId}/add-budget`,
-      onClick: () => routerPush(`/beneficiaries/${projectId}/add-budget`),
-    },
-    {
-      name: 'Suspend Beneficiary',
-      href: `/beneficiaries/${projectId}/add-budget`,
-      onClick: () => routerPush(`/beneficiaries/${projectId}/add-budget`),
+      name: 'Suspend Vendor',
+      href: `/vendors/${vendorId}/add-budget`,
+      onClick: () => routerPush(`/vendors/${vendorId}/add-budget`),
     },
   ];
 
@@ -69,8 +65,8 @@ const BeneficiaryView = (props) => {
   );
 };
 
-BeneficiaryView.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+VendorsView.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
-BeneficiaryView.propTypes = {};
+VendorsView.propTypes = {};
 
-export default BeneficiaryView;
+export default VendorsView;

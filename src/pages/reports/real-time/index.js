@@ -2,25 +2,24 @@ import { Container } from '@mui/material';
 import DashboardLayout from '@layouts/dashboard';
 import { Page } from '@components/page';
 import { useSettingsContext } from '@components/settings';
-import { DashboardComponent } from '@sections/dashboard';
-import { ContextProvider } from '@sections/dashboard/context';
+import { RealTimeReportContextProvider, RealTimeReportsComp } from '@sections/reports/real-time';
 
 // ----------------------------------------------------------------------
 
-const PAGE_TITLE = 'Dashboard';
+const PAGE_TITLE = 'Reports: Real Time ';
 
-Dashboard.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+RealTimeReports.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
-export default function Dashboard() {
+export default function RealTimeReports() {
   const { themeStretch } = useSettingsContext();
 
   return (
-    <ContextProvider>
+    <RealTimeReportContextProvider>
       <Page title={PAGE_TITLE} nocard>
         <Container maxWidth={themeStretch ? false : 'xl'}>
-          <DashboardComponent />
+          <RealTimeReportsComp />
         </Container>
       </Page>
-    </ContextProvider>
+    </RealTimeReportContextProvider>
   );
 }

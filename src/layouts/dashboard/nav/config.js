@@ -1,5 +1,5 @@
 // routes
-import { PATH_BENEFICIARY, PATH_DASHBOARD, PATH_PROJECTS, PATH_VENDORS } from '@routes/paths';
+import { PATH_BENEFICIARY, PATH_DASHBOARD, PATH_PROJECTS, PATH_REPORTS, PATH_VENDORS } from '@routes/paths';
 // components
 import SvgColor from '@components/svg-color';
 import Iconify from '@components/iconify';
@@ -17,6 +17,7 @@ const ICONS = {
   vendors: icon('material-symbols:anchor'),
   mobilizers: icon('ic:baseline-network-ping'),
   financialInstitution: icon('material-symbols:finance-chip-outline'),
+  reports: icon('iconoir:reports'),
 };
 
 const navConfig = [
@@ -26,7 +27,7 @@ const navConfig = [
     items: [
       {
         title: 'Dashboard',
-        path: PATH_DASHBOARD.one,
+        path: PATH_DASHBOARD.root,
         icon: ICONS.dashboard,
       },
       {
@@ -66,6 +67,25 @@ const navConfig = [
           {
             title: 'Users',
             path: PATH_DASHBOARD.three,
+          },
+        ],
+      },
+      {
+        title: 'Reports',
+        path: PATH_DASHBOARD.three,
+        icon: ICONS.reports,
+        children: [
+          {
+            title: 'Real Time',
+            path: PATH_REPORTS.realTime,
+          },
+          {
+            title: 'Demographic',
+            path: PATH_REPORTS.demographic,
+          },
+          {
+            title: 'Anomaly',
+            path: PATH_REPORTS.anomaly,
           },
         ],
       },

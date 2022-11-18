@@ -5,7 +5,7 @@ import { PATH_DASHBOARD } from '@routes/paths';
 import Headerbreadcrumbs from '@components/Headerbreadcrumbs';
 import { useSettingsContext } from '@components/settings';
 
-const ContainerComponent = ({ children, title, action, breadcrumbLinks, noCard }) => {
+const ContainerComponent = ({ children, title, action, breadcrumbLinks, nocard = false }) => {
   const { themeStretch } = useSettingsContext();
 
   return (
@@ -17,7 +17,7 @@ const ContainerComponent = ({ children, title, action, breadcrumbLinks, noCard }
           links={[{ name: '', href: PATH_DASHBOARD.root }, ...breadcrumbLinks]}
           action={action}
         />
-        {noCard ? children : <Card sx={{ p: 3 }}>{children}</Card>}
+        {nocard ? children : <Card sx={{ p: 3 }}>{children}</Card>}
       </MuiContainer>
     </>
   );
@@ -27,6 +27,7 @@ ContainerComponent.propTypes = {
   title: PropTypes.string,
   action: PropTypes.node,
   breadcrumbLinks: PropTypes.array,
+  nocard: PropTypes.bool,
 };
 
 export default ContainerComponent;

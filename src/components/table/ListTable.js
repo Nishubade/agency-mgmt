@@ -7,7 +7,7 @@ ListTable.propTypes = {
   size: PropTypes.string,
   tableRowsList: PropTypes.array.isRequired,
   tableHeadersList: PropTypes.object.isRequired,
-  children: PropTypes.func.isRequired,
+  children: PropTypes.func,
 };
 
 export default function ListTable({

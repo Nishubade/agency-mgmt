@@ -8,6 +8,8 @@ export const HOST_API = process.env.NEXT_PUBLIC_HOST_API || '';
 
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || 'Rahat';
 
+export const WSS_SERVER = HOST_API.replace('http', 'ws');
+
 export const COGNITO_API = {
   userPoolId: process.env.AWS_COGNITO_USER_POOL_ID,
   clientId: process.env.AWS_COGNITO_CLIENT_ID,
@@ -19,6 +21,12 @@ export const AUTH0_API = {
 };
 
 export const MAPBOX_API = process.env.MAPBOX_API;
+
+export const WSS_EVENTS = {
+  welcome: 'welcome',
+  notification: 'notification',
+  rahat_claimed: 'rahat_claimed',
+};
 
 // ROOT PATH AFTER LOGIN SUCCESSFUL
 export const PATH_AFTER_LOGIN = PATH_DASHBOARD.one;

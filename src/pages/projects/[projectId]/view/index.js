@@ -31,7 +31,7 @@ const ProjectView = (props) => {
   ];
 
   return (
-    <Page title={PAGE_TITLE} noCard action={<ActionMenu menuItems={actionMenuItems} actionTitle={'Actions'} />}>
+    <Page title={PAGE_TITLE} nocard action={<ActionMenu menuItems={actionMenuItems} actionTitle={'Actions'} />}>
       <Container maxWidth={themeStretch ? false : 'xl'}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={8}>
