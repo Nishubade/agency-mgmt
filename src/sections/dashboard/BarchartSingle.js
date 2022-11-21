@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+// import { useState } from 'react';
 // @mui
 import { Card, CardHeader, Box } from '@mui/material';
 // components
-import { CustomSmallSelect } from '@components/custom-input';
+// import { CustomSmallSelect } from '@components/custom-input';
 import Chart, { useChart } from '@components/chart';
 
 // ----------------------------------------------------------------------
@@ -22,6 +22,7 @@ export default function BarchartSingle({ title, subheader, chart, ...other }) {
     xaxis: {
       categories: chartLabel,
     },
+    
     ...options,
   });
 
@@ -30,7 +31,13 @@ export default function BarchartSingle({ title, subheader, chart, ...other }) {
       <CardHeader title={title} subheader={subheader} />
 
       <Box sx={{ mt: 3, mx: 3 }} dir="ltr">
-        <Chart type={'bar'} series={chartData} options={chartOptions} height={364} />
+        <Chart
+          // onClick={(e) => console.log('e', e)}
+          type={'bar'}
+          series={chartData}
+          options={chartOptions}
+          height={364}
+        />
       </Box>
     </Card>
   );

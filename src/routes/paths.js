@@ -61,4 +61,6 @@ export const PATH_REPORTS = {
   demographic: path(ROOTS_REPORTS, '/demographic'),
   anomaly: path(ROOTS_REPORTS, '/anomaly'),
   realTime: path(ROOTS_REPORTS, '/real-time'),
+  transaction: path(ROOTS_REPORTS, '/transactions'),
+  wardReport: path(ROOTS_REPORTS, '/ward-report'),
 };

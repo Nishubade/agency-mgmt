@@ -1,13 +1,16 @@
-import { Chip, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
+import { BLOCKCHAIN_EXPLORER } from '@config';
+import { Button, Chip, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
+import truncateEthAddress from '@utils/truncateEthAddress';
 import PropTypes from 'prop-types';
-// import moment from 'moment';
+import moment from 'moment';
 import TableHeadCustom from './TableHeadCustom';
 
 ListTable.propTypes = {
   size: PropTypes.string,
   tableRowsList: PropTypes.array.isRequired,
   tableHeadersList: PropTypes.object.isRequired,
-  children: PropTypes.func,
+  children: PropTypes.node,
+  footer: PropTypes.node,
 };
 
 export default function ListTable({
@@ -21,9 +24,20 @@ export default function ListTable({
     },
   },
   children,
+  footer,
 }) {
   const conditionalRendering = (row, key) => {
     switch (key) {
+      case 'txHash':
+        return (
+          <Button href={`${BLOCKCHAIN_EXPLORER}${row}`} target="_blank" rel="noopener noreferrer">
+            {truncateEthAddress(row)}
+          </Button>
+        );
+      case 'timestamp':
+        return moment.unix(row).fromNow();
+      case 'createdAt':
+        return moment(row).fromNow();
       default:
         return row;
     }
@@ -51,6 +65,7 @@ export default function ListTable({
           {children ? children(tableRowsList, tableHeadersList) : renderTableCell(tableRowsList, tableHeadersList)}
         </TableBody>
       </Table>
+      {footer}
     </TableContainer>
   );
 }

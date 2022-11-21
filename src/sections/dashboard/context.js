@@ -4,7 +4,15 @@ import * as Service from './service';
 
 const initialState = {
   countByGender: [],
-  countByMethod: [],
+  countByMethod: {
+    chartData: [
+      {
+        data: [],
+        name: '',
+      },
+    ],
+    chartLabel: [],
+  },
   countByMode: [],
   beneficiaryCounts: {
     impacted: {},
@@ -46,13 +54,12 @@ export const ContextProvider = ({ children }) => {
 
   const getTransactionsCountByMethod = useCallback(async () => {
     const response = await Service.getTransactionsCountByMethod();
-    const formattedData = response.data.data.map((item) => ({
-      label: item.method,
-      value: +item.value,
-    }));
+
+    console.log('response.data.data', response.data.data);
+
     setState((prevState) => ({
       ...prevState,
-      countByMethod: formattedData,
+      countByMethod: response.data.data,
     }));
   }, []);
 

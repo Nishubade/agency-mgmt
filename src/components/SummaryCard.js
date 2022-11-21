@@ -12,10 +12,11 @@ import { fNumber } from '@utils/formatNumber';
 SummaryCard.propTypes = {
   title: PropTypes.string.isRequired,
   total: PropTypes.number.isRequired,
+  subtitle: PropTypes.string,
   sx: PropTypes.object,
 };
 
-export default function SummaryCard({ title, total, sx, ...other }) {
+export default function SummaryCard({ title, total, subtitle, sx, ...other }) {
   return (
     <Card sx={{ display: 'flex', alignItems: 'center', p: 3, ...sx }} {...other}>
       <Box sx={{ flexGrow: 1 }}>
@@ -23,12 +24,21 @@ export default function SummaryCard({ title, total, sx, ...other }) {
 
         <Stack
           sx={{
-            mt: 2,
-            mb: 1,
+            mt: 1.5,
+            mb: 0.5,
             display: 'flex',
           }}
         >
           <Typography variant="h3">{fNumber(total)}</Typography>
+        </Stack>
+        <Stack
+          sx={{
+            mt: 1.5,
+            mb: 0.5,
+            display: 'flex',
+          }}
+        >
+          <Typography variant="body1">{subtitle}</Typography>
         </Stack>
       </Box>
     </Card>

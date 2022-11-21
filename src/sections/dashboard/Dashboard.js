@@ -9,9 +9,12 @@ import { useTheme } from '@mui/material/styles';
 import BarchartSingle from './BarchartSingle';
 import Piechart from './Piechart';
 import { LiveTransactionTable } from '@sections/transactionTable';
+import { useRouter } from 'next/router';
+import { PATH_REPORTS } from '@routes/paths';
 
 const DashboardComponent = (props) => {
   const theme = useTheme();
+  const router = useRouter();
 
   const { themeStretch } = useSettingsContext();
   const {
@@ -47,25 +50,44 @@ const DashboardComponent = (props) => {
     getBeneficiariesCounts();
   }, [getBeneficiariesCounts]);
 
-  console.log('first', countByMode);
-
   return (
     <Box>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={4}>
-          <SummaryCard title="Total Beneficiaries Impacted" total={beneficiaryCounts?.impacted?.totalFamilyCount} />
+        <Grid item xs={12} md={2.4}>
+          <SummaryCard title="Beneficiaries Claimed" total={2876} subtitle={'households'} />
         </Grid>
 
-        <Grid item xs={12} md={4}>
-          <SummaryCard title="Total Beneficiaries Claimed" total={4876} />
+        <Grid item xs={12} md={2.4}>
+          <SummaryCard
+            title="Under 5 impacted"
+            total={beneficiaryCounts?.impacted?.totalBelow5Count}
+            subtitle={'children'}
+          />
         </Grid>
 
-        <Grid item xs={12} md={4}>
-          <SummaryCard title="Children Below 5" total={beneficiaryCounts?.impacted?.totalBelow5Count} />
+        <Grid item xs={12} md={2.4}>
+          <SummaryCard
+            title="Total Impacted"
+            total={beneficiaryCounts?.impacted?.totalFamilyCount}
+            subtitle={'people'}
+          />
+        </Grid>
+        <Grid item xs={12} md={2.4}>
+          <SummaryCard
+            title="SMS of token assign"
+            total={beneficiaryCounts?.impacted?.totalFamilyCount}
+            subtitle={'total'}
+          />
+        </Grid>
+        <Grid item xs={12} md={2.4}>
+          <SummaryCard
+            title="QR Card distributed"
+            total={beneficiaryCounts?.impacted?.totalFamilyCount}
+            subtitle={'households'}
+          />
         </Grid>
 
-        <Grid item xs={12} md={6}>
-          {/* <Barchart graphType="bar" title="Ward Wise Claim" chartDataObj={dashboardWardChartData} /> */}
+        <Grid item xs={12} md={12}>
           <BarchartSingle
             title="Ward Wise Claim"
             chart={{
@@ -75,11 +97,74 @@ const DashboardComponent = (props) => {
                 theme.palette.error.main,
                 theme.palette.warning.main,
               ],
+              options: {
+                chart: {
+                  selection: {
+                    enabled: true,
+                  },
+                  events: {
+                    click: (event, chartContext, config) => {
+                      router.push(
+                        `${PATH_REPORTS.wardReport}?ward=${dashboardWardChartData.chartLabel[
+                          config.dataPointIndex
+                        ].replace('Ward', '')}`
+                      );
+                    },
+                  },
+                },
+              },
               ...dashboardWardChartData,
             }}
           />
         </Grid>
-        <Grid item xs={12} md={3}>
+
+        <Grid item xs={24} lg={24}>
+          <LiveTransactionTable />
+        </Grid>
+
+        <Grid item xs={12} md={4}>
+          <Piechart
+            title="Gender Claim Distribution"
+            chart={{
+              colors: [
+                theme.palette.primary.main,
+                theme.palette.info.main,
+                theme.palette.error.main,
+                theme.palette.warning.main,
+              ],
+              series: countByGender,
+            }}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={4}>
+          <BarchartSingle
+            title="Claim with SMS vs QR Card"
+            chart={{
+              colors: [
+                theme.palette.primary.main,
+                theme.palette.info.main,
+                theme.palette.error.main,
+                theme.palette.warning.main,
+              ],
+              ...countByMethod,
+            }}
+          />
+          {/* <Piechart
+            title="Claim with SMS vs QR Card"
+            chart={{
+              colors: [
+                theme.palette.primary.main,
+                theme.palette.info.main,
+                theme.palette.error.main,
+                theme.palette.warning.main,
+              ],
+              series: countByMethod,
+            }}
+          /> */}
+        </Grid>
+
+        <Grid item xs={12} md={4}>
           <Piechart
             title="Claimed Vs Budget"
             chart={{
@@ -96,7 +181,7 @@ const DashboardComponent = (props) => {
             }}
           />
         </Grid>
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={4}>
           <Piechart
             title="Offline Vs Online"
             chart={{
@@ -111,45 +196,6 @@ const DashboardComponent = (props) => {
           />
         </Grid>
         {/* 2nd  Charts */}
-        <Grid item xs={12} md={3}>
-          <Piechart
-            title="Claimed By Gender"
-            chart={{
-              colors: [
-                theme.palette.primary.main,
-                theme.palette.info.main,
-                theme.palette.error.main,
-                theme.palette.warning.main,
-              ],
-              series: countByGender,
-            }}
-          />
-        </Grid>
-        <Grid item xs={12} md={3}>
-          <Piechart
-            title="Claim SMS vs QR"
-            chart={{
-              colors: [
-                theme.palette.primary.main,
-                theme.palette.info.main,
-                theme.palette.error.main,
-                theme.palette.warning.main,
-              ],
-              series: countByMethod,
-            }}
-            // chartColors={[
-            //   theme.palette.primary.lighter,
-            //   theme.palette.primary.light,
-            //   theme.palette.primary.main,
-            //   theme.palette.primary.dark,
-            // ]}
-            // chartData={countByMethod}
-          />
-        </Grid>
-
-        <Grid item xs={24} lg={24}>
-          <LiveTransactionTable />
-        </Grid>
       </Grid>
     </Box>
   );
