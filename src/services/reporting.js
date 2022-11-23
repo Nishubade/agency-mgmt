@@ -12,6 +12,36 @@ export const getTransactionsCountByMode = () => client.get('/reporting/transacti
 export const getTransactionsCountByWard = (year) =>
   client.get('/reporting/real-time/transactions/count-by-ward', { params: { year } });
 
+export const getStackedWardGender = () => client.get('/reporting/real-time/beneficiary/stacked-ward-gender');
+
 export const getBeneficiariesCounts = () => client.get('/reporting/real-time/beneficiary/counts');
 
 export const getBeneficiaryGroupingData = () => client.get('/reporting/end-of-day/beneficiary/grouping-data');
+
+export const groupGenderByWard = (ward) =>
+  client.get('/reporting/real-time/beneficiary/group-ward-gender', {
+    params: {
+      ward,
+    },
+  });
+
+export const groupClaimByWard = (ward) =>
+  client.get('/reporting/real-time/beneficiary/group-ward-claim', {
+    params: {
+      ward,
+    },
+  });
+
+export const groupWardByLandOwnership = (ward) =>
+  client.get('/reporting/real-time/beneficiary/group-ward-land-ownership', {
+    params: {
+      ward,
+    },
+  });
+
+export const groupWardByDisability = (ward) =>
+  client.get('/reporting/real-time/beneficiary/group-ward-disability', {
+    params: {
+      ward,
+    },
+  });

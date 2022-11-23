@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Grid } from '@mui/material';
+import { Box, Button, Grid, Stack } from '@mui/material';
 import SummaryCard from '@components/SummaryCard';
 import { useModuleContext } from './context';
 import { useSettingsContext } from '@components/settings';
@@ -11,12 +11,13 @@ import Piechart from './Piechart';
 import { LiveTransactionTable } from '@sections/transactionTable';
 import { useRouter } from 'next/router';
 import { PATH_REPORTS } from '@routes/paths';
+import WardGenderInfoCard from './WardGenderInfoCard';
+import Iconify from '@components/iconify';
 
 const DashboardComponent = (props) => {
   const theme = useTheme();
   const router = useRouter();
 
-  const { themeStretch } = useSettingsContext();
   const {
     getBeneficiaryCountByGender,
     countByGender,
@@ -29,6 +30,8 @@ const DashboardComponent = (props) => {
     beneficiaryCounts,
     getBeneficiariesCounts,
   } = useModuleContext();
+
+  const [selectedWard, setSelectedWard] = useState('');
 
   useEffect(() => {
     getBeneficiaryCountByGender();
@@ -99,24 +102,27 @@ const DashboardComponent = (props) => {
               ],
               options: {
                 chart: {
+                  stacked: true,
                   selection: {
                     enabled: true,
                   },
-                  events: {
-                    click: (event, chartContext, config) => {
-                      router.push(
-                        `${PATH_REPORTS.wardReport}?ward=${dashboardWardChartData.chartLabel[
-                          config.dataPointIndex
-                        ].replace('Ward', '')}`
-                      );
-                    },
-                  },
+                  // events: {
+                  //   click: (event, chartContext, config) => {
+                  //     setSelectedWard(
+                  //       String(dashboardWardChartData.chartLabel[config.dataPointIndex]?.slice(5))
+                  //       // String(dashboardWardChartData.chartLabel[config.dataPointIndex]?.replace('Ward', ''))
+                  //     );
+                  //   },
+                  // },
                 },
               },
               ...dashboardWardChartData,
             }}
           />
         </Grid>
+        {/* <Grid item xs={12} md={4}>
+          <WardGenderInfoCard selectedWard={selectedWard} />
+        </Grid> */}
 
         <Grid item xs={24} lg={24}>
           <LiveTransactionTable />
@@ -134,6 +140,16 @@ const DashboardComponent = (props) => {
               ],
               series: countByGender,
             }}
+            footer={
+              <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2} sx={{ p: 2 }}>
+                <Button
+                  onClick={() => router.push(PATH_REPORTS.wardReport)}
+                  endIcon={<Iconify icon={'material-symbols:chevron-right-rounded'} />}
+                >
+                  View Ward Wise Report
+                </Button>
+              </Stack>
+            }
           />
         </Grid>
 

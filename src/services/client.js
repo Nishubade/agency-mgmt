@@ -6,15 +6,13 @@ import { getAccessToken } from '../utils/sessionManager';
 
 const accessToken = getAccessToken();
 
-console.log('accessToken', accessToken);
-
 const api = axios.create({
   //   baseURL: 'https://minimal-assets-api-dev.vercel.app',
   baseURL: HOST_API,
   headers: {
     'Content-Type': 'application/json',
     'X-Requested-With': 'XMLHttpRequest',
-    // accessToken,
+    accessToken,
   },
   // paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'brackets' }),
 });

@@ -2,25 +2,24 @@ import { Container } from '@mui/material';
 import DashboardLayout from '@layouts/dashboard';
 import { Page } from '@components/page';
 import { useSettingsContext } from '@components/settings';
-import { useRouter } from 'next/router';
-// import { RealTimeReportContextProvider, RealTimeReportsComp } from '@sections/reports/real-time';
+import { WardWiseReportComp, WardWiseContextProvider } from '@sections/reports/ward-report';
 
 // ----------------------------------------------------------------------
 
-const PAGE_TITLE = 'Reports: Ward Report ';
+const PAGE_TITLE = 'Reports: Ward Wise ';
 
-WardReport.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+WardWiseReport.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
-export default function WardReport() {
+export default function WardWiseReport() {
   const { themeStretch } = useSettingsContext();
-  const router = useRouter();
-  console.log('router', router);
+
   return (
-    <Page title={PAGE_TITLE} nocard>
-      <Container maxWidth={themeStretch ? false : 'xl'}>
-        <h1>Ward Report</h1>
-        {JSON.stringify(router.query)}
-      </Container>
-    </Page>
+    <WardWiseContextProvider>
+      <Page title={PAGE_TITLE} nocard>
+        <Container maxWidth={themeStretch ? false : 'xl'}>
+          <WardWiseReportComp />
+        </Container>
+      </Page>
+    </WardWiseContextProvider>
   );
 }

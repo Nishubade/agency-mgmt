@@ -5,6 +5,7 @@ import {
   getTransactionsCountByMode,
   getTransactionsCountByWard,
   getBeneficiariesCounts,
+  groupGenderByWard,
 } from '@services/reporting';
 
 export {
@@ -14,4 +15,5 @@ export {
   getTransactionsCountByMode,
   getTransactionsCountByWard,
   getBeneficiariesCounts,
+  groupGenderByWard,
 };

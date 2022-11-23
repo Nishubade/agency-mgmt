@@ -37,9 +37,10 @@ Piechart.propTypes = {
   chart: PropTypes.object,
   title: PropTypes.string,
   subheader: PropTypes.string,
+  footer: PropTypes.node,
 };
 
-export default function Piechart({ title, subheader, chart, ...other }) {
+export default function Piechart({ title, subheader, chart, footer, ...other }) {
   const theme = useTheme();
 
   const { colors, series, options } = chart;
@@ -93,6 +94,7 @@ export default function Piechart({ title, subheader, chart, ...other }) {
       <StyledChart dir="ltr">
         <Chart type="pie" series={chartSeries} options={chartOptions} height={280} />
       </StyledChart>
+      {footer}
     </Card>
   );
 }

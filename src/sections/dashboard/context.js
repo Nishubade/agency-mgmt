@@ -19,7 +19,15 @@ const initialState = {
     claimed: {},
   },
   dashboardWardChartData: {
-    allAvailableYears: [],
+    chartData: [
+      {
+        data: [],
+        name: '',
+      },
+    ],
+    chartLabel: [],
+  },
+  wardByGenderChart: {
     chartData: [
       {
         data: [],
@@ -33,6 +41,7 @@ const initialState = {
   getTransactionsCountByMethod: () => {},
   getTransactionsCountByWard: () => {},
   getBeneficiariesCounts: () => {},
+  getWardGenderChart: (ward) => {},
 };
 
 export const Context = createContext(initialState);
@@ -54,8 +63,6 @@ export const ContextProvider = ({ children }) => {
 
   const getTransactionsCountByMethod = useCallback(async () => {
     const response = await Service.getTransactionsCountByMethod();
-
-    console.log('response.data.data', response.data.data);
 
     setState((prevState) => ({
       ...prevState,
@@ -91,6 +98,15 @@ export const ContextProvider = ({ children }) => {
     }));
   }, []);
 
+  const getWardGenderChart = useCallback(async (ward) => {
+    const response = await Service.groupGenderByWard(ward);
+    // console.log('response', response);
+    setState((prevState) => ({
+      ...prevState,
+      wardByGenderChart: response.data.data,
+    }));
+  }, []);
+
   const contextProps = {
     ...state,
     getBeneficiaryCountByGender,
@@ -98,6 +114,7 @@ export const ContextProvider = ({ children }) => {
     getTransactionsCountByMode,
     getTransactionsCountByWard,
     getBeneficiariesCounts,
+    getWardGenderChart,
   };
 
   return <Context.Provider value={contextProps}>{children}</Context.Provider>;
