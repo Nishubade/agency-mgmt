@@ -51,6 +51,7 @@ export const ContextProvider = ({ children }) => {
 
   const getBeneficiaryCountByGender = useCallback(async () => {
     const response = await Service.getBeneficiaryCountByGender();
+
     const formattedData = response.data.data.map((item) => ({
       label: item.gender,
       value: +item.count,
@@ -73,8 +74,8 @@ export const ContextProvider = ({ children }) => {
   const getTransactionsCountByMode = useCallback(async () => {
     const response = await Service.getTransactionsCountByMode();
     const formattedData = response.data.data.map((item) => ({
-      label: item.mode,
-      value: +item.value,
+      label: item.isOnline,
+      value: +item.count,
     }));
     setState((prevState) => ({
       ...prevState,

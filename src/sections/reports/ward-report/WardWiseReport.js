@@ -9,9 +9,8 @@ import WardClaimInfoCard from './WardClaimInfoCard';
 import WardLandOwnershipInfoCard from './WardLandOwnershipInfoCard';
 import WardDisabilityInfoCard from './WardDisabilityInfoCard';
 
-function WardWiseReport(props) {
+function WardWiseReport() {
   const theme = useTheme();
-  const router = useRouter();
 
   const { getTransactionsCountByWard, wardChartData } = useModuleContext();
   const [selectedWard, setSelectedWard] = useState('');
@@ -19,6 +18,8 @@ function WardWiseReport(props) {
   useEffect(() => {
     getTransactionsCountByWard();
   }, [getTransactionsCountByWard]);
+
+  console.log('wardChartData', wardChartData);
 
   return (
     <Grid container spacing={3}>

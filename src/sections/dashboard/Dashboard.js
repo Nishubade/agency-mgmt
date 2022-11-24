@@ -56,11 +56,15 @@ const DashboardComponent = (props) => {
   return (
     <Box>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={2.4}>
-          <SummaryCard title="Beneficiaries Claimed" total={2876} subtitle={'households'} />
+        <Grid item xs={12} md={3}>
+          <SummaryCard
+            title="Beneficiaries Claimed"
+            total={beneficiaryCounts?.impacted?.totalClaimed}
+            subtitle={'households'}
+          />
         </Grid>
 
-        <Grid item xs={12} md={2.4}>
+        <Grid item xs={12} md={3}>
           <SummaryCard
             title="Under 5 impacted"
             total={beneficiaryCounts?.impacted?.totalBelow5Count}
@@ -68,27 +72,27 @@ const DashboardComponent = (props) => {
           />
         </Grid>
 
-        <Grid item xs={12} md={2.4}>
+        <Grid item xs={12} md={3}>
           <SummaryCard
             title="Total Impacted"
             total={beneficiaryCounts?.impacted?.totalFamilyCount}
             subtitle={'people'}
           />
         </Grid>
-        <Grid item xs={12} md={2.4}>
+        <Grid item xs={12} md={3}>
           <SummaryCard
             title="SMS of token assign"
             total={beneficiaryCounts?.impacted?.totalFamilyCount}
             subtitle={'total'}
           />
         </Grid>
-        <Grid item xs={12} md={2.4}>
+        {/* <Grid item xs={12} md={2.4}>
           <SummaryCard
             title="QR Card distributed"
             total={beneficiaryCounts?.impacted?.totalFamilyCount}
             subtitle={'households'}
           />
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12} md={12}>
           <BarchartSingle
@@ -130,7 +134,7 @@ const DashboardComponent = (props) => {
 
         <Grid item xs={12} md={4}>
           <Piechart
-            title="Gender Claim Distribution"
+            title="Gender Distribution"
             chart={{
               colors: [
                 theme.palette.primary.main,
