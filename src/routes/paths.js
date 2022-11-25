@@ -12,23 +12,17 @@ const ROOTS_MOBILIZERS = '/mobilizers';
 const ROOTS_FINANCIAL_INSTITUTIONS = '/financial-institutions';
 const ROOTS_REPORTS = '/reports';
 
+const ROOTS_AUTH = '/auth';
+
 // ----------------------------------------------------------------------
 
 export const PATH_AUTH = {
-  login: '/login',
+  root: ROOTS_AUTH,
+  login: path(ROOTS_AUTH, '/login'),
 };
 
 export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
-  one: path(ROOTS_DASHBOARD, '/one'),
-  two: path(ROOTS_DASHBOARD, '/two'),
-  three: path(ROOTS_DASHBOARD, '/three'),
-  user: {
-    root: path(ROOTS_DASHBOARD, '/user'),
-    four: path(ROOTS_DASHBOARD, '/user/four'),
-    five: path(ROOTS_DASHBOARD, '/user/five'),
-    six: path(ROOTS_DASHBOARD, '/user/six'),
-  },
 };
 
 export const PATH_PROJECTS = {

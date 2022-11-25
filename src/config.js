@@ -5,6 +5,7 @@ import { PATH_DASHBOARD } from './routes/paths';
 // ----------------------------------------------------------------------
 
 export const HOST_API = process.env.NEXT_PUBLIC_HOST_API || '';
+export const RAHAT_BACKEND = process.env.NEXT_PUBLIC_RAHAT_BACKEND || '';
 
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || 'Rahat';
 
@@ -31,7 +32,7 @@ export const WSS_EVENTS = {
 };
 
 // ROOT PATH AFTER LOGIN SUCCESSFUL
-export const PATH_AFTER_LOGIN = PATH_DASHBOARD.one;
+export const PATH_AFTER_LOGIN = PATH_DASHBOARD;
 
 // LAYOUT
 // ----------------------------------------------------------------------

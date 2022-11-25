@@ -4,6 +4,7 @@ import { Page } from '@components/page';
 import { useSettingsContext } from '@components/settings';
 import { DashboardComponent } from '@sections/dashboard';
 import { ContextProvider } from '@sections/dashboard/context';
+import AuthGuard from '@guards/AuthGuard';
 
 // ----------------------------------------------------------------------
 
@@ -15,6 +16,7 @@ export default function Dashboard() {
   const { themeStretch } = useSettingsContext();
 
   return (
+    // <AuthGuard>
     <ContextProvider>
       <Page title={PAGE_TITLE} nocard>
         <Container maxWidth={themeStretch ? false : 'xl'}>
@@ -22,5 +24,6 @@ export default function Dashboard() {
         </Container>
       </Page>
     </ContextProvider>
+    // </AuthGuard>
   );
 }
