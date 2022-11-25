@@ -9,7 +9,7 @@ import { LoadingButton } from '@mui/lab';
 // auth
 // components
 import FormProvider, { RHFTextField } from '@components/hook-form';
-import { useLoginContext } from '../context';
+import { useLoginContext } from '../../../contexts/auth';
 import { createRandomIdentity } from '@utils/web3Utils';
 import { useRouter } from 'next/router';
 import { PATH_AFTER_LOGIN } from '@config';

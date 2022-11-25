@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from 'react';
-import { useAuthContext } from '../../auth/useAuthContext';
-import * as Services from './services';
+import { useAuthContext } from '../auth/useAuthContext';
+import { AuthService } from '@services';
 
 const initialState = {
   otpSent: false,
@@ -12,11 +12,10 @@ const LoginContext = createContext(initialState);
 
 export function LoginProvider({ children }) {
   const [state, setState] = useState(initialState);
-
   const { addToken, addUser, addKey } = useAuthContext();
 
   const handleOtpRequest = async (payload) => {
-    const response = await Services.otpRequest(payload);
+    const response = await AuthService.otpRequest(payload);
     setState((prev) => ({
       ...prev,
       otpSent: true,
@@ -25,7 +24,7 @@ export function LoginProvider({ children }) {
   };
 
   const handleOtpVerification = async (payload) => {
-    const response = await Services.verifyOtp(payload);
+    const response = await AuthService.verifyOtp(payload);
     addToken(response.data.token);
     addUser(response.data.user);
     addKey(response.data.key);
