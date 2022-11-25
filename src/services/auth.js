@@ -1,4 +1,4 @@
-import { rahatApi } from '@services/client';
+import { rahatApi } from '@utils/client';
 
 export const AuthService = {
   otpRequest(data) {

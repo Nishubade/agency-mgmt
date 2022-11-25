@@ -1,8 +1,8 @@
 import axios from 'axios';
-import qs from 'query-string';
+// import qs from 'query-string';
 import { HOST_API, RAHAT_BACKEND } from '@config';
 
-import { getAccessToken } from '../utils/sessionManager';
+import { getAccessToken } from './sessionManager';
 
 const accessToken = getAccessToken();
 
@@ -31,7 +31,7 @@ export const rahatApi = axios.create({
   headers: {
     'Content-Type': 'application/json',
     'X-Requested-With': 'XMLHttpRequest',
-    accessToken,
+    access_token: accessToken,
   },
   // paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'brackets' }),
 });

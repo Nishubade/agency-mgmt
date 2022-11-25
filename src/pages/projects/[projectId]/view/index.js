@@ -1,14 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import DashboardLayout from '@layouts/dashboard';
 import { Page } from '@components/page';
 import { useSettingsContext } from '@components/settings';
-import { Box, Container, Grid, Stack } from '@mui/material';
-import { ActionMenu, BasicInfoCard, ChartCard, MoreInfoCard, ViewTabs } from '@sections/projects/view';
+import { Container } from '@mui/material';
+import { ActionMenu, ProjectViewComp } from '@sections/projects/view';
 import { useRouter } from 'next/router';
-
-const PAGE_TITLE = 'Project: View';
+import { ProjectProvider, useProjectContext } from '@contexts/projects';
 
 const ProjectView = (props) => {
   const { themeStretch } = useSettingsContext();
@@ -16,6 +15,15 @@ const ProjectView = (props) => {
     push: routerPush,
     query: { projectId },
   } = useRouter();
+
+  const { getProjectById, singleProject } = useProjectContext();
+
+  console.log('singleProject', { singleProject, projectId });
+
+  useEffect(() => {
+    if (!projectId) return;
+    getProjectById(projectId);
+  }, [projectId]);
 
   const actionMenuItems = [
     {
@@ -30,25 +38,16 @@ const ProjectView = (props) => {
     },
   ];
 
+  const PAGE_TITLE = `Project: ${singleProject?.name}`;
+
   return (
-    <Page title={PAGE_TITLE} nocard action={<ActionMenu menuItems={actionMenuItems} actionTitle={'Actions'} />}>
-      <Container maxWidth={themeStretch ? false : 'xl'}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={8}>
-            <Grid container direction="column" justifyContent="center" alignItems="flex-start">
-              <BasicInfoCard />
-              <MoreInfoCard />
-            </Grid>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <ChartCard />
-          </Grid>
-        </Grid>
-        <Stack sx={{ mt: 2 }}>
-          <ViewTabs />
-        </Stack>
-      </Container>
-    </Page>
+    <ProjectProvider>
+      <Page title={PAGE_TITLE} nocard action={<ActionMenu menuItems={actionMenuItems} actionTitle={'Actions'} />}>
+        <Container maxWidth={themeStretch ? false : 'xl'}>
+          <ProjectViewComp />
+        </Container>
+      </Page>
+    </ProjectProvider>
   );
 };
 

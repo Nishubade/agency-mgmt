@@ -1,4 +1,4 @@
-import client from './client';
+import client from '@utils/client';
 
 // reporting and charts
 export const getBeneficiaryCountByGender = () => client.get('/reporting/real-time/beneficiary/count-by-gender');

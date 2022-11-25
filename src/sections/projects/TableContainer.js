@@ -1,30 +1,11 @@
 import { Box, Button, Chip, TableCell, TableRow } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import ListTableToolbar from './ListTableToolbar';
 import { useRouter } from 'next/router';
 import Iconify from '@components/iconify';
 import ListTable from '@components/table/ListTable';
-
-const rows = [
-  {
-    name: 'Project 1',
-    location: 'Location 1',
-    projectManager: 'Project Manager 1',
-    createdAt: '2021-01-01',
-    status: 'Active',
-    balance: '200',
-    id: '1',
-  },
-  {
-    name: 'Jal',
-    location: 'Location 1',
-    projectManager: 'Project Manager 1',
-    createdAt: '2021-01-05',
-    status: 'Active',
-    balance: '1000',
-    id: '5',
-  },
-];
+import { useProjectContext } from '@contexts/projects';
+import moment from 'moment';
 
 const TABLE_HEAD = {
   name: {
@@ -69,20 +50,28 @@ const TABLE_HEAD = {
 const TableContainer = () => {
   const router = useRouter();
 
+  const { projects, getProjectsList } = useProjectContext();
+
+  useEffect(() => {
+    getProjectsList();
+  }, []);
+
   const handleView = (id) => () => {
     router.push(`/projects/${id}/view`);
   };
   return (
     <Box sx={{ p: 1 }}>
       <ListTableToolbar />
-      <ListTable tableRowsList={rows} tableHeadersList={TABLE_HEAD}>
+      <ListTable tableRowsList={projects} tableHeadersList={TABLE_HEAD}>
         {(rows, tableHeadersList) =>
           rows.map((row) => (
             <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
               <TableCell align={tableHeadersList['name'].align}>{row.name}</TableCell>
               <TableCell align={tableHeadersList['location'].align}>{row.location}</TableCell>
               <TableCell align={tableHeadersList['projectManager'].align}>{row.projectManager}</TableCell>
-              <TableCell align={tableHeadersList['createdAt'].align}>{row.createdAt}</TableCell>
+              <TableCell align={tableHeadersList['createdAt'].align}>
+                {moment(row.createdAt).format('MMMM Do YYYY')}
+              </TableCell>
               <TableCell align={tableHeadersList['status'].align}>
                 <Chip label={row.status} />
               </TableCell>
