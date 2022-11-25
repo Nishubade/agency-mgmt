@@ -72,6 +72,9 @@ export default function AuthLoginForm() {
   const onOtpSubmit = async ({ otp }) => {
     try {
       await handleOtpVerification({ otp, encryptionKey: tempIdentity.publicKey });
+
+      router.reload();
+
       // window?.location?.reload();
       // router.replace();
     } catch (error) {
@@ -105,7 +108,7 @@ export default function AuthLoginForm() {
           size="large"
           type="submit"
           variant="contained"
-          // loading={isSubmitSuccessful || isSubmitting}
+          loading={otpMethods.formState.isSubmitSuccessful || otpMethods.formState.isSubmitting}
           sx={{
             bgcolor: 'text.primary',
             color: (theme) => (theme.palette.mode === 'light' ? 'common.white' : 'grey.800'),

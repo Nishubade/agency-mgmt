@@ -104,7 +104,14 @@ function AuthProvider({ children }) {
 
   const logout = () => {
     clearStorage();
-    setAuthState((prev) => ({ ...prev, isInitialized: true }));
+    setAuthState((prev) => ({
+      ...prev,
+      isInitialized: true,
+      isAuthenticated: false,
+      token: '',
+      user: null,
+      keyData: null,
+    }));
   };
 
   const contextProps = {

@@ -1,5 +1,14 @@
 // routes
-import { PATH_BENEFICIARY, PATH_DASHBOARD, PATH_PROJECTS, PATH_REPORTS, PATH_VENDORS } from '@routes/paths';
+import {
+  PATH_ADMINISTRATION,
+  PATH_BENEFICIARY,
+  PATH_DASHBOARD,
+  PATH_FINANCIAL_INSTITUTIONS,
+  PATH_MOBILIZERS,
+  PATH_PROJECTS,
+  PATH_REPORTS,
+  PATH_VENDORS,
+} from '@routes/paths';
 // components
 import SvgColor from '@components/svg-color';
 import Iconify from '@components/iconify';
@@ -47,32 +56,32 @@ const navConfig = [
       },
       {
         title: 'Mobilizers',
-        path: PATH_DASHBOARD.three,
+        path: PATH_MOBILIZERS.root,
         icon: ICONS.mobilizers,
       },
       {
         title: 'Financial Institutions',
-        path: PATH_DASHBOARD.three,
+        path: PATH_FINANCIAL_INSTITUTIONS.root,
         icon: ICONS.financialInstitution,
       },
       {
         title: 'Administation',
-        path: PATH_DASHBOARD.three,
+        path: PATH_ADMINISTRATION.root,
         icon: ICONS.admin,
         children: [
           {
             title: 'Campaigns',
-            path: PATH_DASHBOARD.three,
+            path: PATH_ADMINISTRATION.campaigns,
           },
           {
             title: 'Users',
-            path: PATH_DASHBOARD.three,
+            path: PATH_ADMINISTRATION.users,
           },
         ],
       },
       {
         title: 'Reports',
-        path: PATH_DASHBOARD.three,
+        path: PATH_REPORTS.root,
         icon: ICONS.reports,
         children: [
           {

@@ -7,6 +7,7 @@ import LoadingScreen from '../components/loading-screen';
 //
 import Login from '../pages/auth/login';
 import { useAuthContext } from '../auth/useAuthContext';
+import { PATH_AUTH } from '@routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -34,12 +35,13 @@ export default function AuthGuard({ children }) {
     return <LoadingScreen />;
   }
 
-  // if (!isAuthenticated) {
-  //   if (pathname !== requestedLocation) {
-  //     setRequestedLocation(pathname);
-  //   }
-  //   return <Login />;
-  // }
+  if (!isAuthenticated) {
+    if (pathname !== requestedLocation) {
+      setRequestedLocation(pathname);
+    }
+    push(PATH_AUTH.login);
+    // return <Login />;
+  }
 
   return <>{children}</>;
 }
