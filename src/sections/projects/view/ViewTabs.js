@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Tab } from '@mui/material';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { Card, CardContent } from '@mui/material';
 import TabsTable from './TabsTable';
-import { BEN_TABLE_HEAD, MOB_TABLE_HEAD, VEN_TABLE_HEAD, beneficiaryRows, mobilizers, vendors } from './tableData';
+import { BEN_TABLE_HEAD, MOB_TABLE_HEAD, VEN_TABLE_HEAD, mobilizers } from './tableData';
+import { useProjectContext } from '@contexts/projects';
+import { useRouter } from 'next/router';
 
 const tabs = [
   { value: 'beneficiaries', label: 'Beneficiaries' },
@@ -15,6 +17,22 @@ const tabs = [
 
 export default function ViewTabs() {
   const [value, setValue] = useState('beneficiaries');
+
+  const {
+    query: { projectId },
+  } = useRouter();
+
+  const { beneficiaries, getBeneficiariesByProject, vendors, getVendorsByProject } = useProjectContext();
+
+  useEffect(() => {
+    if (!projectId || value !== 'beneficiaries') return;
+    getBeneficiariesByProject(projectId);
+  }, [projectId, getBeneficiariesByProject, value]);
+
+  useEffect(() => {
+    if (!projectId || value !== 'vendors') return;
+    getVendorsByProject(projectId);
+  }, [projectId, getVendorsByProject, value]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -33,7 +51,7 @@ export default function ViewTabs() {
               </TabList>
             </Box>
             <TabPanel value="beneficiaries">
-              <TabsTable rows={beneficiaryRows} tableHead={BEN_TABLE_HEAD} />
+              <TabsTable rows={beneficiaries} tableHead={BEN_TABLE_HEAD} />
             </TabPanel>
             <TabPanel value="vendors">
               {' '}

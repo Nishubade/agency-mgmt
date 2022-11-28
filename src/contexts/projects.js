@@ -1,11 +1,16 @@
 import { ProjectService } from '@services';
 import { createContext, useCallback, useContext, useState } from 'react';
+import PropTypes from 'prop-types';
 
 const initialState = {
   projects: [],
   singleProject: {},
+  beneficiaries: [],
+  vendors: [],
   getProjectsList: () => {},
   getProjectById: () => {},
+  getBeneficiariesByProject: () => {},
+  getVendorsByProject: () => {},
 };
 
 const ProjectsContext = createContext(initialState);
@@ -32,7 +37,11 @@ export const ProjectProvider = ({ children }) => {
   const getProjectById = useCallback(async (id) => {
     const response = await ProjectService.getProjectById(id);
 
-    const formatted = response.data.data;
+    const formatted = {
+      ...response.data,
+      projectManagerName: `${response.data?.project_manager?.name?.first} ${response.data?.project_manager?.name?.last}`,
+      projectCreatedAt: response.data?.project_manager?.created_at,
+    };
 
     setState((prev) => ({
       ...prev,
@@ -41,13 +50,43 @@ export const ProjectProvider = ({ children }) => {
     return response.data.data;
   }, []);
 
+  const getBeneficiariesByProject = useCallback(async (projectId) => {
+    const response = await ProjectService.getBeneficiariesByProject(projectId);
+
+    const formatted = response.data.data;
+
+    setState((prev) => ({
+      ...prev,
+      beneficiaries: formatted,
+    }));
+    return response.data.data;
+  }, []);
+
+  const getVendorsByProject = useCallback(async (projectId) => {
+    const response = await ProjectService.getVendorsByProject(projectId);
+
+    const formatted = response.data.data;
+
+    setState((prev) => ({
+      ...prev,
+      vendors: formatted,
+    }));
+    return response.data.data;
+  }, []);
+
   const contextValue = {
     ...state,
     getProjectsList,
     getProjectById,
+    getBeneficiariesByProject,
+    getVendorsByProject,
   };
 
   return <ProjectsContext.Provider value={contextValue}>{children}</ProjectsContext.Provider>;
+};
+
+ProjectProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export const useProjectContext = () => {

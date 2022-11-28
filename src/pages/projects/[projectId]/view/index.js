@@ -9,21 +9,13 @@ import { ActionMenu, ProjectViewComp } from '@sections/projects/view';
 import { useRouter } from 'next/router';
 import { ProjectProvider, useProjectContext } from '@contexts/projects';
 
+const PAGE_TITLE = `Project: Detail`;
 const ProjectView = (props) => {
   const { themeStretch } = useSettingsContext();
   const {
     push: routerPush,
     query: { projectId },
   } = useRouter();
-
-  const { getProjectById, singleProject } = useProjectContext();
-
-  console.log('singleProject', { singleProject, projectId });
-
-  useEffect(() => {
-    if (!projectId) return;
-    getProjectById(projectId);
-  }, [projectId]);
 
   const actionMenuItems = [
     {
@@ -37,8 +29,6 @@ const ProjectView = (props) => {
       onClick: () => routerPush(`/projects/${projectId}/add-budget`),
     },
   ];
-
-  const PAGE_TITLE = `Project: ${singleProject?.name}`;
 
   return (
     <ProjectProvider>

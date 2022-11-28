@@ -1,19 +1,7 @@
-import { useEffect } from 'react';
 import { MenuItem, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
 
 const ListSelectFilter = ({ label }) => {
-  const optionsData = [
-    {
-      label: 'Ward',
-      value: 'ward',
-    },
-    {
-      label: 'Village',
-      value: 'village',
-    },
-  ];
-
   return (
     <TextField
       fullWidth

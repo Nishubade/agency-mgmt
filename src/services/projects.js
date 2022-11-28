@@ -6,7 +6,16 @@ export const ProjectService = {
       params,
     });
   },
+
   getProjectById(id) {
     return rahatApi.get(`/projects/${id}`);
+  },
+
+  getBeneficiariesByProject(projectId) {
+    return rahatApi.get(`/projects/${projectId}/beneficiaries`);
+  },
+
+  getVendorsByProject(projectId) {
+    return rahatApi.get(`/projects/${projectId}/vendors`);
   },
 };
