@@ -13,6 +13,8 @@ import { useRouter } from 'next/router';
 import { PATH_REPORTS } from '@routes/paths';
 import WardGenderInfoCard from './WardGenderInfoCard';
 import Iconify from '@components/iconify';
+import PhotoGallery from './PhotoGallery';
+import { getFlickrImages } from '@services/flickr';
 
 const DashboardComponent = (props) => {
   const theme = useTheme();
@@ -31,7 +33,7 @@ const DashboardComponent = (props) => {
     getBeneficiariesCounts,
   } = useModuleContext();
 
-  const [selectedWard, setSelectedWard] = useState('');
+  const [flickImages, setFlickImages] = useState([]);
 
   useEffect(() => {
     getBeneficiaryCountByGender();
@@ -53,10 +55,18 @@ const DashboardComponent = (props) => {
     getBeneficiariesCounts();
   }, [getBeneficiariesCounts]);
 
+  useEffect(() => {
+    const getFlickPics = async () => {
+      const res = await getFlickrImages();
+      setFlickImages(res.photo);
+    };
+    getFlickPics();
+  }, []);
+
   return (
     <Box>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={2.66}>
           <SummaryCard
             title="Beneficiaries Claimed"
             total={beneficiaryCounts?.impacted?.totalClaimed}
@@ -64,7 +74,7 @@ const DashboardComponent = (props) => {
           />
         </Grid>
 
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={2.66}>
           <SummaryCard
             title="Under 5 impacted"
             total={beneficiaryCounts?.impacted?.totalBelow5Count}
@@ -72,20 +82,23 @@ const DashboardComponent = (props) => {
           />
         </Grid>
 
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={2.66}>
           <SummaryCard
             title="Total Impacted"
             total={beneficiaryCounts?.impacted?.totalFamilyCount}
             subtitle={'people'}
           />
         </Grid>
-        <Grid item xs={12} md={3}>
+        {/* <Grid item xs={12} md={4}>
+          <PhotoGallery list={flickImages} />
+        </Grid> */}
+        {/* <Grid item xs={12} md={3}>
           <SummaryCard
             title="SMS of token assign"
             total={beneficiaryCounts?.impacted?.totalFamilyCount}
             subtitle={'total'}
           />
-        </Grid>
+        </Grid> */}
         {/* <Grid item xs={12} md={2.4}>
           <SummaryCard
             title="QR Card distributed"

@@ -2,16 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Button, Card, CardContent, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
+import { useBeneficiaryContext } from '@contexts/beneficiaries';
 
 const ProjectsInvolved = (props) => {
-  const projectsInvolved = [
-    {
-      name: 'Mini Project_2 - 15,20 Sep 2022',
-      id: '1',
-    },
-  ];
-
   const router = useRouter();
+  const { singleBeneficiary } = useBeneficiaryContext();
 
   const handleProjectClick = (id) => () => {
     router.push(`/projects/${id}/view`);
@@ -23,7 +18,7 @@ const ProjectsInvolved = (props) => {
         <Typography variant="h5">Projects Involved</Typography>
 
         <Box>
-          {projectsInvolved.map((project) => (
+          {singleBeneficiary?.projects?.map((project) => (
             <Button key={project.id} variant="outlined" sx={{ m: 1 }} onClick={handleProjectClick(project.id)}>
               {project.name}
             </Button>

@@ -8,9 +8,9 @@ import {
   PATH_PROJECTS,
   PATH_REPORTS,
   PATH_VENDORS,
+  PATH_CASH_TRACKER,
 } from '@routes/paths';
 // components
-import SvgColor from '@components/svg-color';
 import Iconify from '@components/iconify';
 
 // ----------------------------------------------------------------------
@@ -21,6 +21,7 @@ const icon = (name) => <Iconify icon={name} sx={{ width: 1, height: 1 }} />;
 const ICONS = {
   admin: icon('ic:outline-admin-panel-settings'),
   projects: icon('pajamas:project'),
+  cashTracker: icon('mdi:cash-clock'),
   beneficiary: icon('mdi:user-convert'),
   dashboard: icon('carbon:dashboard'),
   vendors: icon('material-symbols:anchor'),
@@ -43,6 +44,11 @@ const navConfig = [
         title: 'Projects',
         path: PATH_PROJECTS.root,
         icon: ICONS.projects,
+      },
+      {
+        title: 'Cash Tracker',
+        path: PATH_CASH_TRACKER.root,
+        icon: ICONS.cashTracker,
       },
       {
         title: 'Beneficiary',

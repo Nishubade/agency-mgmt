@@ -16,10 +16,12 @@ export function LoginProvider({ children }) {
 
   const handleOtpRequest = async (payload) => {
     const response = await AuthService.otpRequest(payload);
-    setState((prev) => ({
-      ...prev,
-      otpSent: true,
-    }));
+    if (response?.data?.status) {
+      setState((prev) => ({
+        ...prev,
+        otpSent: true,
+      }));
+    }
     return response.data;
   };
 

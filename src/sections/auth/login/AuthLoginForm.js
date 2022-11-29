@@ -69,6 +69,10 @@ export default function AuthLoginForm() {
     }
   };
 
+  const onEmailSubmitError = (error) => {
+    console.error(error);
+  };
+
   const onOtpSubmit = async ({ otp }) => {
     try {
       await handleOtpVerification({ otp, encryptionKey: tempIdentity.publicKey });
@@ -97,7 +101,7 @@ export default function AuthLoginForm() {
       <FormProvider methods={otpMethods} onSubmit={otpMethods.handleSubmit(onOtpSubmit)}>
         <Stack spacing={3} sx={{ mb: 3 }}>
           {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
-          {!!otpSentMessage && <Alert severity="info">{otpSentMessage}. Enter the OTP here.</Alert>}
+          {!!otpSentMessage && <Alert severity="info">{otpSentMessage} </Alert>}
 
           <RHFTextField name="otp" label="OTP Code" />
         </Stack>
@@ -125,7 +129,7 @@ export default function AuthLoginForm() {
   }
 
   return (
-    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit, onEmailSubmitError)}>
       <Stack spacing={3} sx={{ mb: 3 }}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
 

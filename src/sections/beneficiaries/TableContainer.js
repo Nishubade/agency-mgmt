@@ -1,9 +1,10 @@
 import { Box, Button, Chip, TableCell, TableRow } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import ListTableToolbar from './ListTableToolbar';
 import { useRouter } from 'next/router';
 import Iconify from '@components/iconify';
 import ListTable from '@components/table/ListTable';
+import { useBeneficiaryContext } from '@contexts/beneficiaries';
 
 const rows = [
   {
@@ -65,13 +66,19 @@ const TABLE_HEAD = {
 const TableContainer = () => {
   const router = useRouter();
 
+  const { getBeneficiariesList, beneficiaries } = useBeneficiaryContext();
+
+  useEffect(() => {
+    getBeneficiariesList();
+  }, [getBeneficiariesList]);
+
   const handleView = (id) => () => {
     router.push(`/beneficiaries/${id}/view`);
   };
   return (
     <Box sx={{ p: 1 }}>
       <ListTableToolbar />
-      <ListTable tableRowsList={rows} tableHeadersList={TABLE_HEAD}>
+      <ListTable tableRowsList={beneficiaries} tableHeadersList={TABLE_HEAD}>
         {(rows, tableHeadersList) =>
           rows.map((row) => (
             <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>

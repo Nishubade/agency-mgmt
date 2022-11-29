@@ -5,6 +5,7 @@ import { Page } from '@components/page';
 import { useSettingsContext } from '@components/settings';
 import { Container } from '@mui/material';
 import { TableContainer } from '@sections/beneficiaries';
+import { BeneficiaryProvider } from '@contexts/beneficiaries';
 
 const PAGE_TITLE = 'Beneficiaries';
 
@@ -12,11 +13,13 @@ export default function BeneficiaryList() {
   const { themeStretch } = useSettingsContext();
 
   return (
-    <Page title={PAGE_TITLE}>
-      <Container maxWidth={themeStretch ? false : 'xl'}>
-        <TableContainer />
-      </Container>
-    </Page>
+    <BeneficiaryProvider>
+      <Page title={PAGE_TITLE}>
+        <Container maxWidth={themeStretch ? false : 'xl'}>
+          <TableContainer />
+        </Container>
+      </Page>
+    </BeneficiaryProvider>
   );
 }
 

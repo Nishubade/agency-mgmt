@@ -1,71 +1,54 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useRouter } from 'next/router';
+import { Container, Grid, Stack } from '@mui/material';
 
 import DashboardLayout from '@layouts/dashboard';
 import { Page } from '@components/page';
 import { useSettingsContext } from '@components/settings';
-import { Box, Container, Grid, Stack } from '@mui/material';
-import { ActionMenu, BasicInfoCard, MoreInfoCard, ProjectsInvolved, TokenDetails } from '@sections/beneficiaries/view';
-import { useRouter } from 'next/router';
-import HistoryTable from '@sections/transactionTable';
+
+import { ActionMenu, BeneficiaryViewComp } from '@sections/beneficiaries/view';
+import { BeneficiaryProvider } from '@contexts/beneficiaries';
 
 const PAGE_TITLE = 'Beneficairy: Details';
 
-const BeneficiaryView = (props) => {
+const BeneficiaryView = () => {
   const { themeStretch } = useSettingsContext();
   const {
     push: routerPush,
-    query: { projectId },
+    query: { beneficiaryId },
   } = useRouter();
 
   const actionMenuItems = [
     {
       name: 'Edit Beneficairy',
-      href: `/beneficiaries/${projectId}/edit`,
-      onClick: () => routerPush(`/beneficiaries/${projectId}/edit`),
+      href: `/beneficiaries/${beneficiaryId}/edit`,
+      onClick: () => routerPush(`/beneficiaries/${beneficiaryId}/edit`),
     },
     {
       name: 'Issue Token',
-      href: `/beneficiaries/${projectId}/add-budget`,
-      onClick: () => routerPush(`/beneficiaries/${projectId}/add-budget`),
+      href: `/beneficiaries/${beneficiaryId}/add-budget`,
+      onClick: () => routerPush(`/beneficiaries/${beneficiaryId}/add-budget`),
     },
     {
       name: 'Switch Project',
-      href: `/beneficiaries/${projectId}/add-budget`,
-      onClick: () => routerPush(`/beneficiaries/${projectId}/add-budget`),
+      href: `/beneficiaries/${beneficiaryId}/add-budget`,
+      onClick: () => routerPush(`/beneficiaries/${beneficiaryId}/add-budget`),
     },
     {
       name: 'Suspend Beneficiary',
-      href: `/beneficiaries/${projectId}/add-budget`,
-      onClick: () => routerPush(`/beneficiaries/${projectId}/add-budget`),
+      href: `/beneficiaries/${beneficiaryId}/add-budget`,
+      onClick: () => routerPush(`/beneficiaries/${beneficiaryId}/add-budget`),
     },
   ];
 
   return (
-    <Page title={PAGE_TITLE} nocard action={<ActionMenu menuItems={actionMenuItems} actionTitle={'Actions'} />}>
-      <Container maxWidth={themeStretch ? false : 'xl'}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
-            <BasicInfoCard />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TokenDetails />
-          </Grid>
-          {/* <Grid item xs={12} md={4}>
-            <MoreInfoCard />
-          </Grid> */}
-        </Grid>
-        <Stack>
-          <MoreInfoCard />
-        </Stack>
-        <Stack sx={{ mt: 1 }}>
-          <ProjectsInvolved />
-        </Stack>
-        <Stack sx={{ mt: 1 }}>
-          <HistoryTable />
-        </Stack>
-      </Container>
-    </Page>
+    <BeneficiaryProvider>
+      <Page title={PAGE_TITLE} nocard action={<ActionMenu menuItems={actionMenuItems} actionTitle={'Actions'} />}>
+        <Container maxWidth={themeStretch ? false : 'xl'}>
+          <BeneficiaryViewComp />
+        </Container>
+      </Page>
+    </BeneficiaryProvider>
   );
 };
 
