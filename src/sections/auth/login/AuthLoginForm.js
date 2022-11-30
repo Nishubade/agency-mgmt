@@ -10,9 +10,10 @@ import { LoadingButton } from '@mui/lab';
 // components
 import FormProvider, { RHFTextField } from '@components/hook-form';
 import { useLoginContext } from '../../../contexts/auth';
-import { createRandomIdentity } from '@utils/web3Utils';
+import { createRandomIdentity, decryptedKey, parseFromOtpKey } from '@utils/web3Utils';
 import { useRouter } from 'next/router';
 import { PATH_AFTER_LOGIN } from '@config';
+import { saveKey } from '@utils/sessionManager';
 
 // ----------------------------------------------------------------------
 
@@ -75,9 +76,14 @@ export default function AuthLoginForm() {
 
   const onOtpSubmit = async ({ otp }) => {
     try {
-      await handleOtpVerification({ otp, encryptionKey: tempIdentity.publicKey });
+      const isOtpValid = await handleOtpVerification({ otp, encryptionKey: tempIdentity.publicKey });
 
-      router.reload();
+      if (isOtpValid.key) {
+        const encryptedData = parseFromOtpKey(isOtpValid.key);
+        const decrypted = await decryptedKey(tempIdentity.privateKey, encryptedData);
+        saveKey(decrypted);
+        router.reload();
+      }
 
       // window?.location?.reload();
       // router.replace();
@@ -142,7 +148,7 @@ export default function AuthLoginForm() {
         size="large"
         type="submit"
         variant="contained"
-        loading={isSubmitSuccessful || isSubmitting}
+        // loading={isSubmitSuccessful || isSubmitting}
         sx={{
           bgcolor: 'text.primary',
           color: (theme) => (theme.palette.mode === 'light' ? 'common.white' : 'grey.800'),

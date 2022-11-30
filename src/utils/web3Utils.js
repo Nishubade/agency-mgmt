@@ -1,5 +1,5 @@
 import EthCrypto from 'eth-crypto';
-// import { ethers } from 'ethers';
+import { ethers } from 'ethers';
 
 export const getRandomString = (length) => {
   let randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -19,3 +19,13 @@ export const createRandomIdentity = () => {
   const entropy = getRandomEntropy();
   return EthCrypto.createIdentity(entropy);
 };
+
+export const getWallet = (privateKey) => {
+  if (!privateKey) return '';
+  const wallet = new ethers.Wallet(privateKey);
+  return wallet;
+};
+
+export const parseFromOtpKey = (otpKey) => EthCrypto.cipher.parse(otpKey);
+
+export const decryptedKey = (privateKey, encryptedData) => EthCrypto.decryptWithPrivateKey(privateKey, encryptedData);

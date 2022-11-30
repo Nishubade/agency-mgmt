@@ -22,7 +22,7 @@ const StyledRoot = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function NavAccount() {
-  const { user } = useAuthContext();
+  const { user, walletAddress } = useAuthContext();
 
   return (
     <Link underline="none" color="inherit">
@@ -36,7 +36,7 @@ export default function NavAccount() {
           </Typography>
 
           <Typography variant="body2" noWrap sx={{ color: 'text.secondary' }}>
-            {user?.wallet_address}
+            {walletAddress || 'No Wallet Address'}
           </Typography>
         </Box>
       </StyledRoot>

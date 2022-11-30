@@ -16,14 +16,14 @@ export default function Dashboard() {
   const { themeStretch } = useSettingsContext();
 
   return (
-    // <AuthGuard>
-    <ContextProvider>
-      <Page title={PAGE_TITLE} nocard>
-        <Container maxWidth={themeStretch ? false : 'xl'}>
-          <DashboardComponent />
-        </Container>
-      </Page>
-    </ContextProvider>
-    // </AuthGuard>
+    <AuthGuard>
+      <ContextProvider>
+        <Page title={PAGE_TITLE} nocard>
+          <Container maxWidth={themeStretch ? false : 'xl'}>
+            <DashboardComponent />
+          </Container>
+        </Page>
+      </ContextProvider>
+    </AuthGuard>
   );
 }

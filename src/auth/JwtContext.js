@@ -1,6 +1,6 @@
 import { isValid } from 'date-fns';
 import PropTypes from 'prop-types';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 // utils
 // import { isValidToken, setSession } from '../utils/jwt';
 import {
@@ -13,7 +13,10 @@ import {
   getCurrentUser,
   getKey,
   clearStorage,
+  getWalletAddressFromPrivateKey,
 } from '@utils/sessionManager';
+import { AppService } from '@services';
+import { getWallet } from '@utils/web3Utils';
 
 // ----------------------------------------------------------------------
 
@@ -23,6 +26,9 @@ const initialState = {
   token: null,
   user: null,
   keyData: null,
+  contracts: null,
+  addresses: null,
+  walletAddress: null,
   addToken: () => {},
   deleteToken: () => {},
   addUser: () => {},
@@ -44,25 +50,37 @@ AuthProvider.propTypes = {
 const localToken = getAccessToken();
 const localUser = getCurrentUser();
 const localKey = getKey();
+const walletAddress = getWalletAddressFromPrivateKey();
 
 function AuthProvider({ children }) {
   const [authState, setAuthState] = useState(initialState);
 
+  const getAppSettings = async () => {
+    try {
+      const response = await AppService.getAppSettings();
+      return response.data;
+    } catch (err) {
+      console.log('Unable to Load App Setting from Server', err);
+    }
+  };
+
   useEffect(() => {
     const initialize = async () => {
-      setAuthState((prev) => ({ ...prev, isInitialized: true }));
+      // setAuthState((prev) => ({ ...prev, isInitialized: true }));
       try {
         if (localToken && isValidToken(localToken)) {
+          const appSettings = await getAppSettings();
           setAuthState((prev) => ({
             ...prev,
+            isInitialized: true,
             isAuthenticated: true,
             token: localToken,
             user: localUser,
             keyData: localKey,
+            contracts: appSettings?.agency?.contracts,
+            addresses: appSettings?.addresses,
+            walletAddress,
           }));
-
-          //  const response = await axios.get('/api/account/my-account');
-          //  const { user } = response.data;
         } else {
           setAuthState((prev) => ({ ...prev, isAuthenticated: false }));
         }
@@ -114,14 +132,17 @@ function AuthProvider({ children }) {
     }));
   };
 
-  const contextProps = {
-    ...authState,
-    deleteToken,
-    addToken,
-    addUser,
-    addKey,
-    logout,
-  };
+  const contextProps = useMemo(
+    () => ({
+      ...authState,
+      deleteToken,
+      addToken,
+      addUser,
+      addKey,
+      logout,
+    }),
+    [authState]
+  );
 
   return <AppAuthContext.Provider value={contextProps}>{children}</AppAuthContext.Provider>;
 }

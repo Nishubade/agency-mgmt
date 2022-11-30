@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import StepTracker from './StepTracker';
 import { useRouter } from 'next/router';
-// import TreeTracker from './TreeTracker';
+import { TreeTracker } from '@components/tree';
 
 const STEPS = [
   {
@@ -32,12 +32,108 @@ const STEPS = [
   },
 ];
 
+const tree = [
+  {
+    nodeName: 'Jaleswor Palika',
+    childNode: [
+      {
+        nodeName: 'Ward 1',
+        balance: 1000,
+        disbursed: 1000,
+        childNode: [
+          {
+            nodeName: 'Leaf Level 3',
+            childNode: [
+              {
+                nodeName: 'Ward 1',
+                balance: 1000,
+                disbursed: 1000,
+                childNode: [
+                  {
+                    nodeName: 'Leaf Level 3',
+                  },
+                ],
+              },
+              {
+                nodeName: 'Ward 2',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        nodeName: 'Ward 2',
+        childNode: [
+          {
+            nodeName: 'Ward 1',
+            balance: 1000,
+            disbursed: 1000,
+            childNode: [
+              {
+                nodeName: 'Leaf Level 3',
+                childNode: [
+                  {
+                    nodeName: 'Ward 1',
+                    balance: 1000,
+                    disbursed: 1000,
+                    childNode: [
+                      {
+                        nodeName: 'Leaf Level 3',
+                        childNode: [
+                          {
+                            nodeName: 'Ward 1',
+                            balance: 1000,
+                            disbursed: 1000,
+                            childNode: [
+                              {
+                                nodeName: 'Leaf Level 3',
+                              },
+                            ],
+                          },
+                          {
+                            nodeName: 'Ward 2',
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  {
+                    nodeName: 'Ward 2',
+                    childNode: [
+                      {
+                        nodeName: 'Ward 1',
+                        balance: 1000,
+                        disbursed: 1000,
+                        childNode: [
+                          {
+                            nodeName: 'Leaf Level 3',
+                          },
+                        ],
+                      },
+                      {
+                        nodeName: 'Ward 2',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            nodeName: 'Ward 2',
+          },
+        ],
+      },
+    ],
+  },
+];
+
 const Tracker = (props) => {
   const router = useRouter();
   return (
     <div>
       <StepTracker activeStep={2} steps={STEPS} />
-      {/* <TreeTracker /> */}
+      <TreeTracker tree={tree} />
     </div>
   );
 };

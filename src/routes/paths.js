@@ -15,6 +15,7 @@ const ROOTS_ADMININSTRATION = '/admin';
 const ROOTS_REPORTS = '/reports';
 
 const ROOTS_AUTH = '/auth';
+const ROOTS_APP = '/app';
 
 // ----------------------------------------------------------------------
 
@@ -71,4 +72,9 @@ export const PATH_REPORTS = {
   realTime: path(ROOTS_REPORTS, '/real-time'),
   transaction: path(ROOTS_REPORTS, '/transactions'),
   wardReport: path(ROOTS_REPORTS, '/ward-report'),
+};
+
+export const PATH_APP = {
+  root: ROOTS_APP,
+  settings: path(ROOTS_APP, '/settings'),
 };

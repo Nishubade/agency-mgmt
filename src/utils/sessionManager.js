@@ -1,4 +1,5 @@
 import jwtDecode from 'jwt-decode';
+import { createIdentityFromPrivateKey, getWallet } from './web3Utils';
 
 export const getCurrentUser = () => {
   let user = null;
@@ -11,7 +12,14 @@ export const saveCurrentUser = (userData) =>
   typeof window !== 'undefined' ? localStorage.setItem('currentUser', JSON.stringify(userData)) : '';
 
 export const saveKey = (key) => (typeof window !== 'undefined' ? localStorage.setItem('key', JSON.stringify(key)) : '');
-export const getKey = () => (typeof window !== 'undefined' ? localStorage.getItem('key') : '');
+export const getKey = () => (typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('key')) : '');
+
+export const getWalletAddressFromPrivateKey = () => {
+  const privateKey = getKey();
+
+  const identity = getWallet(privateKey);
+  return identity.address;
+};
 
 export const getAccessToken = () => (typeof window !== 'undefined' ? localStorage.getItem('accessToken') : '');
 
