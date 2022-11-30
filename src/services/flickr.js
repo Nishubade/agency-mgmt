@@ -25,6 +25,5 @@ export const getFlickrImages = async (params) => {
       description: item?.title,
     })),
   };
-  console.log('response', formatted);
   return formatted;
 };

@@ -11,14 +11,15 @@ import Piechart from './Piechart';
 import { LiveTransactionTable } from '@sections/transactionTable';
 import { useRouter } from 'next/router';
 import { PATH_REPORTS } from '@routes/paths';
-import WardGenderInfoCard from './WardGenderInfoCard';
 import Iconify from '@components/iconify';
-import PhotoGallery from './PhotoGallery';
 import { getFlickrImages } from '@services/flickr';
+import { useRahatContract } from '@hooks/useRahatContract';
+import { useContractFunctions } from '@services/contract';
 
 const DashboardComponent = (props) => {
   const theme = useTheme();
   const router = useRouter();
+  const { triggerResponse } = useContractFunctions();
 
   const {
     getBeneficiaryCountByGender,
@@ -65,6 +66,7 @@ const DashboardComponent = (props) => {
 
   return (
     <Box>
+      <Button onClick={triggerResponse}>Trigger</Button>
       <Grid container spacing={3}>
         <Grid item xs={12} md={2.66}>
           <SummaryCard

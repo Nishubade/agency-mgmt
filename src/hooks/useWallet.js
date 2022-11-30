@@ -1,5 +1,4 @@
 import ethers, { providers } from 'ethers';
-import { useEffect, useRef, useState, useCallback } from 'react';
 import { useAuthContext } from 'src/auth/useAuthContext';
 
 export const useWallet = (privateKey) => {
