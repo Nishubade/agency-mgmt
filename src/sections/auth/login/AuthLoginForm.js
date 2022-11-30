@@ -10,7 +10,7 @@ import { LoadingButton } from '@mui/lab';
 // components
 import FormProvider, { RHFTextField } from '@components/hook-form';
 import { useLoginContext } from '../../../contexts/auth';
-import { createRandomIdentity, decryptedKey, parseFromOtpKey } from '@utils/web3Utils';
+import web3Utils from '@utils/web3Utils';
 import { useRouter } from 'next/router';
 import { PATH_AFTER_LOGIN } from '@config';
 import { saveKey } from '@utils/sessionManager';
@@ -79,8 +79,8 @@ export default function AuthLoginForm() {
       const isOtpValid = await handleOtpVerification({ otp, encryptionKey: tempIdentity.publicKey });
 
       if (isOtpValid.key) {
-        const encryptedData = parseFromOtpKey(isOtpValid.key);
-        const decrypted = await decryptedKey(tempIdentity.privateKey, encryptedData);
+        const encryptedData = web3Utils.parseFromOtpKey(isOtpValid.key);
+        const decrypted = await web3Utils.decryptedKey(tempIdentity.privateKey, encryptedData);
         saveKey(decrypted);
         router.reload();
       }
@@ -98,7 +98,7 @@ export default function AuthLoginForm() {
   };
 
   useEffect(() => {
-    const identity = createRandomIdentity();
+    const identity = web3Utils.createRandomIdentity();
     setTempIdentity(identity);
   }, []);
 

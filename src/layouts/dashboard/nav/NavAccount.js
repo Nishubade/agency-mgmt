@@ -5,6 +5,8 @@ import { Box, Link, Typography } from '@mui/material';
 import { useAuthContext } from '../../../auth/useAuthContext';
 // components
 import { CustomAvatar } from '../../../components/custom-avatar';
+import { useWallet } from '@hooks/useWallet';
+import { useChainProvider } from '@hooks/useChainProvider';
 
 // ----------------------------------------------------------------------
 
@@ -22,7 +24,13 @@ const StyledRoot = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function NavAccount() {
-  const { user, walletAddress } = useAuthContext();
+  const { user, wallet } = useAuthContext();
+  const provider = useChainProvider();
+  const test = async () => {
+    console.log(await provider.getBalance(wallet.address));
+  };
+
+  test();
 
   return (
     <Link underline="none" color="inherit">
@@ -36,7 +44,7 @@ export default function NavAccount() {
           </Typography>
 
           <Typography variant="body2" noWrap sx={{ color: 'text.secondary' }}>
-            {walletAddress || 'No Wallet Address'}
+            {wallet?.address || 'No Wallet Address'}
           </Typography>
         </Box>
       </StyledRoot>

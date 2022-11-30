@@ -16,7 +16,6 @@ import {
   getWalletAddressFromPrivateKey,
 } from '@utils/sessionManager';
 import { AppService } from '@services';
-import { getWallet } from '@utils/web3Utils';
 
 // ----------------------------------------------------------------------
 
@@ -26,9 +25,11 @@ const initialState = {
   token: null,
   user: null,
   keyData: null,
+  chainUrl: null,
+  claimToken: null,
   contracts: null,
   addresses: null,
-  walletAddress: null,
+  wallet: null,
   addToken: () => {},
   deleteToken: () => {},
   addUser: () => {},
@@ -50,7 +51,7 @@ AuthProvider.propTypes = {
 const localToken = getAccessToken();
 const localUser = getCurrentUser();
 const localKey = getKey();
-const walletAddress = getWalletAddressFromPrivateKey();
+const wallet = getWalletAddressFromPrivateKey();
 
 function AuthProvider({ children }) {
   const [authState, setAuthState] = useState(initialState);
@@ -77,9 +78,11 @@ function AuthProvider({ children }) {
             token: localToken,
             user: localUser,
             keyData: localKey,
+            chainUrl: appSettings?.networkUrl,
+            claimToken: { ...appSettings?.agency?.token, address: appSettings?.agency?.contracts?.rahat_erc20 },
             contracts: appSettings?.agency?.contracts,
             addresses: appSettings?.addresses,
-            walletAddress,
+            wallet,
           }));
         } else {
           setAuthState((prev) => ({ ...prev, isAuthenticated: false }));
