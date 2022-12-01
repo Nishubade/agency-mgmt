@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import StepTracker from './StepTracker';
 import { useRouter } from 'next/router';
 import { TreeTracker } from '@components/tree';
+import DetailTable from './DetailTable';
 
 const STEPS = [
   {
@@ -129,11 +130,17 @@ const tree = [
 ];
 
 const Tracker = (props) => {
-  const router = useRouter();
+  const [selectedNode, setSelectedNode] = useState(null);
+
+  const handleNodeClick = (node) => {
+    setSelectedNode(node);
+  };
+
   return (
     <div>
       <StepTracker activeStep={2} steps={STEPS} />
-      <TreeTracker tree={tree} />
+      <TreeTracker tree={tree} onNodeClick={handleNodeClick} />
+      <DetailTable selectedNode={selectedNode} />
     </div>
   );
 };
