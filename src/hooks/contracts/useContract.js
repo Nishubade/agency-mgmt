@@ -5,11 +5,11 @@ export const useContract = (wallet, contracts, abi) => {
   const [contract, setContract] = useState(null);
 
   useEffect(() => {
-    if (abi) {
+    if (abi && contract === null) {
       let con = new Contract(contracts, abi, wallet);
       setContract(con);
     }
-  }, [abi, wallet, contracts]);
+  }, [abi, wallet, contracts, contract]);
 
   return contract;
 };

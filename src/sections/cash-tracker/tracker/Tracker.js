@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import StepTracker from './StepTracker';
-import { useRouter } from 'next/router';
 import { TreeTracker } from '@components/tree';
 import DetailTable from './DetailTable';
 

@@ -1,7 +1,5 @@
-import { Contract } from 'ethers';
-import { useEffect, useState } from 'react';
 import { useAuthContext } from 'src/auth/useAuthContext';
-import { useContract } from './useContract';
+import { useContract } from './contracts';
 import { useRahatAbi } from './useRahatAbi';
 import { useWallet } from './useWallet';
 

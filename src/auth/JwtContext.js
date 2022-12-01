@@ -71,6 +71,7 @@ function AuthProvider({ children }) {
       try {
         if (localToken && isValidToken(localToken)) {
           const appSettings = await getAppSettings();
+          console.log('appSettings', appSettings);
           setAuthState((prev) => ({
             ...prev,
             isInitialized: true,
@@ -79,7 +80,11 @@ function AuthProvider({ children }) {
             user: localUser,
             keyData: localKey,
             chainUrl: appSettings?.networkUrl,
-            claimToken: { ...appSettings?.agency?.token, address: appSettings?.agency?.contracts?.rahat_erc20 },
+            claimToken: {
+              ...appSettings?.agency?.token,
+              address: appSettings?.agency?.contracts?.rahat_erc20,
+              agencyId: appSettings?.agency?.id,
+            },
             contracts: appSettings?.agency?.contracts,
             addresses: appSettings?.addresses,
             wallet,

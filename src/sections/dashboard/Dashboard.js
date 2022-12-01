@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Box, Button, Grid, Stack } from '@mui/material';
 import SummaryCard from '@components/SummaryCard';
 import { useModuleContext } from './context';
-import { useSettingsContext } from '@components/settings';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import BarchartSingle from './BarchartSingle';
@@ -13,8 +12,8 @@ import { useRouter } from 'next/router';
 import { PATH_REPORTS } from '@routes/paths';
 import Iconify from '@components/iconify';
 import { getFlickrImages } from '@services/flickr';
-import { useRahatContract } from '@hooks/useRahatContract';
 import { useContractFunctions } from '@services/contract';
+import ActivateResponse from './ActivateResponse';
 
 const DashboardComponent = (props) => {
   const theme = useTheme();
@@ -66,9 +65,8 @@ const DashboardComponent = (props) => {
 
   return (
     <Box>
-      <Button onClick={triggerResponse}>Trigger</Button>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={2.66}>
+        <Grid item xs={12} md={2}>
           <SummaryCard
             title="Beneficiaries Claimed"
             total={beneficiaryCounts?.impacted?.totalClaimed}
@@ -76,7 +74,7 @@ const DashboardComponent = (props) => {
           />
         </Grid>
 
-        <Grid item xs={12} md={2.66}>
+        <Grid item xs={12} md={2}>
           <SummaryCard
             title="Under 5 impacted"
             total={beneficiaryCounts?.impacted?.totalBelow5Count}
@@ -84,12 +82,15 @@ const DashboardComponent = (props) => {
           />
         </Grid>
 
-        <Grid item xs={12} md={2.66}>
+        <Grid item xs={12} md={2}>
           <SummaryCard
             title="Total Impacted"
             total={beneficiaryCounts?.impacted?.totalFamilyCount}
             subtitle={'people'}
           />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <ActivateResponse />
         </Grid>
         {/* <Grid item xs={12} md={4}>
           <PhotoGallery list={flickImages} />
@@ -143,9 +144,9 @@ const DashboardComponent = (props) => {
           <WardGenderInfoCard selectedWard={selectedWard} />
         </Grid> */}
 
-        <Grid item xs={24} lg={24}>
+        {/* <Grid item xs={24} lg={24}>
           <LiveTransactionTable />
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12} md={4}>
           <Piechart

@@ -1,4 +1,4 @@
-import { useAbi } from './useAbi';
+import { useAbi } from './contracts';
 
 export const useRahatAbi = () => {
   const [abi, contract] = useAbi('rahat');
