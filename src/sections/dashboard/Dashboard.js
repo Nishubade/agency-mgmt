@@ -12,13 +12,11 @@ import { useRouter } from 'next/router';
 import { PATH_REPORTS } from '@routes/paths';
 import Iconify from '@components/iconify';
 import { getFlickrImages } from '@services/flickr';
-import { useContractFunctions } from '@services/contract';
 import ActivateResponse from './ActivateResponse';
 
 const DashboardComponent = (props) => {
   const theme = useTheme();
   const router = useRouter();
-  const { triggerResponse } = useContractFunctions();
 
   const {
     getBeneficiaryCountByGender,

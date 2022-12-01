@@ -101,7 +101,6 @@ export const ContextProvider = ({ children }) => {
 
   const getWardGenderChart = useCallback(async (ward) => {
     const response = await Service.groupGenderByWard(ward);
-    // console.log('response', response);
     setState((prevState) => ({
       ...prevState,
       wardByGenderChart: response.data.data,

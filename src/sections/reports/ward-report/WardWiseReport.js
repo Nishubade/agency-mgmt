@@ -19,8 +19,6 @@ function WardWiseReport() {
     getTransactionsCountByWard();
   }, [getTransactionsCountByWard]);
 
-  console.log('wardChartData', wardChartData);
-
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} md={8}>

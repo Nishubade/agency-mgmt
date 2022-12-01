@@ -16,6 +16,7 @@ import {
   getWalletAddressFromPrivateKey,
 } from '@utils/sessionManager';
 import { AppService } from '@services';
+import { ROLES } from '@config';
 
 // ----------------------------------------------------------------------
 
@@ -30,6 +31,13 @@ const initialState = {
   contracts: null,
   addresses: null,
   wallet: null,
+  roles: {
+    isDonor: false,
+    isAgency: false,
+    isPalika: false,
+    isManager: false,
+    isAgencyOrPalika: false,
+  },
   addToken: () => {},
   deleteToken: () => {},
   addUser: () => {},
@@ -71,7 +79,6 @@ function AuthProvider({ children }) {
       try {
         if (localToken && isValidToken(localToken)) {
           const appSettings = await getAppSettings();
-          console.log('appSettings', appSettings);
           setAuthState((prev) => ({
             ...prev,
             isInitialized: true,
@@ -140,6 +147,19 @@ function AuthProvider({ children }) {
     }));
   };
 
+  const roles = useMemo(
+    () => ({
+      isDonor: authState.user?.roles?.includes(ROLES.DONOR) || false,
+      isAgency: authState.user?.roles?.includes(ROLES.AGENCY) || false,
+      isPalika: authState.user?.roles?.includes(ROLES.PALIKA) || false,
+      isManager: authState.user?.roles?.includes(ROLES.MANAGER) || false,
+      isAgencyOrPalika: function () {
+        return this.isAgency || this.isPalika;
+      },
+    }),
+    [authState.user]
+  );
+
   const contextProps = useMemo(
     () => ({
       ...authState,
@@ -148,8 +168,9 @@ function AuthProvider({ children }) {
       addUser,
       addKey,
       logout,
+      roles,
     }),
-    [authState]
+    [authState, roles]
   );
 
   return <AppAuthContext.Provider value={contextProps}>{children}</AppAuthContext.Provider>;

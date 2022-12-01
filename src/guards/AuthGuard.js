@@ -8,7 +8,6 @@ import LoadingScreen from '../components/loading-screen';
 import Login from '../pages/auth/login';
 import { useAuthContext } from '../auth/useAuthContext';
 import { PATH_AUTH } from '@routes/paths';
-import { useRahatContract } from '@hooks/useRahatContract';
 
 // ----------------------------------------------------------------------
 

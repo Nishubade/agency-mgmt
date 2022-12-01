@@ -70,7 +70,6 @@ export const ContextProvider = ({ children }) => {
 
   const getWardGenderChart = useCallback(async (ward) => {
     const response = await Service.groupGenderByWard(ward);
-    // console.log('response', response);
     setState((prevState) => ({
       ...prevState,
       wardByGenderChart: response.data.data,
@@ -79,7 +78,6 @@ export const ContextProvider = ({ children }) => {
 
   const getWardClaimChart = useCallback(async (ward) => {
     const response = await Service.groupClaimByWard(ward);
-    // console.log('response', response);
     setState((prevState) => ({
       ...prevState,
       wardByClaim: response.data.data,
@@ -88,7 +86,6 @@ export const ContextProvider = ({ children }) => {
 
   const getWardLandOwnershipChart = useCallback(async (ward) => {
     const response = await Service.groupWardByLandOwnership(ward);
-    // console.log('response', response);
     setState((prevState) => ({
       ...prevState,
       wardByLandOwnership: response.data.data,
@@ -96,7 +93,6 @@ export const ContextProvider = ({ children }) => {
   }, []);
   const getWardDisabilityChart = useCallback(async (ward) => {
     const response = await Service.groupWardByDisability(ward);
-    // console.log('response', response);
     setState((prevState) => ({
       ...prevState,
       wardByDisability: response.data.data,
