@@ -7,10 +7,12 @@ const initialState = {
   singleProject: {},
   beneficiaries: [],
   vendors: [],
+  refresh: false,
   getProjectsList: () => {},
   getProjectById: () => {},
   getBeneficiariesByProject: () => {},
   getVendorsByProject: () => {},
+  refreshData: () => {},
 };
 
 const ProjectsContext = createContext(initialState);
@@ -18,11 +20,15 @@ const ProjectsContext = createContext(initialState);
 export const ProjectProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
 
+  const refreshData = () => setState((prev) => ({ ...prev, refresh: !prev.refresh }));
+
   const getProjectsList = useCallback(async (params) => {
     const response = await ProjectService.getProjectsList(params);
     const formatted = response.data.data.map((item) => ({
       ...item,
-      projectManager: `${item?.project_manager?.name?.first} ${item?.project_manager?.name?.last}`,
+      projectManager: item?.project_manager?.name
+        ? `${item?.project_manager?.name?.first} ${item?.project_manager?.name?.last}`
+        : '-',
       createdAt: item?.created_at,
       balance: item?.allocations[0]?.amount,
       id: item?._id,
@@ -39,7 +45,9 @@ export const ProjectProvider = ({ children }) => {
 
     const formatted = {
       ...response.data,
-      projectManagerName: `${response.data?.project_manager?.name?.first} ${response.data?.project_manager?.name?.last}`,
+      projectManagerName: response.data?.project_manager?.name
+        ? `${response.data?.project_manager?.name?.first} ${response.data?.project_manager?.name?.last}`
+        : '-',
       projectCreatedAt: response.data?.project_manager?.created_at,
     };
 
@@ -76,6 +84,7 @@ export const ProjectProvider = ({ children }) => {
 
   const contextValue = {
     ...state,
+    refreshData,
     getProjectsList,
     getProjectById,
     getBeneficiariesByProject,
