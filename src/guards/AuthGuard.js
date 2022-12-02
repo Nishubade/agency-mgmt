@@ -34,7 +34,6 @@ export default function AuthGuard({ children }) {
   if (!isInitialized && wallet === null) {
     return <LoadingScreen />;
   }
-
   if (!isAuthenticated) {
     if (pathname !== requestedLocation) {
       setRequestedLocation(pathname);
