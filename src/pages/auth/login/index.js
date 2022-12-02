@@ -11,14 +11,14 @@ import { APP_NAME } from '@config';
 
 export default function LoginPage() {
   return (
-    <LoginProvider>
-      <Head>
-        <title> Login | {APP_NAME}</title>
-      </Head>
+    <GuestGuard>
+      <LoginProvider>
+        <Head>
+          <title> Login | {APP_NAME}</title>
+        </Head>
 
-      <GuestGuard>
         <LoginComp />
-      </GuestGuard>
-    </LoginProvider>
+      </LoginProvider>
+    </GuestGuard>
   );
 }
