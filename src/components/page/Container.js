@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, Container as MuiContainer } from '@mui/material';
 import { PATH_DASHBOARD } from '@routes/paths';
-import Headerbreadcrumbs from '@components/Headerbreadcrumbs';
+import Headerbreadcrumbs from '@components/HeaderBreadcrumbs';
 import { useSettingsContext } from '@components/settings';
 
 const ContainerComponent = ({ children, title, action, breadcrumbLinks, nocard = false }) => {
