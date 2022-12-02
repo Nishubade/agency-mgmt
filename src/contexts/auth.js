@@ -16,6 +16,7 @@ export function LoginProvider({ children }) {
 
   const handleOtpRequest = async (payload) => {
     const response = await AuthService.otpRequest(payload);
+    console.log('response', response);
     if (response?.data?.status) {
       setState((prev) => ({
         ...prev,
