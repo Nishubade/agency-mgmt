@@ -64,7 +64,7 @@ const DashboardComponent = (props) => {
   return (
     <Box>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={2}>
+        <Grid item xs={12} md={2.66}>
           <SummaryCard
             title="Beneficiaries Claimed"
             total={beneficiaryCounts?.impacted?.totalClaimed}
@@ -72,7 +72,7 @@ const DashboardComponent = (props) => {
           />
         </Grid>
 
-        <Grid item xs={12} md={2}>
+        <Grid item xs={12} md={2.66}>
           <SummaryCard
             title="Under 5 impacted"
             total={beneficiaryCounts?.impacted?.totalBelow5Count}
@@ -80,14 +80,14 @@ const DashboardComponent = (props) => {
           />
         </Grid>
 
-        <Grid item xs={12} md={2}>
+        <Grid item xs={12} md={2.66}>
           <SummaryCard
             title="Total Impacted"
             total={beneficiaryCounts?.impacted?.totalFamilyCount}
             subtitle={'people'}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={4}>
           <ActivateResponse />
         </Grid>
         {/* <Grid item xs={12} md={4}>

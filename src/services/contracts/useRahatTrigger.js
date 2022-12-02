@@ -10,9 +10,9 @@ export const useRahatTrigger = () => {
     contract,
     isLive: () => contract?.isLive().catch(handleError),
 
-    activateResponse: () => contract?.activateResponse().catch(handleError),
+    activateResponse: (projectId) => contract?.activateResponse(projectId).catch(handleError),
 
-    deactivateResponse: () => contract?.deactivateResponse().catch(handleError),
+    deactivateResponse: (projectId) => contract?.deactivateResponse(projectId).catch(handleError),
 
     listTriggerConfirmations(projectId) {
       projectId = Web3Utils.keccak256(projectId);

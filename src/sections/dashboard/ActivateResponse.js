@@ -3,75 +3,125 @@ import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Typography from '@mui/material/Typography';
-import { Button, Grid, Stack } from '@mui/material';
+import { Button, Chip, Grid, Stack } from '@mui/material';
 import truncateEthAddress from '@utils/truncateEthAddress';
 import { useCallback, useEffect, useState } from 'react';
 import { useRahatTrigger } from '@services/contracts/useRahatTrigger';
 import { useAuthContext } from 'src/auth/useAuthContext';
+import ActivateResponseModal from './ActivateReponseModal';
+
+const projectId = '637df143840a6865e08ebf20';
 
 export default function ActivateResponse() {
+  // #region State and Hooks
   const { roles } = useAuthContext();
-  const { listTriggerConfirmations, isLive, contract } = useRahatTrigger();
+  const { listTriggerConfirmations, isLive, contract, activateResponse, deactivateResponse } = useRahatTrigger();
   const [triggerAdmins, setTriggerAdmins] = useState([]);
+  const [isResponseLive, setIsResponseLive] = useState(false);
+  const [responseModalOpen, setResponseModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [activatingResponse, setActivatingResponse] = useState(false);
+  // #endregion
 
-  const fetchFromB = useCallback(async () => {
-    //    let test = await isLive();
-    let admins = await listTriggerConfirmations('637df143840a6865e08ebf20');
-    setTriggerAdmins(admins);
-  }, [contract]);
+  // #region Functions
+  const ModalFunctions = {
+    handleModalOpen: () => setResponseModalOpen(true),
+    handleModalClose: () => setResponseModalOpen(false),
+  };
+
+  const FetchFunctions = {
+    fetchAdminList: useCallback(async () => {
+      if (!contract) return;
+
+      let admins = await listTriggerConfirmations(projectId);
+      setTriggerAdmins(admins);
+    }, [contract, listTriggerConfirmations]),
+
+    fetchIsLiveStatus: useCallback(async () => {
+      setLoading(true);
+      if (!contract) return;
+
+      const isLiveStatus = await isLive();
+      setIsResponseLive(isLiveStatus);
+      setLoading(false);
+    }, [contract]),
+  };
+
+  const ActivateFunctions = {
+    activateResponse: async () => {
+      setActivatingResponse(true);
+      await activateResponse(projectId);
+      await FetchFunctions.fetchIsLiveStatus();
+      setActivatingResponse(false);
+      ModalFunctions.handleModalClose();
+    },
+
+    deactivateResponse: async () => {
+      setActivatingResponse(true);
+      await deactivateResponse(projectId);
+      await FetchFunctions.fetchIsLiveStatus();
+      setActivatingResponse(false);
+      ModalFunctions.handleModalClose();
+    },
+  };
+
+  // #endregion
+
+  // #region UseEffects
 
   useEffect(() => {
-    fetchFromB();
-  }, [fetchFromB]);
+    FetchFunctions.fetchIsLiveStatus();
+    // return () => {
+    //   setIsResponseLive(false);
+    // };
+  }, [FetchFunctions.fetchIsLiveStatus]);
+
+  useEffect(() => {
+    FetchFunctions.fetchAdminList();
+    // return () => {
+    //   setTriggerAdmins([]);
+    // };
+  }, [contract]);
+
+  // #endregion
 
   return (
-    <Card>
-      <CardHeader action={<Button>Not Activated</Button>} title="Multi-Sig Trigger Response" />
+    <>
+      <ActivateResponseModal
+        modalOpen={responseModalOpen}
+        handleModalClose={ModalFunctions.handleModalClose}
+        list={triggerAdmins}
+        onOkClick={isResponseLive ? ActivateFunctions.deactivateResponse : ActivateFunctions.activateResponse}
+        loading={activatingResponse}
+        title={`${isResponseLive ? 'Deactivate' : 'Activate'} Multi-Sig Trigger Response`}
+      />
+      <Card>
+        <CardHeader
+          action={<Chip label={!loading ? (isResponseLive ? 'Activated ' : 'Deactivated') : 'Loading...'} />}
+          title="Multi-Sig Trigger Response"
+          subheader="Activate Multi-Sig Trigger Response"
+        />
 
-      <CardContent>
-        {triggerAdmins?.map((item, index) => (
+        <CardActions>
           <Stack
-            key={`${item.name}-${index}`}
+            sx={{
+              mt: 0,
+              p: 2,
+              width: '100%',
+            }}
             direction="row"
             justifyContent="space-between"
             alignItems="center"
             spacing={12}
-            sx={{ color: 'text.secondary' }}
           >
-            <Grid container direction="column" justifyContent="center" alignItems="flex-start">
-              <Typography variant="body1">{item.name}</Typography>
-            </Grid>
-            <Grid container direction="column" justifyContent="center" alignItems="flex-start">
-              <Typography variant="body1">{truncateEthAddress(item.address)}</Typography>
-            </Grid>
-            <Grid container direction="column" justifyContent="center" alignItems="flex-start">
-              <Typography variant="body1">{item.isConfirmed.toString()}</Typography>
+            <Grid container direction="column" justifyContent="center" alignItems="start">
+              <Button sx={{ mb: 1 }} disabled={loading} onClick={ModalFunctions.handleModalOpen} variant="outlined">
+                {!loading ? (!isResponseLive ? 'Activate Response' : 'Deactivate Response') : 'Loading...'}
+              </Button>
             </Grid>
           </Stack>
-        ))}
-      </CardContent>
-      <CardActions>
-        <Stack
-          sx={{
-            mt: 0,
-            p: 2,
-            width: '100%',
-          }}
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-          spacing={12}
-        >
-          <Grid container direction="column" justifyContent="center" alignItems="start">
-            <Button sx={{ mb: 1 }} variant="outlined">
-              Activate Response
-            </Button>
-            <Typography variant="caption">
-              Note: Response is activated when at least two admins have triggered.
-            </Typography>
-          </Grid>
-        </Stack>
-      </CardActions>
-    </Card>
+        </CardActions>
+      </Card>
+    </>
   );
 }

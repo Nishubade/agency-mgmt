@@ -7,5 +7,5 @@ export const defaultSettings = {
   themeContrast: 'bold',
   themeLayout: 'vertical',
   themeColorPresets: 'cyan',
-  themeStretch: false,
+  themeStretch: true,
 };
