@@ -5,8 +5,17 @@ import { PATH_DASHBOARD } from './routes/paths';
 // ----------------------------------------------------------------------
 
 export const HOST_API = process.env.NEXT_PUBLIC_HOST_API || '';
+export const RAHAT_BACKEND = process.env.NEXT_PUBLIC_RAHAT_BACKEND || '';
 
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || 'Rahat';
+
+export const WSS_SERVER = HOST_API.replace('http', 'ws');
+
+export const BLOCKCHAIN_EXPLORER = process.env.NEXT_PUBLIC_BLOCKCHAIN_EXPLORER || 'https://explorer.testnet.rsk.co';
+
+export const FLICKR_APIKEY = process.env.NEXT_PUBLIC_FLICKR_APIKEY || '';
+export const FLICKR_PHOTOSET = process.env.NEXT_PUBLIC_FLICKR_PHOTOSET || '';
+export const IPFS_GATEWAY = process.env.NEXT_PUBLIC_IPFS_GATEWAY || '';
 
 export const COGNITO_API = {
   userPoolId: process.env.AWS_COGNITO_USER_POOL_ID,
@@ -20,8 +29,14 @@ export const AUTH0_API = {
 
 export const MAPBOX_API = process.env.MAPBOX_API;
 
+export const WSS_EVENTS = {
+  welcome: 'welcome',
+  notification: 'notification',
+  rahat_claimed: 'rahat_claimed',
+};
+
 // ROOT PATH AFTER LOGIN SUCCESSFUL
-export const PATH_AFTER_LOGIN = PATH_DASHBOARD.one;
+export const PATH_AFTER_LOGIN = PATH_DASHBOARD;
 
 // LAYOUT
 // ----------------------------------------------------------------------
@@ -48,4 +63,16 @@ export const ICON = {
   NAV_ITEM: 24,
   NAV_ITEM_HORIZONTAL: 22,
   NAV_ITEM_MINI: 22,
+};
+
+export const ROLES = { AGENCY: 'Admin', DONOR: 'Donor', MANAGER: 'Manager', MOBILIZER: 'Mobilizer', PALIKA: 'Palika' };
+export const CONTRACTS = {
+  RAHAT: 'rahat',
+  CASH: 'rahat_cash',
+  DONOR: 'rahat_donor',
+  REGISTRY: 'rahat_registry',
+  WALLET: 'rahat_wallet',
+  ADMIN: 'rahat_admin',
+  TRIGGER: 'rahat_trigger',
+  ERC20: 'rahat_erc20',
 };

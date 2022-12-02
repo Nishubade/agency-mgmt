@@ -5,22 +5,76 @@ function path(root, sublink) {
 }
 
 const ROOTS_DASHBOARD = '/dashboard';
+const ROOTS_PROJECTS = '/projects';
+const ROOT_CASH_TRACKER = '/cash-tracker';
+const ROOTS_BENEFICIARY = '/beneficiaries';
+const ROOTS_VENDORS = '/vendors';
+const ROOTS_MOBILIZERS = '/mobilizers';
+const ROOTS_FINANCIAL_INSTITUTIONS = '/financial-institutions';
+const ROOTS_ADMININSTRATION = '/admin';
+const ROOTS_REPORTS = '/reports';
+
+const ROOTS_AUTH = '/auth';
+const ROOTS_APP = '/app';
 
 // ----------------------------------------------------------------------
 
 export const PATH_AUTH = {
-  login: '/login',
+  root: ROOTS_AUTH,
+  login: path(ROOTS_AUTH, '/login'),
 };
 
 export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
-  one: path(ROOTS_DASHBOARD, '/one'),
-  two: path(ROOTS_DASHBOARD, '/two'),
-  three: path(ROOTS_DASHBOARD, '/three'),
-  user: {
-    root: path(ROOTS_DASHBOARD, '/user'),
-    four: path(ROOTS_DASHBOARD, '/user/four'),
-    five: path(ROOTS_DASHBOARD, '/user/five'),
-    six: path(ROOTS_DASHBOARD, '/user/six'),
-  },
+};
+
+export const PATH_PROJECTS = {
+  root: ROOTS_PROJECTS,
+  list: path(ROOTS_PROJECTS, '/list'),
+  view: path(ROOTS_PROJECTS, '/[id]/view'),
+  addBudget: path(ROOTS_PROJECTS, '/[id]/add-budget'),
+};
+
+export const PATH_CASH_TRACKER = {
+  root: ROOT_CASH_TRACKER,
+  tracker: path(ROOT_CASH_TRACKER, '/tracker'),
+};
+
+export const PATH_BENEFICIARY = {
+  root: ROOTS_BENEFICIARY,
+  list: path(ROOTS_BENEFICIARY, '/list'),
+};
+
+export const PATH_VENDORS = {
+  root: ROOTS_VENDORS,
+  list: path(ROOTS_VENDORS, '/list'),
+};
+
+export const PATH_MOBILIZERS = {
+  root: ROOTS_MOBILIZERS,
+  list: path(ROOTS_MOBILIZERS, '/list'),
+};
+
+export const PATH_FINANCIAL_INSTITUTIONS = {
+  root: ROOTS_FINANCIAL_INSTITUTIONS,
+};
+
+export const PATH_ADMINISTRATION = {
+  root: ROOTS_ADMININSTRATION,
+  users: path(ROOTS_ADMININSTRATION, '/users'),
+  campaigns: path(ROOTS_ADMININSTRATION, '/campaigns'),
+};
+
+export const PATH_REPORTS = {
+  root: ROOTS_REPORTS,
+  demographic: path(ROOTS_REPORTS, '/demographic'),
+  anomaly: path(ROOTS_REPORTS, '/anomaly'),
+  realTime: path(ROOTS_REPORTS, '/real-time'),
+  transaction: path(ROOTS_REPORTS, '/transactions'),
+  wardReport: path(ROOTS_REPORTS, '/ward-report'),
+};
+
+export const PATH_APP = {
+  root: ROOTS_APP,
+  settings: path(ROOTS_APP, '/settings'),
 };

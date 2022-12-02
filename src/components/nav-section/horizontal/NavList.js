@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 // next
 import { useRouter } from 'next/router';
 // hooks
-import useActiveLink from '@hooks/useActiveLink';
+import useActiveLink from '../../../hooks/useActiveLink';
 //
 import { StyledPopover } from './styles';
 import NavItem from './NavItem';

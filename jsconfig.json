@@ -8,12 +8,13 @@
       "@routes/*": ["src/routes/*"],
       "@layouts/*": ["src/layouts/*"],
       "@services/*": ["src/services/*"],
+      "@services": ["src/services"],
       "@guards/*": ["src/guards/*"],
       "@contexts/*": ["src/contexts/*"],
       "@hooks/*": ["src/hooks/*"],
       "@web3/*": ["src/web3/*"],
-      "@config": ["src/config.js"],
-      "@sections/*": ["src/sections/*"]
+      "@sections/*": ["src/sections/*"],
+      "@config": ["src/config.js"]
     }
   },
   "include": ["src/**/*"],

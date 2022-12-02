@@ -22,20 +22,20 @@ const StyledRoot = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function NavAccount() {
-  const { user } = useAuthContext();
-
+  const { user, wallet } = useAuthContext();
   return (
     <Link underline="none" color="inherit">
       <StyledRoot>
-        <CustomAvatar src={user?.photoURL} alt={user?.displayName} name={user?.displayName} />
+        <CustomAvatar src={user?.photoURL} alt={user?.name?.first} name={user?.name?.first} />
+        {/* <CustomAvatar src={user?.photoURL} alt={user?.name?.first} name={user?.name?.first} /> */}
 
         <Box sx={{ ml: 2, minWidth: 0 }}>
           <Typography variant="subtitle2" noWrap>
-            {user?.displayName}
+            {`${user?.name?.first} ${user?.name?.last}`}
           </Typography>
 
           <Typography variant="body2" noWrap sx={{ color: 'text.secondary' }}>
-            {user?.role}
+            {wallet?.address || 'No Wallet Address'}
           </Typography>
         </Box>
       </StyledRoot>

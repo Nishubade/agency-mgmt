@@ -1,9 +1,22 @@
 import { isValid } from 'date-fns';
 import PropTypes from 'prop-types';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 // utils
 // import { isValidToken, setSession } from '../utils/jwt';
-import { isValidToken, saveAccessToken, getAccessToken, deleteAccessToken } from '../utils/sessionManager';
+import {
+  isValidToken,
+  saveAccessToken,
+  getAccessToken,
+  deleteAccessToken,
+  saveCurrentUser,
+  saveKey,
+  getCurrentUser,
+  getKey,
+  clearStorage,
+  getWalletAddressFromPrivateKey,
+} from '@utils/sessionManager';
+import { AppService } from '@services';
+import { ROLES } from '@config';
 
 // ----------------------------------------------------------------------
 
@@ -12,13 +25,29 @@ const initialState = {
   isInitialized: false,
   token: null,
   user: null,
+  keyData: null,
+  chainUrl: null,
+  claimToken: null,
+  contracts: null,
+  addresses: null,
+  wallet: null,
+  roles: {
+    isDonor: false,
+    isAgency: false,
+    isPalika: false,
+    isManager: false,
+    isAgencyOrPalika: false,
+  },
+  addToken: () => {},
+  deleteToken: () => {},
+  addUser: () => {},
+  addKey: () => {},
+  logout: () => {},
 };
 
 const AppAuthContext = createContext({
   ...initialState,
   method: 'jwt',
-  addToken: () => {},
-  deleteToken: () => {},
 });
 
 // ----------------------------------------------------------------------
@@ -28,33 +57,45 @@ AuthProvider.propTypes = {
 };
 
 const localToken = getAccessToken();
+const localUser = getCurrentUser();
+const localKey = getKey();
+const wallet = getWalletAddressFromPrivateKey();
 
 function AuthProvider({ children }) {
   const [authState, setAuthState] = useState(initialState);
 
-  const addToken = (payload) => {
-    if (!isValid(payload)) {
-      return 'Invalid token';
-    }
-    if (payload) {
-      setAuthState((prev) => ({ ...prev, token: payload }));
-      saveAccessToken(payload);
+  const getAppSettings = async () => {
+    try {
+      const response = await AppService.getAppSettings();
+      return response.data;
+    } catch (err) {
+      console.log('Unable to Load App Setting from Server', err);
     }
   };
 
   useEffect(() => {
     const initialize = async () => {
-      setAuthState((prev) => ({ ...prev, isInitialized: true }));
+      // setAuthState((prev) => ({ ...prev, isInitialized: true }));
       try {
         if (localToken && isValidToken(localToken)) {
+          const appSettings = await getAppSettings();
           setAuthState((prev) => ({
             ...prev,
+            isInitialized: true,
             isAuthenticated: true,
             token: localToken,
+            user: localUser,
+            keyData: localKey,
+            chainUrl: appSettings?.networkUrl,
+            claimToken: {
+              ...appSettings?.agency?.token,
+              address: appSettings?.agency?.contracts?.rahat_erc20,
+              agencyId: appSettings?.agency?.id,
+            },
+            contracts: appSettings?.agency?.contracts,
+            addresses: appSettings?.addresses,
+            wallet,
           }));
-
-          //  const response = await axios.get('/api/account/my-account');
-          //  const { user } = response.data;
         } else {
           setAuthState((prev) => ({ ...prev, isAuthenticated: false }));
         }
@@ -66,15 +107,71 @@ function AuthProvider({ children }) {
     initialize();
   }, []);
 
+  const addToken = (payload) => {
+    // console.log('payload', payload);
+    // if (!isValid(payload)) {
+    //   return 'Invalid token';
+    // }
+    if (payload) {
+      setAuthState((prev) => ({ ...prev, token: payload }));
+      saveAccessToken(payload);
+    }
+  };
+
+  const addKey = (payload) => {
+    if (payload) {
+      setAuthState((prev) => ({ ...prev, keyData: payload }));
+      saveKey(payload);
+    }
+  };
+
+  const addUser = (user) => {
+    setAuthState((prev) => ({ ...prev, user }));
+    saveCurrentUser(user);
+  };
+
   const deleteToken = () => {
     deleteAccessToken();
     setAuthState((prev) => ({ ...prev, isInitialized: true, token: '' }));
   };
-  const contextProps = {
-    ...authState,
-    deleteToken,
-    addToken,
+
+  const logout = () => {
+    clearStorage();
+    setAuthState((prev) => ({
+      ...prev,
+      isInitialized: true,
+      isAuthenticated: false,
+      token: '',
+      user: null,
+      keyData: null,
+    }));
   };
+
+  const roles = useMemo(
+    () => ({
+      isDonor: authState.user?.roles?.includes(ROLES.DONOR) || false,
+      isAgency: authState.user?.roles?.includes(ROLES.AGENCY) || false,
+      isPalika: authState.user?.roles?.includes(ROLES.PALIKA) || false,
+      isManager: authState.user?.roles?.includes(ROLES.MANAGER) || false,
+      isAgencyOrPalika: function () {
+        return this.isAgency || this.isPalika;
+      },
+    }),
+    [authState.user]
+  );
+
+  const contextProps = useMemo(
+    () => ({
+      ...authState,
+      deleteToken,
+      addToken,
+      addUser,
+      addKey,
+      logout,
+      roles,
+    }),
+    [authState, roles]
+  );
 
   return <AppAuthContext.Provider value={contextProps}>{children}</AppAuthContext.Provider>;
 }

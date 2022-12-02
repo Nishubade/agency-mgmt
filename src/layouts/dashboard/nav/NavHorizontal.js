@@ -23,6 +23,7 @@ function NavHorizontal() {
       color="transparent"
       sx={{
         boxShadow: 0,
+        bgcolor: 'white',
         top: HEADER.H_DASHBOARD_DESKTOP_OFFSET,
       }}
     >

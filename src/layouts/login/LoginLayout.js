@@ -36,11 +36,19 @@ export default function LoginLayout({ children, illustration, title }) {
           disabledEffect
           visibleByDefault
           alt="auth"
-          src={illustration || '/assets/illustrations/illustration_dashboard.png'}
+          src={illustration || '/assets/images/rahat-logo.png'}
           sx={{ maxWidth: 720 }}
         />
 
         <StyledSectionBg />
+        <Stack spacing={3} sx={{ position: 'relative', zIndex: 9 }}>
+          <Typography variant="h6" sx={{ mb: 10, maxWidth: 480, textAlign: 'center' }}>
+            Supporting vulnerable communities with a simple and efficient relief distribution platform.
+          </Typography>
+        </Stack>
+        <Typography variant="body2" sx={{ mt: 5, textAlign: 'center' }}>
+          © 2022 Rahat. All rights reserved
+        </Typography>
       </StyledSection>
 
       <StyledContent>

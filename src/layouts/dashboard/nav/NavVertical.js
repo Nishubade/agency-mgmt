@@ -63,7 +63,6 @@ export default function NavVertical({ openNav, onCloseNav }) {
       <NavSectionVertical data={navConfig} />
 
       <Box sx={{ flexGrow: 1 }} />
-
     </Scrollbar>
   );
 
@@ -82,7 +81,7 @@ export default function NavVertical({ openNav, onCloseNav }) {
           PaperProps={{
             sx: {
               width: NAV.W_DASHBOARD,
-              bgcolor: 'transparent',
+              bgcolor: 'white',
               borderRightStyle: 'dashed',
             },
           }}

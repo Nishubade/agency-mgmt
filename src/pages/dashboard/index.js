@@ -1,16 +1,29 @@
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { Container } from '@mui/material';
+import DashboardLayout from '@layouts/dashboard';
+import { Page } from '@components/page';
+import { useSettingsContext } from '@components/settings';
+import { DashboardComponent } from '@sections/dashboard';
+import { ContextProvider } from '@sections/dashboard/context';
+import AuthGuard from '@guards/AuthGuard';
 
 // ----------------------------------------------------------------------
 
-export default function Index() {
-  const router = useRouter();
+const PAGE_TITLE = 'Dashboard';
 
-  useEffect(() => {
-    if (router.pathname == '/dashboard') {
-      router.push('/dashboard/one');
-    }
-  });
+Dashboard.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
-  return null;
+export default function Dashboard() {
+  const { themeStretch } = useSettingsContext();
+
+  return (
+    <AuthGuard>
+      <ContextProvider>
+        <Page title={PAGE_TITLE} nocard>
+          <Container maxWidth={themeStretch ? false : 'xl'}>
+            <DashboardComponent />
+          </Container>
+        </Page>
+      </ContextProvider>
+    </AuthGuard>
+  );
 }
