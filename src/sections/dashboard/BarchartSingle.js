@@ -32,7 +32,6 @@ export default function BarchartSingle({ title, subheader, chart, ...other }) {
 
       <Box sx={{ mt: 3, mx: 3 }} dir="ltr">
         <Chart
-          // onClick={(e) => console.log('e', e)}
           type={'bar'}
           series={chartData}
           options={chartOptions}
