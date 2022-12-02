@@ -15,7 +15,7 @@ function createShadow(color) {
   const transparent = alpha(color, 0.16);
   return {
     z1: `0 1px 2px 0 ${transparent}`,
-    z4: `0 4px 8px 0 ${transparent}`,
+    z4: `none`, //Todo removing card shadow, need to figure out. `0 4px 8px 0 ${transparent}`,
     z8: `0 8px 16px 0 ${transparent}`,
     z12: `0 12px 24px -4px ${transparent}`,
     z16: `0 16px 32px -4px ${transparent}`,

@@ -43,6 +43,9 @@ export const StyledContent = styled('div')(({ theme }) => ({
   display: 'flex',
   minHeight: '100vh',
   justifyContent: 'center',
+  textAlign: 'center',
+  backgroundColor: '#326481',
+  color: alpha(theme.palette.background.default, theme.palette.mode === 'light' ? 0.9 : 0.94),
   padding: theme.spacing(15, 2),
   [theme.breakpoints.up('md')]: {
     flexShrink: 0,

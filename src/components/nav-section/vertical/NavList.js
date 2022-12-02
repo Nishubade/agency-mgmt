@@ -48,6 +48,9 @@ export default function NavList({ data, depth, hasChild }) {
         active={active}
         isExternalLink={isExternalLink}
         onClick={handleToggle}
+        sx={{
+          borderRadius: 0,
+        }}
       />
 
       {hasChild && (

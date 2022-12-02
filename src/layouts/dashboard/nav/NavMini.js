@@ -26,6 +26,7 @@ export default function NavMini() {
           pb: 2,
           height: 1,
           position: 'fixed',
+          bgcolor: 'white',
           width: NAV.W_DASHBOARD_MINI,
           borderRight: (theme) => `dashed 1px ${theme.palette.divider}`,
           ...hideScrollbarX,

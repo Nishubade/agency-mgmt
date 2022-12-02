@@ -8,6 +8,7 @@
       "@routes/*": ["src/routes/*"],
       "@layouts/*": ["src/layouts/*"],
       "@services/*": ["src/services/*"],
+      "@services": ["src/services"],
       "@guards/*": ["src/guards/*"],
       "@contexts/*": ["src/contexts/*"],
       "@hooks/*": ["src/hooks/*"],

@@ -1,60 +1,54 @@
+import { isValid } from 'date-fns';
 import PropTypes from 'prop-types';
-import { createContext, useEffect, useReducer, useCallback } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 // utils
-import axios from '../utils/axios';
-//
-import { isValidToken, setSession } from './utils';
-
-// ----------------------------------------------------------------------
-
-// NOTE:
-// We only build demo at basic level.
-// Customer will need to do some extra handling yourself if you want to extend the logic and other features...
+// import { isValidToken, setSession } from '../utils/jwt';
+import {
+  isValidToken,
+  saveAccessToken,
+  getAccessToken,
+  deleteAccessToken,
+  saveCurrentUser,
+  saveKey,
+  getCurrentUser,
+  getKey,
+  clearStorage,
+  getWalletAddressFromPrivateKey,
+} from '@utils/sessionManager';
+import { AppService } from '@services';
+import { ROLES } from '@config';
 
 // ----------------------------------------------------------------------
 
 const initialState = {
+  isAuthenticated: false, // should be false by default,
   isInitialized: false,
-  isAuthenticated: false,
+  token: null,
   user: null,
+  keyData: null,
+  chainUrl: null,
+  claimToken: null,
+  contracts: null,
+  addresses: null,
+  wallet: null,
+  roles: {
+    isDonor: false,
+    isAgency: false,
+    isPalika: false,
+    isManager: false,
+    isAgencyOrPalika: false,
+  },
+  addToken: () => {},
+  deleteToken: () => {},
+  addUser: () => {},
+  addKey: () => {},
+  logout: () => {},
 };
 
-const reducer = (state, action) => {
-  if (action.type === 'INITIAL') {
-    return {
-      isInitialized: true,
-      isAuthenticated: action.payload.isAuthenticated,
-      user: action.payload.user,
-    };
-  }
-  if (action.type === 'LOGIN') {
-    return {
-      ...state,
-      isAuthenticated: true,
-      user: action.payload.user,
-    };
-  }
-  if (action.type === 'REGISTER') {
-    return {
-      ...state,
-      isAuthenticated: true,
-      user: action.payload.user,
-    };
-  }
-  if (action.type === 'LOGOUT') {
-    return {
-      ...state,
-      isAuthenticated: false,
-      user: null,
-    };
-  }
-
-  return state;
-};
-
-// ----------------------------------------------------------------------
-
-export const AuthContext = createContext(null);
+const AppAuthContext = createContext({
+  ...initialState,
+  method: 'jwt',
+});
 
 // ----------------------------------------------------------------------
 
@@ -62,109 +56,126 @@ AuthProvider.propTypes = {
   children: PropTypes.node,
 };
 
-export function AuthProvider({ children }) {
-  const [state, dispatch] = useReducer(reducer, initialState);
+const localToken = getAccessToken();
+const localUser = getCurrentUser();
+const localKey = getKey();
+const wallet = getWalletAddressFromPrivateKey();
 
-  const initialize = useCallback(async () => {
+function AuthProvider({ children }) {
+  const [authState, setAuthState] = useState(initialState);
+
+  const getAppSettings = async () => {
     try {
-      const accessToken = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : '';
-
-      if (accessToken && isValidToken(accessToken)) {
-        setSession(accessToken);
-
-        const response = await axios.get('/api/account/my-account');
-
-        const { user } = response.data;
-
-        dispatch({
-          type: 'INITIAL',
-          payload: {
-            isAuthenticated: true,
-            user,
-          },
-        });
-      } else {
-        dispatch({
-          type: 'INITIAL',
-          payload: {
-            isAuthenticated: false,
-            user: null,
-          },
-        });
-      }
-    } catch (error) {
-      console.error(error);
-      dispatch({
-        type: 'INITIAL',
-        payload: {
-          isAuthenticated: false,
-          user: null,
-        },
-      });
+      const response = await AppService.getAppSettings();
+      return response.data;
+    } catch (err) {
+      console.log('Unable to Load App Setting from Server', err);
     }
-  }, []);
+  };
 
   useEffect(() => {
+    const initialize = async () => {
+      // setAuthState((prev) => ({ ...prev, isInitialized: true }));
+      try {
+        if (localToken && isValidToken(localToken)) {
+          const appSettings = await getAppSettings();
+          setAuthState((prev) => ({
+            ...prev,
+            isInitialized: true,
+            isAuthenticated: true,
+            token: localToken,
+            user: localUser,
+            keyData: localKey,
+            chainUrl: appSettings?.networkUrl,
+            claimToken: {
+              ...appSettings?.agency?.token,
+              address: appSettings?.agency?.contracts?.rahat_erc20,
+              agencyId: appSettings?.agency?.id,
+            },
+            contracts: appSettings?.agency?.contracts,
+            addresses: appSettings?.addresses,
+            wallet,
+          }));
+        } else {
+          setAuthState((prev) => ({ ...prev, isAuthenticated: false }));
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
     initialize();
-  }, [initialize]);
+  }, []);
 
-  // LOGIN
-  const login = async (email, password) => {
-    const response = await axios.post('/api/account/login', {
-      email,
-      password,
-    });
-    const { accessToken, user } = response.data;
+  const addToken = (payload) => {
+    // console.log('payload', payload);
+    // if (!isValid(payload)) {
+    //   return 'Invalid token';
+    // }
+    if (payload) {
+      setAuthState((prev) => ({ ...prev, token: payload }));
+      saveAccessToken(payload);
+    }
+  };
 
-    setSession(accessToken);
+  const addKey = (payload) => {
+    if (payload) {
+      setAuthState((prev) => ({ ...prev, keyData: payload }));
+      saveKey(payload);
+    }
+  };
 
-    dispatch({
-      type: 'LOGIN',
-      payload: {
-        user,
+  const addUser = (user) => {
+    setAuthState((prev) => ({ ...prev, user }));
+    saveCurrentUser(user);
+  };
+
+  const deleteToken = () => {
+    deleteAccessToken();
+    setAuthState((prev) => ({ ...prev, isInitialized: true, token: '' }));
+  };
+
+  const logout = () => {
+    clearStorage();
+    setAuthState((prev) => ({
+      ...prev,
+      isInitialized: true,
+      isAuthenticated: false,
+      token: '',
+      user: null,
+      keyData: null,
+    }));
+  };
+
+  const roles = useMemo(
+    () => ({
+      isDonor: authState.user?.roles?.includes(ROLES.DONOR) || false,
+      isAgency: authState.user?.roles?.includes(ROLES.AGENCY) || false,
+      isPalika: authState.user?.roles?.includes(ROLES.PALIKA) || false,
+      isManager: authState.user?.roles?.includes(ROLES.MANAGER) || false,
+      isAgencyOrPalika: function () {
+        return this.isAgency || this.isPalika;
       },
-    });
-  };
-
-  // REGISTER
-  const register = async (email, password, firstName, lastName) => {
-    const response = await axios.post('/api/account/register', {
-      email,
-      password,
-      firstName,
-      lastName,
-    });
-    const { accessToken, user } = response.data;
-
-    localStorage.setItem('accessToken', accessToken);
-
-    dispatch({
-      type: 'REGISTER',
-      payload: {
-        user,
-      },
-    });
-  };
-
-  // LOGOUT
-  const logout = async () => {
-    setSession(null);
-    dispatch({
-      type: 'LOGOUT',
-    });
-  };
-
-  return (
-    <AuthContext.Provider
-      value={{
-        ...state,
-        method: 'jwt',
-        login,
-        logout,
-        register,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+    }),
+    [authState.user]
   );
+
+  const contextProps = useMemo(
+    () => ({
+      ...authState,
+      deleteToken,
+      addToken,
+      addUser,
+      addKey,
+      logout,
+      roles,
+    }),
+    [authState, roles]
+  );
+
+  return <AppAuthContext.Provider value={contextProps}>{children}</AppAuthContext.Provider>;
 }
+
+export { AppAuthContext, AuthProvider };
+
+export const useAppAuthContext = () => useContext(AppAuthContext);
