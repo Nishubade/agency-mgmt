@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import Iconify from '@components/iconify';
 import ListTable from '@components/table/ListTable';
 import { useMobilizerContext } from '@contexts/mobilizers';
+import moment from 'moment';
 
 const TABLE_HEAD = {
   name: {
@@ -51,7 +52,7 @@ const TableContainer = () => {
 
   return (
     <Box sx={{ p: 1 }}>
-      <ListTableToolbar />
+      {/* <ListTableToolbar /> */}
       <ListTable tableRowsList={mobilizers} tableHeadersList={TABLE_HEAD}>
         {(rows, tableHeadersList) =>
           rows.map((row) => (
@@ -61,7 +62,9 @@ const TableContainer = () => {
               <TableCell align={tableHeadersList['phone'].align}>{row.phone}</TableCell>
               <TableCell align={tableHeadersList['address'].align}>{row.address}</TableCell>
 
-              <TableCell align={tableHeadersList['registrationDate'].align}>{row.registrationDate}</TableCell>
+              <TableCell align={tableHeadersList['registrationDate'].align}>
+                {moment(row.registrationDate).format('MMMM Do, YYYY')}
+              </TableCell>
               <TableCell align={tableHeadersList['action'].align}>
                 <Button onClick={handleView(row.id)} variant="text">
                   <Iconify icon="ic:outline-remove-red-eye" />

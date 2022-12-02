@@ -20,11 +20,6 @@ const BeneficiaryView = () => {
 
   const actionMenuItems = [
     {
-      name: 'Edit Beneficairy',
-      href: `/beneficiaries/${beneficiaryId}/edit`,
-      onClick: () => routerPush(`/beneficiaries/${beneficiaryId}/edit`),
-    },
-    {
       name: 'Issue Token',
       href: `/beneficiaries/${beneficiaryId}/add-budget`,
       onClick: () => routerPush(`/beneficiaries/${beneficiaryId}/add-budget`),
@@ -33,10 +28,16 @@ const BeneficiaryView = () => {
       name: 'Switch Project',
       href: `/beneficiaries/${beneficiaryId}/add-budget`,
       onClick: () => routerPush(`/beneficiaries/${beneficiaryId}/add-budget`),
+      sx: {
+        color: (theme) => theme.palette.primary.main,
+      },
     },
     {
       name: 'Suspend Beneficiary',
       href: `/beneficiaries/${beneficiaryId}/add-budget`,
+      sx: {
+        color: (theme) => theme.palette.error.main,
+      },
       onClick: () => routerPush(`/beneficiaries/${beneficiaryId}/add-budget`),
     },
   ];

@@ -55,8 +55,8 @@ const TableContainer = () => {
   };
 
   return (
-    <Box sx={{ p: 1 }}>
-      <ListTableToolbar />
+    <Box>
+      {/* <ListTableToolbar /> */}
       <ListTable tableRowsList={vendors} tableHeadersList={TABLE_HEAD}>
         {(rows, tableHeadersList) =>
           rows.map((row) => (

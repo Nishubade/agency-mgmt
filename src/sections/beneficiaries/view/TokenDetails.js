@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card, CardActions, CardContent, Chip, Grid, Stack, Typography } from '@mui/material';
+import { Card, CardContent, Grid, Stack, Typography } from '@mui/material';
 
 const TokenDetails = (props) => (
   <Card sx={{ width: '100%', mb: 1 }}>

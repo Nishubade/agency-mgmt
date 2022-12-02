@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 import { PATH_REPORTS } from '@routes/paths';
 import Iconify from '@components/iconify';
 import { getFlickrImages } from '@services/flickr';
-import ActivateResponse from './ActivateResponse';
+import PhotoGallery from './PhotoGallery';
 
 const DashboardComponent = (props) => {
   const theme = useTheme();
@@ -63,8 +63,8 @@ const DashboardComponent = (props) => {
 
   return (
     <Box>
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={2.66}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={3}>
           <SummaryCard
             title="Beneficiaries Claimed"
             total={beneficiaryCounts?.impacted?.totalClaimed}
@@ -72,7 +72,7 @@ const DashboardComponent = (props) => {
           />
         </Grid>
 
-        <Grid item xs={12} md={2.66}>
+        <Grid item xs={12} md={3}>
           <SummaryCard
             title="Under 5 impacted"
             total={beneficiaryCounts?.impacted?.totalBelow5Count}
@@ -80,26 +80,26 @@ const DashboardComponent = (props) => {
           />
         </Grid>
 
-        <Grid item xs={12} md={2.66}>
+        {/* <Grid item xs={12} md={4}>
+          <ActivateResponse />
+        </Grid> */}
+        <Grid item xs={12} md={6}>
+          <PhotoGallery list={flickImages} />
+        </Grid>
+        <Grid item xs={12} md={3}>
           <SummaryCard
             title="Total Impacted"
             total={beneficiaryCounts?.impacted?.totalFamilyCount}
             subtitle={'people'}
           />
         </Grid>
-        <Grid item xs={12} md={4}>
-          <ActivateResponse />
-        </Grid>
-        {/* <Grid item xs={12} md={4}>
-          <PhotoGallery list={flickImages} />
-        </Grid> */}
-        {/* <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={3}>
           <SummaryCard
             title="SMS of token assign"
             total={beneficiaryCounts?.impacted?.totalFamilyCount}
             subtitle={'total'}
           />
-        </Grid> */}
+        </Grid>
         {/* <Grid item xs={12} md={2.4}>
           <SummaryCard
             title="QR Card distributed"

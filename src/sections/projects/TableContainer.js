@@ -61,7 +61,7 @@ const TableContainer = () => {
   };
   return (
     <Box sx={{ p: 1 }}>
-      <ListTableToolbar />
+      {/* <ListTableToolbar /> */}
       <ListTable tableRowsList={projects} tableHeadersList={TABLE_HEAD}>
         {(rows, tableHeadersList) =>
           rows.map((row) => (
@@ -70,7 +70,7 @@ const TableContainer = () => {
               <TableCell align={tableHeadersList['location'].align}>{row.location}</TableCell>
               <TableCell align={tableHeadersList['projectManager'].align}>{row.projectManager}</TableCell>
               <TableCell align={tableHeadersList['createdAt'].align}>
-                {moment(row.createdAt).format('MMMM Do YYYY')}
+                {moment(row.registrationDate).format('MMMM Do, YYYY')}
               </TableCell>
               <TableCell align={tableHeadersList['status'].align}>
                 <Chip label={row.status} />

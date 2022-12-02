@@ -23,11 +23,11 @@ const StyledOverlay = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-FeaturedPhotos.propTypes = {
+PhotoGallery.propTypes = {
   list: PropTypes.array,
 };
 
-export default function FeaturedPhotos({ list, ...other }) {
+export default function PhotoGallery({ list, ...other }) {
   const theme = useTheme();
 
   const carouselRef = useRef(null);
@@ -59,6 +59,8 @@ export default function FeaturedPhotos({ list, ...other }) {
   const handleNext = () => {
     carouselRef.current?.slickNext();
   };
+
+  return <Card>PhotoGallery</Card>;
 
   return (
     <Card {...other}>

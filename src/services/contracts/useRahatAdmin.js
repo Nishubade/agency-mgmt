@@ -18,10 +18,11 @@ export const useRahatAdmin = () => {
       contract?.setProjectBudget_ERC20(contracts[CONTRACTS.RAHAT], projectId, amount).catch(handleError),
 
     async getCashBalances() {
-      const agencyBalanceData = await contract?.getAllowanceAndBalance(
-        contracts[CONTRACTS.CASH],
-        contracts[CONTRACTS.DONOR]
-      );
+      console.log('contract', contract);
+      const agencyBalanceData = await contract
+        ?.getAllowanceAndBalance(contracts[CONTRACTS.CASH], contracts[CONTRACTS.DONOR])
+        .then()
+        .catch(handleError);
       const data = {
         cashAllowance: agencyBalanceData?.allowance?.toNumber(),
         cashBalance: agencyBalanceData?.balance?.toNumber(),

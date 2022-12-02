@@ -6,13 +6,17 @@ import { useCallback, useEffect, useState } from 'react';
 import { useRahatTrigger } from '@services/contracts/useRahatTrigger';
 import { useAuthContext } from 'src/auth/useAuthContext';
 import ActivateResponseModal from './ActivateReponseModal';
-
-const projectId = '637df143840a6865e08ebf20';
+import { useRouter } from 'next/router';
 
 export default function ActivateResponse() {
   // #region State and Hooks
   const { roles } = useAuthContext();
   const { listTriggerConfirmations, isLive, contract, activateResponse, deactivateResponse } = useRahatTrigger();
+
+  const {
+    query: { projectId },
+  } = useRouter();
+
   const [triggerAdmins, setTriggerAdmins] = useState([]);
   const [isResponseLive, setIsResponseLive] = useState(false);
   const [responseModalOpen, setResponseModalOpen] = useState(false);
@@ -32,7 +36,7 @@ export default function ActivateResponse() {
 
       let admins = await listTriggerConfirmations(projectId);
       setTriggerAdmins(admins);
-    }, [contract, listTriggerConfirmations]),
+    }, [contract, listTriggerConfirmations, projectId]),
 
     fetchIsLiveStatus: useCallback(async () => {
       setLoading(true);
@@ -92,7 +96,7 @@ export default function ActivateResponse() {
         loading={activatingResponse}
         title={`${isResponseLive ? 'Deactivate' : 'Activate'} Multi-Sig Trigger Response`}
       />
-      <Card>
+      <Card sx={{ mb: 1 }}>
         <CardHeader
           action={<Chip label={!loading ? (isResponseLive ? 'Activated ' : 'Deactivated') : 'Loading...'} />}
           title="Multi-Sig Trigger Response"

@@ -43,7 +43,7 @@ export default function ActionMenu({ menuItems, actionTitle }) {
         }}
       >
         {menuItems.map((item, index) => (
-          <MenuItem key={index} onClick={item.onClick}>
+          <MenuItem key={index} {...item}>
             {item.name}
           </MenuItem>
         ))}

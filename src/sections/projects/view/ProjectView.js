@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { Grid, Stack } from '@mui/material';
 import BasicInfoCard from './BasicInfoCard';
-import { PalikaCash, DonorCash, AgencyCash } from '../cashTracker';
+import { PalikaCash, DonorCash, AgencyCash } from '../cash-tracker';
 import MoreInfoCard from './MoreInfoCard';
 import ChartCard from './ChartCard';
 import ViewTabs from './ViewTabs';
@@ -9,6 +9,7 @@ import { useProjectContext } from '@contexts/projects';
 import { useRouter } from 'next/router';
 import { useRahat } from '@services/contracts/useRahat';
 import { useAuthContext } from 'src/auth/useAuthContext';
+import ActivateResponse from './ActivateResponse';
 
 const ProjectView = (props) => {
   const { roles } = useAuthContext();
@@ -16,7 +17,6 @@ const ProjectView = (props) => {
   const { getProjectBalance, rahatChainData, contract } = useRahat();
 
   const {
-    push: routerPush,
     query: { projectId },
   } = useRouter();
 
@@ -38,6 +38,9 @@ const ProjectView = (props) => {
             <BasicInfoCard rahatChainData={rahatChainData} />
             <MoreInfoCard />
           </Grid>
+          <Stack sx={{ mt: 2 }}>
+            <ViewTabs />
+          </Stack>
         </Grid>
         <Grid item xs={12} md={4}>
           {roles.isPalika && (
@@ -49,12 +52,14 @@ const ProjectView = (props) => {
             />
           )}
           {roles.isAgency && <AgencyCash rahatChainData={rahatChainData} />}
+
+          <ActivateResponse />
+
           <ChartCard />
+          {/* <Grid item xs={12} md={4}> */}
+          {/* </Grid> */}
         </Grid>
       </Grid>
-      <Stack sx={{ mt: 2 }}>
-        <ViewTabs />
-      </Stack>
     </>
   );
 };
