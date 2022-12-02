@@ -78,3 +78,20 @@ export const PATH_APP = {
   root: ROOTS_APP,
   settings: path(ROOTS_APP, '/settings'),
 };
+
+export const PATH_BENEFICIARY = {
+  root: ROOTS_BENEFICIARY,
+  list: path(ROOTS_BENEFICIARY, '/list'),
+};
+
+export const PATH_VENDORS = {
+  root: ROOTS_VENDORS,
+};
+
+export const PATH_MOBILIZERS = {
+  root: ROOTS_MOBILIZERS,
+};
+
+export const PATH_FINANCIAL_INSTITUTIONS = {
+  root: ROOTS_FINANCIAL_INSTITUTIONS,
+};
