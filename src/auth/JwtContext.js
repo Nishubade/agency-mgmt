@@ -75,14 +75,13 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     const initialize = async () => {
-      setAuthState((prev) => ({ ...prev, isInitialized: true }));
       try {
         if (localToken && isValidToken(localToken)) {
           const appSettings = await getAppSettings();
           setAuthState((prev) => ({
             ...prev,
-            // isInitialized: true,
             isAuthenticated: true,
+            isInitialized: true,
             token: localToken,
             user: localUser,
             keyData: localKey,
@@ -95,6 +94,12 @@ function AuthProvider({ children }) {
             contracts: appSettings?.agency?.contracts,
             addresses: appSettings?.addresses,
             wallet,
+          }));
+        } else if (!localToken) {
+          setAuthState((prev) => ({
+            ...prev,
+            isAuthenticated: false,
+            isInitialized: true,
           }));
         } else {
           setAuthState((prev) => ({ ...prev, isAuthenticated: false }));
