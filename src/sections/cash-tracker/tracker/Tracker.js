@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import StepTracker from './StepTracker';
-import { TreeTracker } from '@components/tree';
 import DetailTable from './DetailTable';
+import dynamic from 'next/dynamic';
+
+const TreeTracker = dynamic(() => import('@components/tree/TreeOrganization'), { ssr: false });
 
 const STEPS = [
   {
