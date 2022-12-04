@@ -65,7 +65,18 @@ export const ICON = {
   NAV_ITEM_MINI: 22,
 };
 
-export const ROLES = { AGENCY: 'Admin', DONOR: 'Donor', MANAGER: 'Manager', MOBILIZER: 'Mobilizer', PALIKA: 'Palika' };
+export const SPACING = {
+  GRID_SPACING: 1,
+};
+
+export const ROLES = {
+  AGENCY: 'Admin',
+  DONOR: 'Donor',
+  MANAGER: 'Manager',
+  MOBILIZER: 'Mobilizer',
+  PALIKA: 'Palika',
+};
+
 export const CONTRACTS = {
   RAHAT: 'rahat',
   CASH: 'rahat_cash',

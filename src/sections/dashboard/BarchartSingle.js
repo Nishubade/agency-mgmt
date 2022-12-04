@@ -22,7 +22,7 @@ export default function BarchartSingle({ title, subheader, chart, ...other }) {
     xaxis: {
       categories: chartLabel,
     },
-    
+
     ...options,
   });
 
@@ -31,12 +31,7 @@ export default function BarchartSingle({ title, subheader, chart, ...other }) {
       <CardHeader title={title} subheader={subheader} />
 
       <Box sx={{ mt: 3, mx: 3 }} dir="ltr">
-        <Chart
-          type={'bar'}
-          series={chartData}
-          options={chartOptions}
-          height={364}
-        />
+        <Chart type={'bar'} series={chartData} options={chartOptions} height={364} />
       </Box>
     </Card>
   );
