@@ -19,7 +19,6 @@ const ProjectsContext = createContext(initialState);
 
 export const ProjectProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
-
   const refreshData = () => setState((prev) => ({ ...prev, refresh: !prev.refresh }));
 
   const getProjectsList = useCallback(async (params) => {

@@ -5,15 +5,19 @@ import PropTypes from 'prop-types';
 const initialState = {
   vendors: [],
   singleVendor: {},
-
+  chainData: {},
+  refresh: false,
   getVendorsList: () => {},
   getVendorById: () => {},
+  setChainData: () => {},
+  refreshData: () => {},
 };
 
 const VendorsContext = createContext(initialState);
 
 export const VendorProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
+  const refreshData = () => setState((prev) => ({ ...prev, refresh: !prev.refresh }));
 
   const getVendorsList = useCallback(async (params) => {
     const response = await VendorService.getVendorsList(params);
@@ -29,6 +33,13 @@ export const VendorProvider = ({ children }) => {
     setState((prevState) => ({
       ...prevState,
       vendors: formatted,
+    }));
+  }, []);
+
+  const setChainData = useCallback((chainData) => {
+    setState((prev) => ({
+      ...prev,
+      chainData,
     }));
   }, []);
 
@@ -48,11 +59,13 @@ export const VendorProvider = ({ children }) => {
       ...prev,
       singleVendor: formatted,
     }));
-    return response.data.data;
+    return formatted;
   }, []);
 
   const contextValue = {
     ...state,
+    refreshData,
+    setChainData,
     getVendorsList,
     getVendorById,
   };

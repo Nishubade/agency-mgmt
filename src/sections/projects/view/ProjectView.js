@@ -9,11 +9,13 @@ import { useProjectContext } from '@contexts/projects';
 import { useRouter } from 'next/router';
 import { useRahat } from '@services/contracts/useRahat';
 import { useAuthContext } from 'src/auth/useAuthContext';
+import { useRahatCash } from '@services/contracts/useRahatCash';
 
 const ProjectView = (props) => {
   const { roles } = useAuthContext();
   const { getProjectById, refresh, refreshData } = useProjectContext();
-  const { getProjectBalance, rahatChainData, contract } = useRahat();
+  const { projectBalance, rahatChainData, contract } = useRahat();
+  const { contract: RahatCash } = useRahatCash();
 
   const {
     push: routerPush,
@@ -21,14 +23,18 @@ const ProjectView = (props) => {
   } = useRouter();
 
   const init = useCallback(async () => {
-    await getProjectBalance(projectId);
-  }, [projectId, contract, refresh]);
+    if (!RahatCash) return;
+    await projectBalance(projectId);
+    RahatCash?.on('Approval', refreshData);
+    RahatCash?.on('Transfer', refreshData);
+  }, [projectId, contract, RahatCash, refresh]);
 
   useEffect(() => {
     if (!projectId) return;
     init(projectId);
     getProjectById(projectId);
-  }, [init, projectId, getProjectById]);
+    return () => RahatCash?.removeAllListeners();
+  }, [init, projectId, refresh, getProjectById]);
 
   return (
     <>
@@ -49,6 +55,7 @@ const ProjectView = (props) => {
             />
           )}
           {roles.isAgency && <AgencyCash rahatChainData={rahatChainData} />}
+          {roles.isDonor && <DonorCash rahatChainData={rahatChainData} />}
           <ChartCard />
         </Grid>
       </Grid>

@@ -5,15 +5,19 @@ import PropTypes from 'prop-types';
 const initialState = {
   beneficiaries: [],
   singleBeneficiary: {},
-
+  chainData: {},
+  refresh: false,
   getBeneficiariesList: () => {},
-  getBeneficiaryById: () => {},
+  getBeneficiaryById: (id) => {},
+  setChainData: () => {},
+  refreshData: () => {},
 };
 
 const BeneficiaryContext = createContext(initialState);
 
 export const BeneficiaryProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
+  const refreshData = () => setState((prev) => ({ ...prev, refresh: !prev.refresh }));
 
   const getBeneficiariesList = useCallback(async (params) => {
     const response = await BeneficiaryService.getBeneficiariesList(params);
@@ -32,9 +36,15 @@ export const BeneficiaryProvider = ({ children }) => {
     }));
   }, []);
 
+  const setChainData = useCallback((chainData) => {
+    setState((prev) => ({
+      ...prev,
+      chainData,
+    }));
+  }, []);
+
   const getBeneficiaryById = useCallback(async (id) => {
     const response = await BeneficiaryService.getBeneficiaryById(id);
-
     const formatted = {
       ...response.data,
       email: response.data?.email || 'N/A',
@@ -56,11 +66,13 @@ export const BeneficiaryProvider = ({ children }) => {
       ...prev,
       singleBeneficiary: formatted,
     }));
-    return response.data.data;
+    return formatted;
   }, []);
 
   const contextValue = {
     ...state,
+    refreshData,
+    setChainData,
     getBeneficiariesList,
     getBeneficiaryById,
   };
