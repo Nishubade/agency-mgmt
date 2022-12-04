@@ -40,7 +40,7 @@ const TABLE_HEAD = {
 
 const TableContainer = () => {
   const router = useRouter();
-  const { getMobilizersList, mobilizers } = useMobilizerContext();
+  const { getMobilizersList, mobilizers, errorMessage } = useMobilizerContext();
 
   useEffect(() => {
     getMobilizersList();
@@ -53,7 +53,7 @@ const TableContainer = () => {
   return (
     <Box sx={{ p: 1 }}>
       {/* <ListTableToolbar /> */}
-      <ListTable tableRowsList={mobilizers} tableHeadersList={TABLE_HEAD}>
+      <ListTable tableRowsList={mobilizers} tableHeadersList={TABLE_HEAD} errorMessage={errorMessage}>
         {(rows, tableHeadersList) =>
           rows.map((row) => (
             <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>

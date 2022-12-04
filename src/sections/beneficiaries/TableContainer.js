@@ -46,7 +46,7 @@ const TABLE_HEAD = {
 const TableContainer = () => {
   const router = useRouter();
 
-  const { getBeneficiariesList, beneficiaries } = useBeneficiaryContext();
+  const { getBeneficiariesList, beneficiaries, errorMessage } = useBeneficiaryContext();
 
   useEffect(() => {
     getBeneficiariesList();
@@ -58,7 +58,7 @@ const TableContainer = () => {
   return (
     <Box sx={{ p: 1 }}>
       {/* <ListTableToolbar /> */}
-      <ListTable tableRowsList={beneficiaries} tableHeadersList={TABLE_HEAD}>
+      <ListTable tableRowsList={beneficiaries} tableHeadersList={TABLE_HEAD} errorMessage={errorMessage}>
         {(rows, tableHeadersList) =>
           rows.map((row) => (
             <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>

@@ -36,7 +36,7 @@ export const presets = [
     name: 'blue',
     lighter: '#D1E9FC',
     light: '#76B0F1',
-    main: '#2065D1',
+    main: '#00B1ED',
     dark: '#103996',
     darker: '#061B64',
     contrastText: '#FFFFFF',

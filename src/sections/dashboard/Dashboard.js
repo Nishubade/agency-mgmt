@@ -153,11 +153,11 @@ const DashboardComponent = () => {
           <WardGenderInfoCard selectedWard={selectedWard} />
         </Grid> */}
 
-        {/* <Grid item xs={24} lg={24}>
+        <Grid item xs={12} lg={12}>
           <LiveTransactionTable />
-        </Grid> */}
+        </Grid>
 
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={3}>
           <Piechart
             title="Gender Distribution"
             chart={{
@@ -182,9 +182,12 @@ const DashboardComponent = () => {
           />
         </Grid>
 
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={3}>
           <BarchartSingle
             title="Claim with SMS vs QR Card"
+            sx={{
+              minHeight: 495,
+            }}
             chart={{
               colors: [
                 theme.palette.primary.main,
@@ -209,7 +212,7 @@ const DashboardComponent = () => {
           /> */}
         </Grid>
 
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={3}>
           <Piechart
             title="Claimed Vs Budget"
             chart={{
@@ -220,13 +223,13 @@ const DashboardComponent = () => {
                 theme.palette.warning.main,
               ],
               series: [
-                { label: 'Available', value: 12244 },
+                { label: 'Available', value: 12234 },
                 { label: 'Issued', value: 12244 },
               ],
             }}
           />
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={3}>
           <Piechart
             title="Offline Vs Online"
             chart={{

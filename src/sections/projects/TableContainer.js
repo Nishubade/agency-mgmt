@@ -50,7 +50,7 @@ const TABLE_HEAD = {
 const TableContainer = () => {
   const router = useRouter();
 
-  const { projects, getProjectsList } = useProjectContext();
+  const { projects, getProjectsList, errorMessage } = useProjectContext();
 
   useEffect(() => {
     getProjectsList();
@@ -62,7 +62,7 @@ const TableContainer = () => {
   return (
     <Box sx={{ p: 1 }}>
       {/* <ListTableToolbar /> */}
-      <ListTable tableRowsList={projects} tableHeadersList={TABLE_HEAD}>
+      <ListTable tableRowsList={projects} tableHeadersList={TABLE_HEAD} errorMessage={errorMessage}>
         {(rows, tableHeadersList) =>
           rows.map((row) => (
             <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>

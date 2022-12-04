@@ -15,6 +15,7 @@ import { NavSectionVertical } from '../../../components/nav-section';
 //
 import navConfig from './config';
 import NavAccount from './NavAccount';
+import NavUnicefLogo from './NavUnicefLogo';
 
 // ----------------------------------------------------------------------
 
@@ -63,6 +64,8 @@ export default function NavVertical({ openNav, onCloseNav }) {
       <NavSectionVertical data={navConfig} />
 
       <Box sx={{ flexGrow: 1 }} />
+
+      <NavUnicefLogo />
     </Scrollbar>
   );
 
@@ -81,7 +84,7 @@ export default function NavVertical({ openNav, onCloseNav }) {
           PaperProps={{
             sx: {
               width: NAV.W_DASHBOARD,
-              bgcolor: 'white',
+              // bgcolor: 'white',
               borderRightStyle: 'dashed',
             },
           }}
