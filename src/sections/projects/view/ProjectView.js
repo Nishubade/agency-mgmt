@@ -10,8 +10,10 @@ import { useRouter } from 'next/router';
 import { useRahat } from '@services/contracts/useRahat';
 import { useAuthContext } from 'src/auth/useAuthContext';
 import ActivateResponse from './ActivateResponse';
+import { useTheme } from '@mui/system';
+import { SPACING } from '@config';
 
-const ProjectView = (props) => {
+const ProjectView = () => {
   const { roles } = useAuthContext();
   const { getProjectById, refresh, refreshData } = useProjectContext();
   const { getProjectBalance, rahatChainData, contract } = useRahat();
@@ -19,6 +21,7 @@ const ProjectView = (props) => {
   const {
     query: { projectId },
   } = useRouter();
+  const theme = useTheme();
 
   const init = useCallback(async () => {
     await getProjectBalance(projectId);
@@ -32,13 +35,13 @@ const ProjectView = (props) => {
 
   return (
     <>
-      <Grid container spacing={2}>
+      <Grid container spacing={theme.spacing(SPACING.GRID_SPACING)}>
         <Grid item xs={12} md={8}>
           <Grid container direction="column" justifyContent="center" alignItems="flex-start">
             <BasicInfoCard rahatChainData={rahatChainData} />
             <MoreInfoCard />
           </Grid>
-          <Stack sx={{ mt: 2 }}>
+          <Stack sx={{ mt: theme.spacing(SPACING.GRID_SPACING) }}>
             <ViewTabs />
           </Stack>
         </Grid>
