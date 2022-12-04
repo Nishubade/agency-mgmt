@@ -1,53 +1,66 @@
-import React, { useCallback, useEffect, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, Button, Card, CardContent, Chip, Grid, Stack, Typography } from '@mui/material';
+import { Alert, Button, Card, CardContent, Grid, Stack, Typography } from '@mui/material';
 import { useProjectContext } from '@contexts/projects';
-import { useRahatAdmin } from '@services/contracts/useRahatAdmin';
-import AmountForm from './AmountForm';
 import { useRouter } from 'next/router';
+import { useRahatCash } from '@services/contracts/useRahatCash';
+import AmountForm from './AmountForm';
+import { useRahatDonor } from '@services/contracts/useRahatDonor';
+import { useRahatAdmin } from '@services/contracts/useRahatAdmin';
+import { useRahat } from '@services/contracts/useRahat';
+import useDialog from '@hooks/useDialog';
+import LoadingOverlay from '@components/LoadingOverlay';
+import useLoading from '@hooks/useLoading';
 
-CashTracker.propTypes = {
-  rahatChainData: PropTypes.object,
-};
+Agency.propTypes = {};
 
-export default function CashTracker({ ...other }) {
+export default function Agency() {
   //#region States, Contexts, Hooks
   const { refresh, refreshData } = useProjectContext();
-  const { getCashBalances, agencyChainData, sendToPalika, claimCash, contract } = useRahatAdmin();
-  const [amountFormState, setAmountFormState] = useState(false);
+  const { getAllowanceAndBalance, agencyChainData, sendToPalika, claimCash, contract } = useRahatAdmin();
+  const { projectBalance, rahatChainData, contract: rahatContract } = useRahat();
+  const { sendCashToAgency } = useRahatDonor();
+  const { isDialogShow, showDialog, hideDialog } = useDialog();
+  const { loading, showLoading, hideLoading } = useLoading();
 
+  const [data, setData] = useState({
+    totalSupply: 0,
+    donorBalance: 0,
+    agencyAllowance: 0,
+  });
   const {
     query: { projectId },
   } = useRouter();
 
   //#endregion
 
-  const AmountFormActions = {
-    open() {
-      setAmountFormState(true);
-    },
-    close() {
-      setAmountFormState(false);
-    },
-  };
-
   const CashActions = {
     async acceptCash() {
+      showLoading('cashTrack');
       await claimCash(agencyChainData.cashAllowance);
       refreshData();
+      hideLoading('cashTrack');
     },
 
-    async sendCashToPalika() {
-      await sendToPalika(projectId, agencyChainData.cashBalance);
+    async sendCashToPalika(amount) {
+      if (amount > agencyChainData?.cashBalance) {
+        alert('Not enough balance to send');
+        return;
+      }
+      showLoading('cashTrack');
+      await sendToPalika(projectId, amount);
       refreshData();
+      hideLoading('cashTrack');
     },
   };
 
   //#region UseEffects
 
   const init = useCallback(async () => {
-    await getCashBalances();
-  }, [contract, refresh]);
+    await getAllowanceAndBalance();
+    if (projectId) await projectBalance(projectId);
+  }, [contract, rahatContract, refresh]);
 
   useEffect(() => {
     init();
@@ -58,43 +71,59 @@ export default function CashTracker({ ...other }) {
   return (
     <>
       <AmountForm
-        sendCash={CashActions.sendCashToPalika}
-        handleClose={AmountFormActions.close}
-        open={amountFormState}
+        title="Send Cash to Palika"
+        description={
+          <>
+            Please select the amount you wish to send to palika. Palika has to accept the cash before it is fully
+            transferred and allowed for disbursement. Your currentBalance is {agencyChainData?.cashBalance}
+          </>
+        }
+        cashBalance={agencyChainData?.cashBalance}
+        approveCashTransfer={CashActions.sendCashToPalika}
+        handleClose={hideDialog}
+        open={isDialogShow}
       />
-      <Card sx={{ width: '100%', mb: 1 }}>
-        <CardContent>
-          <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={12}>
-            <Typography variant="body1">Cash Fund Tracker</Typography>
-          </Stack>
-
-          {agencyChainData?.cashAllowance > 0 && (
-            <Alert
-              sx={{ mt: 2 }}
-              action={
-                <Button color="inherit" size="small" onClick={CashActions.acceptCash}>
-                  Accept
-                </Button>
-              }
-            >
-              {' '}
-              You have received Rs. {agencyChainData?.cashAllowance}.
-            </Alert>
-          )}
-
-          <Stack sx={{ p: 2 }} direction="row" justifyContent="space-between" alignItems="center" spacing={12}>
-            <Grid container direction="column" justifyContent="center" alignItems="flex-start">
-              <Typography variant="h4" sx={{ fontWeight: 400 }}>
-                {agencyChainData?.cashBalance || '-'}
+      <LoadingOverlay open={loading.cashTrack}>
+        <Card sx={{ width: '100%', mb: 1 }}>
+          <CardContent>
+            <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={12}>
+              <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                Cash Fund Tracker (Agency)
               </Typography>
-              <Typography variant="body2">Your cash balance</Typography>
-              <Button sx={{ mt: 2 }} variant="outlined" onClick={AmountFormActions.open}>
-                Send cash to Palika
-              </Button>
-            </Grid>
-          </Stack>
-        </CardContent>
-      </Card>
+            </Stack>
+
+            {agencyChainData?.cashAllowance > 0 && (
+              <Alert
+                sx={{ mt: 2 }}
+                action={
+                  <Button color="inherit" size="small" onClick={CashActions.acceptCash}>
+                    Accept
+                  </Button>
+                }
+              >
+                {' '}
+                You have received ₹ {agencyChainData?.cashAllowance}.
+              </Alert>
+            )}
+
+            <Stack sx={{ p: 2 }} direction="row" justifyContent="space-between" alignItems="center" spacing={12}>
+              <Grid container direction="column" justifyContent="center" alignItems="center">
+                <Typography variant="h4" sx={{ fontWeight: 400 }}>
+                  <small>₹</small> {agencyChainData?.cashBalance || '0'}
+                </Typography>
+                <small>Your cash balance</small>
+                <Typography variant="h5" sx={{ fontWeight: 200 }}>
+                  <small>₹</small> {rahatChainData.cashAllowance || '0'}
+                </Typography>
+                <small>Pending Acceptance by Palika</small>
+                <Button sx={{ mt: 2 }} size="small" variant="outlined" onClick={showDialog}>
+                  Send cash to Palika
+                </Button>
+              </Grid>
+            </Stack>
+          </CardContent>
+        </Card>
+      </LoadingOverlay>
     </>
   );
 }

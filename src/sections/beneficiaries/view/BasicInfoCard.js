@@ -1,18 +1,39 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card, CardActions, CardContent, Chip, Grid, Stack, Typography } from '@mui/material';
+import { Card, CardContent, Chip, Grid, Stack, Typography } from '@mui/material';
 import { useBeneficiaryContext } from '@contexts/beneficiaries';
 
-const BasicInfoCard = () => {
-  const { singleBeneficiary } = useBeneficiaryContext();
+BasicInfoCard.propTypes = {
+  chainData: PropTypes.object,
+};
 
+export default function BasicInfoCard({ chainData }) {
+  const { singleBeneficiary } = useBeneficiaryContext();
   return (
     <Card sx={{ width: '100%', mb: 1 }}>
       <CardContent>
-        <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={12}>
+        <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={1}>
           <Typography variant="body1">{singleBeneficiary?.name}</Typography>
 
-          <Chip label="Active" />
+          <div>
+            {chainData?.totalTokenIssued ? (
+              <>
+                {chainData?.isBanked ? (
+                  <Chip label="Banked" sx={{ mr: 1 }} variant="outlined" color="primary" />
+                ) : (
+                  <Chip label="Un-banked" sx={{ mr: 1 }} variant="outlined" color="secondary" />
+                )}
+
+                {chainData?.totalTokenIssued > 0 ? (
+                  <Chip label="Active" color="success" />
+                ) : (
+                  <Chip label="Inactive" variant="outlined" color="error" />
+                )}
+              </>
+            ) : (
+              <Chip label="Inactive" variant="outlined" color="error" />
+            )}
+          </div>
         </Stack>
 
         <Stack sx={{ p: 2 }} direction="row" justifyContent="space-between" alignItems="center" spacing={12}>
@@ -28,8 +49,4 @@ const BasicInfoCard = () => {
       </CardContent>
     </Card>
   );
-};
-
-BasicInfoCard.propTypes = {};
-
-export default BasicInfoCard;
+}
