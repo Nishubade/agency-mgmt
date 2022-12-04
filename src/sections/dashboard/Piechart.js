@@ -93,8 +93,8 @@ export default function Piechart({ title, subheader, chart, footer, ...other }) 
 
       <StyledChart dir="ltr">
         <Chart type="pie" series={chartSeries} options={chartOptions} height={280} />
+        {footer}
       </StyledChart>
-      {footer}
     </Card>
   );
 }

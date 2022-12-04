@@ -1,14 +1,16 @@
 // ----------------------------------------------------------------------
 
 export default function Card(theme) {
+  console.log('theme', theme);
   return {
     MuiCard: {
       styleOverrides: {
         root: {
           position: 'relative',
-          boxShadow: theme.customShadows.card,
+          boxShadow: theme.customShadows.primary,
           borderRadius: '6px',
-          border: '1px solid #e6ebf1', //ToDo for dark theme
+          // border: '1px solid #e6ebf1', //ToDo for dark theme
+          border: theme.palette.mode === 'light' ? `1px solid ${theme.palette.grey[200]}` : 'none', // '1px solid #e6ebf1', //ToDo for dark theme
           zIndex: 0, // Fix Safari overflow: hidden with border radius
         },
       },
