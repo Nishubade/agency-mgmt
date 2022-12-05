@@ -29,7 +29,7 @@ export default function Dashboard() {
     <AuthGuard>
       <DashboardProvider>
         <ContextProvider>
-          <Page title={PAGE_TITLE} nocard breadcrumbAction={breadCrumbAction}>
+          <Page title={PAGE_TITLE} nocard>
             <Container maxWidth={themeStretch ? false : 'xl'}>
               <DashboardComponent />
             </Container>

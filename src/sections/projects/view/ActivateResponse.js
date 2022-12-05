@@ -7,10 +7,12 @@ import { useRahatTrigger } from '@services/contracts/useRahatTrigger';
 import { useAuthContext } from 'src/auth/useAuthContext';
 import ActivateResponseModal from './ActivateReponseModal';
 import { useRouter } from 'next/router';
+import { useProjectContext } from '@contexts/projects';
 
 export default function ActivateResponse() {
   // #region State and Hooks
   const { roles } = useAuthContext();
+  const { setRahatResponseStatus, isRahatResponseLive } = useProjectContext();
   const { listTriggerConfirmations, isLive, contract, activateResponse, deactivateResponse } = useRahatTrigger();
 
   const {
@@ -18,7 +20,6 @@ export default function ActivateResponse() {
   } = useRouter();
 
   const [triggerAdmins, setTriggerAdmins] = useState([]);
-  const [isResponseLive, setIsResponseLive] = useState(false);
   const [responseModalOpen, setResponseModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [activatingResponse, setActivatingResponse] = useState(false);
@@ -43,7 +44,7 @@ export default function ActivateResponse() {
       if (!contract) return;
 
       const isLiveStatus = await isLive();
-      setIsResponseLive(isLiveStatus);
+      setRahatResponseStatus(isLiveStatus);
       setLoading(false);
     }, [contract]),
   };
@@ -73,7 +74,7 @@ export default function ActivateResponse() {
   useEffect(() => {
     FetchFunctions.fetchIsLiveStatus();
     // return () => {
-    //   setIsResponseLive(false);
+    //   setRahatResponseStatus(false);
     // };
   }, [FetchFunctions.fetchIsLiveStatus]);
 
@@ -93,37 +94,18 @@ export default function ActivateResponse() {
         modalOpen={responseModalOpen}
         handleModalClose={ModalFunctions.handleModalClose}
         list={triggerAdmins}
-        onOkClick={isResponseLive ? ActivateFunctions.deactivateResponse : ActivateFunctions.activateResponse}
+        onOkClick={isRahatResponseLive ? ActivateFunctions.deactivateResponse : ActivateFunctions.activateResponse}
         loading={activatingResponse}
-        title={`${isResponseLive ? 'Deactivate' : 'Activate'} Multi-Sig Trigger Response`}
+        title={`${isRahatResponseLive ? 'Deactivate' : 'Activate'} Multi-Sig Trigger Response`}
       />
-      <Card sx={{ mb: 1 }}>
-        <CardHeader
-          action={<Chip label={!loading ? (isResponseLive ? 'Activated ' : 'Deactivated') : 'Loading...'} />}
-          title="Multi-Sig Trigger Response"
-          subheader="Activate/Deactivate Multi-Sig Trigger Response"
-        />
-
-        <CardActions>
-          <Stack
-            sx={{
-              mt: 0,
-              p: 2,
-              width: '100%',
-            }}
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-            spacing={12}
-          >
-            <Grid container direction="column" justifyContent="center" alignItems="start">
-              <Button sx={{ mb: 1 }} disabled={loading} onClick={ModalFunctions.handleModalOpen} variant="outlined">
-                {!loading ? (!isResponseLive ? 'Activate Response' : 'Deactivate Response') : 'Loading...'}
-              </Button>
-            </Grid>
-          </Stack>
-        </CardActions>
-      </Card>
+      <Button
+        disabled={loading}
+        color={isRahatResponseLive ? 'error' : 'success'}
+        onClick={ModalFunctions.handleModalOpen}
+        variant="outlined"
+      >
+        {!loading ? (!isRahatResponseLive ? 'Activate Response' : 'Deactivate Response') : 'Loading...'}
+      </Button>
     </>
   );
 }

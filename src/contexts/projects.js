@@ -8,12 +8,14 @@ const initialState = {
   beneficiaries: [],
   vendors: [],
   refresh: false,
+  isRahatResponseLive: false,
   error: {},
   getProjectsList: () => {},
   getProjectById: () => {},
   getBeneficiariesByProject: () => {},
   getVendorsByProject: () => {},
   refreshData: () => {},
+  setRahatResponseStatus: () => {},
 };
 
 const ProjectsContext = createContext(initialState);
@@ -22,7 +24,7 @@ export const ProjectProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
 
   const refreshData = () => setState((prev) => ({ ...prev, refresh: !prev.refresh }));
-
+  const setRahatResponseStatus = (isRahatResponseLive) => setState((prev) => ({ ...prev, isRahatResponseLive }));
   const getProjectsList = useCallback(async (params) => {
     const response = await ProjectService.getProjectsList(params);
     const formatted = response.data.data.map((item) => ({
@@ -87,6 +89,7 @@ export const ProjectProvider = ({ children }) => {
   const contextValue = {
     ...state,
     refreshData,
+    setRahatResponseStatus,
     getProjectsList,
     getProjectById,
     getBeneficiariesByProject,

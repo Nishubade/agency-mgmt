@@ -9,7 +9,6 @@ import { useProjectContext } from '@contexts/projects';
 import { useRouter } from 'next/router';
 import { useRahat } from '@services/contracts/useRahat';
 import { useAuthContext } from 'src/auth/useAuthContext';
-import ActivateResponse from './ActivateResponse';
 import { useTheme } from '@mui/system';
 import { SPACING } from '@config';
 import { useRahatCash } from '@services/contracts/useRahatCash';
@@ -62,7 +61,6 @@ const ProjectView = () => {
           )}
           {roles.isAgency && <AgencyCash rahatChainData={rahatChainData} />}
           {roles.isDonor && <DonorCash rahatChainData={rahatChainData} />}
-          {roles.isAgencyOrPalika && <ActivateResponse />}
           <ChartCard />
           {/* <Grid item xs={12} md={4}> */}
           {/* </Grid> */}

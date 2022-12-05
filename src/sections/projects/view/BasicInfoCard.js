@@ -8,14 +8,18 @@ BasicInfoCard.propTypes = {
 };
 
 export default function BasicInfoCard({ rahatChainData, ...other }) {
-  const { singleProject } = useProjectContext();
+  const { singleProject, isRahatResponseLive } = useProjectContext();
   return (
     <Card sx={{ width: '100%', mb: 1 }} {...other}>
       <CardContent>
         <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={12}>
           <Typography variant="h4">{singleProject?.name}</Typography>
 
-          <Chip label={singleProject?.status?.toUpperCase()} />
+          {isRahatResponseLive ? (
+            <Chip color="success" label="Response Activated" />
+          ) : (
+            <Chip variant="outlined" color="error" label="Response Not Triggered" />
+          )}
           {/* <Chip label="DEFAULT PROJECT" /> */}
         </Stack>
 

@@ -4,6 +4,9 @@ import MenuItem from '@mui/material/MenuItem';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import Iconify from '@components/iconify';
+import ActivateResponse from './ActivateResponse';
+import { useAuthContext } from 'src/auth/useAuthContext';
+import { Stack } from '@mui/material';
 
 ActionMenu.propTypes = {
   menuItems: PropTypes.array.isRequired,
@@ -11,6 +14,7 @@ ActionMenu.propTypes = {
 };
 
 export default function ActionMenu({ menuItems, actionTitle }) {
+  const { roles } = useAuthContext();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -22,17 +26,20 @@ export default function ActionMenu({ menuItems, actionTitle }) {
 
   return (
     <div>
-      <Button
-        id="basic-button"
-        aria-controls={open ? 'basic-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-        variant="outlined"
-        endIcon={<Iconify icon={open ? 'akar-icons:chevron-up' : 'akar-icons:chevron-down'} />}
-      >
-        {actionTitle}
-      </Button>
+      <Stack sx={{ ml: -10 }} direction="row" justifyContent="space-between" alignItems="center" spacing={1}>
+        {roles.isAgencyOrPalika && <ActivateResponse />}
+        <Button
+          id="basic-button"
+          aria-controls={open ? 'basic-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
+          variant="outlined"
+          endIcon={<Iconify icon={open ? 'akar-icons:chevron-up' : 'akar-icons:chevron-down'} />}
+        >
+          {actionTitle}
+        </Button>
+      </Stack>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
