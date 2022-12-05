@@ -33,7 +33,7 @@ export default function ListTable({
     switch (key) {
       case 'txHash':
         return (
-          <Button href={`${BLOCKCHAIN_EXPLORER}${row}`} target="_blank" rel="noopener noreferrer">
+          <Button href={`${BLOCKCHAIN_EXPLORER}/tx/${row}`} target="_blank" rel="noopener noreferrer">
             {truncateEthAddress(row)}
           </Button>
         );

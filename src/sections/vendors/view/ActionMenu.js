@@ -12,6 +12,7 @@ import { Divider, Grid } from '@mui/material';
 import ReleaseCashButton from './ReleaseCashButton';
 import { Stack } from '@mui/system';
 import { useRahatCash } from '@services/contracts/useRahatCash';
+import { useRahatTrigger } from '@services/contracts/useRahatTrigger';
 
 ActionMenu.propTypes = {
   actionTitle: PropTypes.string,
@@ -22,12 +23,8 @@ export default function ActionMenu({ actionTitle }) {
   const { enqueueSnackbar } = useSnackbar();
   const { singleVendor, refreshData, chainData } = useVendorsContext();
   const { addVendor, removeVendor, acceptCashForVendor } = useRahat();
+  const { isLive } = useRahatTrigger();
   const open = Boolean(anchorEl);
-
-  const {
-    push: routerPush,
-    query: { vendorId },
-  } = useRouter();
 
   const Actions = {
     alert(message, type) {
@@ -67,13 +64,10 @@ export default function ActionMenu({ actionTitle }) {
 
   const menuItems = [
     {
-      name: 'Activate Vendor',
-      onClick: Actions.ActivateVendor,
+      name: `${isLive ? 'Deactivate' : 'Activate'} Vendor`,
+      onClick: isLive ? Actions.DeactivateVendor : Actions.ActivateVendor,
     },
-    {
-      name: 'Deactivate Vendor',
-      onClick: Actions.DeactivateVendor,
-    },
+
     '-',
     {
       name: 'Accept Cash',
@@ -88,22 +82,18 @@ export default function ActionMenu({ actionTitle }) {
   return (
     <div>
       <Stack sx={{ ml: -10 }} direction="row" justifyContent="space-between" alignItems="center" spacing={1}>
-        <Grid container direction="column" justifyContent="center" alignItems="center">
-          <ReleaseCashButton />
-        </Grid>
-        <Grid container direction="column" justifyContent="center" alignItems="center">
-          <Button
-            id="basic-button"
-            aria-controls={open ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            onClick={(e) => setAnchorEl(e.currentTarget)}
-            variant="outlined"
-            endIcon={<Iconify icon={open ? 'akar-icons:chevron-up' : 'akar-icons:chevron-down'} />}
-          >
-            {actionTitle}
-          </Button>
-        </Grid>
+        <ReleaseCashButton />
+        <Button
+          id="basic-button"
+          aria-controls={open ? 'basic-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={(e) => setAnchorEl(e.currentTarget)}
+          variant="outlined"
+          endIcon={<Iconify icon={open ? 'akar-icons:chevron-up' : 'akar-icons:chevron-down'} />}
+        >
+          {actionTitle}
+        </Button>
       </Stack>
       <Menu
         id="basic-menu"
