@@ -13,22 +13,17 @@ import useDialog from '@hooks/useDialog';
 import LoadingOverlay from '@components/LoadingOverlay';
 import useLoading from '@hooks/useLoading';
 
-Agency.propTypes = {};
+Agency.propTypes = {
+  rahatChainData: PropTypes.object,
+};
 
-export default function Agency() {
+export default function Agency({ rahatChainData }) {
   //#region States, Contexts, Hooks
   const { refresh, refreshData } = useProjectContext();
   const { getAllowanceAndBalance, agencyChainData, sendToPalika, claimCash, contract } = useRahatAdmin();
-  const { projectBalance, rahatChainData, contract: rahatContract } = useRahat();
-  const { sendCashToAgency } = useRahatDonor();
   const { isDialogShow, showDialog, hideDialog } = useDialog();
   const { loading, showLoading, hideLoading } = useLoading();
 
-  const [data, setData] = useState({
-    totalSupply: 0,
-    donorBalance: 0,
-    agencyAllowance: 0,
-  });
   const {
     query: { projectId },
   } = useRouter();
@@ -59,8 +54,8 @@ export default function Agency() {
 
   const init = useCallback(async () => {
     await getAllowanceAndBalance();
-    if (projectId) await projectBalance(projectId);
-  }, [contract, rahatContract, refresh]);
+    // if (projectId) await projectBalance(projectId);
+  }, [contract, projectId, refresh]);
 
   useEffect(() => {
     init();

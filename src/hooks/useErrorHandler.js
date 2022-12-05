@@ -1,6 +1,6 @@
 import { useSnackbar } from 'notistack';
 
-export const useError = () => {
+export const useErrorHandler = () => {
   const snackBar = useSnackbar();
   function showError(message) {
     snackBar.enqueueSnackbar(message, {
@@ -11,7 +11,7 @@ export const useError = () => {
         },
       },
       anchorOrigin: {
-        vertical: 'bottom',
+        vertical: 'top',
         horizontal: 'right',
       },
     });

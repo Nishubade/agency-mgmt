@@ -13,7 +13,7 @@ import ReleaseCashButton from './ReleaseCashButton';
 import { Stack } from '@mui/system';
 import { useRahatCash } from '@services/contracts/useRahatCash';
 import { useRahatTrigger } from '@services/contracts/useRahatTrigger';
-import { useError } from '@hooks/useError';
+import { useErrorHandler } from '@hooks/useErrorHandler';
 
 ActionMenu.propTypes = {
   actionTitle: PropTypes.string,
@@ -25,7 +25,7 @@ export default function ActionMenu({ actionTitle }) {
   const { singleVendor, refreshData, chainData } = useVendorsContext();
   const { addVendor, removeVendor, acceptCashForVendor } = useRahat();
   const { isLive } = useRahatTrigger();
-  const { handleError } = useError();
+  const { handleError } = useErrorHandler();
   const open = Boolean(anchorEl);
 
   const Actions = {

@@ -1,11 +1,11 @@
 import { CONTRACTS } from '@config';
 import { useContract } from '@hooks/contracts';
-import { useError } from '@hooks/useError';
+import { useErrorHandler } from '@hooks/useErrorHandler';
 import Web3Utils from '@utils/web3Utils';
 
 export const useRahatTrigger = () => {
   const contract = useContract(CONTRACTS.TRIGGER);
-  const { handleContractError } = useError();
+  const { handleContractError } = useErrorHandler();
 
   return {
     contract,

@@ -4,7 +4,7 @@ import Web3Utils from '@utils/web3Utils';
 import { useState } from 'react';
 import { useAuthContext } from 'src/auth/useAuthContext';
 import { BrainWallet } from '@ethersproject/experimental';
-import { useError } from '@hooks/useError';
+import { useErrorHandler } from '@hooks/useErrorHandler';
 
 export const useRahat = () => {
   let { contracts } = useAuthContext();
@@ -15,7 +15,7 @@ export const useRahat = () => {
   const [rahatChainData, setRahatChainData] = useState({});
   const [vendorData, setVendorData] = useState({});
   const [beneficiaryData, setBeneficiaryData] = useState({ walletAddress: '0' });
-  const { handleContractError } = useError();
+  const { handleContractError } = useErrorHandler();
 
   return {
     contract,

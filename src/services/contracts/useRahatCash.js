@@ -1,13 +1,13 @@
 import { CONTRACTS } from '@config';
 import { useContract } from '@hooks/contracts';
-import { useError } from '@hooks/useError';
+import { useErrorHandler } from '@hooks/useErrorHandler';
 import { useAuthContext } from 'src/auth/useAuthContext';
 
 export const useRahatCash = () => {
   let { contracts } = useAuthContext();
   const contract = useContract(CONTRACTS.CASH);
   const contractWS = useContract(CONTRACTS.CASH, { isWebsocket: true });
-  const { handleContractError } = useError();
+  const { handleContractError } = useErrorHandler();
 
   return {
     contract,

@@ -39,6 +39,7 @@ export default function ReleaseCashButton() {
     },
     async releaseCash(amount) {
       if (!singleVendor.wallet_address) return Actions.alert('Must have vendor address', 'error');
+      if (amount > rahatChainData?.cashBalance) return Actions.alert('Not enough balance to send', 'error');
       await transferCashToVendor(singleVendor.wallet_address, amount);
       refreshData();
     },

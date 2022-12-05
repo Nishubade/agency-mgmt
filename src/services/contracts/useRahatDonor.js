@@ -1,13 +1,13 @@
 import { CONTRACTS } from '@config';
 import { useContract } from '@hooks/contracts';
-import { useError } from '@hooks/useError';
+import { useErrorHandler } from '@hooks/useErrorHandler';
 import { useAuthContext } from 'src/auth/useAuthContext';
 
 export const useRahatDonor = () => {
   let { contracts } = useAuthContext();
   const contract = useContract(CONTRACTS.DONOR);
   const cashContract = useContract(CONTRACTS.CASH);
-  const { handleContractError } = useError();
+  const { handleContractError } = useErrorHandler();
 
   return {
     contract,
