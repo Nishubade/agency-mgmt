@@ -28,8 +28,6 @@ function MapClusters({ mapData, ...other }) {
     });
   };
 
-  console.log('mapData', mapData);
-
   return (
     <>
       <Map
