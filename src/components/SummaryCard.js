@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Box, Card, Typography, Stack } from '@mui/material';
 // utils
 import { fNumber } from '@utils/formatNumber';
+import Iconify from './iconify';
 // components
 
 // ----------------------------------------------------------------------
@@ -20,7 +21,10 @@ export default function SummaryCard({ title, total, subtitle, sx, ...other }) {
   return (
     <Card sx={{ display: 'flex', alignItems: 'center', p: 3, ...sx }} {...other}>
       <Box sx={{ flexGrow: 1 }}>
-        <Typography variant="subtitle1">{title}</Typography>
+        <Stack direction="row" justifyContent="flex-start" alignItems="center" spacing={1}>
+          aa
+          <Typography variant="subtitle1">{title}</Typography>
+        </Stack>
 
         <Stack
           sx={{

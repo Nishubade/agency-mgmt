@@ -27,7 +27,7 @@ export const AUTH0_API = {
   domain: process.env.AUTH0_DOMAIN,
 };
 
-export const MAPBOX_API = process.env.MAPBOX_API;
+export const MAPBOX_API = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
 export const WSS_EVENTS = {
   welcome: 'welcome',

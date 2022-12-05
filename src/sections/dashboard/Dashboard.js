@@ -14,6 +14,7 @@ import Iconify from '@components/iconify';
 import { getFlickrImages } from '@services/flickr';
 import PhotoGallery from './PhotoGallery';
 import { SPACING } from '@config';
+import MapView from './MapView';
 
 const DashboardComponent = () => {
   const theme = useTheme();
@@ -80,7 +81,7 @@ const DashboardComponent = () => {
             px: theme.spacing(SPACING.GRID_SPACING),
           }}
         >
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={4}>
             <SummaryCard
               title="Beneficiaries Claimed"
               total={beneficiaryCounts?.impacted?.totalClaimed}
@@ -88,7 +89,7 @@ const DashboardComponent = () => {
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={4}>
             <SummaryCard
               title="Under 5 impacted"
               total={beneficiaryCounts?.impacted?.totalBelow5Count}
@@ -100,18 +101,28 @@ const DashboardComponent = () => {
           <ActivateResponse />
         </Grid> */}
 
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={4}>
             <SummaryCard
               title="Total Impacted"
               total={beneficiaryCounts?.impacted?.totalFamilyCount}
               subtitle={'people'}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={4}>
+            <SummaryCard title="Unbanked" total={beneficiaryCounts?.impacted?.totalFamilyCount} subtitle={'persons'} />
+          </Grid>
+          <Grid item xs={12} md={4}>
             <SummaryCard
-              title="SMS of token assign"
+              title="Token Issued"
               total={beneficiaryCounts?.impacted?.totalFamilyCount}
-              subtitle={'total'}
+              subtitle={'tokens'}
+            />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <SummaryCard
+              title="Token Redeemed"
+              total={beneficiaryCounts?.impacted?.totalFamilyCount}
+              subtitle={'tokens'}
             />
           </Grid>
         </Grid>
@@ -127,28 +138,6 @@ const DashboardComponent = () => {
           </Grid>
         </Grid>
 
-        <Grid item xs={12} md={12}>
-          <BarchartSingle
-            title="Ward Wise Claim"
-            chart={{
-              colors: [
-                theme.palette.primary.main,
-                theme.palette.info.main,
-                theme.palette.error.main,
-                theme.palette.warning.main,
-              ],
-              options: {
-                chart: {
-                  stacked: true,
-                  selection: {
-                    enabled: true,
-                  },
-                },
-              },
-              ...dashboardWardChartData,
-            }}
-          />
-        </Grid>
         {/* <Grid item xs={12} md={4}>
           <WardGenderInfoCard selectedWard={selectedWard} />
         </Grid> */}
@@ -243,7 +232,31 @@ const DashboardComponent = () => {
             }}
           />
         </Grid>
-        {/* 2nd  Charts */}
+        <Grid item xs={12} md={6}>
+          <BarchartSingle
+            title="Ward Wise Claim"
+            chart={{
+              colors: [
+                theme.palette.primary.main,
+                theme.palette.info.main,
+                theme.palette.error.main,
+                theme.palette.warning.main,
+              ],
+              options: {
+                chart: {
+                  stacked: true,
+                  selection: {
+                    enabled: true,
+                  },
+                },
+              },
+              ...dashboardWardChartData,
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <MapView />
+        </Grid>
       </Grid>
     </Box>
   );
