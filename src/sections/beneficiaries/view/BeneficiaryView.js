@@ -27,15 +27,18 @@ export default function BeneficiaryView() {
     if (!_benData?.phone) return;
     const _chainData = await beneficiaryBalance(_benData?.phone);
     setChainData(_chainData);
-    RahatCash?.on('Approval', refreshData);
-    RahatCash?.on('Transfer', refreshData);
-    contractWS?.on('IssuedERC20', refreshData);
-  }, [beneficiaryId, contract, RahatCash, refresh]);
+  }, [beneficiaryId, contract, refresh]);
 
   useEffect(() => {
     init();
-    return () => RahatCash?.removeAllListeners();
-  }, [init]);
+    RahatCash?.on('Approval', refreshData);
+    RahatCash?.on('Transfer', refreshData);
+    contractWS?.on('IssuedERC20', refreshData);
+    return () => {
+      contractWS?.removeAllListeners();
+      RahatCash?.removeAllListeners();
+    };
+  }, [init, RahatCash, contractWS]);
 
   return (
     <>

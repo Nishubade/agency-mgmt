@@ -67,7 +67,9 @@ export default function ReleaseCashButton() {
         description={
           <>
             Please select the amount are handing over to ward for cash camp. Ward representative has to accept the cash
-            before they are allowed for disburse. Your current cash balance is {rahatChainData?.cashBalance}
+            before they are allowed for disburse. <br />
+            <br />
+            Your current cash balance is {rahatChainData?.cashBalance}
           </>
         }
         approveCashTransfer={Actions.releaseCash}

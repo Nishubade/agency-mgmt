@@ -75,7 +75,9 @@ export default function Agency() {
         description={
           <>
             Please select the amount you wish to send to palika. Palika has to accept the cash before it is fully
-            transferred and allowed for disbursement. Your currentBalance is {agencyChainData?.cashBalance}
+            transferred and allowed for disbursement. <br />
+            <br />
+            Your currentBalance is {agencyChainData?.cashBalance}
           </>
         }
         cashBalance={agencyChainData?.cashBalance}
