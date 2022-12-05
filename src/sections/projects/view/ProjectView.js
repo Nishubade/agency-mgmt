@@ -37,7 +37,7 @@ const ProjectView = () => {
     init(projectId);
     getProjectById(projectId);
     return () => RahatCash?.removeAllListeners();
-  }, [init, projectId, refresh, getProjectById]);
+  }, [init, projectId, getProjectById]);
 
   return (
     <>

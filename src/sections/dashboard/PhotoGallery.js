@@ -70,12 +70,6 @@ export default function PhotoGallery({ list, ...other }) {
           <CarouselItem key={app.id} item={app} isActive={index === currentIndex} />
         ))}
       </Carousel>
-
-      <CarouselArrows
-        onNext={handleNext}
-        onPrevious={handlePrev}
-        sx={{ top: 8, right: 8, position: 'absolute', color: 'common.white' }}
-      />
     </Card>
   );
 }
@@ -109,16 +103,8 @@ function CarouselItem({ item, isActive }) {
         }}
       >
         <m.div variants={varFade().inRight}>
-          <Link color="inherit" underline="none">
-            <Typography variant="h5" noWrap>
-              {title}
-            </Typography>
-          </Link>
-        </m.div>
-
-        <m.div variants={varFade().inRight}>
           <Typography variant="body2" noWrap>
-            {description}
+            {title}
           </Typography>
         </m.div>
       </Stack>
