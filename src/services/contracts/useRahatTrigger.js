@@ -1,18 +1,19 @@
 import { CONTRACTS } from '@config';
 import { useContract } from '@hooks/contracts';
+import { useError } from '@hooks/useError';
 import Web3Utils from '@utils/web3Utils';
 
 export const useRahatTrigger = () => {
   const contract = useContract(CONTRACTS.TRIGGER);
-  const handleError = (e) => console.log(e);
+  const { handleContractError } = useError();
 
   return {
     contract,
-    isLive: () => contract?.isLive().catch(handleError),
+    isLive: () => contract?.isLive().catch(handleContractError),
 
-    activateResponse: (projectId) => contract?.activateResponse(projectId).catch(handleError),
+    activateResponse: (projectId) => contract?.activateResponse(projectId).catch(handleContractError),
 
-    deactivateResponse: (projectId) => contract?.deactivateResponse(projectId).catch(handleError),
+    deactivateResponse: (projectId) => contract?.deactivateResponse(projectId).catch(handleContractError),
 
     listTriggerConfirmations(projectId) {
       projectId = Web3Utils.keccak256(projectId);
@@ -29,7 +30,7 @@ export const useRahatTrigger = () => {
           }
           return adminConfirmations;
         })
-        .catch(handleError);
+        .catch(handleContractError);
     },
   };
 };

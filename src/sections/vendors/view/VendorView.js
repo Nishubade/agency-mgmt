@@ -27,14 +27,14 @@ export default function VendorView() {
     if (!_vendorData?.wallet_address) return;
     const _chainData = await vendorBalance(_vendorData?.wallet_address);
     setChainData(_chainData);
-    RahatCash?.on('Approval', refreshData);
-    RahatCash?.on('Transfer', refreshData);
-  }, [vendorId, contract, RahatCash, refresh]);
+  }, [vendorId, contract, refresh]);
 
   useEffect(() => {
     init();
+    RahatCash?.on('Approval', refreshData);
+    RahatCash?.on('Transfer', refreshData);
     return () => RahatCash?.removeAllListeners();
-  }, [init]);
+  }, [init, RahatCash]);
 
   return (
     <>

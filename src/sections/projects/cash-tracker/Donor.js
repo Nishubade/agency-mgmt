@@ -63,8 +63,7 @@ export default function Donor() {
         description={
           <>
             Please enter the amount you wish to send to palika. Palika has to accept the cash before it is fully
-            transferred and allowed for disbursement. <br />
-            Your currentBalance is <b>{data?.donorBalance}</b>
+            transferred and allowed for disbursement.
           </>
         }
         approveCashTransfer={CashActions.sendCashToAgency}

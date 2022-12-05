@@ -27,17 +27,17 @@ const ProjectView = () => {
 
   const init = useCallback(async () => {
     if (!RahatCash) return;
-    if (!projectId) return;
     await projectBalance(projectId);
-    RahatCash?.on('Approval', refreshData);
-    RahatCash?.on('Transfer', refreshData);
-  }, [projectId, contract, RahatCash, refresh]);
+  }, [projectId, contract, refresh]);
 
   useEffect(() => {
+    if (!projectId) return;
     init(projectId);
     getProjectById(projectId);
+    RahatCash?.on('Approval', refreshData);
+    RahatCash?.on('Transfer', refreshData);
     return () => RahatCash?.removeAllListeners();
-  }, [init, projectId, getProjectById]);
+  }, [init, projectId, RahatCash]);
 
   return (
     <>

@@ -21,7 +21,11 @@ const BeneficiaryContext = createContext(initialState);
 export const BeneficiaryProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
   const { errorMessage } = useErrorHandler(state.error);
-  const refreshData = () => setState((prev) => ({ ...prev, refresh: !prev.refresh }));
+  const refreshData = (tag) =>
+    setState((prev) => {
+      if (tag) console.log(tag);
+      return { ...prev, refresh: !prev.refresh };
+    });
 
   const getBeneficiariesList = useCallback(async (params) => {
     try {

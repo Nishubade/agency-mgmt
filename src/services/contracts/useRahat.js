@@ -4,6 +4,7 @@ import Web3Utils from '@utils/web3Utils';
 import { useState } from 'react';
 import { useAuthContext } from 'src/auth/useAuthContext';
 import { BrainWallet } from '@ethersproject/experimental';
+import { useError } from '@hooks/useError';
 
 export const useRahat = () => {
   let { contracts } = useAuthContext();
@@ -14,7 +15,7 @@ export const useRahat = () => {
   const [rahatChainData, setRahatChainData] = useState({});
   const [vendorData, setVendorData] = useState({});
   const [beneficiaryData, setBeneficiaryData] = useState({ walletAddress: '0' });
-  const handleError = (e) => console.log(e);
+  const { handleContractError } = useError();
 
   return {
     contract,
@@ -25,16 +26,17 @@ export const useRahat = () => {
     beneficiaryData,
 
     //Vendor functions
-    isVendor: (vendorAddress) => contract?.isVendor(vendorAddress).catch(handleError),
-    addVendor: (vendorAddress) => contract?.addVendor(vendorAddress).catch(handleError),
+    isVendor: (vendorAddress) => contract?.isVendor(vendorAddress).catch(handleContractError),
+    addVendor: (vendorAddress) => contract?.addVendor(vendorAddress).catch(handleContractError),
     removeVendor: (vendorAddress) =>
-      contract?.revokeRole(Web3Utils.keccak256('VENDOR'), vendorAddress).catch(handleError),
-    listVendors: () => contract?.listVendors().catch(handleError),
+      contract?.revokeRole(Web3Utils.keccak256('VENDOR'), vendorAddress).catch(handleContractError),
+    listVendors: () => contract?.listVendors().catch(handleContractError),
 
     //Beneficiary functions
     suspendBeneficiary: (phone, projectId) =>
-      contract?.suspendBeneficiary(phone, Web3Utils.keccak256(projectId)).catch(handleError),
-    setAsBankedBeneficiary: (phone, isBanked) => contract?.setAsBankedBeneficiary(phone, isBanked).catch(handleError),
+      contract?.suspendBeneficiary(phone, Web3Utils.keccak256(projectId)).catch(handleContractError),
+    setAsBankedBeneficiary: (phone, isBanked) =>
+      contract?.setAsBankedBeneficiary(phone, isBanked).catch(handleContractError),
 
     async issueTokenToBeneficiary(projectId, phone, amount) {
       try {
@@ -49,7 +51,7 @@ export const useRahat = () => {
         }
         await contract?.issueERC20ToBeneficiary(projectId, phone, amount);
       } catch (e) {
-        handleError(e);
+        handleContractError(e);
       }
     },
 
@@ -59,10 +61,10 @@ export const useRahat = () => {
     },
 
     transferCashToVendor: (vendorAddress, amount) =>
-      contract?.transferCashToVendor(vendorAddress, amount).catch(handleError),
+      contract?.transferCashToVendor(vendorAddress, amount).catch(handleContractError),
 
     acceptCashForVendor: (vendorAddress, amount) =>
-      contract?.acceptCashForVendor(vendorAddress, amount).catch(handleError),
+      contract?.acceptCashForVendor(vendorAddress, amount).catch(handleContractError),
 
     async projectBalance(projectId) {
       projectId = Web3Utils.keccak256(projectId);
@@ -81,7 +83,7 @@ export const useRahat = () => {
         }));
         return data;
       } catch (e) {
-        handleError(e);
+        handleContractError(e);
       }
     },
 
@@ -101,7 +103,7 @@ export const useRahat = () => {
         }));
         return data;
       } catch (e) {
-        handleError(e);
+        handleContractError(e);
       }
     },
 
@@ -121,7 +123,7 @@ export const useRahat = () => {
         }));
         return data;
       } catch (e) {
-        handleError(e);
+        handleContractError(e);
       }
     },
   };
