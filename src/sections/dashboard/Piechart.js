@@ -92,7 +92,7 @@ export default function Piechart({ title, subheader, chart, footer, ...other }) 
       <CardHeader title={title} subheader={subheader} />
 
       <StyledChart dir="ltr">
-        <Chart type="pie" series={chartSeries} options={chartOptions} height={280} />
+        <Chart type="donut" series={chartSeries} options={chartOptions} height={280} />
         {footer}
       </StyledChart>
     </Card>

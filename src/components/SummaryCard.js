@@ -20,13 +20,12 @@ SummaryCard.propTypes = {
 
 export default function SummaryCard({ title, total, subtitle, sx, icon, ...other }) {
   return (
-    <Card sx={{ display: 'flex', alignItems: 'center', p: 3, ...sx }} {...other}>
+    <Card sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', p: 3, ...sx }} {...other}>
       <Box sx={{ flexGrow: 1 }}>
-        <Stack direction="row" justifyContent="flex-start" alignItems="center" spacing={1}>
+        <Stack direction="row" justifyContent="center" alignItems="center" spacing={1}>
           {icon && <Iconify icon={icon} />}
           <Typography variant="caption1">{title}</Typography>
         </Stack>
-
         <Stack
           sx={{
             mt: 1,

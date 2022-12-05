@@ -66,7 +66,7 @@ export const ICON = {
 };
 
 export const SPACING = {
-  GRID_SPACING: 1,
+  GRID_SPACING: 2,
 };
 
 export const ROLES = {

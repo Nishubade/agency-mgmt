@@ -8,4 +8,20 @@ export const DashboardService = {
   getGeoMapData() {
     return rahatApi.get('/stats/beneficiaries/geo');
   },
+
+  getGenderDistribution() {
+    return rahatApi.get('/stats/beneficiaries/gender');
+  },
+
+  getBankedUnbanked() {
+    return rahatApi.get('/stats/beneficiaries/bank');
+  },
+
+  getPhoneOwnership() {
+    return rahatApi.get('/stats/beneficiaries/phone');
+  },
+
+  getBeneficiariesByWard() {
+    return rahatApi.get('/stats/beneficiaries/ward');
+  },
 };

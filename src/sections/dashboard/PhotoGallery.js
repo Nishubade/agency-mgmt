@@ -96,42 +96,46 @@ function CarouselItem({ item, isActive }) {
 
   return (
     <MotionContainer action animate={isActive} sx={{ position: 'relative' }}>
-      <Stack
-        spacing={1}
-        sx={{
-          p: 3,
-          width: 1,
-          bottom: 0,
-          zIndex: 9,
-          textAlign: 'left',
-          position: 'absolute',
-          color: 'common.white',
-        }}
-      >
-        <m.div variants={varFade().inRight}>
-          <Link color="inherit" underline="none">
-            <Typography variant="h5" noWrap>
-              {title}
-            </Typography>
-          </Link>
-        </m.div>
+      <Link href="/photo-gallery">
+        <a>
+          <Stack
+            spacing={1}
+            sx={{
+              p: 3,
+              width: 1,
+              bottom: 0,
+              zIndex: 9,
+              textAlign: 'left',
+              position: 'absolute',
+              color: 'common.white',
+            }}
+          >
+            <m.div variants={varFade().inRight}>
+              <Link color="inherit" underline="none">
+                <Typography variant="h5" noWrap>
+                  {title}
+                </Typography>
+              </Link>
+            </m.div>
 
-        <m.div variants={varFade().inRight}>
-          <Typography variant="body2" noWrap>
-            {description}
-          </Typography>
-        </m.div>
-      </Stack>
+            <m.div variants={varFade().inRight}>
+              <Typography variant="body2" noWrap>
+                {description}
+              </Typography>
+            </m.div>
+          </Stack>
 
-      <StyledOverlay />
+          <StyledOverlay />
 
-      <Image
-        alt={title}
-        src={image}
-        sx={{
-          height: { xs: 280, xl: 342 },
-        }}
-      />
+          <Image
+            alt={title}
+            src={image}
+            sx={{
+              height: { xs: 280, xl: 335 },
+            }}
+          />
+        </a>
+      </Link>
     </MotionContainer>
   );
 }

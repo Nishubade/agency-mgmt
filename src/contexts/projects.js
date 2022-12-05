@@ -1,7 +1,7 @@
 import { ProjectService } from '@services';
 import { createContext, useCallback, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useErrorHandler } from '@hooks/useErrorHandler';
+import { useErrorHandler } from '@hooks/useResponseHandler';
 
 const initialState = {
   projects: [],

@@ -21,19 +21,19 @@ const DashboardComponent = () => {
   const theme = useTheme();
   const router = useRouter();
 
+  const { summary, getSummary, getGeoMapData } = useDashboardContext();
   const {
-    summary,
-    getSummary,
-    getGeoMapData,
-    getGenderDistribution,
-    genderDistribution,
-    bankedUnbanked,
-    phoneOwnership,
-    getBankedUnbanked,
-    getPhoneOwnership,
-    beneficiariesByWard,
-    getBeneficiariesByWard,
-  } = useDashboardContext();
+    getBeneficiaryCountByGender,
+    countByGender,
+    countByMethod,
+    countByMode,
+    getTransactionsCountByWard,
+    dashboardWardChartData,
+    getTransactionsCountByMethod,
+    getTransactionsCountByMode,
+    beneficiaryCounts,
+    getBeneficiariesCounts,
+  } = useModuleContext();
 
   const [flickImages, setFlickImages] = useState([]);
 
@@ -42,24 +42,28 @@ const DashboardComponent = () => {
   }, [getSummary]);
 
   useEffect(() => {
-    getGenderDistribution();
-  }, [getGenderDistribution]);
-
-  useEffect(() => {
-    getBankedUnbanked();
-  }, [getBankedUnbanked]);
-
-  useEffect(() => {
-    getPhoneOwnership();
-  }, [getPhoneOwnership]);
-
-  useEffect(() => {
-    getBeneficiariesByWard();
-  }, [getBeneficiariesByWard]);
-
-  useEffect(() => {
     getGeoMapData();
   }, [getGeoMapData]);
+
+  useEffect(() => {
+    getBeneficiaryCountByGender();
+  }, [getBeneficiaryCountByGender]);
+
+  useEffect(() => {
+    getTransactionsCountByWard();
+  }, [getTransactionsCountByWard]);
+
+  useEffect(() => {
+    getTransactionsCountByMethod();
+  }, [getTransactionsCountByMethod]);
+
+  useEffect(() => {
+    getTransactionsCountByMode();
+  }, [getTransactionsCountByMode]);
+
+  useEffect(() => {
+    getBeneficiariesCounts();
+  }, [getBeneficiariesCounts]);
 
   useEffect(() => {
     const getFlickPics = async () => {
@@ -81,14 +85,19 @@ const DashboardComponent = () => {
       <Grid container spacing={theme.spacing(SPACING.GRID_SPACING)}>
         <Grid
           container
-          lg={8}
+          lg={6}
           spacing={theme.spacing(SPACING.GRID_SPACING)}
           sx={{
             px: theme.spacing(SPACING.GRID_SPACING),
           }}
         >
           <Grid item xs={12} md={4}>
-            <SummaryCard icon="material-symbols:person-4" title="Beneficiaries" total={2} subtitle={'households'} />
+            <SummaryCard
+              icon="material-symbols:person-4"
+              title="Beneficiaries"
+              total={beneficiaryCounts?.impacted?.totalClaimed}
+              subtitle={'households'}
+            />
           </Grid>
 
           <Grid item xs={12} md={4}>
@@ -124,19 +133,43 @@ const DashboardComponent = () => {
             />
           </Grid>
           <Grid item xs={12} md={4}>
-            <SummaryCard icon="material-symbols:token" title="Token Issued" total={0} subtitle={'tokens'} />
+            <SummaryCard
+              icon="material-symbols:token"
+              title="Token Issued"
+              total={beneficiaryCounts?.impacted?.totalFamilyCount}
+              subtitle={'tokens'}
+            />
           </Grid>
           <Grid item xs={12} md={4}>
-            <SummaryCard icon="ph:currency-circle-dollar-light" title="Token Redeemed" total={0} subtitle={'tokens'} />
+            <SummaryCard
+              icon="ph:currency-circle-dollar-light"
+              title="Token Redeemed"
+              total={beneficiaryCounts?.impacted?.totalFamilyCount}
+              subtitle={'tokens'}
+            />
           </Grid>
         </Grid>
-        <Grid container xs={12} md={6} lg={4}>
+        <Grid container xs={12} md={6} lg={6}>
           <Grid item xs={12} md={12}>
-            <PhotoGallery list={flickImages} />
+            <PhotoGallery
+              list={flickImages}
+              sx={{
+                height: '100%',
+                overflow: 'hidden',
+              }}
+            />
           </Grid>
         </Grid>
 
-        <Grid item xs={12} md={4}>
+        {/* <Grid item xs={12} md={4}>
+          <WardGenderInfoCard selectedWard={selectedWard} />
+        </Grid> */}
+
+        <Grid item xs={12} lg={12}>
+          <LiveTransactionTable />
+        </Grid>
+
+        <Grid item xs={12} md={3}>
           <Piechart
             title="Gender Distribution"
             chart={{
@@ -146,7 +179,7 @@ const DashboardComponent = () => {
                 theme.palette.error.main,
                 theme.palette.warning.main,
               ],
-              series: genderDistribution,
+              series: countByGender,
             }}
             footer={
               <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2} sx={{ p: 2 }}>
@@ -160,9 +193,13 @@ const DashboardComponent = () => {
             }
           />
         </Grid>
-        <Grid item xs={12} md={4}>
-          <Piechart
-            title="Banked vs Unbanked"
+
+        <Grid item xs={12} md={3}>
+          <BarchartSingle
+            title="Claim with SMS vs QR Card"
+            sx={{
+              minHeight: 495,
+            }}
             chart={{
               colors: [
                 theme.palette.primary.main,
@@ -170,13 +207,11 @@ const DashboardComponent = () => {
                 theme.palette.error.main,
                 theme.palette.warning.main,
               ],
-              series: bankedUnbanked,
+              ...countByMethod,
             }}
           />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Piechart
-            title="Phone Ownership Distribution"
+          {/* <Piechart
+            title="Claim with SMS vs QR Card"
             chart={{
               colors: [
                 theme.palette.primary.main,
@@ -184,14 +219,45 @@ const DashboardComponent = () => {
                 theme.palette.error.main,
                 theme.palette.warning.main,
               ],
-              series: phoneOwnership,
+              series: countByMethod,
             }}
-          />
+          /> */}
         </Grid>
 
+        <Grid item xs={12} md={3}>
+          <Piechart
+            title="Claimed Vs Budget"
+            chart={{
+              colors: [
+                theme.palette.primary.main,
+                theme.palette.info.main,
+                theme.palette.error.main,
+                theme.palette.warning.main,
+              ],
+              series: [
+                { label: 'Available', value: 12234 },
+                { label: 'Issued', value: 12244 },
+              ],
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <Piechart
+            title="Offline Vs Online"
+            chart={{
+              colors: [
+                theme.palette.primary.main,
+                theme.palette.info.main,
+                theme.palette.error.main,
+                theme.palette.warning.main,
+              ],
+              series: countByMode,
+            }}
+          />
+        </Grid>
         <Grid item xs={12} md={6}>
           <BarchartSingle
-            title="Beneficiaries by Ward"
+            title="Ward Wise Claim"
             chart={{
               colors: [
                 theme.palette.primary.main,
@@ -201,12 +267,13 @@ const DashboardComponent = () => {
               ],
               options: {
                 chart: {
+                  stacked: true,
                   selection: {
                     enabled: true,
                   },
                 },
               },
-              ...beneficiariesByWard,
+              ...dashboardWardChartData,
             }}
           />
         </Grid>
