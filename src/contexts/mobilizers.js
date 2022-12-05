@@ -1,7 +1,6 @@
 import { MobilizerService } from '@services';
 import { createContext, useCallback, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useErrorHandler } from '@hooks/useResponseHandler';
 
 const initialState = {
   mobilizers: [],
@@ -9,69 +8,51 @@ const initialState = {
 
   getMobilizersList: () => {},
   getByMobilizerId: () => {},
-  error: {},
-  errorMessage: null,
 };
 
 const MoblizerContext = createContext(initialState);
 
 export const MobilizerProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
-  const { errorMessage } = useErrorHandler(state.error);
 
   const getMobilizersList = useCallback(async (params) => {
-    try {
-      const response = await MobilizerService.getMobilizersList(params);
+    const response = await MobilizerService.getMobilizersList(params);
 
-      const formatted = response.data.data.map((item) => ({
-        ...item,
+    const formatted = response.data.data.map((item) => ({
+      ...item,
 
-        id: item?._id,
-        registrationDate: item?.created_at,
-        registeredBy: `${item?.created_by?.name?.first} ${item?.created_by?.name?.last}`,
-      }));
+      id: item?._id,
+      registrationDate: item?.created_at,
+      registeredBy: `${item?.created_by?.name?.first} ${item?.created_by?.name?.last}`,
+    }));
 
-      setState((prevState) => ({
-        ...prevState,
-        mobilizers: formatted,
-      }));
-    } catch (error) {
-      setState((prevState) => ({
-        ...prevState,
-        error,
-      }));
-    }
+    setState((prevState) => ({
+      ...prevState,
+      mobilizers: formatted,
+    }));
   }, []);
 
   const getByMobilizerId = useCallback(async (id) => {
-    try {
-      const response = await MobilizerService.getByMobilizerId(id);
+    const response = await MobilizerService.getByMobilizerId(id);
 
-      const formatted = {
-        ...response.data,
-        email: response.data?.email || 'N/A',
-        registrationDate: response.data?.created_at || 'N/A',
-        pan: response.data?.pan || 'N/A',
-        shopName: response.data?.shopName || 'N/A',
-        projects: response.data?.projects || [],
-      };
+    const formatted = {
+      ...response.data,
+      email: response.data?.email || 'N/A',
+      registrationDate: response.data?.created_at || 'N/A',
+      pan: response.data?.pan || 'N/A',
+      shopName: response.data?.shopName || 'N/A',
+      projects: response.data?.projects || [],
+    };
 
-      setState((prev) => ({
-        ...prev,
-        singleMobilizer: formatted,
-      }));
-      return response.data.data;
-    } catch (error) {
-      setState((prevState) => ({
-        ...prevState,
-        error,
-      }));
-    }
+    setState((prev) => ({
+      ...prev,
+      singleMobilizer: formatted,
+    }));
+    return formatted;
   }, []);
 
   const contextValue = {
     ...state,
-    errorMessage,
     getMobilizersList,
     getByMobilizerId,
   };

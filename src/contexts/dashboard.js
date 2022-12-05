@@ -1,12 +1,10 @@
 import { DashboardService } from '@services';
 import { createContext, useCallback, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useResponseHandler } from '@hooks/useResponseHandler';
 
 const initialState = {
   summary: {},
   mapData: [],
-  error: {},
   genderDistribution: [],
   bankedUnbanked: [],
   phoneOwnership: [],
@@ -31,119 +29,85 @@ const DashboardContext = createContext(initialState);
 
 export const DashboardProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
-  const responseHandler = useResponseHandler();
 
   const getSummary = useCallback(async () => {
-    try {
-      const response = await DashboardService.getBeneficiarySummary();
-      setState((prev) => ({
-        ...prev,
-        summary: response.data,
-      }));
-    } catch (error) {
-      setState((prev) => ({
-        ...prev,
-        error,
-      }));
-    }
+    const response = await DashboardService.getBeneficiarySummary();
+    setState((prev) => ({
+      ...prev,
+      summary: response.data,
+    }));
+    return response.data;
   }, []);
 
   const getGeoMapData = useCallback(async () => {
-    try {
-      const response = await DashboardService.getGeoMapData();
-      setState((prev) => ({
-        ...prev,
-        mapData: response.data,
-      }));
-    } catch (error) {
-      setState((prev) => ({
-        ...prev,
-        error,
-      }));
-    }
+    const response = await DashboardService.getGeoMapData();
+    setState((prev) => ({
+      ...prev,
+      mapData: response.data,
+    }));
+    return response.data;
   }, []);
 
   const getGenderDistribution = useCallback(async () => {
-    try {
-      const response = await DashboardService.getGenderDistribution();
-      const formatted = response.data.map((item) => ({
-        label: item._id,
-        value: +item.count,
-      }));
-      setState((prev) => ({
-        ...prev,
-        genderDistribution: formatted,
-      }));
-    } catch (error) {
-      return responseHandler.apiError(error, 'Gender Distribution');
-    }
+    const response = await DashboardService.getGenderDistribution();
+    const formatted = response.data.map((item) => ({
+      label: item._id,
+      value: +item.count,
+    }));
+    setState((prev) => ({
+      ...prev,
+      genderDistribution: formatted,
+    }));
+    return response.data;
   }, []);
 
   const getBankedUnbanked = useCallback(async () => {
-    try {
-      const response = await DashboardService.getBankedUnbanked();
-      const formatted = response.data.map((item) => ({
-        label: item._id ? 'Banked' : 'Unbanked',
-        value: +item.count,
-      }));
+    const response = await DashboardService.getBankedUnbanked();
+    const formatted = response.data.map((item) => ({
+      label: item._id ? 'Banked' : 'Unbanked',
+      value: +item.count,
+    }));
 
-      setState((prev) => ({
-        ...prev,
-        bankedUnbanked: formatted,
-      }));
-    } catch (error) {
-      setState((prev) => ({
-        ...prev,
-        error,
-      }));
-    }
+    setState((prev) => ({
+      ...prev,
+      bankedUnbanked: formatted,
+    }));
+    return response.data;
   }, []);
 
   const getPhoneOwnership = useCallback(async () => {
-    try {
-      const response = await DashboardService.getPhoneOwnership();
-      const formatted = response.data.map((item) => ({
-        label: item._id ? 'Phone' : 'No Phone',
-        value: +item.count,
-      }));
+    const response = await DashboardService.getPhoneOwnership();
+    const formatted = response.data.map((item) => ({
+      label: item._id ? 'Phone' : 'No Phone',
+      value: +item.count,
+    }));
 
-      setState((prev) => ({
-        ...prev,
-        phoneOwnership: formatted,
-      }));
-    } catch (error) {
-      setState((prev) => ({
-        ...prev,
-        error,
-      }));
-    }
+    setState((prev) => ({
+      ...prev,
+      phoneOwnership: formatted,
+    }));
+    return response.data;
   }, []);
 
   const getBeneficiariesByWard = useCallback(async () => {
-    try {
-      const response = await DashboardService.getBeneficiariesByWard();
-      const sorted = response.data.sort((a, b) => a._id - b._id);
-      const chartData = sorted.map((item) => item.count);
-      const chartLabel = sorted.map((item) => item._id);
+    const response = await DashboardService.getBeneficiariesByWard();
+    const sorted = response.data.sort((a, b) => a._id - b._id);
+    const chartData = sorted.map((item) => item.count);
+    const chartLabel = sorted.map((item) => item._id);
 
-      setState((prev) => ({
-        ...prev,
-        beneficiariesByWard: {
-          chartLabel,
-          chartData: [
-            {
-              data: chartData,
-              name: 'Beneficiaries',
-            },
-          ],
-        },
-      }));
-    } catch (error) {
-      setState((prev) => ({
-        ...prev,
-        error,
-      }));
-    }
+    setState((prev) => ({
+      ...prev,
+      beneficiariesByWard: {
+        chartLabel,
+        chartData: [
+          {
+            data: chartData,
+            name: 'Beneficiaries',
+          },
+        ],
+      },
+    }));
+    return response.data;
   }, []);
 
   const contextValue = {
