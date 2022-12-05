@@ -9,6 +9,9 @@ import Image from '@components/image';
 import { MotionContainer, varFade } from '@components/animate';
 import Carousel, { CarouselDots, CarouselArrows } from '@components/carousel';
 
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
 // ----------------------------------------------------------------------
 
 const StyledOverlay = styled('div')(({ theme }) => ({
@@ -60,8 +63,6 @@ export default function PhotoGallery({ list, ...other }) {
     carouselRef.current?.slickNext();
   };
 
-  return <Card>PhotoGallery</Card>;
-
   return (
     <Card {...other}>
       <Carousel ref={carouselRef} {...carouselSettings}>
@@ -109,7 +110,7 @@ function CarouselItem({ item, isActive }) {
       >
         <m.div variants={varFade().inRight}>
           <Typography variant="overline" component="div" sx={{ opacity: 0.48 }}>
-            Gallery
+            Photo Gallery
           </Typography>
         </m.div>
 
@@ -134,7 +135,7 @@ function CarouselItem({ item, isActive }) {
         alt={title}
         src={image}
         sx={{
-          height: { xs: 280, xl: 320 },
+          height: { xs: 280, xl: 342 },
         }}
       />
     </MotionContainer>

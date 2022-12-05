@@ -2,66 +2,45 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Card, CardContent, Grid, Stack, Typography } from '@mui/material';
 import { useVendorsContext } from '@contexts/vendors';
+import moment from 'moment';
 
 const MoreInfoCard = (props) => {
   const { singleVendor } = useVendorsContext();
 
   return (
-    <Card sx={{ width: '100%' }}>
+    <Card>
       <CardContent>
-        <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={12}>
-          <Typography variant="h5">Profile Information</Typography>
-        </Stack>
-        <Grid container spacing={1}>
-          <Grid item xs={12} md={6} lg={6}>
-            <Stack sx={{ p: 2 }} direction="row" justifyContent="space-between" alignItems="flex-start" spacing={12}>
-              <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start">
-                <Typography variant="body1">{singleVendor?.shopName}</Typography>
-                <Typography variant="body2">Shop Name</Typography>
-              </Grid>
-              <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start">
-                <Grid item xs={12} md={12}>
-                  <Typography variant="body1">{singleVendor?.gender}</Typography>
-                </Grid>
-                <Grid item xs={12} md={12}>
-                  <Typography variant="body2">Gender</Typography>
-                </Grid>
-              </Grid>
-            </Stack>
-            <Stack sx={{ p: 2 }} direction="row" justifyContent="space-between" alignItems="flex-start" spacing={12}>
-              <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start">
-                <Typography variant="body1">{singleVendor?.phone}</Typography>
-                <Typography variant="body2">Phone</Typography>
-              </Grid>
-              <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start">
-                <Grid item xs={12} md={12}>
-                  <Typography variant="body1">{singleVendor?.email}</Typography>
-                </Grid>
-                <Grid item xs={12} md={12}>
-                  <Typography variant="body2">Email</Typography>
-                </Grid>
-              </Grid>
-            </Stack>
-            <Stack sx={{ p: 2 }} direction="row" justifyContent="space-between" alignItems="flex-start" spacing={12}>
-              <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start">
-                <Typography variant="body1">{singleVendor?.pan}</Typography>
-                <Typography variant="body2">PAN</Typography>
-              </Grid>
-              <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start">
-                <Grid item xs={12} md={12}>
-                  <Typography variant="body1">{singleVendor?.address}</Typography>
-                </Grid>
-                <Grid item xs={12} md={12}>
-                  <Typography variant="body2">Address</Typography>
-                </Grid>
-              </Grid>
-            </Stack>
-            <Stack sx={{ p: 2 }} direction="row" justifyContent="space-between" alignItems="flex-start" spacing={12}>
-              <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start">
-                <Typography variant="body1">{singleVendor?.registrationDate}</Typography>
-                <Typography variant="body2">Registration Date</Typography>
-              </Grid>
-            </Stack>
+        <Typography sx={{ mb: 2 }} variant="h5">
+          Profile Information
+        </Typography>
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={6} direction="column">
+            <Typography variant="h4">{singleVendor?.shopName}</Typography>
+            <Typography variant="body2">Shop Name</Typography>
+          </Grid>
+          <Grid item xs={12} md={6} direction="column">
+            <Typography variant="h4">{singleVendor?.gender}</Typography>
+            <Typography variant="body2">Gender</Typography>
+          </Grid>
+          <Grid item xs={12} md={6} direction="column">
+            <Typography variant="h4">{singleVendor?.phone}</Typography>
+            <Typography variant="body2">Phone</Typography>
+          </Grid>
+          <Grid item xs={12} md={6} direction="column">
+            <Typography variant="h4">{singleVendor?.email}</Typography>
+            <Typography variant="body2">Email</Typography>
+          </Grid>
+          <Grid item xs={12} md={6} direction="column">
+            <Typography variant="h4">{singleVendor?.pan}</Typography>
+            <Typography variant="body2">PAN</Typography>
+          </Grid>
+          <Grid item xs={12} md={6} direction="column">
+            <Typography variant="h4">{singleVendor?.address}</Typography>
+            <Typography variant="body2">Address</Typography>
+          </Grid>
+          <Grid item xs={12} md={6} direction="column">
+            <Typography variant="h4">{moment(singleVendor?.registrationDate).format('DD/MM/YYYY')}</Typography>
+            <Typography variant="body2">Registration Date</Typography>
           </Grid>
         </Grid>
       </CardContent>

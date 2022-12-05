@@ -20,12 +20,12 @@ export default function SummaryCard({ title, total, subtitle, sx, ...other }) {
   return (
     <Card sx={{ display: 'flex', alignItems: 'center', p: 3, ...sx }} {...other}>
       <Box sx={{ flexGrow: 1 }}>
-        <Typography variant="subtitle2">{title}</Typography>
+        <Typography variant="subtitle1">{title}</Typography>
 
         <Stack
           sx={{
-            mt: 1.5,
-            mb: 0.5,
+            mt: 1,
+            mb: 0.2,
             display: 'flex',
           }}
         >
@@ -38,7 +38,7 @@ export default function SummaryCard({ title, total, subtitle, sx, ...other }) {
             display: 'flex',
           }}
         >
-          <Typography variant="body1">{subtitle}</Typography>
+          <Typography variant="subtitle2">{subtitle}</Typography>
         </Stack>
       </Box>
     </Card>

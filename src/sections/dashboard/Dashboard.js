@@ -13,8 +13,9 @@ import { PATH_REPORTS } from '@routes/paths';
 import Iconify from '@components/iconify';
 import { getFlickrImages } from '@services/flickr';
 import PhotoGallery from './PhotoGallery';
+import { SPACING } from '@config';
 
-const DashboardComponent = (props) => {
+const DashboardComponent = () => {
   const theme = useTheme();
   const router = useRouter();
 
@@ -55,58 +56,76 @@ const DashboardComponent = (props) => {
 
   useEffect(() => {
     const getFlickPics = async () => {
-      const res = await getFlickrImages();
+      const params = {
+        per_page: 10,
+      };
+      const res = await getFlickrImages(params);
       setFlickImages(res.photo);
     };
     getFlickPics();
+
+    return () => {
+      setFlickImages([]);
+    };
   }, []);
 
   return (
     <Box>
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={3}>
-          <SummaryCard
-            title="Beneficiaries Claimed"
-            total={beneficiaryCounts?.impacted?.totalClaimed}
-            subtitle={'households'}
-          />
-        </Grid>
+      <Grid container spacing={theme.spacing(SPACING.GRID_SPACING)}>
+        <Grid
+          container
+          lg={6}
+          spacing={theme.spacing(SPACING.GRID_SPACING)}
+          sx={{
+            px: theme.spacing(SPACING.GRID_SPACING),
+          }}
+        >
+          <Grid item xs={12} md={6}>
+            <SummaryCard
+              title="Beneficiaries Claimed"
+              total={beneficiaryCounts?.impacted?.totalClaimed}
+              subtitle={'households'}
+            />
+          </Grid>
 
-        <Grid item xs={12} md={3}>
-          <SummaryCard
-            title="Under 5 impacted"
-            total={beneficiaryCounts?.impacted?.totalBelow5Count}
-            subtitle={'children'}
-          />
-        </Grid>
+          <Grid item xs={12} md={6}>
+            <SummaryCard
+              title="Under 5 impacted"
+              total={beneficiaryCounts?.impacted?.totalBelow5Count}
+              subtitle={'children'}
+            />
+          </Grid>
 
-        {/* <Grid item xs={12} md={4}>
+          {/* <Grid item xs={12} md={4}>
           <ActivateResponse />
         </Grid> */}
-        <Grid item xs={12} md={6}>
-          <PhotoGallery list={flickImages} />
+
+          <Grid item xs={12} md={6}>
+            <SummaryCard
+              title="Total Impacted"
+              total={beneficiaryCounts?.impacted?.totalFamilyCount}
+              subtitle={'people'}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <SummaryCard
+              title="SMS of token assign"
+              total={beneficiaryCounts?.impacted?.totalFamilyCount}
+              subtitle={'total'}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={3}>
-          <SummaryCard
-            title="Total Impacted"
-            total={beneficiaryCounts?.impacted?.totalFamilyCount}
-            subtitle={'people'}
-          />
+        <Grid container xs={12} md={6} lg={6}>
+          <Grid item xs={12} md={12}>
+            <PhotoGallery
+              list={flickImages}
+              sx={{
+                height: '100%',
+                overflow: 'hidden',
+              }}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={3}>
-          <SummaryCard
-            title="SMS of token assign"
-            total={beneficiaryCounts?.impacted?.totalFamilyCount}
-            subtitle={'total'}
-          />
-        </Grid>
-        {/* <Grid item xs={12} md={2.4}>
-          <SummaryCard
-            title="QR Card distributed"
-            total={beneficiaryCounts?.impacted?.totalFamilyCount}
-            subtitle={'households'}
-          />
-        </Grid> */}
 
         <Grid item xs={12} md={12}>
           <BarchartSingle
@@ -124,14 +143,6 @@ const DashboardComponent = (props) => {
                   selection: {
                     enabled: true,
                   },
-                  // events: {
-                  //   click: (event, chartContext, config) => {
-                  //     setSelectedWard(
-                  //       String(dashboardWardChartData.chartLabel[config.dataPointIndex]?.slice(5))
-                  //       // String(dashboardWardChartData.chartLabel[config.dataPointIndex]?.replace('Ward', ''))
-                  //     );
-                  //   },
-                  // },
                 },
               },
               ...dashboardWardChartData,
@@ -142,11 +153,11 @@ const DashboardComponent = (props) => {
           <WardGenderInfoCard selectedWard={selectedWard} />
         </Grid> */}
 
-        {/* <Grid item xs={24} lg={24}>
+        <Grid item xs={12} lg={12}>
           <LiveTransactionTable />
-        </Grid> */}
+        </Grid>
 
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={3}>
           <Piechart
             title="Gender Distribution"
             chart={{
@@ -171,9 +182,12 @@ const DashboardComponent = (props) => {
           />
         </Grid>
 
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={3}>
           <BarchartSingle
             title="Claim with SMS vs QR Card"
+            sx={{
+              minHeight: 495,
+            }}
             chart={{
               colors: [
                 theme.palette.primary.main,
@@ -198,7 +212,7 @@ const DashboardComponent = (props) => {
           /> */}
         </Grid>
 
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={3}>
           <Piechart
             title="Claimed Vs Budget"
             chart={{
@@ -209,13 +223,13 @@ const DashboardComponent = (props) => {
                 theme.palette.warning.main,
               ],
               series: [
-                { label: 'Available', value: 12244 },
+                { label: 'Available', value: 12234 },
                 { label: 'Issued', value: 12244 },
               ],
             }}
           />
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={3}>
           <Piechart
             title="Offline Vs Online"
             chart={{

@@ -11,6 +11,7 @@ ListTable.propTypes = {
   tableHeadersList: PropTypes.object.isRequired,
   children: PropTypes.node,
   footer: PropTypes.node,
+  errorMessage: PropTypes.node,
 };
 
 export default function ListTable({
@@ -24,7 +25,9 @@ export default function ListTable({
     },
   },
   children,
+  errorMessage,
   footer,
+  ...other
 }) {
   const conditionalRendering = (row, key) => {
     switch (key) {
@@ -59,7 +62,8 @@ export default function ListTable({
 
   return (
     <TableContainer>
-      <Table size={size}>
+      {errorMessage && <div>{errorMessage}</div>}
+      <Table size={size} stickyHeader {...other}>
         <TableHeadCustom headLabel={tableHeadersList} />
         <TableBody>
           {children ? children(tableRowsList, tableHeadersList) : renderTableCell(tableRowsList, tableHeadersList)}
