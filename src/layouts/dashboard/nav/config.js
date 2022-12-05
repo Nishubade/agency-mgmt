@@ -9,6 +9,7 @@ import {
   PATH_REPORTS,
   PATH_VENDORS,
   PATH_CASH_TRACKER,
+  PATH_PHOTO_GALLERY,
 } from '@routes/paths';
 // components
 import Iconify from '@components/iconify';
@@ -28,6 +29,7 @@ const ICONS = {
   mobilizers: icon('ic:baseline-network-ping'),
   financialInstitution: icon('material-symbols:finance-chip-outline'),
   reports: icon('iconoir:reports'),
+  photoGallery: icon('material-symbols:gallery-thumbnail-outline-rounded'),
 };
 
 const navConfig = [
@@ -70,6 +72,12 @@ const navConfig = [
         path: PATH_FINANCIAL_INSTITUTIONS.root,
         icon: ICONS.financialInstitution,
       },
+      {
+        title: 'Photo Gallery',
+        path: PATH_PHOTO_GALLERY.root,
+        icon: ICONS.photoGallery,
+      },
+
       {
         title: 'Administation',
         path: PATH_ADMINISTRATION.root,

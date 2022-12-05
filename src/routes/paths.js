@@ -16,6 +16,7 @@ const ROOTS_REPORTS = '/reports';
 
 const ROOTS_AUTH = '/auth';
 const ROOTS_APP = '/app';
+const ROOTS_PHOTO_GALLERY = '/photo-gallery';
 
 // ----------------------------------------------------------------------
 
@@ -77,4 +78,8 @@ export const PATH_REPORTS = {
 export const PATH_APP = {
   root: ROOTS_APP,
   settings: path(ROOTS_APP, '/settings'),
+};
+
+export const PATH_PHOTO_GALLERY = {
+  root: ROOTS_PHOTO_GALLERY,
 };
