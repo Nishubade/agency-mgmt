@@ -39,8 +39,8 @@ const initialState = {
   getBeneficiaryCountByGender: () => {},
   getTransactionsCountByMode: () => {},
   getTransactionsCountByMethod: () => {},
-  getTransactionsCountByWard: () => {},
   getBeneficiariesCounts: () => {},
+  getTransactionsCountByWard: () => {},
   getWardGenderChart: (ward) => {},
 };
 

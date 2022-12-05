@@ -5,6 +5,7 @@ import { useSettingsContext } from '@components/settings';
 import { DashboardComponent } from '@sections/dashboard';
 import { ContextProvider } from '@sections/dashboard/context';
 import AuthGuard from '@guards/AuthGuard';
+import { DashboardProvider } from '@contexts/dashboard';
 
 // ----------------------------------------------------------------------
 
@@ -17,13 +18,15 @@ export default function Dashboard() {
 
   return (
     <AuthGuard>
-      <ContextProvider>
-        <Page title={PAGE_TITLE} nocard>
-          <Container maxWidth={themeStretch ? false : 'xl'}>
-            <DashboardComponent />
-          </Container>
-        </Page>
-      </ContextProvider>
+      <DashboardProvider>
+        <ContextProvider>
+          <Page title={PAGE_TITLE} nocard>
+            <Container maxWidth={themeStretch ? false : 'xl'}>
+              <DashboardComponent />
+            </Container>
+          </Page>
+        </ContextProvider>
+      </DashboardProvider>
     </AuthGuard>
   );
 }

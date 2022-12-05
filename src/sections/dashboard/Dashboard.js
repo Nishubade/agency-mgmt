@@ -14,12 +14,14 @@ import Iconify from '@components/iconify';
 import { getFlickrImages } from '@services/flickr';
 import PhotoGallery from './PhotoGallery';
 import { SPACING } from '@config';
-import MapView from './MapView';
+import { MapView } from './maps';
+import { useDashboardContext } from '@contexts/dashboard';
 
 const DashboardComponent = () => {
   const theme = useTheme();
   const router = useRouter();
 
+  const { summary, getSummary, getGeoMapData } = useDashboardContext();
   const {
     getBeneficiaryCountByGender,
     countByGender,
@@ -34,6 +36,14 @@ const DashboardComponent = () => {
   } = useModuleContext();
 
   const [flickImages, setFlickImages] = useState([]);
+
+  useEffect(() => {
+    getSummary();
+  }, [getSummary]);
+
+  useEffect(() => {
+    getGeoMapData();
+  }, [getGeoMapData]);
 
   useEffect(() => {
     getBeneficiaryCountByGender();
@@ -83,6 +93,7 @@ const DashboardComponent = () => {
         >
           <Grid item xs={12} md={4}>
             <SummaryCard
+              // icon="material-symbols:person-4"
               title="Beneficiaries Claimed"
               total={beneficiaryCounts?.impacted?.totalClaimed}
               subtitle={'households'}
@@ -91,8 +102,10 @@ const DashboardComponent = () => {
 
           <Grid item xs={12} md={4}>
             <SummaryCard
+              icon={'fa6-solid:children'}
               title="Under 5 impacted"
-              total={beneficiaryCounts?.impacted?.totalBelow5Count}
+              total={summary?.total_children}
+              // total={beneficiaryCounts?.impacted}
               subtitle={'children'}
             />
           </Grid>
@@ -103,16 +116,25 @@ const DashboardComponent = () => {
 
           <Grid item xs={12} md={4}>
             <SummaryCard
+              icon={'fa6-solid:users'}
               title="Total Impacted"
-              total={beneficiaryCounts?.impacted?.totalFamilyCount}
+              total={summary?.total_persons}
+              // total={beneficiaryCounts?.impacted?.totalFamilyCount}
               subtitle={'people'}
             />
           </Grid>
           <Grid item xs={12} md={4}>
-            <SummaryCard title="Unbanked" total={beneficiaryCounts?.impacted?.totalFamilyCount} subtitle={'persons'} />
+            <SummaryCard
+              title="Unbanked"
+              icon="mdi:bank-transfer-out"
+              total={summary?.total_unbanked}
+              // total={beneficiaryCounts?.impacted?.totalFamilyCount}
+              subtitle={'persons'}
+            />
           </Grid>
           <Grid item xs={12} md={4}>
             <SummaryCard
+              icon="material-symbols:token"
               title="Token Issued"
               total={beneficiaryCounts?.impacted?.totalFamilyCount}
               subtitle={'tokens'}
@@ -120,6 +142,7 @@ const DashboardComponent = () => {
           </Grid>
           <Grid item xs={12} md={4}>
             <SummaryCard
+              icon="ph:currency-circle-dollar-light"
               title="Token Redeemed"
               total={beneficiaryCounts?.impacted?.totalFamilyCount}
               subtitle={'tokens'}

@@ -1,140 +1,177 @@
 import PropTypes from 'prop-types';
-import { m } from 'framer-motion';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 // @mui
-import { alpha, useTheme, styled } from '@mui/material/styles';
-import { Stack, Card, Typography, Link } from '@mui/material';
+import { styled, alpha } from '@mui/material/styles';
+import { Box } from '@mui/material';
+// utils
+import { bgGradient } from '@utils/cssStyles';
 // components
 import Image from '@components/image';
-import { MotionContainer, varFade } from '@components/animate';
-import Carousel, { CarouselDots, CarouselArrows } from '@components/carousel';
-
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import Carousel, { CarouselArrowIndex } from '@components/carousel';
 
 // ----------------------------------------------------------------------
 
-const StyledOverlay = styled('div')(({ theme }) => ({
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  zIndex: 8,
-  position: 'absolute',
-  backgroundColor: alpha(theme.palette.grey[900], 0.3),
+const THUMB_SIZE = 64;
+
+const StyledThumbnailsContainer = styled('div', {
+  shouldForwardProp: (prop) => prop !== 'length',
+})(({ length, theme }) => ({
+  margin: theme.spacing(0, 'auto'),
+  position: 'relative',
+
+  '& .slick-slide': {
+    opacity: 0.48,
+    '&.slick-current': {
+      opacity: 1,
+    },
+    '& > div': {
+      padding: theme.spacing(0, 0.75),
+    },
+  },
+
+  ...(length === 1 && {
+    maxWidth: THUMB_SIZE * 1 + 16,
+  }),
+  ...(length === 2 && {
+    maxWidth: THUMB_SIZE * 2 + 32,
+  }),
+  ...((length === 3 || length === 4) && {
+    maxWidth: THUMB_SIZE * 3 + 48,
+  }),
+  ...(length >= 5 && {
+    maxWidth: THUMB_SIZE * 6,
+  }),
+  ...(length > 2 && {
+    '&:before, &:after': {
+      ...bgGradient({
+        direction: 'to left',
+        startColor: `${alpha(theme.palette.background.default, 0)} 0%`,
+        endColor: `${theme.palette.background.default} 100%`,
+      }),
+      top: 0,
+      zIndex: 9,
+      content: "''",
+      height: '100%',
+      position: 'absolute',
+      width: (THUMB_SIZE * 2) / 3,
+    },
+    '&:after': {
+      right: 0,
+      transform: 'scaleX(-1)',
+    },
+  }),
 }));
 
 // ----------------------------------------------------------------------
 
-PhotoGallery.propTypes = {
-  list: PropTypes.array,
+CarouselThumbnail.propTypes = {
+  data: PropTypes.array,
 };
 
-export default function PhotoGallery({ list, ...other }) {
-  const theme = useTheme();
+export default function CarouselThumbnail({ data }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const carouselRef = useRef(null);
+  const [nav1, setNav1] = useState(undefined);
 
-  const [currentIndex, setCurrentIndex] = useState(theme.direction === 'rtl' ? list.length - 1 : 0);
+  const [nav2, setNav2] = useState(undefined);
 
-  const carouselSettings = {
-    speed: 3000,
+  const carousel1 = useRef(null);
+
+  const carousel2 = useRef(null);
+
+  const carouselSettings1 = {
     dots: false,
     arrows: false,
-    autoplay: true,
     slidesToShow: 1,
+    draggable: false,
     slidesToScroll: 1,
-    rtl: Boolean(theme.direction === 'rtl'),
+    adaptiveHeight: true,
     beforeChange: (current, next) => setCurrentIndex(next),
-    ...CarouselDots({
-      sx: {
-        top: 20,
-        left: 20,
-        position: 'absolute',
-      },
-    }),
   };
 
+  const carouselSettings2 = {
+    dots: false,
+    arrows: false,
+    centerMode: true,
+    swipeToSlide: true,
+    focusOnSelect: true,
+    variableWidth: true,
+    centerPadding: '0px',
+    slidesToShow: data.length > 3 ? 3 : data.length,
+  };
+
+  useEffect(() => {
+    if (carousel1.current) {
+      setNav1(carousel1.current);
+    }
+    if (carousel2.current) {
+      setNav2(carousel2.current);
+    }
+  }, []);
+
   const handlePrev = () => {
-    carouselRef.current?.slickPrev();
+    carousel2.current?.slickPrev();
   };
 
   const handleNext = () => {
-    carouselRef.current?.slickNext();
+    carousel2.current?.slickNext();
   };
 
-  return (
-    <Card {...other}>
-      <Carousel ref={carouselRef} {...carouselSettings}>
-        {list.map((app, index) => (
-          <CarouselItem key={app.id} item={app} isActive={index === currentIndex} />
+  const renderLargeImg = (
+    <Box
+      sx={{
+        mb: 3,
+        zIndex: 0,
+        borderRadius: 2,
+        overflow: 'hidden',
+        position: 'relative',
+      }}
+    >
+      <Carousel {...carouselSettings1} asNavFor={nav2} ref={carousel1}>
+        {data.map((item) => (
+          <Image key={item.id} alt={item.title} src={item.image} ratio="16/9" />
         ))}
       </Carousel>
 
-      <CarouselArrows
-        onNext={handleNext}
-        onPrevious={handlePrev}
-        sx={{ top: 8, right: 8, position: 'absolute', color: 'common.white' }}
-      />
-    </Card>
+      <CarouselArrowIndex index={currentIndex} total={data.length} onNext={handleNext} onPrevious={handlePrev} />
+    </Box>
   );
-}
 
-// ----------------------------------------------------------------------
-
-CarouselItem.propTypes = {
-  isActive: PropTypes.bool,
-  item: PropTypes.shape({
-    image: PropTypes.string,
-    title: PropTypes.string,
-    description: PropTypes.string,
-  }),
-};
-
-function CarouselItem({ item, isActive }) {
-  const { image, title, description } = item;
+  const renderThumbnails = (
+    <StyledThumbnailsContainer length={data.length}>
+      <Carousel {...carouselSettings2} asNavFor={nav1} ref={carousel2}>
+        {data.map((item, index) => (
+          <Image
+            key={item.id}
+            disabledEffect
+            alt={item.title}
+            src={item.image}
+            sx={{
+              width: THUMB_SIZE,
+              height: THUMB_SIZE,
+              borderRadius: 1.5,
+              cursor: 'pointer',
+              ...(currentIndex === index && {
+                border: (theme) => `solid 2px ${theme.palette.primary.main}`,
+              }),
+            }}
+          />
+        ))}
+      </Carousel>
+    </StyledThumbnailsContainer>
+  );
 
   return (
-    <MotionContainer action animate={isActive} sx={{ position: 'relative' }}>
-      <Stack
-        spacing={1}
-        sx={{
-          p: 3,
-          width: 1,
-          bottom: 0,
-          zIndex: 9,
-          textAlign: 'left',
-          position: 'absolute',
-          color: 'common.white',
-        }}
-      >
-        <m.div variants={varFade().inRight}>
-          <Link color="inherit" underline="none">
-            <Typography variant="h5" noWrap>
-              {title}
-            </Typography>
-          </Link>
-        </m.div>
+    <Box
+      sx={{
+        '& .slick-slide': {
+          float: (theme) => (theme.direction === 'rtl' ? 'right' : 'left'),
+        },
+      }}
+    >
+      {renderLargeImg}
 
-        <m.div variants={varFade().inRight}>
-          <Typography variant="body2" noWrap>
-            {description}
-          </Typography>
-        </m.div>
-      </Stack>
-
-      <StyledOverlay />
-
-      <Image
-        alt={title}
-        src={image}
-        sx={{
-          height: { xs: 280, xl: '50%' },
-          width: { xs: '100%', xl: '100%' },
-
-          objectFit: 'cover',
-        }}
-      />
-    </MotionContainer>
+      {renderThumbnails}
+    </Box>
   );
 }

@@ -8,7 +8,7 @@ const PhotoGalleryComp = (props) => {
 
   const fetchImages = async () => {
     const params = {
-      per_page: 100,
+      // per_page: 100,
     };
     const res = await getFlickrImages(params);
     setImages(res.photo);
@@ -18,11 +18,7 @@ const PhotoGalleryComp = (props) => {
     fetchImages();
   }, []);
 
-  return (
-    <div>
-      <PhotoGallery list={images} />
-    </div>
-  );
+  return <PhotoGallery data={images} />;
 };
 
 PhotoGalleryComp.propTypes = {};

@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardContent, CardHeader } from '@mui/material';
+import { Card, CardContent, useTheme } from '@mui/material';
 import dynamic from 'next/dynamic';
 import { MAPBOX_API } from '@config';
 import styled from '@emotion/styled';
+import { useDashboardContext } from '@contexts/dashboard';
 
 // sections
-const MapClusters = dynamic(() => import('./MapSide'));
+const MapClusters = dynamic(() => import('./ClusterMap'));
 
 // ----------------------------------------------------------------------
 
@@ -35,15 +36,16 @@ const StyledMapContainer = styled('div')(({ theme }) => ({
   },
 }));
 
-const MapView = (props) => {
+const MapView = () => {
+  const theme = useTheme();
+  const { mapData } = useDashboardContext();
   return (
     <div>
       {' '}
       <Card>
-        <CardHeader title="Map View" />
         <CardContent>
           <StyledMapContainer>
-            <MapClusters {...baseSettings} mapStyle={THEMES.light} />
+            <MapClusters {...baseSettings} mapData={mapData} mapStyle={THEMES[theme.palette.mode]} />
           </StyledMapContainer>
         </CardContent>
       </Card>

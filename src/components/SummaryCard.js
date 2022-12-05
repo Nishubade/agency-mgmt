@@ -15,15 +15,16 @@ SummaryCard.propTypes = {
   total: PropTypes.number.isRequired,
   subtitle: PropTypes.string,
   sx: PropTypes.object,
+  icon: PropTypes.string,
 };
 
-export default function SummaryCard({ title, total, subtitle, sx, ...other }) {
+export default function SummaryCard({ title, total, subtitle, sx, icon, ...other }) {
   return (
     <Card sx={{ display: 'flex', alignItems: 'center', p: 3, ...sx }} {...other}>
       <Box sx={{ flexGrow: 1 }}>
         <Stack direction="row" justifyContent="flex-start" alignItems="center" spacing={1}>
-          aa
-          <Typography variant="subtitle1">{title}</Typography>
+          {icon && <Iconify icon={icon} />}
+          <Typography variant="caption1">{title}</Typography>
         </Stack>
 
         <Stack
@@ -33,7 +34,7 @@ export default function SummaryCard({ title, total, subtitle, sx, ...other }) {
             display: 'flex',
           }}
         >
-          <Typography variant="h3">{fNumber(total)}</Typography>
+          <Typography variant="h4">{fNumber(total)}</Typography>
         </Stack>
         <Stack
           sx={{
