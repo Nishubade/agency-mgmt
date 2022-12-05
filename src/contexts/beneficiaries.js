@@ -6,11 +6,14 @@ import { useErrorHandler } from '@hooks/useErrorHandler';
 const initialState = {
   beneficiaries: [],
   singleBeneficiary: {},
-
+  chainData: {},
+  refresh: false,
   getBeneficiariesList: () => {},
   getBeneficiaryById: () => {},
   error: {},
   errorMessage: null,
+  setChainData: () => {},
+  refreshData: () => {},
 };
 
 const BeneficiaryContext = createContext(initialState);
@@ -18,6 +21,7 @@ const BeneficiaryContext = createContext(initialState);
 export const BeneficiaryProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
   const { errorMessage } = useErrorHandler(state.error);
+  const refreshData = () => setState((prev) => ({ ...prev, refresh: !prev.refresh }));
 
   const getBeneficiariesList = useCallback(async (params) => {
     try {
@@ -41,6 +45,13 @@ export const BeneficiaryProvider = ({ children }) => {
         error,
       }));
     }
+  }, []);
+
+  const setChainData = useCallback((chainData) => {
+    setState((prev) => ({
+      ...prev,
+      chainData,
+    }));
   }, []);
 
   const getBeneficiaryById = useCallback(async (id) => {
@@ -68,7 +79,7 @@ export const BeneficiaryProvider = ({ children }) => {
         ...prev,
         singleBeneficiary: formatted,
       }));
-      return response.data.data;
+      return formatted;
     } catch (error) {
       setState((prev) => ({
         ...prev,
@@ -80,6 +91,8 @@ export const BeneficiaryProvider = ({ children }) => {
   const contextValue = {
     ...state,
     errorMessage,
+    refreshData,
+    setChainData,
     getBeneficiariesList,
     getBeneficiaryById,
   };

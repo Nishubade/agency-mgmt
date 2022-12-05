@@ -18,33 +18,9 @@ const BeneficiaryView = () => {
     query: { beneficiaryId },
   } = useRouter();
 
-  const actionMenuItems = [
-    {
-      name: 'Issue Token',
-      href: `/beneficiaries/${beneficiaryId}/add-budget`,
-      onClick: () => routerPush(`/beneficiaries/${beneficiaryId}/add-budget`),
-    },
-    {
-      name: 'Switch Project',
-      href: `/beneficiaries/${beneficiaryId}/add-budget`,
-      onClick: () => routerPush(`/beneficiaries/${beneficiaryId}/add-budget`),
-      sx: {
-        color: (theme) => theme.palette.primary.main,
-      },
-    },
-    {
-      name: 'Suspend Beneficiary',
-      href: `/beneficiaries/${beneficiaryId}/add-budget`,
-      sx: {
-        color: (theme) => theme.palette.error.main,
-      },
-      onClick: () => routerPush(`/beneficiaries/${beneficiaryId}/add-budget`),
-    },
-  ];
-
   return (
     <BeneficiaryProvider>
-      <Page title={PAGE_TITLE} nocard action={<ActionMenu menuItems={actionMenuItems} actionTitle={'Actions'} />}>
+      <Page title={PAGE_TITLE} nocard action={<ActionMenu actionTitle={'Actions'} />}>
         <Container maxWidth={themeStretch ? false : 'xl'}>
           <BeneficiaryViewComp />
         </Container>

@@ -3,16 +3,32 @@ import { Card, CardContent, Chip, Grid, Stack, Typography } from '@mui/material'
 import { useVendorsContext } from '@contexts/vendors';
 import truncateEthAddress from '@utils/truncateEthAddress';
 
-const BasicInfoCard = ({ props }) => {
+BasicInfoCard.propTypes = {
+  chainData: PropTypes.object,
+};
+
+export default function BasicInfoCard({ chainData }) {
   const { singleVendor } = useVendorsContext();
 
   return (
-    <Card {...props}>
+    <Card>
       <CardContent>
         <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={12}>
           <Typography variant="h4">{singleVendor?.name}</Typography>
 
-          <Chip label="Active" />
+          <div>
+            {chainData?.walletAddress ? (
+              <>
+                {chainData?.isActive ? (
+                  <Chip label="Active" color="success" />
+                ) : (
+                  <Chip label="Inactive" variant="outlined" color="error" />
+                )}
+              </>
+            ) : (
+              <Chip label="Inactive" variant="outlined" color="error" />
+            )}
+          </div>
         </Stack>
 
         <Stack sx={{ p: 2 }} direction="row" justifyContent="space-between" alignItems="center" spacing={12}>
@@ -28,10 +44,4 @@ const BasicInfoCard = ({ props }) => {
       </CardContent>
     </Card>
   );
-};
-
-BasicInfoCard.propTypes = {
-  props: PropTypes.object,
-};
-
-export default BasicInfoCard;
+}

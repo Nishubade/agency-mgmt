@@ -1,36 +1,35 @@
-import { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Grid, Stack } from '@mui/material';
 import BasicInfoCard from './BasicInfoCard';
 import TokenDetails from './TokenDetails';
 import MoreInfoCard from './MoreInfoCard';
 import ProjectsInvolved from './ProjectsInvolved';
 import { HistoryTable } from '@sections/transactionTable';
-import { useBeneficiaryContext } from '@contexts/beneficiaries';
+import { useVendorsContext } from '@contexts/vendors';
 import { useRouter } from 'next/router';
 import { useRahat } from '@services/contracts/useRahat';
 import { useRahatCash } from '@services/contracts/useRahatCash';
 
-BeneficiaryView.propTypes = {};
+VendorView.propTypes = {};
 
-export default function BeneficiaryView() {
-  const { getBeneficiaryById, setChainData, chainData, refresh, refreshData } = useBeneficiaryContext();
-  const { beneficiaryBalance, contract } = useRahat();
+export default function VendorView() {
+  const { getVendorById, setChainData, chainData, refreshData, refresh } = useVendorsContext();
+  const { vendorBalance, contract } = useRahat();
   const { contract: RahatCash } = useRahatCash();
-
   const {
-    query: { beneficiaryId },
+    query: { vendorId },
   } = useRouter();
 
   const init = useCallback(async () => {
-    if (!beneficiaryId) return;
-    const _benData = await getBeneficiaryById(beneficiaryId);
-    if (!_benData?.phone) return;
-    const _chainData = await beneficiaryBalance(_benData?.phone);
+    if (!vendorId) return;
+    const _vendorData = await getVendorById(vendorId);
+    if (!_vendorData?.wallet_address) return;
+    const _chainData = await vendorBalance(_vendorData?.wallet_address);
     setChainData(_chainData);
     RahatCash?.on('Approval', refreshData);
     RahatCash?.on('Transfer', refreshData);
-    contract?.on('IssuedERC20', refreshData);
-  }, [beneficiaryId, contract, RahatCash, refresh]);
+  }, [vendorId, contract, RahatCash, refresh]);
 
   useEffect(() => {
     init();
@@ -39,12 +38,13 @@ export default function BeneficiaryView() {
 
   return (
     <>
+      {' '}
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
           <BasicInfoCard chainData={chainData} />
         </Grid>
         <Grid item xs={12} md={6}>
-          <TokenDetails />
+          <TokenDetails chainData={chainData} />
         </Grid>
         {/* <Grid item xs={12} md={4}>
             <MoreInfoCard />

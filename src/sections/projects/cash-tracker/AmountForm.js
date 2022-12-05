@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -9,35 +9,43 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 AmountForm.propTypes = {
-  sendCash: PropTypes.func,
+  approveCashTransfer: PropTypes.func,
   handleClose: PropTypes.func,
   open: PropTypes.bool,
+  description: PropTypes.node,
+  title: PropTypes.string,
 };
 
-export default function AmountForm({ sendCash, open, handleClose, ...other }) {
-  const handleSendCash = (e) => {};
+export default function AmountForm({ approveCashTransfer, title, description, open, handleClose }) {
+  const [amount, setAmount] = useState('');
+  const handleSendCash = async (e) => {
+    handleClose();
+    await approveCashTransfer(amount);
+    setAmount('');
+  };
   return (
     <div>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Send Amount to Palika</DialogTitle>
+        <DialogTitle>{title}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Please select the amount you wish to send to palika. Palika has to accept the cash before it is fully
-            transferred and allowed for disbursement.
-          </DialogContentText>
+          <DialogContentText sx={{ mb: 2 }}>{description}</DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="Amount to send"
+            label="Amount to transfer"
             type="number"
             fullWidth
-            variant="standard"
+            variant="outlined"
+            onChange={(e) => setAmount(e.target.value)}
+            value={amount}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSendCash}>Subscribe</Button>
+          <Button onClick={handleSendCash} disabled={amount === '' || amount < 1}>
+            Approve Transfer
+          </Button>
         </DialogActions>
       </Dialog>
     </div>

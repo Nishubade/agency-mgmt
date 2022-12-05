@@ -17,22 +17,21 @@ export const useRahatAdmin = () => {
     sendToPalika: (projectId, amount) =>
       contract?.setProjectBudget_ERC20(contracts[CONTRACTS.RAHAT], projectId, amount).catch(handleError),
 
-    async getCashBalances() {
-      console.log('contract', contract);
-      const agencyBalanceData = await contract
-        ?.getAllowanceAndBalance(contracts[CONTRACTS.CASH], contracts[CONTRACTS.DONOR])
-        .then()
-        .catch(handleError);
-      const data = {
-        cashAllowance: agencyBalanceData?.allowance?.toNumber(),
-        cashBalance: agencyBalanceData?.balance?.toNumber(),
-      };
-      setAgencyChainData((d) => ({
-        ...d,
-        ...data,
-      }));
-      return data;
-    },
+    getAllowanceAndBalance: (erc20Address) =>
+      contract
+        ?.getAllowanceAndBalance(erc20Address || contracts[CONTRACTS.CASH], contracts[CONTRACTS.DONOR])
+        .then((agencyBalanceData) => {
+          const data = {
+            cashAllowance: agencyBalanceData?.allowance?.toNumber(),
+            cashBalance: agencyBalanceData?.balance?.toNumber(),
+          };
+          setAgencyChainData((d) => ({
+            ...d,
+            ...data,
+          }));
+          return data;
+        })
+        .catch(handleError),
 
     async claimCash(amount) {
       await contract?.claimToken(contracts[CONTRACTS.CASH], contracts[CONTRACTS.DONOR], amount);

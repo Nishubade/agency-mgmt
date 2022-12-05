@@ -21,7 +21,7 @@ const StyledOverlay = styled('div')(({ theme }) => ({
   bottom: 0,
   zIndex: 8,
   position: 'absolute',
-  backgroundColor: alpha(theme.palette.grey[900], 0.64),
+  backgroundColor: alpha(theme.palette.grey[900], 0.3),
 }));
 
 // ----------------------------------------------------------------------
@@ -38,8 +38,8 @@ export default function PhotoGallery({ list, ...other }) {
   const [currentIndex, setCurrentIndex] = useState(theme.direction === 'rtl' ? list.length - 1 : 0);
 
   const carouselSettings = {
-    speed: 800,
-    dots: true,
+    speed: 3000,
+    dots: false,
     arrows: false,
     autoplay: true,
     slidesToShow: 1,
@@ -108,12 +108,6 @@ function CarouselItem({ item, isActive }) {
           color: 'common.white',
         }}
       >
-        <m.div variants={varFade().inRight}>
-          <Typography variant="overline" component="div" sx={{ opacity: 0.48 }}>
-            Photo Gallery
-          </Typography>
-        </m.div>
-
         <m.div variants={varFade().inRight}>
           <Link color="inherit" underline="none">
             <Typography variant="h5" noWrap>
