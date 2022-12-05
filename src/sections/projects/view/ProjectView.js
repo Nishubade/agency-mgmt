@@ -18,7 +18,7 @@ const ProjectView = () => {
   const { roles } = useAuthContext();
   const { getProjectById, refresh, refreshData } = useProjectContext();
   const { projectBalance, rahatChainData, contract } = useRahat();
-  const { contract: RahatCash } = useRahatCash();
+  const { contractWS: RahatCash } = useRahatCash();
 
   const {
     query: { projectId },
@@ -27,13 +27,13 @@ const ProjectView = () => {
 
   const init = useCallback(async () => {
     if (!RahatCash) return;
+    if (!projectId) return;
     await projectBalance(projectId);
     RahatCash?.on('Approval', refreshData);
     RahatCash?.on('Transfer', refreshData);
   }, [projectId, contract, RahatCash, refresh]);
 
   useEffect(() => {
-    if (!projectId) return;
     init(projectId);
     getProjectById(projectId);
     return () => RahatCash?.removeAllListeners();

@@ -5,10 +5,12 @@ import { useAuthContext } from 'src/auth/useAuthContext';
 export const useRahatCash = () => {
   let { contracts } = useAuthContext();
   const contract = useContract(CONTRACTS.CASH);
+  const contractWS = useContract(CONTRACTS.CASH, { isWebsocket: true });
   const handleError = (e) => console.log(e);
 
   return {
     contract,
+    contractWS,
     name: () => contract?.name().catch(handleError),
     symbol: () => contract?.symbol().catch(handleError),
     decimal: () => contract?.decimal().catch(handleError),

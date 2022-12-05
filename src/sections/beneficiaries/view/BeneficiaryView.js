@@ -14,8 +14,8 @@ BeneficiaryView.propTypes = {};
 
 export default function BeneficiaryView() {
   const { getBeneficiaryById, setChainData, chainData, refresh, refreshData } = useBeneficiaryContext();
-  const { beneficiaryBalance, contract } = useRahat();
-  const { contract: RahatCash } = useRahatCash();
+  const { beneficiaryBalance, contract, contractWS } = useRahat();
+  const { contractWS: RahatCash } = useRahatCash();
 
   const {
     query: { beneficiaryId },
@@ -29,7 +29,7 @@ export default function BeneficiaryView() {
     setChainData(_chainData);
     RahatCash?.on('Approval', refreshData);
     RahatCash?.on('Transfer', refreshData);
-    contract?.on('IssuedERC20', refreshData);
+    contractWS?.on('IssuedERC20', refreshData);
   }, [beneficiaryId, contract, RahatCash, refresh]);
 
   useEffect(() => {

@@ -16,7 +16,7 @@ VendorView.propTypes = {};
 export default function VendorView() {
   const { getVendorById, setChainData, chainData, refreshData, refresh } = useVendorsContext();
   const { vendorBalance, contract } = useRahat();
-  const { contract: RahatCash } = useRahatCash();
+  const { contractWS: RahatCash } = useRahatCash();
   const {
     query: { vendorId },
   } = useRouter();

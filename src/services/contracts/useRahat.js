@@ -8,6 +8,7 @@ import { BrainWallet } from '@ethersproject/experimental';
 export const useRahat = () => {
   let { contracts } = useAuthContext();
   const contract = useContract(CONTRACTS.RAHAT);
+  const contractWS = useContract(CONTRACTS.RAHAT, { isWebsocket: true });
   const cashContract = useContract(CONTRACTS.CASH);
   const registryContract = useContract(CONTRACTS.REGISTRY);
   const [rahatChainData, setRahatChainData] = useState({});
@@ -17,6 +18,7 @@ export const useRahat = () => {
 
   return {
     contract,
+    contractWS,
     cashContract,
     rahatChainData,
     vendorData,

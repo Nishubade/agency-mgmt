@@ -1,16 +1,25 @@
-import { Contract } from 'ethers';
+import { Contract, providers } from 'ethers';
 import { useEffect, useState } from 'react';
 import { useWallet } from '@hooks/useWallet';
 import { useAbi } from './useAbi';
+import { useAuthContext } from 'src/auth/useAuthContext';
 
-export const useContract = (contractName, contractAddress) => {
+export const useContract = (contractName, options = { isWebsocket: false }) => {
+  let { chainWebSocket } = useAuthContext();
   const [abi] = useAbi(contractName);
   const [wallet, contracts] = useWallet();
   const [contract, setContract] = useState(null);
 
   useEffect(() => {
     if (contracts && abi?.length && contractName) {
-      let con = new Contract(contractAddress || contracts[contractName], abi, wallet);
+      let con = null;
+      if (options?.isWebsocket)
+        con = new Contract(
+          options?.contractAddress || contracts[contractName],
+          abi,
+          new providers.WebSocketProvider(chainWebSocket)
+        );
+      else con = new Contract(options?.contractAddress || contracts[contractName], abi, wallet);
       setContract(con);
     }
   }, [abi]);

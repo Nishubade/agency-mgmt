@@ -27,6 +27,7 @@ const initialState = {
   user: null,
   keyData: null,
   chainUrl: null,
+  chainWebSocket: null,
   claimToken: null,
   contracts: null,
   addresses: null,
@@ -86,6 +87,7 @@ function AuthProvider({ children }) {
             user: localUser,
             keyData: localKey,
             chainUrl: appSettings?.networkUrl,
+            chainWebSocket: appSettings?.chainWebSocket,
             claimToken: {
               ...appSettings?.agency?.token,
               address: appSettings?.agency?.contracts?.rahat_erc20,

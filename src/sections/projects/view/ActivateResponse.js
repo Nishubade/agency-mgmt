@@ -78,11 +78,12 @@ export default function ActivateResponse() {
   }, [FetchFunctions.fetchIsLiveStatus]);
 
   useEffect(() => {
+    if (!projectId) return;
     FetchFunctions.fetchAdminList();
     // return () => {
     //   setTriggerAdmins([]);
     // };
-  }, [contract]);
+  }, [projectId, contract]);
 
   // #endregion
 
