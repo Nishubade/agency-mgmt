@@ -46,16 +46,15 @@ export default function SummaryCard({ title, total, icon, subtitle, color = 'pri
           height: 48,
           borderRadius: '50%',
           position: 'absolute',
-          color: (theme) => theme.palette[color].lighter,
-          bgcolor: (theme) => theme.palette[color].dark,
+          //color: 'grey',
+          color: (theme) => theme.palette[color].dark,
+          //bgcolor: (theme) => theme.palette[color].dark,
         }}
       />
 
       <Stack spacing={1} sx={{ p: 3 }}>
         <Typography variant="subtitle2">{title}</Typography>
-
         <Typography variant="h3">{total}</Typography>
-
         <Box component="span" sx={{ opacity: 0.72, typography: 'body2' }}>
           {subtitle}
         </Box>
