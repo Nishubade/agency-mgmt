@@ -20,9 +20,10 @@ export const getFlickrImages = async (params) => {
     ...response?.data?.photoset,
     photo: response?.data?.photoset?.photo?.map((item) => ({
       title: item?.title,
-      image: `https://live.staticflickr.com/${item?.server}/${item?.id}_${item?.secret}.jpg`,
+      thumbnail: `https://live.staticflickr.com/${item?.server}/${item?.id}_${item?.secret}_m.jpg`,
+      original: `https://live.staticflickr.com/${item?.server}/${item?.id}_${item?.secret}_b.jpg`,
       id: item?.id,
-      description: item?.title,
+      description: '',
     })),
   };
   return formatted;

@@ -129,7 +129,7 @@ export default function CarouselThumbnail({ data }) {
     >
       <Carousel {...carouselSettings1} asNavFor={nav2} ref={carousel1}>
         {data.map((item) => (
-          <Image key={item.id} alt={item.title} src={item.image} ratio="16/9" />
+          <Image key={item.id} alt={item.title} src={item.original} ratio="16/9" />
         ))}
       </Carousel>
 
@@ -145,7 +145,7 @@ export default function CarouselThumbnail({ data }) {
             key={item.id}
             disabledEffect
             alt={item.title}
-            src={item.image}
+            src={item.thumbnail}
             sx={{
               width: THUMB_SIZE,
               height: THUMB_SIZE,
