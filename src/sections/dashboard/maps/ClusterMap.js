@@ -5,8 +5,31 @@ import { clusterLayer, clusterCountLayer, unclusteredPointLayer } from './layers
 
 // ----------------------------------------------------------------------
 
-function MapClusters({ mapData, ...other }) {
+function MapClusters({ mapData = [], ...other }) {
   const mapRef = useRef(null);
+
+  mapData = mapData.map((item) => ({
+    type: 'Feature',
+    geometry: {
+      type: 'Point',
+      coordinates: [+item?.extras?.geo_longitude, +item?.extras?.geo_latitude],
+    },
+    properties: {
+      cluster: true,
+      id: item.id,
+    },
+  }));
+
+  let data = {
+    type: 'FeatureCollection',
+    crs: {
+      type: 'name',
+      properties: {
+        name: 'urn:ogc:def:crs:OGC:1.3:CRS84',
+      },
+    },
+    features: mapData,
+  };
 
   const onClick = (event) => {
     const feature = event.features?.[0];
@@ -32,9 +55,9 @@ function MapClusters({ mapData, ...other }) {
     <>
       <Map
         initialViewState={{
-          longitude: 85.3214668,
-          latitude: 27.6933542,
-          zoom: 3,
+          longitude: 85.7935933,
+          latitude: 26.629917,
+          zoom: 11,
         }}
         interactiveLayerIds={[clusterLayer.id || '']}
         onClick={onClick}
@@ -44,8 +67,8 @@ function MapClusters({ mapData, ...other }) {
         <Source
           id="earthquakes"
           type="geojson"
-          // data={mapData}
-          data="https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson"
+          data={data}
+          // data="https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson"
           cluster
           clusterMaxZoom={14}
           clusterRadius={50}
