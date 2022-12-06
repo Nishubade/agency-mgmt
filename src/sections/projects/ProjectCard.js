@@ -49,7 +49,12 @@ export default function ProjectCard({ project }) {
           </Label>
         )}
 
-        <Image alt={name} src={'/assets/images/about/what_2.jpg'} ratio="1/1" sx={{ borderRadius: 1.5 }} />
+        <Image
+          alt={name}
+          src={'https://live.staticflickr.com/65535/52356516086_647d7aa97d_b.jpg'}
+          ratio="1/1"
+          sx={{ borderRadius: 1.5 }}
+        />
       </Box>
 
       <Stack spacing={2.5} sx={{ p: 3 }}>
