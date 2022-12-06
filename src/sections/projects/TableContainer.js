@@ -6,6 +6,7 @@ import Iconify from '@components/iconify';
 import ListTable from '@components/table/ListTable';
 import { useProjectContext } from '@contexts/projects';
 import moment from 'moment';
+import ProjectsList from './ProjectsList';
 
 const TABLE_HEAD = {
   name: {
@@ -61,8 +62,9 @@ const TableContainer = () => {
   };
   return (
     <Box sx={{ p: 1 }}>
+      <ProjectsList list={projects} onClick={handleView} />
       {/* <ListTableToolbar /> */}
-      <ListTable tableRowsList={projects} tableHeadersList={TABLE_HEAD} errorMessage={errorMessage}>
+      {/* <ListTable tableRowsList={projects} tableHeadersList={TABLE_HEAD} errorMessage={errorMessage}>
         {(rows, tableHeadersList) =>
           rows.map((row) => (
             <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -84,7 +86,7 @@ const TableContainer = () => {
             </TableRow>
           ))
         }
-      </ListTable>
+      </ListTable> */}
     </Box>
   );
 };
