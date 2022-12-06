@@ -11,7 +11,7 @@ import Container from './Container';
 const Page = forwardRef(({ children, title = '', meta, breadcrumbAction, breadcrumbLinks = [], ...other }, ref) => (
   <>
     <Head>
-      <title>{`${title} | ${APP_NAME}`}</title>
+      <title>{`${title ? title + '|' : ''} ${APP_NAME}`}</title>
       {meta}
     </Head>
 

@@ -11,7 +11,8 @@ import { ProjectProvider, useProjectContext } from '@contexts/projects';
 import { useAuthContext } from 'src/auth/useAuthContext';
 
 const PAGE_TITLE = `Project: Detail`;
-const ProjectView = (props) => {
+
+export default function ProjectView(props) {
   const { themeStretch } = useSettingsContext();
   const { roles } = useAuthContext();
   const {
@@ -45,10 +46,8 @@ const ProjectView = (props) => {
       </Page>
     </ProjectProvider>
   );
-};
+}
 
 ProjectView.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
 ProjectView.propTypes = {};
-
-export default ProjectView;

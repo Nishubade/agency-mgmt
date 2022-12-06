@@ -1,50 +1,65 @@
 import PropTypes from 'prop-types';
 // @mui
-import { Box, Card, Typography, Stack } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { Card, Typography, Stack, Box } from '@mui/material';
 // utils
-import { fNumber } from '@utils/formatNumber';
-import Iconify from './iconify';
+import { fCurrency, fPercent } from '@utils/formatNumber';
 // components
-
-// ----------------------------------------------------------------------
+import Iconify from '@components/iconify';
+import Chart, { useChart } from '@components/chart';
 
 // ----------------------------------------------------------------------
 
 SummaryCard.propTypes = {
-  title: PropTypes.string.isRequired,
-  total: PropTypes.number.isRequired,
-  subtitle: PropTypes.string,
   sx: PropTypes.object,
-  icon: PropTypes.string,
+  chart: PropTypes.object,
+  color: PropTypes.string,
+  title: PropTypes.string,
+  subtitle: PropTypes.string,
+  total: PropTypes.number,
+  percent: PropTypes.number,
+  icon: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
 };
 
-export default function SummaryCard({ title, total, subtitle, sx, icon, ...other }) {
+export default function SummaryCard({ title, total, icon, subtitle, color = 'primary', sx, ...other }) {
+  const theme = useTheme();
+  console.log(theme);
+
   return (
-    <Card sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', p: 3, ...sx }} {...other}>
-      <Box sx={{ flexGrow: 1 }}>
-        <Stack direction="row" justifyContent="center" alignItems="center" spacing={1}>
-          {icon && <Iconify icon={icon} />}
-          <Typography variant="caption1">{title}</Typography>
-        </Stack>
-        <Stack
-          sx={{
-            mt: 1,
-            mb: 0.2,
-            display: 'flex',
-          }}
-        >
-          <Typography variant="h4">{fNumber(total)}</Typography>
-        </Stack>
-        <Stack
-          sx={{
-            mt: 1.5,
-            mb: 0.5,
-            display: 'flex',
-          }}
-        >
-          <Typography variant="subtitle2">{subtitle}</Typography>
-        </Stack>
-      </Box>
+    <Card
+      sx={{
+        width: 1,
+        boxShadow: 0,
+        color: (theme) => theme.palette[color].darker,
+        bgcolor: (theme) => theme.palette[color].lighter,
+        ...sx,
+      }}
+      {...other}
+    >
+      <Iconify
+        icon={icon}
+        sx={{
+          p: 1.5,
+          top: 24,
+          right: 24,
+          width: 48,
+          height: 48,
+          borderRadius: '50%',
+          position: 'absolute',
+          color: (theme) => theme.palette[color].lighter,
+          bgcolor: (theme) => theme.palette[color].dark,
+        }}
+      />
+
+      <Stack spacing={1} sx={{ p: 3 }}>
+        <Typography variant="subtitle2">{title}</Typography>
+
+        <Typography variant="h3">{total}</Typography>
+
+        <Box component="span" sx={{ opacity: 0.72, typography: 'body2' }}>
+          {subtitle}
+        </Box>
+      </Stack>
     </Card>
   );
 }

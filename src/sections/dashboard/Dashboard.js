@@ -81,7 +81,7 @@ const DashboardComponent = () => {
       <Grid container spacing={theme.spacing(SPACING.GRID_SPACING)}>
         <Grid
           container
-          lg={8}
+          lg={7}
           spacing={theme.spacing(SPACING.GRID_SPACING)}
           sx={{
             px: theme.spacing(SPACING.GRID_SPACING),
@@ -89,6 +89,7 @@ const DashboardComponent = () => {
         >
           <Grid item xs={12} md={4}>
             <SummaryCard
+              color="warning"
               icon="material-symbols:person-4"
               title="Beneficiaries"
               total={summary?.total_beneficiaries}
@@ -98,6 +99,7 @@ const DashboardComponent = () => {
 
           <Grid item xs={12} md={4}>
             <SummaryCard
+              color="error"
               icon={'fa6-solid:children'}
               title="Under 5"
               total={summary?.total_children}
@@ -112,6 +114,7 @@ const DashboardComponent = () => {
 
           <Grid item xs={12} md={4}>
             <SummaryCard
+              color="success"
               icon={'fa6-solid:users'}
               title="Total Impact"
               total={summary?.total_persons}
@@ -121,6 +124,7 @@ const DashboardComponent = () => {
           </Grid>
           <Grid item xs={12} md={4}>
             <SummaryCard
+              color="secondary"
               title="Unbanked"
               icon="mdi:bank-transfer-out"
               total={summary?.total_unbanked}
@@ -132,10 +136,16 @@ const DashboardComponent = () => {
             <SummaryCard icon="material-symbols:token" title="Token Issued" total={0} subtitle={'tokens'} />
           </Grid>
           <Grid item xs={12} md={4}>
-            <SummaryCard icon="ph:currency-circle-dollar-light" title="Token Redeemed" total={0} subtitle={'tokens'} />
+            <SummaryCard
+              color="info"
+              icon="ph:currency-circle-dollar-light"
+              title="Token Redeemed"
+              total={0}
+              subtitle={'tokens'}
+            />
           </Grid>
         </Grid>
-        <Grid container xs={12} md={6} lg={4}>
+        <Grid container xs={12} md={6} lg={5}>
           <Grid item xs={12} md={12}>
             <PhotoGallery list={flickImages} />
           </Grid>

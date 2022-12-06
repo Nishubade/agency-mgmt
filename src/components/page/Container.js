@@ -17,7 +17,7 @@ const ContainerComponent = ({ children, title, action, breadcrumbLinks, nocard =
           links={[{ name: '', href: PATH_DASHBOARD.root }, ...breadcrumbLinks]}
           action={action}
         />
-        {nocard ? children : <Card sx={{ p: 3 }}>{children}</Card>}
+        {nocard ? children : <Card sx={{ p: 2 }}>{children}</Card>}
       </MuiContainer>
     </>
   );
