@@ -8,11 +8,13 @@ const initialState = {
   chainData: {},
   refresh: false,
   filter: {},
+  wards: [],
   getBeneficiariesList: () => {},
   getBeneficiaryById: () => {},
   setChainData: () => {},
   refreshData: () => {},
   setFilter: () => {},
+  getAllWards: () => {},
 };
 
 const BeneficiaryContext = createContext(initialState);
@@ -24,7 +26,10 @@ export const BeneficiaryProvider = ({ children }) => {
   const setFilter = (filter) => setState((prev) => ({ ...prev, filter }));
 
   const getBeneficiariesList = useCallback(async () => {
-    const response = await BeneficiaryService.getBeneficiariesList(state.filter);
+    let filter = state.filter;
+    // let filter = state.filter?.name?.length > 3 || state.filter?.phone?.length > 3 ? state.filter : {};
+
+    const response = await BeneficiaryService.getBeneficiariesList(filter);
 
     const formatted = response.data.data.map((item) => ({
       ...item,
@@ -74,6 +79,19 @@ export const BeneficiaryProvider = ({ children }) => {
     return formatted;
   }, []);
 
+  const getAllWards = useCallback(async () => {
+    const response = await BeneficiaryService.getAllWards();
+    const formatted = response.data.map((item) => ({
+      label: item,
+      value: item,
+    }));
+    setState((prev) => ({
+      ...prev,
+      wards: formatted,
+    }));
+    return formatted;
+  }, []);
+
   const contextValue = {
     ...state,
     refreshData,
@@ -81,6 +99,7 @@ export const BeneficiaryProvider = ({ children }) => {
     setChainData,
     getBeneficiariesList,
     getBeneficiaryById,
+    getAllWards,
   };
 
   return <BeneficiaryContext.Provider value={contextValue}>{children}</BeneficiaryContext.Provider>;
