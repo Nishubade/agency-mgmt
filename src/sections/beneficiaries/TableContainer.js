@@ -8,45 +8,6 @@ import { useBeneficiaryContext } from '@contexts/beneficiaries';
 import moment from 'moment';
 import { useAuthContext } from 'src/auth/useAuthContext';
 
-const TABLE_HEAD = {
-  name: {
-    id: 'name',
-    // id: 'timestamp',
-    label: 'Name',
-    align: 'left',
-  },
-  phone: {
-    id: 'phone',
-    label: 'Phone',
-    align: 'left',
-  },
-  address: {
-    id: 'address',
-    label: 'Address',
-    align: 'left',
-  },
-  registrationDate: {
-    id: 'registrationDate',
-    label: 'Registration Date',
-    align: 'left',
-  },
-  registeredBy: {
-    id: 'registeredBy',
-    label: 'Registered By',
-    align: 'left',
-  },
-  balance: {
-    id: 'balance',
-    label: 'Balance',
-    align: 'left',
-  },
-  action: {
-    id: 'action',
-    label: 'Action',
-    align: 'left',
-  },
-};
-
 const TableContainer = () => {
   const router = useRouter();
   const { roles } = useAuthContext();
@@ -64,6 +25,48 @@ const TableContainer = () => {
   const handleView = (id) => () => {
     router.push(`/beneficiaries/${id}/view`);
   };
+
+  // #region Table Headers
+  const TABLE_HEAD = {
+    name: {
+      id: 'name',
+      // id: 'timestamp',
+      label: 'Name',
+      align: 'left',
+      // show: roles.isPalika,
+    },
+    phone: {
+      id: 'phone',
+      label: 'Phone',
+      align: 'left',
+    },
+    address: {
+      id: 'address',
+      label: 'Address',
+      align: 'left',
+    },
+    registrationDate: {
+      id: 'registrationDate',
+      label: 'Registration Date',
+      align: 'left',
+    },
+    registeredBy: {
+      id: 'registeredBy',
+      label: 'Registered By',
+      align: 'left',
+    },
+    balance: {
+      id: 'balance',
+      label: 'Balance',
+      align: 'left',
+    },
+    action: {
+      id: 'action',
+      label: 'Action',
+      align: 'left',
+    },
+  };
+  // #endregion
 
   return (
     <Box>

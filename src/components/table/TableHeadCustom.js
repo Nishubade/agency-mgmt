@@ -41,6 +41,7 @@ export default function TableHeadCustom({
 }) {
   headLabel = Object.keys(headLabel)
     .map((key) => key)
+    .filter((key) => headLabel[key].show !== false)
     .map((key) => headLabel[key]);
 
   return (
