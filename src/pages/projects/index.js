@@ -14,7 +14,7 @@ export default function ProjectsList() {
 
   return (
     <ProjectProvider>
-      <Page title={PAGE_TITLE}>
+      <Page title={PAGE_TITLE} nocard>
         <Container maxWidth={themeStretch ? false : 'xl'}>
           <TableContainer />
         </Container>

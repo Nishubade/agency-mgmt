@@ -8,20 +8,22 @@ import Container from './Container';
 
 // ----------------------------------------------------------------------
 
-const Page = forwardRef(({ children, title = '', meta, breadcrumbAction, breadcrumbLinks = [], ...other }, ref) => (
-  <>
-    <Head>
-      <title>{`${title ? title + '|' : ''} ${APP_NAME}`}</title>
-      {meta}
-    </Head>
+const Page = forwardRef(
+  ({ children, title = '', meta, breadcrumbAction, breadcrumbLinks = [], nocard, ...other }, ref) => (
+    <>
+      <Head>
+        <title>{`${title ? title + '|' : ''} ${APP_NAME}`}</title>
+        {meta}
+      </Head>
 
-    <Box ref={ref} {...other}>
-      <Container title={title} action={breadcrumbAction} breadcrumbLinks={breadcrumbLinks} {...other}>
-        {children}
-      </Container>
-    </Box>
-  </>
-));
+      <Box ref={ref} {...other}>
+        <Container title={title} action={breadcrumbAction} breadcrumbLinks={breadcrumbLinks} nocard={nocard} {...other}>
+          {children}
+        </Container>
+      </Box>
+    </>
+  )
+);
 
 Page.propTypes = {
   children: PropTypes.node.isRequired,
@@ -29,6 +31,7 @@ Page.propTypes = {
   meta: PropTypes.node,
   breadcrumbAction: PropTypes.node,
   breadcrumbLinks: PropTypes.array,
+  nocard: PropTypes.bool,
 };
 
 export default Page;
