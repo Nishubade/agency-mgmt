@@ -33,11 +33,15 @@ export default function BasicInfoCard({ chainData }) {
 
         <Stack sx={{ p: 2 }} direction="row" justifyContent="space-between" alignItems="center" spacing={12}>
           <Grid container direction="column" justifyContent="center" alignItems="flex-start">
-            <Typography variant="h4">{singleVendor?.phone}</Typography>
+            <Typography variant="h5" sx={{ fontWeight: 600 }}>
+              {singleVendor?.phone}
+            </Typography>
             <Typography variant="body2">Phone</Typography>
           </Grid>
           <Grid container direction="column" justifyContent="center" alignItems="flex-start">
-            <Typography variant="h4">{truncateEthAddress(singleVendor?.wallet_address)}</Typography>
+            <Typography variant="h5" sx={{ fontWeight: 600 }}>
+              {truncateEthAddress(singleVendor?.wallet_address)}
+            </Typography>
             <Typography variant="body2">Wallet Address</Typography>
           </Grid>
         </Stack>

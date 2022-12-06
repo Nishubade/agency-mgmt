@@ -25,13 +25,13 @@ export default function BasicInfoCard({ rahatChainData, ...other }) {
 
         <Stack sx={{ p: 2 }} direction="row" justifyContent="space-between" alignItems="center" spacing={12}>
           <Grid container direction="column" justifyContent="center" alignItems="flex-start">
-            <Typography variant="h4" sx={{ fontWeight: 400 }}>
+            <Typography variant="h5" sx={{ fontWeight: 600 }}>
               {rahatChainData.totalBudget || 0}
             </Typography>
             <Typography variant="body2">Allocated Budget</Typography>
           </Grid>
           <Grid container direction="column" justifyContent="center" alignItems="flex-start">
-            <Typography variant="h4" sx={{ fontWeight: 400 }}>
+            <Typography variant="h5" sx={{ fontWeight: 600 }}>
               {rahatChainData.tokenBalance || 0}
             </Typography>
             <Typography variant="body2">Remaining Balance</Typography>

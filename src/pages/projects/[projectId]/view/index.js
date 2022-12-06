@@ -8,10 +8,12 @@ import { Container } from '@mui/material';
 import { ActionMenu, ProjectViewComp } from '@sections/projects/view';
 import { useRouter } from 'next/router';
 import { ProjectProvider, useProjectContext } from '@contexts/projects';
+import { useAuthContext } from 'src/auth/useAuthContext';
 
 const PAGE_TITLE = `Project: Detail`;
 const ProjectView = (props) => {
   const { themeStretch } = useSettingsContext();
+  const { roles } = useAuthContext();
   const {
     push: routerPush,
     query: { projectId },
@@ -32,7 +34,11 @@ const ProjectView = (props) => {
 
   return (
     <ProjectProvider>
-      <Page title={PAGE_TITLE} nocard action={<ActionMenu menuItems={actionMenuItems} actionTitle={'Actions'} />}>
+      <Page
+        title={PAGE_TITLE}
+        nocard
+        action={roles.isAgencyOrPalika() && <ActionMenu menuItems={actionMenuItems} actionTitle={'Actions'} />}
+      >
         <Container maxWidth={themeStretch ? false : 'xl'}>
           <ProjectViewComp />
         </Container>

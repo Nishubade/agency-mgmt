@@ -9,10 +9,12 @@ import { useBeneficiaryContext } from '@contexts/beneficiaries';
 import { useRouter } from 'next/router';
 import { useRahat } from '@services/contracts/useRahat';
 import { useRahatCash } from '@services/contracts/useRahatCash';
+import { useAuthContext } from 'src/auth/useAuthContext';
 
 BeneficiaryView.propTypes = {};
 
 export default function BeneficiaryView() {
+  const { roles } = useAuthContext();
   const { getBeneficiaryById, setChainData, chainData, refresh, refreshData } = useBeneficiaryContext();
   const { beneficiaryBalance, contract, contractWS } = useRahat();
   const { contractWS: RahatCash } = useRahatCash();
@@ -53,12 +55,16 @@ export default function BeneficiaryView() {
             <MoreInfoCard />
           </Grid> */}
       </Grid>
-      <Stack>
-        <MoreInfoCard />
-      </Stack>
-      <Stack sx={{ mt: 1 }}>
-        <ProjectsInvolved />
-      </Stack>
+      {roles.isAgencyOrPalika() && (
+        <Stack>
+          <MoreInfoCard />
+        </Stack>
+      )}
+      {roles.isAgencyOrPalika() && (
+        <Stack sx={{ mt: 1 }}>
+          <ProjectsInvolved />
+        </Stack>
+      )}
       <Stack sx={{ mt: 1 }}>
         <HistoryTable />
       </Stack>

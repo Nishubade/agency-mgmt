@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardContent, Chip, Grid, Stack, Typography } from '@mui/material';
 import { useBeneficiaryContext } from '@contexts/beneficiaries';
+import { useAuthContext } from 'src/auth/useAuthContext';
 
 BasicInfoCard.propTypes = {
   chainData: PropTypes.object,
@@ -9,12 +10,14 @@ BasicInfoCard.propTypes = {
 
 export default function BasicInfoCard({ chainData }) {
   const { singleBeneficiary } = useBeneficiaryContext();
+  const { roles } = useAuthContext();
   return (
     <Card sx={{ width: '100%', mb: 1 }}>
       <CardContent>
         <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={1}>
-          <Typography variant="body1">{singleBeneficiary?.name}</Typography>
-
+          <Typography variant="h4" sx={{ fontWeight: 600 }}>
+            {roles.isPalika ? singleBeneficiary?.name : singleBeneficiary?.name?.substring(0, 1) + 'xxxxxxx Xxxxx'}
+          </Typography>
           <div>
             {chainData?.totalTokenIssued ? (
               <>

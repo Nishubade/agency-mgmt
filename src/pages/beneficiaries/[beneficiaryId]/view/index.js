@@ -8,11 +8,13 @@ import { useSettingsContext } from '@components/settings';
 
 import { ActionMenu, BeneficiaryViewComp } from '@sections/beneficiaries/view';
 import { BeneficiaryProvider } from '@contexts/beneficiaries';
+import { useAuthContext } from 'src/auth/useAuthContext';
 
 const PAGE_TITLE = 'Beneficairy: Details';
 
 const BeneficiaryView = () => {
   const { themeStretch } = useSettingsContext();
+  const { roles } = useAuthContext();
   const {
     push: routerPush,
     query: { beneficiaryId },
@@ -20,7 +22,7 @@ const BeneficiaryView = () => {
 
   return (
     <BeneficiaryProvider>
-      <Page title={PAGE_TITLE} nocard action={<ActionMenu actionTitle={'Actions'} />}>
+      <Page title={PAGE_TITLE} nocard action={roles.isPalika && <ActionMenu actionTitle={'Actions'} />}>
         <Container maxWidth={themeStretch ? false : 'xl'}>
           <BeneficiaryViewComp />
         </Container>

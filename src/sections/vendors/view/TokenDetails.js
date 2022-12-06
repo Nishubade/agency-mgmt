@@ -21,16 +21,22 @@ export default function TokenDetails({ chainData }) {
 
         <Stack sx={{ pt: 1 }} direction="row" justifyContent="space-between" alignItems="center" spacing={1}>
           <Grid container direction="column" justifyContent="center" alignItems="center">
-            <Typography variant="h4">{chainData?.tokenBalance || 0}</Typography>
+            <Typography variant="h5" sx={{ fontWeight: 600 }}>
+              {chainData?.tokenBalance || 0}
+            </Typography>
             <Typography variant="body2">Token Balance</Typography>
           </Grid>
           <Grid container direction="column" justifyContent="center" alignItems="center">
-            <Typography variant="h4">{chainData?.cashBalance || 0}</Typography>
+            <Typography variant="h5" sx={{ fontWeight: 600 }}>
+              {chainData?.cashBalance || 0}
+            </Typography>
             <Typography variant="body2">Cash Balance</Typography>
           </Grid>
         </Stack>
         <Stack sx={{ pt: 3 }} alignItems="center">
-          <Typography variant="h4">{truncateEthAddress(chainData?.walletAddress) || '-'}</Typography>
+          <Typography variant="h5" sx={{ fontWeight: 600 }}>
+            {truncateEthAddress(chainData?.walletAddress) || '-'}
+          </Typography>
           <Typography variant="body2">Contract Address</Typography>
         </Stack>
       </CardContent>
