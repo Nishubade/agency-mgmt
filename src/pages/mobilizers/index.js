@@ -1,17 +1,26 @@
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { PATH_MOBILIZERS } from '@routes/paths';
+/* eslint-disable import/no-unresolved */
+import React from 'react';
+import DashboardLayout from '@layouts/dashboard';
+import { Page } from '@components/page';
+import { useSettingsContext } from '@components/settings';
+import { Container } from '@mui/material';
+import { TableContainer } from '@sections/mobilizers';
+import { MobilizerProvider } from '@contexts/mobilizers';
 
-// ----------------------------------------------------------------------
+const PAGE_TITLE = 'Mobilizers';
 
-export default function Index() {
-  const router = useRouter();
+export default function MobilizersList() {
+  const { themeStretch } = useSettingsContext();
 
-  useEffect(() => {
-    if (router.pathname == PATH_MOBILIZERS.root) {
-      router.push(PATH_MOBILIZERS.list);
-    }
-  });
-
-  return null;
+  return (
+    <MobilizerProvider>
+      <Page title={PAGE_TITLE}>
+        <Container maxWidth={themeStretch ? false : 'xl'}>
+          <TableContainer />
+        </Container>
+      </Page>
+    </MobilizerProvider>
+  );
 }
+
+MobilizersList.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;

@@ -88,7 +88,12 @@ const DashboardComponent = () => {
           }}
         >
           <Grid item xs={12} md={4}>
-            <SummaryCard icon="material-symbols:person-4" title="Beneficiaries" total={2} subtitle={'households'} />
+            <SummaryCard
+              icon="material-symbols:person-4"
+              title="Beneficiaries"
+              total={summary?.total_beneficiaries}
+              subtitle={'households'}
+            />
           </Grid>
 
           <Grid item xs={12} md={4}>

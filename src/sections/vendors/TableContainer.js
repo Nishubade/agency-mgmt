@@ -52,7 +52,7 @@ const TableContainer = () => {
   }, [getVendorsList]);
 
   const handleView = (id) => () => {
-    router.push(`/vendors/${id}/view`);
+    router.push(`/vendors/${id}`);
   };
 
   return (

@@ -1,17 +1,26 @@
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { PATH_PROJECTS } from '@routes/paths';
+/* eslint-disable import/no-unresolved */
+import React from 'react';
+import DashboardLayout from '@layouts/dashboard';
+import { Page } from '@components/page';
+import { useSettingsContext } from '@components/settings';
+import { Container } from '@mui/material';
+import { TableContainer } from '@sections/projects';
+import { ProjectProvider } from '@contexts/projects';
 
-// ----------------------------------------------------------------------
+const PAGE_TITLE = 'Projects';
 
-export default function Index() {
-  const router = useRouter();
+export default function ProjectsList() {
+  const { themeStretch } = useSettingsContext();
 
-  useEffect(() => {
-    if (router.pathname == PATH_PROJECTS.root) {
-      router.push(PATH_PROJECTS.list);
-    }
-  });
-
-  return null;
+  return (
+    <ProjectProvider>
+      <Page title={PAGE_TITLE}>
+        <Container maxWidth={themeStretch ? false : 'xl'}>
+          <TableContainer />
+        </Container>
+      </Page>
+    </ProjectProvider>
+  );
 }
+
+ProjectsList.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;

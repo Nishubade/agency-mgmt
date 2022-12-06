@@ -31,8 +31,8 @@ export const PATH_DASHBOARD = {
 
 export const PATH_PROJECTS = {
   root: ROOTS_PROJECTS,
-  list: path(ROOTS_PROJECTS, '/list'),
-  view: path(ROOTS_PROJECTS, '/[id]/view'),
+  list: path(ROOTS_PROJECTS),
+  view: path(ROOTS_PROJECTS, '/[id]'),
   addBudget: path(ROOTS_PROJECTS, '/[id]/add-budget'),
 };
 
@@ -43,17 +43,17 @@ export const PATH_CASH_TRACKER = {
 
 export const PATH_BENEFICIARY = {
   root: ROOTS_BENEFICIARY,
-  list: path(ROOTS_BENEFICIARY, '/list'),
+  list: path(ROOTS_BENEFICIARY),
 };
 
 export const PATH_VENDORS = {
   root: ROOTS_VENDORS,
-  list: path(ROOTS_VENDORS, '/list'),
+  list: path(ROOTS_VENDORS),
 };
 
 export const PATH_MOBILIZERS = {
   root: ROOTS_MOBILIZERS,
-  list: path(ROOTS_MOBILIZERS, '/list'),
+  list: path(ROOTS_MOBILIZERS),
 };
 
 export const PATH_FINANCIAL_INSTITUTIONS = {

@@ -9,7 +9,7 @@ const ProjectsInvolved = (props) => {
   const { singleBeneficiary } = useBeneficiaryContext();
 
   const handleProjectClick = (id) => () => {
-    router.push(`/projects/${id}/view`);
+    router.push(`/projects/${id}`);
   };
 
   return (

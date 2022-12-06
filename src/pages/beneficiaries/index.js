@@ -1,17 +1,26 @@
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { PATH_BENEFICIARY } from '@routes/paths';
+/* eslint-disable import/no-unresolved */
+import React from 'react';
+import DashboardLayout from '@layouts/dashboard';
+import { Page } from '@components/page';
+import { useSettingsContext } from '@components/settings';
+import { Container } from '@mui/material';
+import { TableContainer } from '@sections/beneficiaries';
+import { BeneficiaryProvider } from '@contexts/beneficiaries';
 
-// ----------------------------------------------------------------------
+const PAGE_TITLE = 'Beneficiaries';
 
-export default function Index() {
-  const router = useRouter();
+export default function BeneficiaryList() {
+  const { themeStretch } = useSettingsContext();
 
-  useEffect(() => {
-    if (router.pathname == PATH_BENEFICIARY.root) {
-      router.push(PATH_BENEFICIARY.list);
-    }
-  });
-
-  return null;
+  return (
+    <BeneficiaryProvider>
+      <Page title={PAGE_TITLE}>
+        <Container maxWidth={themeStretch ? false : 'xl'}>
+          <TableContainer />
+        </Container>
+      </Page>
+    </BeneficiaryProvider>
+  );
 }
+
+BeneficiaryList.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;

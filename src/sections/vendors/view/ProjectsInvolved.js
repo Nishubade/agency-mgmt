@@ -10,7 +10,7 @@ const ProjectsInvolved = () => {
   const router = useRouter();
 
   const handleProjectClick = (id) => () => {
-    router.push(`/projects/${id}/view`);
+    router.push(`/projects/${id}`);
   };
 
   return (

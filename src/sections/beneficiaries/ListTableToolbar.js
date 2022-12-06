@@ -14,8 +14,8 @@ export default function ListTableToolbar() {
 
   const onSearch = (e) => {
     const { name, value } = e.target;
-
-    setFilter({ [name]: value });
+    if (!value) setFilter(null);
+    else setFilter({ [name]: value });
   };
 
   return (
@@ -28,8 +28,8 @@ export default function ListTableToolbar() {
         onSelectChange={onSearch}
         value={filter?.ward || ''}
       />
-      <ListSearchField label={'Enter Phone'} value={filter.phone || ''} onChange={onSearch} name={'phone'} />
-      <ListSearchField label={'Enter Name'} value={filter.name || ''} onChange={onSearch} name={'name'} />
+      <ListSearchField label={'Enter Phone'} value={filter?.phone || ''} onChange={onSearch} name={'phone'} />
+      <ListSearchField label={'Enter Name'} value={filter?.name || ''} onChange={onSearch} name={'name'} />
     </Stack>
   );
 }
