@@ -15,22 +15,17 @@ import Image from '@components/image';
 export default function Login() {
   return (
     <LoginLayout>
-      <Stack direction="row" justifyContent="center" alignItems="center" spacing={2} sx={{ p: 2 }}>
+      <Stack direction="row" justifyContent="center" alignItems="center" spacing={2} sx={{ mb: 5, p: 2 }}>
         <Image
           disabledEffect
           visibleByDefault
           alt="auth"
           src={'/assets/images/unicef-logo-white.png'}
-          sx={{ width: 150 }}
+          sx={{ width: 120 }}
         />
-      </Stack>
-      <Stack spacing={2} sx={{ mb: 5, position: 'relative' }}>
-        <Typography variant="h4">Sign in to {APP_NAME}</Typography>
       </Stack>
 
       <AuthLoginForm />
-
-      <AuthWithWallet />
     </LoginLayout>
   );
 }

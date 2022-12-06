@@ -18,35 +18,22 @@ LoginLayout.propTypes = {
 export default function LoginLayout({ children, illustration, title }) {
   return (
     <StyledRoot>
-      <Logo
-        sx={{
-          zIndex: 9,
-          position: 'absolute',
-          mt: { xs: 1.5, md: 5 },
-          ml: { xs: 2, md: 5 },
-        }}
-      />
-
       <StyledSection>
-        <Typography variant="h3" sx={{ mb: 10, maxWidth: 480, textAlign: 'center' }}>
-          {title || 'Hi, Welcome back'}
-        </Typography>
-
         <Image
           disabledEffect
           visibleByDefault
           alt="auth"
           src={illustration || '/assets/images/rahat-logo.png'}
-          sx={{ maxWidth: 720 }}
+          sx={{ maxWidth: 240 }}
         />
 
         <StyledSectionBg />
         <Stack spacing={3} sx={{ position: 'relative', zIndex: 9 }}>
-          <Typography variant="h6" sx={{ mb: 10, maxWidth: 480, textAlign: 'center' }}>
+          <Typography variant="body1" sx={{ mt: 2, maxWidth: 400, textAlign: 'center' }}>
             Supporting vulnerable communities with a simple and efficient relief distribution platform.
           </Typography>
         </Stack>
-        <Typography variant="body2" sx={{ mt: 5, textAlign: 'center' }}>
+        <Typography variant="body2" sx={{ position: 'absolute', bottom: 40, textAlign: 'center' }}>
           © 2022 Rahat. All rights reserved
         </Typography>
       </StyledSection>

@@ -16,7 +16,6 @@ export function LoginProvider({ children }) {
 
   const handleOtpRequest = async (payload) => {
     const response = await AuthService.otpRequest(payload);
-    console.log('response', response);
     if (response?.data?.status) {
       setState((prev) => ({
         ...prev,
@@ -28,6 +27,7 @@ export function LoginProvider({ children }) {
 
   const handleOtpVerification = async (payload) => {
     const response = await AuthService.verifyOtp(payload);
+    if (!response.data) throw new Error('Invalid OTP');
     addToken(response.data.token);
     addUser(response.data.user);
     addKey(response.data.key);

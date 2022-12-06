@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, Alert } from '@mui/material';
+import { Stack, Alert, useTheme } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // auth
 // components
@@ -19,7 +19,7 @@ import { saveKey } from '@utils/sessionManager';
 
 export default function AuthLoginForm() {
   const { handleOtpRequest, otpSent, handleOtpVerification } = useLoginContext();
-
+  const theme = useTheme();
   const router = useRouter();
 
   const [tempIdentity, setTempIdentity] = useState(null);
@@ -56,13 +56,20 @@ export default function AuthLoginForm() {
   const onSubmit = async ({ email }) => {
     try {
       const otpSent = await handleOtpRequest({ address: email, encryptionKey: tempIdentity.publicKey });
+      if (!otpSent.status) {
+        reset();
+        setError('afterSubmit', {
+          ...new Error('test'),
+          message: otpSent.msg,
+        });
+        return;
+      }
       setOTPSentMessage(otpSent?.msg);
       reset();
     } catch (error) {
       console.error(error);
 
       reset();
-
       setError('afterSubmit', {
         ...error,
         message: error.message,
@@ -107,9 +114,23 @@ export default function AuthLoginForm() {
       <FormProvider methods={otpMethods} onSubmit={otpMethods.handleSubmit(onOtpSubmit)}>
         <Stack spacing={3} sx={{ mb: 3 }}>
           {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
-          {!!otpSentMessage && <Alert severity="info">{otpSentMessage} </Alert>}
+          {!!otpSentMessage && <Alert severity="info">Please find OTP in your email.</Alert>}
 
-          <RHFTextField name="otp" label="OTP Code" />
+          <RHFTextField
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                color: '#fff',
+              },
+              '& .MuiInputLabel-root': {
+                color: '#fff',
+              },
+              '& .MuiInputLabel-root.Mui-focused': {
+                color: '#fff',
+              },
+            }}
+            name="otp"
+            label="OTP Code"
+          />
         </Stack>
 
         <LoadingButton
@@ -136,10 +157,23 @@ export default function AuthLoginForm() {
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit, onEmailSubmitError)}>
-      <Stack spacing={3} sx={{ mb: 3 }}>
+      <Stack spacing={3} sx={{ mb: 2 }}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
-
-        <RHFTextField name="email" label="Email address" />
+        <RHFTextField
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              color: '#fff',
+            },
+            '& .MuiInputLabel-root': {
+              color: '#fff',
+            },
+            '& .MuiInputLabel-root.Mui-focused': {
+              color: '#fff',
+            },
+          }}
+          name="email"
+          label="Enter registered email"
+        />
       </Stack>
 
       <LoadingButton
@@ -158,7 +192,7 @@ export default function AuthLoginForm() {
           },
         }}
       >
-        Send OTP
+        Login into Rahat
       </LoadingButton>
     </FormProvider>
   );
