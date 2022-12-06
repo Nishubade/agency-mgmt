@@ -33,7 +33,7 @@ const TableContainer = () => {
       // id: 'timestamp',
       label: 'Name',
       align: 'left',
-      // show: roles.isPalika,
+      show: roles.isPalika,
     },
     phone: {
       id: 'phone',
@@ -75,7 +75,7 @@ const TableContainer = () => {
         {(rows, tableHeadersList) =>
           rows.map((row) => (
             <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-              <TableCell align={tableHeadersList['name'].align}>{row.name}</TableCell>
+              {roles.isPalika && <TableCell align={tableHeadersList['name'].align}>{row.name}</TableCell>}
               <TableCell align={tableHeadersList['phone'].align}>{row.phone}</TableCell>
               <TableCell align={tableHeadersList['address'].align}>{row.address}</TableCell>
               <TableCell align={tableHeadersList['registrationDate'].align}>
