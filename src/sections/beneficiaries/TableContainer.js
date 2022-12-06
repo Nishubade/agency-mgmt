@@ -23,7 +23,7 @@ const TableContainer = () => {
   }, [getAllWards]);
 
   const handleView = (id) => () => {
-    router.push(`/beneficiaries/${id}/view`);
+    router.push(`/beneficiaries/${id}`);
   };
 
   // #region Table Headers

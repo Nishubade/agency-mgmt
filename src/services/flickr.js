@@ -22,6 +22,7 @@ export const getFlickrImages = async (params) => {
       title: item?.title,
       thumbnail: `https://live.staticflickr.com/${item?.server}/${item?.id}_${item?.secret}_m.jpg`,
       original: `https://live.staticflickr.com/${item?.server}/${item?.id}_${item?.secret}_b.jpg`,
+      image: `https://live.staticflickr.com/${item?.server}/${item?.id}_${item?.secret}_b.jpg`,
       id: item?.id,
       description: '',
     })),

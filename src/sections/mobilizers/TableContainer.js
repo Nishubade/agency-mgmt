@@ -47,7 +47,7 @@ const TableContainer = () => {
   }, [getMobilizersList]);
 
   const handleView = (id) => () => {
-    router.push(`/mobilizers/${id}/view`);
+    router.push(`/mobilizers/${id}`);
   };
 
   return (
