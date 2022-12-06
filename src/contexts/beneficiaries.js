@@ -7,10 +7,12 @@ const initialState = {
   singleBeneficiary: {},
   chainData: {},
   refresh: false,
+  filter: {},
   getBeneficiariesList: () => {},
   getBeneficiaryById: () => {},
   setChainData: () => {},
   refreshData: () => {},
+  setFilter: () => {},
 };
 
 const BeneficiaryContext = createContext(initialState);
@@ -19,12 +21,13 @@ export const BeneficiaryProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
   const refreshData = () => setState((prev) => ({ ...prev, refresh: !prev.refresh }));
 
-  const getBeneficiariesList = useCallback(async (params) => {
-    const response = await BeneficiaryService.getBeneficiariesList(params);
+  const setFilter = (filter) => setState((prev) => ({ ...prev, filter }));
+
+  const getBeneficiariesList = useCallback(async () => {
+    const response = await BeneficiaryService.getBeneficiariesList(state.filter);
 
     const formatted = response.data.data.map((item) => ({
       ...item,
-
       id: item?._id,
       registrationDate: item?.created_at,
       registeredBy: `${item?.created_by?.name?.first} ${item?.created_by?.name?.last}`,
@@ -35,7 +38,7 @@ export const BeneficiaryProvider = ({ children }) => {
       beneficiaries: formatted,
     }));
     return formatted;
-  }, []);
+  }, [state.filter]);
 
   const setChainData = useCallback((chainData) => {
     setState((prev) => ({
@@ -74,6 +77,7 @@ export const BeneficiaryProvider = ({ children }) => {
   const contextValue = {
     ...state,
     refreshData,
+    setFilter,
     setChainData,
     getBeneficiariesList,
     getBeneficiaryById,
