@@ -6,7 +6,7 @@ export default function Card(theme) {
       styleOverrides: {
         root: {
           position: 'relative',
-          boxShadow: theme.customShadows.primary,
+          boxShadow: theme.customShadows.card,
           borderRadius: '6px',
           // border: '1px solid #e6ebf1', //ToDo for dark theme
           border: theme.palette.mode === 'light' ? `1px solid ${theme.palette.grey[200]}` : 'none', // '1px solid #e6ebf1', //ToDo for dark theme

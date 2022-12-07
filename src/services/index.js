@@ -5,3 +5,4 @@ export { VendorService } from '@services/vendors';
 export { MobilizerService } from '@services/mobilizers';
 export { AppService } from '@services/app';
 export { DashboardService } from '@services/dashboard';
+export { default as RumsanExplorerService } from '@services/rumsanExplorer';

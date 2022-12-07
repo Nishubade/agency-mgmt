@@ -10,14 +10,44 @@ import { useRouter } from 'next/router';
 import { useRahat } from '@services/contracts/useRahat';
 import { useRahatCash } from '@services/contracts/useRahatCash';
 import { useAuthContext } from 'src/auth/useAuthContext';
+import { useExplorer } from '@services/contracts/useExplorer';
 
 BeneficiaryView.propTypes = {};
 
+// #region Table Headers
+const TABLE_HEAD = {
+  date: {
+    id: 'date',
+    label: 'Date',
+    align: 'left',
+  },
+  txHash: {
+    id: 'txHash',
+    label: 'Transaction Hash',
+    align: 'left',
+  },
+  vendor: {
+    id: 'vendor',
+    label: 'Vendor',
+    align: 'left',
+  },
+  amount: {
+    id: 'amount',
+    label: 'Amount',
+    align: 'left',
+  },
+};
+// #endregion
+
 export default function BeneficiaryView() {
   const { roles } = useAuthContext();
-  const { getBeneficiaryById, setChainData, chainData, refresh, refreshData } = useBeneficiaryContext();
+  const { getBeneficiaryById, setChainData, chainData, refresh, refreshData, singleBeneficiary } =
+    useBeneficiaryContext();
   const { beneficiaryBalance, contract, contractWS } = useRahat();
   const { contractWS: RahatCash } = useRahatCash();
+  const { beneficiaryTransactions } = useExplorer(null, singleBeneficiary?.phone);
+
+  console.log('beneficiaryTransactions', beneficiaryTransactions);
 
   const {
     query: { beneficiaryId },
@@ -66,7 +96,7 @@ export default function BeneficiaryView() {
         </Stack>
       )}
       <Stack sx={{ mt: 1 }}>
-        <HistoryTable />
+        <HistoryTable tableHeadersList={TABLE_HEAD} list={beneficiaryTransactions} />
       </Stack>
     </>
   );

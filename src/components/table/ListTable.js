@@ -1,9 +1,10 @@
 import { BLOCKCHAIN_EXPLORER } from '@config';
-import { Button, Chip, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
+import { Box, Button, Card, Chip, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 import truncateEthAddress from '@utils/truncateEthAddress';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import TableHeadCustom from './TableHeadCustom';
+import Scrollbar from '@components/scrollbar';
 
 ListTable.propTypes = {
   size: PropTypes.string,
@@ -61,15 +62,23 @@ export default function ListTable({
     ));
 
   return (
-    <TableContainer>
-      {errorMessage && <div>{errorMessage}</div>}
-      <Table size={size} stickyHeader {...other}>
-        <TableHeadCustom headLabel={tableHeadersList} />
-        <TableBody>
-          {children ? children(tableRowsList, tableHeadersList) : renderTableCell(tableRowsList, tableHeadersList)}
-        </TableBody>
-      </Table>
-      {footer}
-    </TableContainer>
+    <Box>
+      <Card>
+        <TableContainer {...other}>
+          {errorMessage && <div>{errorMessage}</div>}
+          <Scrollbar>
+            <Table size={size} stickyHeader {...other}>
+              <TableHeadCustom headLabel={tableHeadersList} />
+              <TableBody>
+                {children
+                  ? children(tableRowsList, tableHeadersList)
+                  : renderTableCell(tableRowsList, tableHeadersList)}
+              </TableBody>
+            </Table>
+          </Scrollbar>
+          {footer}
+        </TableContainer>
+      </Card>
+    </Box>
   );
 }

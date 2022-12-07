@@ -81,10 +81,12 @@ export const BeneficiaryProvider = ({ children }) => {
 
   const getAllWards = useCallback(async () => {
     const response = await BeneficiaryService.getAllWards();
-    const formatted = response.data.map((item) => ({
-      label: item,
-      value: item,
-    }));
+    const formatted = response.data
+      .sort((a, b) => a - b)
+      .map((item) => ({
+        label: item,
+        value: item,
+      }));
     setState((prev) => ({
       ...prev,
       wards: formatted,
