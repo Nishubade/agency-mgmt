@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, Alert, useTheme } from '@mui/material';
+import { Stack, Alert, useTheme, Button } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // auth
 // components
@@ -14,11 +14,12 @@ import web3Utils from '@utils/web3Utils';
 import { useRouter } from 'next/router';
 import { PATH_AFTER_LOGIN } from '@config';
 import { saveKey } from '@utils/sessionManager';
+import Iconify from '@components/iconify';
 
 // ----------------------------------------------------------------------
 
 export default function AuthLoginForm() {
-  const { handleOtpRequest, otpSent, handleOtpVerification } = useLoginContext();
+  const { handleOtpRequest, otpSent, handleOtpVerification, setOtpSent } = useLoginContext();
   const theme = useTheme();
   const router = useRouter();
 
@@ -91,13 +92,10 @@ export default function AuthLoginForm() {
         saveKey(decrypted);
         router.reload();
       }
-
-      // window?.location?.reload();
-      // router.replace();
     } catch (error) {
       console.error(error);
       reset();
-      setError('afterSubmit', {
+      otpMethods.setError('afterSubmit', {
         ...error,
         message: error.message,
       });
@@ -113,7 +111,9 @@ export default function AuthLoginForm() {
     return (
       <FormProvider methods={otpMethods} onSubmit={otpMethods.handleSubmit(onOtpSubmit)}>
         <Stack spacing={3} sx={{ mb: 3 }}>
-          {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
+          {!!otpMethods.formState.errors.afterSubmit && (
+            <Alert severity="error">{otpMethods.formState.errors.afterSubmit.message}</Alert>
+          )}
           {!!otpSentMessage && <Alert severity="info">Please find OTP in your email.</Alert>}
 
           <RHFTextField
@@ -139,7 +139,14 @@ export default function AuthLoginForm() {
           size="large"
           type="submit"
           variant="contained"
-          loading={otpMethods.formState.isSubmitSuccessful || otpMethods.formState.isSubmitting}
+          disabled={
+            (!!otpMethods.formState.errors.afterSubmit && otpMethods.formState.isSubmitSuccessful) ||
+            otpMethods.formState.isSubmitting
+          }
+          loading={
+            (!!otpMethods.formState.errors.afterSubmit && otpMethods.formState.isSubmitSuccessful) ||
+            otpMethods.formState.isSubmitting
+          }
           sx={{
             bgcolor: 'text.primary',
             color: (theme) => (theme.palette.mode === 'light' ? 'common.white' : 'grey.800'),
@@ -151,6 +158,20 @@ export default function AuthLoginForm() {
         >
           Login
         </LoadingButton>
+        <Stack direction="row" justifyContent="space-between" sx={{ mt: 3, color: 'text.secondary' }}>
+          <Button
+            sx={{
+              color: (theme) => (theme.palette.mode === 'light' ? 'common.white' : 'grey.800'),
+            }}
+            startIcon={<Iconify icon="ic:baseline-arrow-back-ios" />}
+            onClick={() => {
+              setOtpSent(false);
+              otpMethods.reset();
+            }}
+          >
+            Go Back
+          </Button>
+        </Stack>
       </FormProvider>
     );
   }
@@ -182,7 +203,7 @@ export default function AuthLoginForm() {
         size="large"
         type="submit"
         variant="contained"
-        // loading={isSubmitSuccessful || isSubmitting}
+        loading={(!!errors.afterSubmit && isSubmitSuccessful) || isSubmitting}
         sx={{
           bgcolor: 'text.primary',
           color: (theme) => (theme.palette.mode === 'light' ? 'common.white' : 'grey.800'),

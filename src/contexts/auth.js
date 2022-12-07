@@ -6,6 +6,7 @@ const initialState = {
   otpSent: false,
   handleOtpRequest: () => {},
   handleOtpVerification: () => {},
+  setOtpSent: () => {},
 };
 
 const LoginContext = createContext(initialState);
@@ -14,13 +15,24 @@ export function LoginProvider({ children }) {
   const [state, setState] = useState(initialState);
   const { addToken, addUser, addKey } = useAuthContext();
 
+  const setOtpSent = (otpSent) => {
+    if (otpSent) {
+      setState((prev) => ({
+        ...prev,
+        otpSent,
+      }));
+    } else {
+      setState((prev) => ({
+        ...prev,
+        otpSent: !prev.otpSent,
+      }));
+    }
+  };
+
   const handleOtpRequest = async (payload) => {
     const response = await AuthService.otpRequest(payload);
     if (response?.data?.status) {
-      setState((prev) => ({
-        ...prev,
-        otpSent: true,
-      }));
+      setOtpSent(true);
     }
     return response.data;
   };
@@ -38,6 +50,7 @@ export function LoginProvider({ children }) {
     ...state,
     handleOtpRequest,
     handleOtpVerification,
+    setOtpSent,
   };
 
   return <LoginContext.Provider value={contextValue}>{children}</LoginContext.Provider>;

@@ -1,13 +1,11 @@
 // @mui
-import { Alert, Tooltip, Stack, Typography, Link, Box } from '@mui/material';
+import { Stack } from '@mui/material';
 // hooks
-import { useAuthContext } from '../../../auth/useAuthContext';
 // layouts
 import LoginLayout from '@layouts/login';
 //
 import AuthLoginForm from './AuthLoginForm';
-import AuthWithWallet from './AuthWithWallet';
-import { APP_NAME } from '@config';
+
 import Image from '@components/image';
 
 // ----------------------------------------------------------------------
