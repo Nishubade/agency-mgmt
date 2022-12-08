@@ -5,17 +5,54 @@ import { useState } from 'react';
 import { useAuthContext } from 'src/auth/useAuthContext';
 import { BrainWallet } from '@ethersproject/experimental';
 import { useErrorHandler } from '@hooks/useErrorHandler';
+import { EthExplorerService } from '..';
 
 export const useRahat = () => {
-  let { contracts } = useAuthContext();
+  let { contracts, startBlockNumber } = useAuthContext();
   const contract = useContract(CONTRACTS.RAHAT);
   const contractWS = useContract(CONTRACTS.RAHAT, { isWebsocket: true });
   const cashContract = useContract(CONTRACTS.CASH);
   const registryContract = useContract(CONTRACTS.REGISTRY);
   const [rahatChainData, setRahatChainData] = useState({});
   const [vendorData, setVendorData] = useState({});
+  const [claimLogs, setClaimLogs] = useState([]);
   const [beneficiaryData, setBeneficiaryData] = useState({ walletAddress: '0' });
   const { handleContractError } = useErrorHandler();
+
+  const getLogs = async (eventName, topics) => {
+    if (!contract?.address) return [];
+    const response = await EthExplorerService.getLogs({
+      fromBlock: startBlockNumber,
+      address: contract?.address, //'0x86EcDd932f5FE35D18a7D7b3C5095582340915A0',
+      topic0: eventName,
+      ...topics,
+    });
+
+    let logData = response?.result?.map((d) => {
+      const _topics = d.topics.filter((d) => d !== null);
+      let log = contract?.interface.parseLog({
+        data: d.data,
+        topics: _topics,
+      });
+      return {
+        blockNumber: d.blockNumber,
+        txHash: d.transactionHash,
+        timestamp: parseInt(d.timeStamp),
+        vendor: log.args.vendor,
+        amount: log.args.amount?.toNumber(),
+        beneficiary: log.args.beneficiary.toNumber(), //test
+      };
+    });
+
+    // let data = (await contract?.queryFilter(eventName, startBlockNumber, 'latest'))?.map((d) => ({
+    //   txHash: d.transactionHash,
+    //   vendor: d.args.vendor,
+    //   beneficiary: d.args.beneficiary?.toNumber(),
+    //   amount: d.args.amount?.toNumber(),
+    // }));
+    setClaimLogs(logData);
+    return logData;
+  };
 
   return {
     contract,
@@ -24,6 +61,8 @@ export const useRahat = () => {
     rahatChainData,
     vendorData,
     beneficiaryData,
+    claimLogs,
+    getLogs,
 
     //Vendor functions
     isVendor: (vendorAddress) => contract?.isVendor(vendorAddress).catch(handleContractError),
@@ -125,6 +164,22 @@ export const useRahat = () => {
       } catch (e) {
         handleContractError(e);
       }
+    },
+
+    //Log functions
+    getVendorClaimLogs(vendorAddress) {
+      return getLogs('ClaimAcquiredERC20(address,uint256,uint256)', {
+        topic1: contract?.interface._abiCoder.encode(['address'], [vendorAddress]),
+        topic0_1_opr: 'and',
+      });
+    },
+
+    getBeneficiaryClaimLogs(phone) {
+      phone = parseInt(phone);
+      return getLogs('ClaimAcquiredERC20(address,uint256,uint256)', {
+        topic2: contract?.interface._abiCoder.encode(['uint256'], [phone]),
+        topic0_2_opr: 'and',
+      });
     },
   };
 };

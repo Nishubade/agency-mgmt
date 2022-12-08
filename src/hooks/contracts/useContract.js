@@ -5,9 +5,9 @@ import { useAbi } from './useAbi';
 import { useAuthContext } from 'src/auth/useAuthContext';
 
 export const useContract = (contractName, options = { isWebsocket: false }) => {
-  let { chainWebSocket } = useAuthContext();
+  let { chainWebSocket, contracts } = useAuthContext();
   const [abi] = useAbi(contractName);
-  const [wallet, contracts] = useWallet();
+  const wallet = useWallet();
   const [contract, setContract] = useState(null);
 
   useEffect(() => {

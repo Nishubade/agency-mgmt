@@ -34,8 +34,8 @@ const TreeNodeCard = ({ node, theme, onNodeClick }) => (
           {node?.nodeName}
         </Typography>
 
-        {node.balance && <Typography variant="caption">Balance: {node?.balance} </Typography>}
-        {node.disbursed && <Typography variant="caption">Beneficiaries: {node.disbursed} </Typography>}
+        {/* {node.balance && <Typography variant="caption">Balance: {node?.balance} </Typography>}
+        {node.disbursed && <Typography variant="caption">Beneficiaries: {node.disbursed} </Typography>} */}
       </Grid>
     </Stack>
   </StyledNode>

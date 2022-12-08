@@ -10,11 +10,10 @@ import { useVendorsContext } from '@contexts/vendors';
 import { useRouter } from 'next/router';
 import { useRahat } from '@services/contracts/useRahat';
 import { useRahatCash } from '@services/contracts/useRahatCash';
-import { useExplorer, useVendorClaimLogs } from '@services/contracts/useExplorer';
 
 const TRANSACTION_TABLE_HEADER_LIST = {
-  date: {
-    id: 'date',
+  timestamp: {
+    id: 'timestamp',
     label: 'Date',
     align: 'left',
   },
@@ -37,13 +36,13 @@ const TRANSACTION_TABLE_HEADER_LIST = {
 
 export default function VendorView() {
   const { getVendorById, setChainData, chainData, refreshData, refresh, singleVendor } = useVendorsContext();
-  const { vendorBalance, contract } = useRahat();
+  const { vendorBalance, contract, claimLogs, getVendorClaimLogs } = useRahat();
   const { contractWS: RahatCash } = useRahatCash();
   const {
     query: { vendorId },
   } = useRouter();
   // TODO: make dynamic
-  const { vendorTransactions, transactionLoading } = useVendorClaimLogs();
+  //const { vendorTransactions, transactionLoading } = useVendorClaimLogs();
   // const { vendorTransactions, transactionLoading } = useExplorer(singleVendor?.wallet_address);
 
   const init = useCallback(async () => {
@@ -52,6 +51,7 @@ export default function VendorView() {
     if (!_vendorData?.wallet_address) return;
     const _chainData = await vendorBalance(_vendorData?.wallet_address);
     setChainData(_chainData);
+    await getVendorClaimLogs('0x2e38580a0ea254895b3f28f3aa95221124c102df');
   }, [vendorId, contract, refresh]);
 
   useEffect(() => {
@@ -61,7 +61,7 @@ export default function VendorView() {
     return () => RahatCash?.removeAllListeners();
   }, [init, RahatCash]);
 
-  console.log('singleVendor', vendorTransactions);
+  // console.log('singleVendor', vendorTransactions);
 
   return (
     <>
@@ -84,11 +84,7 @@ export default function VendorView() {
         <ProjectsInvolved />
       </Stack>
       <Stack sx={{ mt: 1 }}>
-        <HistoryTable
-          loading={transactionLoading}
-          tableHeadersList={TRANSACTION_TABLE_HEADER_LIST}
-          tableRowsList={vendorTransactions}
-        />
+        <HistoryTable tableHeadersList={TRANSACTION_TABLE_HEADER_LIST} tableRowsList={claimLogs} />
       </Stack>
     </>
   );

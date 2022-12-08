@@ -1,146 +1,46 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import StepTracker from './StepTracker';
 import DetailTable from './DetailTable';
 import dynamic from 'next/dynamic';
+import { useBeneficiaryContext } from '@contexts/beneficiaries';
+import { BeneficiaryService } from '@services/beneficiaries';
 
 const TreeTracker = dynamic(() => import('@components/tree/TreeOrganization'), { ssr: false });
 
-const STEPS = [
-  {
-    label: 'Unicef Innovation Fund',
-    budget: 150000,
-    balance: 0,
-  },
-  {
-    label: 'Unicef Nepal',
-    balance: 0,
-  },
-  {
-    label: 'Jaleshwor Palika',
-    balance: 120000,
-    hasCash: true,
-  },
-  {
-    label: 'Wards',
-    balance: 200000,
-    budget: 0,
-  },
-  {
-    label: 'Total',
-    balance: 100000,
-    budget: 0,
-    beneficiaries: 10,
-  },
-];
-
-const tree = [
+let tree = [
   {
     nodeName: 'Jaleswor Palika',
-    childNode: [
-      {
-        nodeName: 'Ward 1',
-        balance: 1000,
-        disbursed: 1000,
-        childNode: [
-          {
-            nodeName: 'Leaf Level 3',
-            childNode: [
-              {
-                nodeName: 'Ward 1',
-                balance: 1000,
-                disbursed: 1000,
-                childNode: [
-                  {
-                    nodeName: 'Leaf Level 3',
-                  },
-                ],
-              },
-              {
-                nodeName: 'Ward 2',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        nodeName: 'Ward 2',
-        childNode: [
-          {
-            nodeName: 'Ward 1',
-            balance: 1000,
-            disbursed: 1000,
-            childNode: [
-              {
-                nodeName: 'Leaf Level 3',
-                childNode: [
-                  {
-                    nodeName: 'Ward 1',
-                    balance: 1000,
-                    disbursed: 1000,
-                    childNode: [
-                      {
-                        nodeName: 'Leaf Level 3',
-                        childNode: [
-                          {
-                            nodeName: 'Ward 1',
-                            balance: 1000,
-                            disbursed: 1000,
-                            childNode: [
-                              {
-                                nodeName: 'Leaf Level 3',
-                              },
-                            ],
-                          },
-                          {
-                            nodeName: 'Ward 2',
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                  {
-                    nodeName: 'Ward 2',
-                    childNode: [
-                      {
-                        nodeName: 'Ward 1',
-                        balance: 1000,
-                        disbursed: 1000,
-                        childNode: [
-                          {
-                            nodeName: 'Leaf Level 3',
-                          },
-                        ],
-                      },
-                      {
-                        nodeName: 'Ward 2',
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            nodeName: 'Ward 2',
-          },
-        ],
-      },
-    ],
+    childNode: [],
   },
 ];
 
 const Tracker = (props) => {
   const [selectedNode, setSelectedNode] = useState(null);
+  const [treeData, setTreeData] = useState(tree);
 
   const handleNodeClick = (node) => {
     setSelectedNode(node);
   };
 
+  const buildTreeData = useCallback(async () => {
+    const response = await BeneficiaryService.getAllWards();
+    tree[0].childNode = response.data
+      .sort((a, b) => a - b)
+      .map((w) => ({
+        nodeName: `Ward ${w}`,
+        balance: 1000,
+        disbursed: 1000,
+      }));
+    setTreeData(tree);
+  }, []);
+
+  useEffect(() => {
+    buildTreeData();
+  }, [buildTreeData, treeData]);
+
   return (
     <div>
-      <StepTracker activeStep={2} steps={STEPS} />
-      <TreeTracker tree={tree} onNodeClick={handleNodeClick} />
+      <TreeTracker tree={treeData} onNodeClick={handleNodeClick} />
       <DetailTable selectedNode={selectedNode} />
     </div>
   );

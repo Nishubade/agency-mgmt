@@ -16,6 +16,7 @@ import PhotoGallery from './PhotoGallery';
 import { SPACING } from '@config';
 import { MapView } from './maps';
 import { useDashboardContext } from '@contexts/dashboard';
+import SummaryTracker from '@sections/cash-tracker/tracker/SummaryTracker';
 
 const DashboardComponent = () => {
   const theme = useTheme();
@@ -149,6 +150,10 @@ const DashboardComponent = () => {
           <Grid item xs={12} md={12}>
             <PhotoGallery list={flickImages} />
           </Grid>
+        </Grid>
+
+        <Grid item xs={12}>
+          <SummaryTracker activeStep={2} />
         </Grid>
 
         <Grid item xs={12} md={4}>

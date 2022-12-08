@@ -33,6 +33,7 @@ const initialState = {
   contracts: null,
   addresses: null,
   wallet: null,
+  startBlockNumber: 0,
   roles: {
     isDonor: false,
     isAgency: false,
@@ -96,6 +97,7 @@ function AuthProvider({ children }) {
             },
             contracts: appSettings?.agency?.contracts,
             addresses: appSettings?.addresses,
+            startBlockNumber: appSettings?.agency?.startBlockNumber,
             wallet,
           }));
         } else if (!localToken) {
