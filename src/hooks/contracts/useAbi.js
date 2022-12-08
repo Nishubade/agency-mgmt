@@ -6,14 +6,14 @@ export const useAbi = (contract) => {
   const [abi, setAbi] = useState(null);
 
   const fetchContract = useCallback(async () => {
-    // let data = await tblAbi.get(contract);
-    // if (data?.abi) {
-    //   setAbi(data.abi);
-    // } else {
-    const response = await AppService.getContract(contract);
-    await tblAbi.put({ name: contract, abi: response.data.abi });
-    setAbi(response.data.abi);
-    // }
+    let data = await tblAbi.get(contract);
+    if (data?.abi) {
+      setAbi(data.abi);
+    } else {
+      const response = await AppService.getContract(contract);
+      await tblAbi.put({ name: contract, abi: response.data.abi });
+      setAbi(response.data.abi);
+    }
   }, [contract]);
 
   useEffect(() => {
