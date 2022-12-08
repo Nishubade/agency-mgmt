@@ -4,6 +4,7 @@ import { PATH_DASHBOARD } from './routes/paths';
 // API
 // ----------------------------------------------------------------------
 
+export const DEBUG_MODE = process.env.NEXT_PUBLIC_DEBUG_MODE || false;
 export const HOST_API = process.env.NEXT_PUBLIC_HOST_API || '';
 export const RAHAT_BACKEND = process.env.NEXT_PUBLIC_RAHAT_BACKEND || '';
 
@@ -11,7 +12,7 @@ export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || 'Rahat';
 
 export const WSS_SERVER = HOST_API.replace('http', 'ws');
 
-export const BLOCKCHAIN_EXPLORER = process.env.NEXT_PUBLIC_BLOCKCHAIN_EXPLORER || 'https://explorer.testnet.rsk.co';
+export const BLOCKCHAIN_EXPLORER = process.env.NEXT_PUBLIC_BLOCKCHAIN_EXPLORER || '';
 
 export const FLICKR_APIKEY = process.env.NEXT_PUBLIC_FLICKR_APIKEY || '';
 export const FLICKR_PHOTOSET = process.env.NEXT_PUBLIC_FLICKR_PHOTOSET || '';

@@ -15,19 +15,23 @@ import { useRouter } from 'next/router';
 import { PATH_AFTER_LOGIN } from '@config';
 import { saveKey } from '@utils/sessionManager';
 import Iconify from '@components/iconify';
+import { useAuthContext } from 'src/auth/useAuthContext';
 
 // ----------------------------------------------------------------------
 
 export default function AuthLoginForm() {
+  const { isDebug } = useAuthContext();
   const { handleOtpRequest, otpSent, handleOtpVerification, setOtpSent } = useLoginContext();
-  const theme = useTheme();
   const router = useRouter();
 
   const [tempIdentity, setTempIdentity] = useState(null);
   const [otpSentMessage, setOTPSentMessage] = useState(null);
 
-  const LoginSchema = Yup.object().shape({
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
+  const LoginSchema = Yup.object().shape(() => {
+    if (isDebug) return {};
+    return {
+      email: Yup.string().email('Email must be a valid email address').required('Email is required'),
+    };
   });
 
   const OTPSchema = Yup.object().shape({
@@ -56,6 +60,10 @@ export default function AuthLoginForm() {
 
   const onSubmit = async ({ email }) => {
     try {
+      if (isDebug && email.indexOf('@') < 0) {
+        console.log(`https://www.mailinator.com/v4/public/inboxes.jsp?to=${email}`);
+        email = `${email}@mailinator.com`;
+      }
       const otpSent = await handleOtpRequest({ address: email, encryptionKey: tempIdentity.publicKey });
       if (!otpSent.status) {
         reset();
@@ -111,10 +119,10 @@ export default function AuthLoginForm() {
     return (
       <FormProvider methods={otpMethods} onSubmit={otpMethods.handleSubmit(onOtpSubmit)}>
         <Stack spacing={3} sx={{ mb: 3 }}>
+          {!!otpSentMessage && <Alert severity="info">Please find OTP in your email.</Alert>}
           {!!otpMethods.formState.errors.afterSubmit && (
             <Alert severity="error">{otpMethods.formState.errors.afterSubmit.message}</Alert>
           )}
-          {!!otpSentMessage && <Alert severity="info">Please find OTP in your email.</Alert>}
 
           <RHFTextField
             sx={{
@@ -163,7 +171,7 @@ export default function AuthLoginForm() {
             sx={{
               color: (theme) => (theme.palette.mode === 'light' ? 'common.white' : 'grey.800'),
             }}
-            startIcon={<Iconify icon="ic:baseline-arrow-back-ios" />}
+            startIcon={<Iconify sx={{ mr: -1 }} icon="ic:baseline-arrow-back-ios" />}
             onClick={() => {
               setOtpSent(false);
               otpMethods.reset();

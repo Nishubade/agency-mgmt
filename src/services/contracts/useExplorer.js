@@ -1,8 +1,36 @@
+import { useErrorHandler } from '@hooks/useErrorHandler';
 import { ethers, utils } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
 import { useAuthContext } from 'src/auth/useAuthContext';
-import { RumsanExplorerService } from '..';
+import { EthExplorerService } from '..';
 import useParseTransactionLogs from './useParseTransactionLogs';
+
+export const useVendorClaimLogs = (vendorAddress) => {
+  const [vendorClaimData, setVendorClaimData] = useState([]);
+  const { ERRORS, throwError, handleError } = useErrorHandler();
+
+  const listVendorClaimTxs = useCallback(async () => {
+    if (!vendorAddress) throwError(ERRORS.VENDOR_ADDRESS_REQ, 'useVendorClaimLogs');
+    const { data } = await EthExplorerService.getLogs({
+      module: 'logs',
+      action: 'getLogs',
+      fromBlock: 0,
+      toBlock: 'latest',
+      // todo: make dynamic
+      address: '0x86EcDd932f5FE35D18a7D7b3C5095582340915A0',
+      topic0: utils.id('ClaimAcquiredERC20(address,uint256,uint256)'),
+    });
+    console.log(data);
+  }, [vendorAddress]);
+
+  useEffect(() => {
+    listVendorClaimTxs().catch(handleError);
+  }, [listVendorClaimTxs, vendorAddress]);
+
+  return {
+    vendorClaimData,
+  };
+};
 
 export const useExplorer = (vendorAddress, beneficiaryPhone) => {
   //#region State and Hooks
@@ -16,7 +44,7 @@ export const useExplorer = (vendorAddress, beneficiaryPhone) => {
   //#region Vendor Transactions
 
   const listVendorClaimTxs = useCallback(async () => {
-    const response = await RumsanExplorerService.getTransaction({
+    const response = await EthExplorerService.getTransaction({
       module: 'logs',
       action: 'getLogs',
       fromBlock: 0,
@@ -46,7 +74,7 @@ export const useExplorer = (vendorAddress, beneficiaryPhone) => {
   //#region Beneficiary Transactions
 
   const listBeneficiaryClaimTxs = useCallback(async () => {
-    const response = await RumsanExplorerService.getTransaction({
+    const response = await EthExplorerService.getTransaction({
       module: 'logs',
       action: 'getLogs',
       fromBlock: 16112707,
@@ -60,7 +88,7 @@ export const useExplorer = (vendorAddress, beneficiaryPhone) => {
   }, [contracts?.rahat, beneficiaryPhone]);
 
   const listBeneficiaryIssueTxs = useCallback(async () => {
-    const response = await RumsanExplorerService.getTransaction({
+    const response = await EthExplorerService.getTransaction({
       module: 'logs',
       action: 'getLogs',
       fromBlock: 16112707,

@@ -16,11 +16,12 @@ import {
   getWalletAddressFromPrivateKey,
 } from '@utils/sessionManager';
 import { AppService } from '@services';
-import { ROLES } from '@config';
+import { ROLES, DEBUG_MODE } from '@config';
 
 // ----------------------------------------------------------------------
 
 const initialState = {
+  isDebug: DEBUG_MODE,
   isAuthenticated: false, // should be false by default,
   isInitialized: false,
   token: null,

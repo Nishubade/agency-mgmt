@@ -39,7 +39,7 @@ export default function AuthGuard({ children }) {
       setRequestedLocation(pathname);
     }
     push(PATH_AUTH.login);
-    // return <Login />;
+    return <LoadingScreen />;
   }
 
   return <>{children}</>;

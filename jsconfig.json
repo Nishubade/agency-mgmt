@@ -4,6 +4,8 @@
     "paths": {
       "@pages/*": ["src/pages/*"],
       "@components/*": ["src/components/*"],
+      "@constants/*": ["src/constants/*"],
+      "@constants": ["src/constants"],
       "@utils/*": ["src/utils/*"],
       "@routes/*": ["src/routes/*"],
       "@layouts/*": ["src/layouts/*"],

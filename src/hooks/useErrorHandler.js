@@ -1,4 +1,19 @@
 import { useSnackbar } from 'notistack';
+import ERRORS from '@constants/errors';
+
+class RSError extends Error {
+  constructor(message, source = 'Error', type = 'general') {
+    super();
+    this.message = message;
+    this.source = source;
+    this.data = {
+      type,
+      source,
+      message,
+    };
+    this.stack = new Error(message).stack;
+  }
+}
 
 export const useErrorHandler = () => {
   const snackBar = useSnackbar();
@@ -17,6 +32,10 @@ export const useErrorHandler = () => {
     });
   }
 
+  function handleError(error) {
+    showError(`${error.source}: ${error.message}`);
+  }
+
   function handleContractError(error) {
     try {
       let message = error.error.error.error.toString();
@@ -28,8 +47,15 @@ export const useErrorHandler = () => {
     }
   }
 
+  function throwError(nameOrMessage, source) {
+    throw new RSError(nameOrMessage, source);
+  }
+
   return {
-    handleError: (e) => showError(e.message),
+    ERRORS,
+    throwError,
+    showError,
+    handleError,
     apiError: showError,
     handleContractError,
   };

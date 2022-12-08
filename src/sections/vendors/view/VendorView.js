@@ -10,7 +10,7 @@ import { useVendorsContext } from '@contexts/vendors';
 import { useRouter } from 'next/router';
 import { useRahat } from '@services/contracts/useRahat';
 import { useRahatCash } from '@services/contracts/useRahatCash';
-import { useExplorer } from '@services/contracts/useExplorer';
+import { useExplorer, useVendorClaimLogs } from '@services/contracts/useExplorer';
 
 const TRANSACTION_TABLE_HEADER_LIST = {
   date: {
@@ -43,7 +43,7 @@ export default function VendorView() {
     query: { vendorId },
   } = useRouter();
   // TODO: make dynamic
-  const { vendorTransactions, transactionLoading } = useExplorer('0x2E38580A0Ea254895b3F28F3aa95221124C102DF');
+  const { vendorTransactions, transactionLoading } = useVendorClaimLogs();
   // const { vendorTransactions, transactionLoading } = useExplorer(singleVendor?.wallet_address);
 
   const init = useCallback(async () => {

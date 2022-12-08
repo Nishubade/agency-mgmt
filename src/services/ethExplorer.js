@@ -5,13 +5,17 @@ const api = axios.create({
   baseURL: BLOCKCHAIN_EXPLORER,
 });
 
-const RumsanExplorerService = {
-  getTransaction: async (params) => {
+const EthExplorer = {
+  getLogs: async (params) => {
     const response = await api.get('/api', {
-      params,
+      module: 'logs',
+      action: 'getLogs',
+      fromBlock: 0,
+      toBlock: 'latest',
+      ...params,
     });
     return response.data;
   },
 };
 
-export default RumsanExplorerService;
+export default EthExplorer;
