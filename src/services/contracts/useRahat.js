@@ -84,7 +84,7 @@ export const useRahat = () => {
         const benExists = await registryContract?.exists(benId);
         if (!benExists) {
           const benWallet = await BrainWallet.generate(benId, key, (p) =>
-            console.log('Completed: ' + Math.trunc(100 * p) + '%')
+            console.info('Completed: ' + Math.trunc(100 * p) + '%')
           );
           await registryContract?.addId2AddressMap(benId, benWallet.address);
         }

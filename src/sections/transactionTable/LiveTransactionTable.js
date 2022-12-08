@@ -68,7 +68,7 @@ const LiveTransactionTable = (props) => {
       const response = await TXService.transactionList();
       setList(response?.data?.data);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setError(error?.message);
     }
   };

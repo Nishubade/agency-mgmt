@@ -43,7 +43,7 @@ export const useErrorHandler = () => {
       showError(message);
     } catch (e) {
       showError('Error occured calling contract. Please check logs for details.');
-      console.log(error);
+      console.error(error);
     }
   }
 

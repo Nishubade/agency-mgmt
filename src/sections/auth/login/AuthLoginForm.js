@@ -61,7 +61,7 @@ export default function AuthLoginForm() {
   const onSubmit = async ({ email }) => {
     try {
       if (isDebug && email.indexOf('@') < 0) {
-        console.log(`https://www.mailinator.com/v4/public/inboxes.jsp?to=${email}`);
+        console.info(`https://www.mailinator.com/v4/public/inboxes.jsp?to=${email}`);
         email = `${email}@mailinator.com`;
       }
       const otpSent = await handleOtpRequest({ address: email, encryptionKey: tempIdentity.publicKey });

@@ -21,7 +21,6 @@ ProjectCard.propTypes = {
 };
 
 export default function ProjectCard({ project }) {
-  console.log('project', project);
   const { id, name, location, projectManager, created_at, status, balance } = project;
 
   return (

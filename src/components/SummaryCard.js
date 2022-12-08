@@ -23,7 +23,6 @@ SummaryCard.propTypes = {
 
 export default function SummaryCard({ title, total, icon, subtitle, color = 'primary', sx, ...other }) {
   const theme = useTheme();
-  console.log(theme);
 
   return (
     <Card

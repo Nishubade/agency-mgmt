@@ -72,7 +72,7 @@ function AuthProvider({ children }) {
       const response = await AppService.getAppSettings();
       return response.data;
     } catch (err) {
-      console.log('Unable to Load App Setting from Server', err);
+      console.error('Unable to Load App Setting from Server', err);
     }
   };
 
@@ -118,10 +118,6 @@ function AuthProvider({ children }) {
   }, []);
 
   const addToken = (payload) => {
-    // console.log('payload', payload);
-    // if (!isValid(payload)) {
-    //   return 'Invalid token';
-    // }
     if (payload) {
       setAuthState((prev) => ({ ...prev, token: payload }));
       saveAccessToken(payload);

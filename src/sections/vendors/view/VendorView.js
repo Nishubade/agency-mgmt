@@ -61,8 +61,6 @@ export default function VendorView() {
     return () => RahatCash?.removeAllListeners();
   }, [init, RahatCash]);
 
-  // console.log('singleVendor', vendorTransactions);
-
   return (
     <>
       {' '}

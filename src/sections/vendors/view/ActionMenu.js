@@ -77,10 +77,6 @@ export default function ActionMenu({ actionTitle }) {
     },
   ];
 
-  useEffect(() => {
-    //console.log(chainData);
-  }, [chainData]);
-
   return (
     <div>
       <Stack sx={{ ml: -10 }} direction="row" justifyContent="space-between" alignItems="center" spacing={1}>

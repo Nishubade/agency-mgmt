@@ -57,10 +57,6 @@ export default function ReleaseCashButton() {
     init(singleVendor?.projects[0].id);
   }, [init, refresh, singleVendor]);
 
-  useEffect(() => {
-    //console.log(chainData);
-  }, [chainData]);
-
   return (
     <div>
       <AmountForm
