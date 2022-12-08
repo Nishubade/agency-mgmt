@@ -50,10 +50,16 @@ export const DashboardProvider = ({ children }) => {
 
   const getGenderDistribution = useCallback(async () => {
     const response = await DashboardService.getGenderDistribution();
-    const formatted = response.data.map((item) => ({
-      label: item._id,
-      value: +item.count,
-    }));
+    const formatted = response.data.map((item) => {
+      let label = 'Unknown';
+      if (item._id === 'F') label = 'Female';
+      if (item._id === 'M') label = 'Male';
+      if (item._id === 'O') label = 'Other';
+      return {
+        label,
+        value: +item.count,
+      };
+    });
     setState((prev) => ({
       ...prev,
       genderDistribution: formatted,

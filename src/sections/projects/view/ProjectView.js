@@ -27,7 +27,7 @@ const ProjectView = () => {
   const init = useCallback(async () => {
     if (!RahatCash) return;
     await projectBalance(projectId);
-  }, [projectId, contract, refresh]);
+  }, [projectId, contract, RahatCash, refresh]);
 
   useEffect(() => {
     if (!projectId) return;

@@ -156,20 +156,20 @@ const DashboardComponent = () => {
             title="Gender Distribution"
             chart={{
               colors: [
-                theme.palette.primary.main,
-                theme.palette.info.main,
-                theme.palette.error.main,
-                theme.palette.warning.main,
+                theme.palette.primary.light,
+                theme.palette.success.light,
+                theme.palette.warning.light,
+                theme.palette.error.light,
               ],
               series: genderDistribution,
             }}
             footer={
-              <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2} sx={{ p: 2 }}>
+              <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2} sx={{ pr: 2 }}>
                 <Button
                   onClick={() => router.push(PATH_REPORTS.wardReport)}
-                  endIcon={<Iconify icon={'material-symbols:chevron-right-rounded'} />}
+                  endIcon={<Iconify sx={{ ml: -1 }} icon={'material-symbols:chevron-right-rounded'} />}
                 >
-                  View Ward Wise Report
+                  More Details
                 </Button>
               </Stack>
             }
@@ -180,10 +180,10 @@ const DashboardComponent = () => {
             title="Banked vs Unbanked"
             chart={{
               colors: [
-                theme.palette.primary.main,
-                theme.palette.info.main,
-                theme.palette.error.main,
-                theme.palette.warning.main,
+                theme.palette.error.light,
+                theme.palette.success.light,
+                theme.palette.warning.light,
+                theme.palette.primary.light,
               ],
               series: bankedUnbanked,
             }}
@@ -194,10 +194,10 @@ const DashboardComponent = () => {
             title="Phone Ownership Distribution"
             chart={{
               colors: [
-                theme.palette.primary.main,
-                theme.palette.info.main,
-                theme.palette.error.main,
-                theme.palette.warning.main,
+                theme.palette.primary.light,
+                theme.palette.success.light,
+                theme.palette.error.light,
+                theme.palette.warning.light,
               ],
               series: phoneOwnership,
             }}
@@ -209,10 +209,10 @@ const DashboardComponent = () => {
             title="Beneficiaries by Ward"
             chart={{
               colors: [
-                theme.palette.primary.main,
-                theme.palette.info.main,
-                theme.palette.error.main,
-                theme.palette.warning.main,
+                theme.palette.primary.light,
+                theme.palette.success.light,
+                theme.palette.error.light,
+                theme.palette.warning.light,
               ],
               options: {
                 chart: {

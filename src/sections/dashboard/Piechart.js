@@ -56,7 +56,7 @@ export default function Piechart({ title, subheader, chart, footer, ...other }) 
     colors,
     labels: series.map((i) => i.label),
     stroke: { colors: [theme.palette.background.paper] },
-    legend: { floating: true, horizontalAlign: 'center' },
+    legend: { enabled: true, floating: true, horizontalAlign: 'center' },
     tooltip: {
       fillSeriesColor: false,
       y: {
@@ -69,7 +69,7 @@ export default function Piechart({ title, subheader, chart, footer, ...other }) 
     plotOptions: {
       pie: {
         donut: {
-          size: '90%',
+          size: '98%',
           labels: {
             value: {
               formatter: (value) => fNumber(value),
@@ -92,7 +92,7 @@ export default function Piechart({ title, subheader, chart, footer, ...other }) 
       <CardHeader title={title} subheader={subheader} />
 
       <StyledChart dir="ltr">
-        <Chart type="pie" series={chartSeries} options={chartOptions} height={280} />
+        <Chart type="pie" series={chartSeries} options={chartOptions} height={260} />
         {footer}
       </StyledChart>
     </Card>
