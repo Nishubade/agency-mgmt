@@ -9,8 +9,6 @@ import { DashboardProvider } from '@contexts/dashboard';
 
 // ----------------------------------------------------------------------
 
-const PAGE_TITLE = 'Dashboard';
-
 Dashboard.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
 export default function Dashboard() {

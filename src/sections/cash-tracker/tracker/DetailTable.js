@@ -3,7 +3,30 @@ import PropTypes from 'prop-types';
 import { Stack, Typography } from '@mui/material';
 import ListTable from '@components/table/ListTable';
 
-const DetailTable = ({ selectedNode }) => {
+const TABLE_HEADER = {
+  name: {
+    id: 'name',
+    label: 'Name',
+  },
+  age: {
+    id: 'age',
+    label: 'Age',
+  },
+  gender: {
+    id: 'gender',
+    label: 'Gender',
+  },
+  claimed: {
+    id: 'claimed',
+    label: 'Claimed',
+  },
+  tokenIssued: {
+    id: 'tokenIssued',
+    label: 'Token Issued',
+  },
+};
+
+const DetailTable = ({ selectedNode, list }) => {
   if (!selectedNode)
     return (
       <Stack direction="column" justifyContent="center" alignItems="center" sx={{ height: '100%', p: 2 }}>
@@ -11,15 +34,20 @@ const DetailTable = ({ selectedNode }) => {
       </Stack>
     );
   return (
-    <Stack>
-      {JSON.stringify(selectedNode)}
-      <ListTable />
+    <Stack
+      sx={{
+        height: '100%',
+        p: 2,
+      }}
+    >
+      <ListTable tableRowsList={list} tableHeadersList={TABLE_HEADER} />
     </Stack>
   );
 };
 
 DetailTable.propTypes = {
   selectedNode: PropTypes.object,
+  list: PropTypes.array,
 };
 
 DetailTable.propTypes = {};

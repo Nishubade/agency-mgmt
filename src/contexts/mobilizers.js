@@ -33,15 +33,13 @@ export const MobilizerProvider = ({ children }) => {
   }, []);
 
   const getByMobilizerId = useCallback(async (id) => {
-    const response = await MobilizerService.getByMobilizerId(id);
+    const response = await MobilizerService.getMobilizerById(id);
 
     const formatted = {
       ...response.data,
       email: response.data?.email || 'N/A',
       registrationDate: response.data?.created_at || 'N/A',
-      pan: response.data?.pan || 'N/A',
-      shopName: response.data?.shopName || 'N/A',
-      projects: response.data?.projects || [],
+      organization: response.data?.organization || 'N/A',
     };
 
     setState((prev) => ({

@@ -4,6 +4,7 @@ import { Page } from '@components/page';
 import { useSettingsContext } from '@components/settings';
 import { Tracker } from '@sections/cash-tracker/tracker';
 import AuthGuard from '@guards/AuthGuard';
+import { CashTrackerProvider } from '@contexts/cash-tracker';
 
 // ----------------------------------------------------------------------
 
@@ -15,12 +16,12 @@ export default function CashTracker() {
   const { themeStretch } = useSettingsContext();
 
   return (
-    <AuthGuard>
+    <CashTrackerProvider>
       <Page title={PAGE_TITLE}>
         <Container maxWidth={themeStretch ? false : 'xl'}>
           <Tracker />
         </Container>
       </Page>
-    </AuthGuard>
+    </CashTrackerProvider>
   );
 }

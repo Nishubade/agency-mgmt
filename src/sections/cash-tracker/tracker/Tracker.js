@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import DetailTable from './DetailTable';
 import dynamic from 'next/dynamic';
-import { useBeneficiaryContext } from '@contexts/beneficiaries';
+import { useCashTrackerContext } from '@contexts/cash-tracker';
 import { BeneficiaryService } from '@services/beneficiaries';
 
 const TreeTracker = dynamic(() => import('@components/tree/TreeOrganization'), { ssr: false });
@@ -14,12 +14,17 @@ let tree = [
   },
 ];
 
-const Tracker = (props) => {
+const Tracker = () => {
   const [selectedNode, setSelectedNode] = useState(null);
   const [treeData, setTreeData] = useState(tree);
 
-  const handleNodeClick = (node) => {
+  const { beneficiariesByWard, getBeneficiariesByWard } = useCashTrackerContext();
+
+  const handleNodeClick = async (node) => {
+    if (!node.id) return;
     setSelectedNode(node);
+
+    await getBeneficiariesByWard(node.id);
   };
 
   const buildTreeData = useCallback(async () => {
@@ -30,9 +35,10 @@ const Tracker = (props) => {
         nodeName: `Ward ${w}`,
         balance: 1000,
         disbursed: 1000,
+        id: w,
       }));
     setTreeData(tree);
-  }, []);
+  }, [tree]);
 
   useEffect(() => {
     buildTreeData();
@@ -40,8 +46,8 @@ const Tracker = (props) => {
 
   return (
     <div>
-      <TreeTracker tree={treeData} onNodeClick={handleNodeClick} />
-      <DetailTable selectedNode={selectedNode} />
+      <TreeTracker tree={treeData} onNodeClick={handleNodeClick} selectedNode={selectedNode} />
+      <DetailTable selectedNode={selectedNode} list={beneficiariesByWard} />
     </div>
   );
 };

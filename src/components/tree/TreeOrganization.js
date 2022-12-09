@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { Button, Grid, Stack, Typography } from '@mui/material';
 import { useTheme } from '@mui/system';
 import PropTypes from 'prop-types';
+import Iconify from '@components/iconify';
 
 // const TreeImport = dynamic(() => import('react-organizational-chart'), { ssr: false });
 
@@ -26,11 +27,17 @@ const StyledNode = styled(Button)`
   })}}
 `;
 
-const TreeNodeCard = ({ node, theme, onNodeClick }) => (
+const TreeNodeCard = ({ node, theme, onNodeClick, selectedNode }) => (
   <StyledNode theme={theme} onClick={() => onNodeClick(node)}>
     <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={12}>
       <Grid container direction="column" justifyContent="center" alignItems="center">
-        <Typography fontWeight={700} variant="caption">
+        <Typography
+          fontWeight={700}
+          variant="button"
+          sx={{
+            color: selectedNode?.nodeName === node?.nodeName ? theme.palette.success.main : theme.palette.text.primary,
+          }}
+        >
           {node?.nodeName}
         </Typography>
 
@@ -45,35 +52,60 @@ TreeNodeCard.propTypes = {
   node: PropTypes.object,
   theme: PropTypes.object,
   onNodeClick: PropTypes.func,
+  selectedNode: PropTypes.object,
 };
 
-const TreeTracker = ({ tree, onNodeClick = () => {} }) => {
+const TreeTracker = ({ tree, onNodeClick = () => {}, selectedNode }) => {
   const theme = useTheme();
   return (
     <>
       {tree?.map((nodes) => (
-        <Tree key={nodes?.nodeName} label={<TreeNodeCard onNodeClick={onNodeClick} theme={theme} node={nodes} />}>
+        <Tree
+          key={nodes?.nodeName}
+          label={<TreeNodeCard onNodeClick={onNodeClick} selectedNode={selectedNode} theme={theme} node={nodes} />}
+        >
           {nodes?.childNode?.map((node) => (
-            <TreeNode key={node.nodeName} label={<TreeNodeCard onNodeClick={onNodeClick} theme={theme} node={node} />}>
+            <TreeNode
+              key={node.nodeName}
+              label={<TreeNodeCard onNodeClick={onNodeClick} selectedNode={selectedNode} theme={theme} node={node} />}
+            >
               {node?.childNode?.map((node) => (
                 <TreeNode
                   key={node.nodeName}
-                  label={<TreeNodeCard onNodeClick={onNodeClick} theme={theme} node={node} />}
+                  label={
+                    <TreeNodeCard onNodeClick={onNodeClick} selectedNode={selectedNode} theme={theme} node={node} />
+                  }
                 >
                   {node?.childNode?.map((node) => (
                     <TreeNode
                       key={node.nodeName}
-                      label={<TreeNodeCard onNodeClick={onNodeClick} theme={theme} node={node} />}
+                      label={
+                        <TreeNodeCard onNodeClick={onNodeClick} selectedNode={selectedNode} theme={theme} node={node} />
+                      }
                     >
                       {node?.childNode?.map((node) => (
                         <TreeNode
                           key={node.nodeName}
-                          label={<TreeNodeCard onNodeClick={onNodeClick} theme={theme} node={node} />}
+                          label={
+                            <TreeNodeCard
+                              onNodeClick={onNodeClick}
+                              selectedNode={selectedNode}
+                              theme={theme}
+                              node={node}
+                            />
+                          }
                         >
                           {node?.childNode?.map((node) => (
                             <TreeNode
                               key={node.nodeName}
-                              label={<TreeNodeCard onNodeClick={onNodeClick} theme={theme} node={node} />}
+                              label={
+                                <TreeNodeCard
+                                  onNodeClick={onNodeClick}
+                                  selectedNode={selectedNode}
+                                  theme={theme}
+                                  node={node}
+                                />
+                              }
                             />
                           ))}
                         </TreeNode>
@@ -93,6 +125,7 @@ const TreeTracker = ({ tree, onNodeClick = () => {} }) => {
 TreeTracker.propTypes = {
   tree: PropTypes.array.isRequired,
   onNodeClick: PropTypes.func,
+  selectedNode: PropTypes.object,
 };
 
 export default TreeTracker;

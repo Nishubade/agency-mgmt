@@ -2,12 +2,10 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Button, Grid, Stack } from '@mui/material';
 import SummaryCard from '@components/SummaryCard';
-import { useModuleContext } from './context';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import BarchartSingle from './BarchartSingle';
 import Piechart from './Piechart';
-import { LiveTransactionTable } from '@sections/transactionTable';
 import { useRouter } from 'next/router';
 import { PATH_REPORTS } from '@routes/paths';
 import Iconify from '@components/iconify';
@@ -152,9 +150,9 @@ const DashboardComponent = () => {
           </Grid>
         </Grid>
 
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <SummaryTracker activeStep={2} />
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12} md={4}>
           <Piechart
