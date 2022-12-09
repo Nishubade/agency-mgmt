@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, Container as MuiContainer } from '@mui/material';
+import { Card, Container as MuiContainer, IconButton, Stack } from '@mui/material';
+import Iconify from '@components/iconify';
 import { PATH_DASHBOARD } from '@routes/paths';
 import Headerbreadcrumbs from '@components/HeaderBreadcrumbs';
 import { useSettingsContext } from '@components/settings';
@@ -13,7 +14,21 @@ const ContainerComponent = ({ children, title, action, breadcrumbLinks, nocard =
       {' '}
       <MuiContainer maxWidth={themeStretch ? false : 'lg'}>
         <Headerbreadcrumbs
-          heading={title}
+          heading={
+            title && (
+              <Stack direction="row" alignItems="center" spacing={1}>
+                <IconButton
+                  size="small"
+                  onClick={() => {
+                    window.history.back();
+                  }}
+                >
+                  <Iconify icon="material-symbols:arrow-back-ios-rounded" />
+                </IconButton>
+                {title}
+              </Stack>
+            )
+          }
           links={[{ name: '', href: PATH_DASHBOARD.root }, ...breadcrumbLinks]}
           action={action}
         />

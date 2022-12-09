@@ -6,3 +6,4 @@ export { MobilizerService } from '@services/mobilizers';
 export { AppService } from '@services/app';
 export { DashboardService } from '@services/dashboard';
 export { default as EthExplorerService } from '@services/ethExplorer';
+export { FinancialInstitutionService as FIService } from '@services/financialInstitutions';

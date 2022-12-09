@@ -27,7 +27,9 @@ const OPTIONS = [
   },
   {
     label: 'Settings',
-    linkTo: '/',
+    linkTo: () => {
+      console.log('settings drawer');
+    },
   },
 ];
 
