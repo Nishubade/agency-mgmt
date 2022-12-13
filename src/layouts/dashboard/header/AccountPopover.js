@@ -27,7 +27,7 @@ const OPTIONS = [
   },
   {
     label: 'Settings',
-    linkTo: () => {
+    onClick: () => {
       console.log('settings drawer');
     },
   },
@@ -105,7 +105,7 @@ export default function AccountPopover() {
 
         <Stack sx={{ p: 1 }}>
           {OPTIONS.map((option) => (
-            <MenuItem key={option.label} onClick={() => handleClickItem(option.linkTo)}>
+            <MenuItem key={option.label} onClick={() => handleClickItem(option.linkTo)} {...option}>
               {option.label}
             </MenuItem>
           ))}

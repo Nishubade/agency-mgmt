@@ -45,3 +45,7 @@ export const groupWardByDisability = (ward) =>
       ward,
     },
   });
+
+export const getMiscValueByName = (name) => client.get(`/misc/${name}`);
+
+export const cashTrackerSummary = () => getMiscValueByName('cash-tracker-summary');

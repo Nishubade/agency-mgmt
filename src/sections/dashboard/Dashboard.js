@@ -32,13 +32,21 @@ const DashboardComponent = () => {
     getPhoneOwnership,
     beneficiariesByWard,
     getBeneficiariesByWard,
+    getCashTrackerSummary,
+    cashTrackerSummary,
   } = useDashboardContext();
+
+  console.log('cashTrackerSummary', cashTrackerSummary);
 
   const [flickImages, setFlickImages] = useState([]);
 
   useEffect(() => {
     getSummary();
   }, [getSummary]);
+
+  useEffect(() => {
+    getCashTrackerSummary();
+  }, [getCashTrackerSummary]);
 
   useEffect(() => {
     getGenderDistribution();
@@ -150,9 +158,9 @@ const DashboardComponent = () => {
           </Grid>
         </Grid>
 
-        {/* <Grid item xs={12}>
-          <SummaryTracker activeStep={2} />
-        </Grid> */}
+        <Grid item xs={12}>
+          <SummaryTracker trackerSummary={cashTrackerSummary} activeStep={2} />
+        </Grid>
 
         <Grid item xs={12} md={4}>
           <Piechart
@@ -167,7 +175,13 @@ const DashboardComponent = () => {
               series: genderDistribution,
             }}
             footer={
-              <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2} sx={{ pr: 2 }}>
+              <Stack
+                direction="row"
+                justifyContent="flex-end"
+                alignItems="center"
+                spacing={SPACING.GRID_SPACING}
+                sx={{ pr: 2 }}
+              >
                 <Button
                   onClick={() => router.push(PATH_REPORTS.wardReport)}
                   endIcon={<Iconify sx={{ ml: -1 }} icon={'material-symbols:chevron-right-rounded'} />}

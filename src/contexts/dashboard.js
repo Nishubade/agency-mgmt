@@ -1,4 +1,4 @@
-import { DashboardService } from '@services';
+import { DashboardService, ReportingService } from '@services';
 import { createContext, useCallback, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -17,12 +17,14 @@ const initialState = {
     ],
     chartLabel: [],
   },
+  cashTrackerSummary: {},
   getSummary: () => {},
   getGeoMapData: () => {},
   getGenderDistribution: () => {},
   getBankedUnbanked: () => {},
   getPhoneOwnership: () => {},
   getBeneficiariesByWard: () => {},
+  getCashTrackerSummary: () => {},
 };
 
 const DashboardContext = createContext(initialState);
@@ -116,6 +118,15 @@ export const DashboardProvider = ({ children }) => {
     return response.data;
   }, []);
 
+  const getCashTrackerSummary = useCallback(async () => {
+    const response = await ReportingService.cashTrackerSummary();
+    setState((prev) => ({
+      ...prev,
+      cashTrackerSummary: response.data.data.value,
+    }));
+    return response.data;
+  }, []);
+
   const contextValue = {
     ...state,
     getSummary,
@@ -124,6 +135,7 @@ export const DashboardProvider = ({ children }) => {
     getBankedUnbanked,
     getPhoneOwnership,
     getBeneficiariesByWard,
+    getCashTrackerSummary,
   };
 
   return <DashboardContext.Provider value={contextValue}>{children}</DashboardContext.Provider>;

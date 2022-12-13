@@ -19,27 +19,23 @@ import Iconify from '@components/iconify';
 const STEPS = [
   {
     label: 'Unicef Innovation Fund',
-    budget: 150000,
-    balance: 0,
+    type: 'donor',
   },
   {
     label: 'Unicef Nepal',
-    balance: 0,
+    type: 'agency',
   },
   {
     label: 'Jaleshwor Palika',
-    balance: 120000,
-    hasCash: true,
+    type: 'palika',
   },
   {
     label: 'Wards',
-    balance: 200000,
-    budget: 0,
+    type: 'wards',
   },
   {
     label: 'Beneficiaries',
-    totalClaim: 0,
-    totalDisbursed: 10,
+    type: 'beneficiaries',
   },
 ];
 
@@ -63,16 +59,26 @@ const StepConnector = styled(MUIStepConnector)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 SummaryTracker.propTypes = {
+  trackerSummary: PropTypes.array,
   sx: PropTypes.object,
   activeStep: PropTypes.number,
 };
 
-export default function SummaryTracker({ activeStep, sx, ...other }) {
+export default function SummaryTracker({ trackerSummary, sx, ...other }) {
+  const summary = STEPS.map((step) => ({
+    ...step,
+    ...trackerSummary[step.type],
+  }));
+
+  console.log('summary', summary);
+
+  const activeStep = summary.findIndex((step) => !step?.isActive);
+
   return (
     <Card {...other}>
       <CardHeader title="Cash Tracker" />
       <Stepper alternativeLabel activeStep={activeStep} connector={<StepConnector />} sx={{ m: 2, ...sx }}>
-        {STEPS.map((step) => (
+        {summary.map((step) => (
           <Step key={step.label}>
             <StepLabel
               StepIconComponent={StepIcon}
@@ -88,17 +94,13 @@ export default function SummaryTracker({ activeStep, sx, ...other }) {
                     {step?.label}
                   </Typography>
 
-                  {step.label === 'Beneficiaries' ? (
-                    <>
-                      <Typography variant="caption">Claim: {step.totalClaim} </Typography>
-                      <Typography variant="caption">Disbursed: {step.totalDisbursed} </Typography>
-                    </>
-                  ) : (
-                    <>
-                      <Typography variant="caption">Budget: {step?.budget} </Typography>
-                      <Typography variant="caption">Balance: {step?.balance} </Typography>
-                    </>
-                  )}
+                  {step.totalClaim && <Typography variant="caption">Claim: {step.totalClaim} </Typography>}
+                  {step.totalDisbursed && <Typography variant="caption">Disbursed: {step.totalDisbursed} </Typography>}
+
+                  {step.budget && <Typography variant="caption">Budget: {step?.budget} </Typography>}
+                  {step.balance > 0 && <Typography variant="caption">Balance: {step?.balance} </Typography>}
+                  {step.received && <Typography variant="caption">Received: {step?.received} </Typography>}
+                  {step.disbursed && <Typography variant="caption">Disbursed: {step?.disbursed} </Typography>}
                 </Grid>
               </Stack>
             </StepLabel>
