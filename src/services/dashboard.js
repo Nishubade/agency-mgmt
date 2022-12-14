@@ -1,4 +1,4 @@
-import { rahatApi } from '@utils/client';
+import reportApi, { rahatApi } from '@utils/client';
 
 export const DashboardService = {
   getBeneficiarySummary() {
@@ -23,5 +23,9 @@ export const DashboardService = {
 
   getBeneficiariesByWard() {
     return rahatApi.get('/stats/beneficiaries/ward');
+  },
+
+  getCashTrackerSummary() {
+    return reportApi.get('/misc/cash-tracker-summary');
   },
 };

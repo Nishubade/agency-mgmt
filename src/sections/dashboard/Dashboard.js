@@ -150,9 +150,9 @@ const DashboardComponent = () => {
           </Grid>
         </Grid>
 
-        {/* <Grid item xs={12}>
-          <SummaryTracker activeStep={2} />
-        </Grid> */}
+        <Grid item xs={12}>
+          <SummaryTracker />
+        </Grid>
 
         <Grid item xs={12} md={4}>
           <Piechart
