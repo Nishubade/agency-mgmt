@@ -106,6 +106,7 @@ export const useRahat = () => {
       contract?.acceptCashForVendor(vendorAddress, amount).catch(handleContractError),
 
     async projectBalance(projectId) {
+      console.log('ppp');
       projectId = Web3Utils.keccak256(projectId);
       try {
         const projectBalanceData = await contract?.projectBalance(projectId, contracts[CONTRACTS.ADMIN]);
@@ -127,6 +128,7 @@ export const useRahat = () => {
     },
 
     async vendorBalance(vendorAddress) {
+      console.log('vvv');
       try {
         const vendorBalanceData = await contract?.vendorBalance(vendorAddress);
         const data = {
@@ -147,6 +149,7 @@ export const useRahat = () => {
     },
 
     async beneficiaryBalance(phone) {
+      console.log('bbb');
       try {
         const balanceData = await contract?.beneficiaryBalance(phone);
         const data = {

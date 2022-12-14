@@ -31,12 +31,19 @@ const ProjectView = () => {
 
   useEffect(() => {
     if (!projectId) return;
-    init(projectId);
     getProjectById(projectId);
+  }, [projectId]);
+
+  useEffect(() => {
+    if (!projectId || !contract) return;
+    init(projectId);
+  }, [projectId, RahatCash, refresh]);
+
+  useEffect(() => {
     RahatCash?.on('Approval', refreshData);
     RahatCash?.on('Transfer', refreshData);
     return () => RahatCash?.removeAllListeners();
-  }, [init, projectId, RahatCash]);
+  }, [RahatCash]);
 
   return (
     <>
@@ -61,7 +68,7 @@ const ProjectView = () => {
           )}
           {roles.isAgency && <AgencyCash rahatChainData={rahatChainData} />}
           {roles.isDonor && <DonorCash rahatChainData={rahatChainData} />}
-          <ChartCard />
+          <ChartCard rahatChainData={rahatChainData} />
           {/* <Grid item xs={12} md={4}> */}
           {/* </Grid> */}
         </Grid>

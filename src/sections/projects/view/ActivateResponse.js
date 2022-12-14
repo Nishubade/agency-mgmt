@@ -96,7 +96,8 @@ export default function ActivateResponse() {
         list={triggerAdmins}
         onOkClick={isRahatResponseLive ? ActivateFunctions.deactivateResponse : ActivateFunctions.activateResponse}
         loading={activatingResponse}
-        title={`${isRahatResponseLive ? 'Deactivate' : 'Activate'} Multi-Sig Trigger Response`}
+        actionButtonLabel={isRahatResponseLive ? 'Deactivate Response' : 'Activate Response'}
+        title={`Multi-Signature Response Trigger`}
       />
       <Button
         disabled={loading}

@@ -18,7 +18,7 @@ ActionMenu.propTypes = {
 export default function ActionMenu({ actionTitle }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const { singleBeneficiary, refreshData } = useBeneficiaryContext();
-  const { issueTokenToBeneficiary } = useRahat();
+  const { issueTokenToBeneficiary, setAsBankedBeneficiary } = useRahat();
   const { enqueueSnackbar } = useSnackbar();
   const { isDialogShow, showDialog, hideDialog } = useDialog();
   const {
@@ -58,12 +58,26 @@ export default function ActionMenu({ actionTitle }) {
       refreshData();
       setAnchorEl(null);
     },
+
+    async setBankedStatus(status) {
+      await setAsBankedBeneficiary(singleBeneficiary.phone, status);
+      refreshData();
+      setAnchorEl(null);
+    },
   };
 
   const menuItems = [
     {
       name: 'Issue Token',
       onClick: showDialog,
+    },
+    {
+      name: 'Set as Banked',
+      onClick: () => Actions.setBankedStatus(true),
+    },
+    {
+      name: 'Set as Un-Banked',
+      onClick: () => Actions.setBankedStatus(false),
     },
     {
       name: 'Edit Beneficairy',

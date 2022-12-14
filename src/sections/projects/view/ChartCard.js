@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import Piechart from './Piechart';
 import { useTheme } from '@mui/material';
 
-const ChartCard = (props) => {
+const ChartCard = ({ rahatChainData }) => {
   const theme = useTheme();
   return (
     <div>
       <Piechart
-        title="Balance"
+        title="Claim Token Balance"
         chart={{
           colors: [
             theme.palette.primary.main,
@@ -17,8 +17,8 @@ const ChartCard = (props) => {
             theme.palette.warning.main,
           ],
           series: [
-            { label: 'Available', value: 12244 },
-            { label: 'Issued', value: 12244 },
+            { label: 'Available Tokens', value: rahatChainData?.tokenBalance || 0 },
+            { label: 'Issued Tokens', value: rahatChainData?.totalBudget - rahatChainData?.tokenBalance || 0 },
           ],
         }}
       />
@@ -26,6 +26,8 @@ const ChartCard = (props) => {
   );
 };
 
-ChartCard.propTypes = {};
+ChartCard.propTypes = {
+  rahatChainData: PropTypes.object,
+};
 
 export default ChartCard;

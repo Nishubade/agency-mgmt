@@ -23,6 +23,7 @@ export default function Palika({ rahatChainData }) {
 
   const {
     query: { projectId },
+    push: routerPush,
   } = useRouter();
 
   //#endregion
@@ -71,7 +72,7 @@ export default function Palika({ rahatChainData }) {
                   <small>₹</small> {rahatChainData?.cashBalance || '0'}
                 </Typography>
                 <small>Your cash balance</small>
-                <Button sx={{ mt: 2 }} size="small" variant="outlined" onClick={showDialog}>
+                <Button sx={{ mt: 2 }} size="small" variant="outlined" onClick={() => routerPush(`/vendors`)}>
                   Send cash to Wards
                 </Button>
               </Grid>

@@ -41,7 +41,15 @@ BootstrapDialogTitle.propTypes = {
   onOkClick: PropTypes.func.isRequired,
 };
 
-export default function ActivateResponseModal({ modalOpen, handleModalClose, list = [], loading, onOkClick, title }) {
+export default function ActivateResponseModal({
+  modalOpen,
+  handleModalClose,
+  list = [],
+  loading,
+  onOkClick,
+  title,
+  actionButtonLabel,
+}) {
   return (
     <div>
       <BootstrapDialog fullWidth onClose={handleModalClose} aria-labelledby="customized-dialog-title" open={modalOpen}>
@@ -101,7 +109,7 @@ export default function ActivateResponseModal({ modalOpen, handleModalClose, lis
             startIcon={<Iconify icon={'mdi:tick'} />}
             onClick={onOkClick}
           >
-            Yes, I am sure. Proceed
+            {actionButtonLabel}
           </Button>
         </DialogActions>
       </BootstrapDialog>

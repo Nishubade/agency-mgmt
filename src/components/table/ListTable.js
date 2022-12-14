@@ -54,7 +54,7 @@ export default function ListTable({
           const tableKeyId = head[headerKey].id;
           return (
             <TableCell align={head[headerKey]?.align} component="th" scope="row" key={tableKeyId}>
-              {listItem[tableKeyId] ? conditionalRendering(listItem[tableKeyId], tableKeyId) : <Chip label="N/A" />}
+              {listItem[tableKeyId] ? conditionalRendering(listItem[tableKeyId], tableKeyId) : '-'}
             </TableCell>
           );
         })}

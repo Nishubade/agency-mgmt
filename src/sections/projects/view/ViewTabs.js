@@ -8,6 +8,8 @@ import TabsTable from './TabsTable';
 import { BEN_TABLE_HEAD, MOB_TABLE_HEAD, VEN_TABLE_HEAD, mobilizers } from './tableData';
 import { useProjectContext } from '@contexts/projects';
 import { useRouter } from 'next/router';
+import ListTableToolbar from '../ListTableToolbar';
+import { useAuthContext } from 'src/auth/useAuthContext';
 
 const tabs = [
   { value: 'beneficiaries', label: 'Beneficiaries' },
@@ -16,6 +18,7 @@ const tabs = [
 ];
 
 export default function ViewTabs() {
+  const { roles } = useAuthContext();
   const [value, setValue] = useState('beneficiaries');
 
   const {
@@ -51,7 +54,14 @@ export default function ViewTabs() {
               </TabList>
             </Box>
             <TabPanel value="beneficiaries">
-              <TabsTable rows={beneficiaries} tableHead={BEN_TABLE_HEAD} />
+              <TabsTable
+                rows={beneficiaries.map((d) => {
+                  let { name, ...rest } = d;
+                  name = roles.isPalika ? name : name?.substring(0, 1) + 'xxxxxxx Xxxxx';
+                  return { name, ...rest };
+                })}
+                tableHead={BEN_TABLE_HEAD}
+              />
             </TabPanel>
             <TabPanel value="vendors">
               {' '}
