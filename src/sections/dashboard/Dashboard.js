@@ -28,15 +28,14 @@ const DashboardComponent = () => {
     genderDistribution,
     bankedUnbanked,
     phoneOwnership,
+    genderWardChart,
     getBankedUnbanked,
     getPhoneOwnership,
-    beneficiariesByWard,
+    getWardGenderChart,
     getBeneficiariesByWard,
     getCashTrackerSummary,
     cashTrackerSummary,
   } = useDashboardContext();
-
-  console.log('cashTrackerSummary', cashTrackerSummary);
 
   const [flickImages, setFlickImages] = useState([]);
 
@@ -61,8 +60,8 @@ const DashboardComponent = () => {
   }, [getPhoneOwnership]);
 
   useEffect(() => {
-    getBeneficiariesByWard();
-  }, [getBeneficiariesByWard]);
+    getWardGenderChart();
+  }, [getWardGenderChart]);
 
   useEffect(() => {
     getGeoMapData();
@@ -172,24 +171,9 @@ const DashboardComponent = () => {
                 theme.palette.warning.light,
                 theme.palette.error.light,
               ],
+
               series: genderDistribution,
             }}
-            footer={
-              <Stack
-                direction="row"
-                justifyContent="flex-end"
-                alignItems="center"
-                spacing={SPACING.GRID_SPACING}
-                sx={{ pr: 2 }}
-              >
-                <Button
-                  onClick={() => router.push(PATH_REPORTS.wardReport)}
-                  endIcon={<Iconify sx={{ ml: -1 }} icon={'material-symbols:chevron-right-rounded'} />}
-                >
-                  More Details
-                </Button>
-              </Stack>
-            }
           />
         </Grid>
         <Grid item xs={12} md={4}>
@@ -226,20 +210,34 @@ const DashboardComponent = () => {
             title="Beneficiaries by Ward"
             chart={{
               colors: [
-                theme.palette.primary.light,
-                theme.palette.success.light,
-                theme.palette.error.light,
-                theme.palette.warning.light,
+                theme.palette.primary.main,
+                theme.palette.info.main,
+                theme.palette.error.main,
+                theme.palette.warning.main,
               ],
               options: {
                 chart: {
-                  selection: {
-                    enabled: true,
-                  },
+                  stacked: true,
                 },
               },
-              ...beneficiariesByWard,
+              ...genderWardChart,
             }}
+            footer={
+              <Stack
+                direction="row"
+                justifyContent="flex-end"
+                alignItems="center"
+                spacing={SPACING.GRID_SPACING}
+                sx={{ pr: 2 }}
+              >
+                <Button
+                  onClick={() => router.push(PATH_REPORTS.wardReport)}
+                  endIcon={<Iconify sx={{ ml: -1 }} icon={'material-symbols:chevron-right-rounded'} />}
+                >
+                  More Details
+                </Button>
+              </Stack>
+            }
           />
         </Grid>
         <Grid item xs={12} md={6}>

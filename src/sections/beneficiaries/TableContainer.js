@@ -1,4 +1,4 @@
-import { Box, Button, Chip, TableCell, TableRow } from '@mui/material';
+import { Box, Button, Chip, Pagination, TableCell, TableRow } from '@mui/material';
 import React, { useEffect } from 'react';
 import ListTableToolbar from './ListTableToolbar';
 import { useRouter } from 'next/router';
@@ -12,7 +12,8 @@ const TableContainer = () => {
   const router = useRouter();
   const { roles } = useAuthContext();
 
-  const { getBeneficiariesList, beneficiaries, errorMessage, getAllWards } = useBeneficiaryContext();
+  const { getBeneficiariesList, beneficiaries, errorMessage, getAllWards, setPagination, pagination } =
+    useBeneficiaryContext();
 
   useEffect(() => {
     getBeneficiariesList();
@@ -71,7 +72,7 @@ const TableContainer = () => {
   return (
     <Box>
       <ListTableToolbar />
-      <ListTable tableRowsList={beneficiaries} tableHeadersList={TABLE_HEAD} errorMessage={errorMessage}>
+      <ListTable tableRowsList={beneficiaries.data} tableHeadersList={TABLE_HEAD} errorMessage={errorMessage}>
         {(rows, tableHeadersList) =>
           rows.map((row) => (
             <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -93,6 +94,13 @@ const TableContainer = () => {
           ))
         }
       </ListTable>
+      <Pagination
+        count={beneficiaries?.total}
+        page={pagination.start / pagination.limit}
+        onChange={(e, page) => {
+          setPagination({ start: page, limit: pagination.limit });
+        }}
+      />
     </Box>
   );
 };

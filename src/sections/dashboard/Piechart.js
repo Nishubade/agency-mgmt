@@ -71,6 +71,7 @@ export default function Piechart({ title, subheader, chart, footer, ...other }) 
         donut: {
           size: '98%',
           labels: {
+            show: false,
             value: {
               formatter: (value) => fNumber(value),
             },

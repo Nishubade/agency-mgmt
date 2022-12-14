@@ -14,7 +14,7 @@ BarchartSingle.propTypes = {
   subheader: PropTypes.string,
 };
 
-export default function BarchartSingle({ title, subheader, chart, ...other }) {
+export default function BarchartSingle({ title, subheader, chart, footer, ...other }) {
   const { colors, chartLabel, chartData, options } = chart;
 
   const chartOptions = useChart({
@@ -29,6 +29,7 @@ export default function BarchartSingle({ title, subheader, chart, ...other }) {
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
+      {footer}
 
       <Box sx={{ mt: 3, mx: 3 }} dir="ltr">
         <Chart type={'bar'} series={chartData} options={chartOptions} height={364} />

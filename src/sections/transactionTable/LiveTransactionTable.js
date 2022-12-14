@@ -103,7 +103,7 @@ const LiveTransactionTable = (props) => {
         />
       </Stack>
       {error && <Alert severity="error">{error}</Alert>}
-      <ListTable tableHeadersList={TABLE_HEAD} tableRowsList={list} footer={tableFooter} />
+      <ListTable tableHeadersList={TABLE_HEAD} tableRowsList={list} />
     </Card>
   );
 };

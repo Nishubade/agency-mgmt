@@ -9,8 +9,7 @@ export const getTransactionsCountByMethod = () => client.get('/reporting/transac
 
 export const getTransactionsCountByMode = () => client.get('/reporting/transactions/count-by-mode');
 
-export const getTransactionsCountByWard = (year) =>
-  client.get('/reporting/real-time/transactions/count-by-ward', { params: { year } });
+export const getTransactionsClaimCountByWard = () => client.get('/reporting/real-time/transactions/count-by-ward');
 
 export const getStackedWardGender = () => client.get('/reporting/real-time/beneficiary/stacked-ward-gender');
 

@@ -17,6 +17,15 @@ const initialState = {
     ],
     chartLabel: [],
   },
+  genderWardChart: {
+    chartData: [
+      {
+        data: [],
+        name: '',
+      },
+    ],
+    chartLabel: [],
+  },
   cashTrackerSummary: {},
   getSummary: () => {},
   getGeoMapData: () => {},
@@ -25,6 +34,7 @@ const initialState = {
   getPhoneOwnership: () => {},
   getBeneficiariesByWard: () => {},
   getCashTrackerSummary: () => {},
+  getWardGenderChart: () => {},
 };
 
 const DashboardContext = createContext(initialState);
@@ -127,6 +137,14 @@ export const DashboardProvider = ({ children }) => {
     return response.data;
   }, []);
 
+  const getWardGenderChart = useCallback(async () => {
+    const response = await ReportingService.getStackedWardGender();
+    setState((prevState) => ({
+      ...prevState,
+      genderWardChart: response.data.data,
+    }));
+  }, []);
+
   const contextValue = {
     ...state,
     getSummary,
@@ -136,6 +154,7 @@ export const DashboardProvider = ({ children }) => {
     getPhoneOwnership,
     getBeneficiariesByWard,
     getCashTrackerSummary,
+    getWardGenderChart,
   };
 
   return <DashboardContext.Provider value={contextValue}>{children}</DashboardContext.Provider>;
