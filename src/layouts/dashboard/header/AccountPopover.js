@@ -13,6 +13,8 @@ import { CustomAvatar } from '../../../components/custom-avatar';
 import { useSnackbar } from '../../../components/snackbar';
 import MenuPopover from '../../../components/menu-popover';
 import { IconButtonAnimate } from '../../../components/animate';
+import truncateEthAddress from '@utils/truncateEthAddress';
+import { BLOCKCHAIN_EXPLORER } from '@config';
 
 // ----------------------------------------------------------------------
 
@@ -38,7 +40,7 @@ const OPTIONS = [
 export default function AccountPopover() {
   const { replace, push } = useRouter();
 
-  const { user, logout } = useAuthContext();
+  const { user, wallet, logout } = useAuthContext();
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -95,9 +97,13 @@ export default function AccountPopover() {
           <Typography variant="subtitle2" noWrap>
             {user?.name?.first} {user?.name?.last}
           </Typography>
-
-          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+          <Typography variant="body2" sx={{ color: 'text.secondary', mt: 1 }} noWrap>
             {user?.email}
+          </Typography>
+          <Typography variant="body2" sx={{ color: 'text.primary' }} noWrap>
+            <a href={`${BLOCKCHAIN_EXPLORER}/address/${wallet?.address}`} target="_blank" rel="noopener noreferrer">
+              {truncateEthAddress(wallet?.address)}
+            </a>
           </Typography>
         </Box>
 

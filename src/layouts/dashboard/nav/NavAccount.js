@@ -1,6 +1,6 @@
 // @mui
 import { styled, alpha } from '@mui/material/styles';
-import { Box, Link, Typography } from '@mui/material';
+import { Box, Link, Typography, Divider } from '@mui/material';
 // auth
 import { useAuthContext } from '../../../auth/useAuthContext';
 // components
@@ -24,20 +24,21 @@ const StyledRoot = styled('div')(({ theme }) => ({
 export default function NavAccount() {
   const { user, wallet } = useAuthContext();
   return (
-    <Link underline="none" color="inherit">
-      <StyledRoot>
-        <CustomAvatar src={user?.photoURL} alt={user?.name?.first} name={user?.name?.first} />
+    <Divider />
+    // <Link underline="none" color="inherit">
+    //   <StyledRoot>
+    //     <CustomAvatar src={user?.photoURL} alt={user?.name?.first} name={user?.name?.first} />
 
-        <Box sx={{ ml: 2, minWidth: 0 }}>
-          <Typography variant="subtitle2" noWrap>
-            {`${user?.name?.first} ${user?.name?.last}`}
-          </Typography>
+    //     <Box sx={{ ml: 2, minWidth: 0 }}>
+    //       <Typography variant="subtitle2" noWrap>
+    //         {`${user?.name?.first} ${user?.name?.last}`}
+    //       </Typography>
 
-          <Typography variant="body2" noWrap sx={{ color: 'text.secondary' }}>
-            {wallet?.address || 'No Wallet Address'}
-          </Typography>
-        </Box>
-      </StyledRoot>
-    </Link>
+    //       <Typography variant="body2" noWrap sx={{ color: 'text.secondary' }}>
+    //         {truncateEthAddress(wallet?.address) || 'No Wallet Address'}
+    //       </Typography>
+    //     </Box>
+    //   </StyledRoot>
+    // </Link>
   );
 }

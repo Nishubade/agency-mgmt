@@ -48,9 +48,9 @@ export default function NavVertical({ openNav, onCloseNav }) {
       }}
     >
       <Stack
-        spacing={3}
+        spacing={1}
         sx={{
-          pt: 3,
+          pt: 2,
           pb: 2,
           px: 2.5,
           flexShrink: 0,

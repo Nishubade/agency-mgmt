@@ -28,7 +28,7 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
   // );
 
   const logo = (
-    <Box component="img" src="/logo/rahat-logo.png" sx={{ width: 160, height: 66, cursor: 'pointer', ...sx }} />
+    <Box component="img" src="/logo/rahat-logo.png" sx={{ width: 164, height: 68, cursor: 'pointer', ...sx }} />
   );
   // const logo = (
   //   <Box

@@ -48,7 +48,7 @@ const navConfig = [
         icon: ICONS.projects,
       },
       {
-        title: 'Cash Tracker',
+        title: 'Claims',
         path: PATH_CASH_TRACKER.root,
         icon: ICONS.cashTracker,
       },
@@ -93,25 +93,25 @@ const navConfig = [
       //     },
       //   ],
       // },
-      {
-        title: 'Reports',
-        path: PATH_REPORTS.root,
-        icon: ICONS.reports,
-        children: [
-          {
-            title: 'Real Time',
-            path: PATH_REPORTS.realTime,
-          },
-          {
-            title: 'Demographic',
-            path: PATH_REPORTS.demographic,
-          },
-          {
-            title: 'Anomaly',
-            path: PATH_REPORTS.anomaly,
-          },
-        ],
-      },
+      // {
+      //   title: 'Reports',
+      //   path: PATH_REPORTS.root,
+      //   icon: ICONS.reports,
+      //   children: [
+      //     {
+      //       title: 'Real Time',
+      //       path: PATH_REPORTS.realTime,
+      //     },
+      //     {
+      //       title: 'Demographic',
+      //       path: PATH_REPORTS.demographic,
+      //     },
+      //     {
+      //       title: 'Anomaly',
+      //       path: PATH_REPORTS.anomaly,
+      //     },
+      //   ],
+      // },
     ],
   },
 ];
