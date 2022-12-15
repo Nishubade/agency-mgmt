@@ -121,32 +121,29 @@ export default function SummaryTracker({ sx, ...other }) {
   };
 
   return (
-    <Card {...other}>
-      <CardHeader title="Cash Tracker" />
-      <Stepper alternativeLabel activeStep={activeStep} connector={<StepConnector />} sx={{ m: 2, ...sx }}>
-        {trackData.map((step) => (
-          <Step key={step.label}>
-            <StepLabel
-              StepIconComponent={StepIcon}
-              sx={{
-                '& .MuiStepLabel-label': {
-                  typography: 'subtitle2',
-                },
-              }}
-            >
-              <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={12}>
-                <Grid container direction="column" justifyContent="center" alignItems="center">
-                  <Typography fontWeight={700} variant="caption">
-                    {step?.label}
-                  </Typography>
-                  {renderBalance(step)}
-                </Grid>
-              </Stack>
-            </StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-    </Card>
+    <Stepper alternativeLabel activeStep={activeStep} connector={<StepConnector />} sx={{ m: 2, ...sx }}>
+      {trackData.map((step) => (
+        <Step key={step.label}>
+          <StepLabel
+            StepIconComponent={StepIcon}
+            sx={{
+              '& .MuiStepLabel-label': {
+                typography: 'subtitle2',
+              },
+            }}
+          >
+            <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={12}>
+              <Grid container direction="column" justifyContent="center" alignItems="center">
+                <Typography fontWeight={700} variant="caption">
+                  {step?.label}
+                </Typography>
+                {renderBalance(step)}
+              </Grid>
+            </Stack>
+          </StepLabel>
+        </Step>
+      ))}
+    </Stepper>
   );
 }
 

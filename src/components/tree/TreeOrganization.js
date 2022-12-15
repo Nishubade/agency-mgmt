@@ -31,6 +31,7 @@ const TreeNodeCard = ({ node, theme, onNodeClick, selectedNode }) => (
     theme={theme}
     onClick={() => onNodeClick(node)}
     sx={{
+      mt: 2,
       'background-color':
         selectedNode?.nodeName === node?.nodeName
           ? `${theme.palette.success.main} !important`

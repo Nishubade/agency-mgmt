@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Button, Grid, Stack } from '@mui/material';
+import { Box, Button, Card, CardHeader, Grid, Stack } from '@mui/material';
 import SummaryCard from '@components/SummaryCard';
 // @mui
 import { useTheme } from '@mui/material/styles';
@@ -158,7 +158,10 @@ const DashboardComponent = () => {
         </Grid>
 
         <Grid item xs={12}>
-          <SummaryTracker />
+          <Card>
+            <CardHeader title="Cash Tracker" />
+            <SummaryTracker />
+          </Card>
         </Grid>
 
         <Grid item xs={12} md={4}>

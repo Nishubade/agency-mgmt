@@ -4,12 +4,13 @@ import DetailTable from './DetailTable';
 import dynamic from 'next/dynamic';
 import { useCashTrackerContext } from '@contexts/cash-tracker';
 import { BeneficiaryService } from '@services/beneficiaries';
+import SummaryTracker from './SummaryTracker';
 
 const TreeTracker = dynamic(() => import('@components/tree/TreeOrganization'), { ssr: false });
 
 let tree = [
   {
-    nodeName: 'Jaleswor Nagarpalika, Nepal',
+    nodeName: '',
     childNode: [],
   },
 ];
@@ -45,7 +46,8 @@ const Tracker = () => {
   }, [buildTreeData, treeData]);
 
   return (
-    <div>
+    <div style={{ paddingTop: 15 }}>
+      <SummaryTracker />
       <TreeTracker tree={treeData} onNodeClick={handleNodeClick} selectedNode={selectedNode} />
       <DetailTable selectedNode={selectedNode} list={beneficiariesByWard} />
     </div>

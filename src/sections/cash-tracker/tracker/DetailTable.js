@@ -36,8 +36,8 @@ const DetailTable = ({ selectedNode, list }) => {
 
   if (!selectedNode)
     return (
-      <Stack direction="column" justifyContent="center" alignItems="center" sx={{ height: '100%', p: 2 }}>
-        <Typography variant="h6">Please select a node from the tree to view details</Typography>
+      <Stack direction="column" justifyContent="center" alignItems="center" sx={{ height: '100%', p: 2, mt: 3 }}>
+        <Typography variant="body3">Please select a node from the tree to view details</Typography>
       </Stack>
     );
   return (
