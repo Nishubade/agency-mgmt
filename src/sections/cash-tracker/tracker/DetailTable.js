@@ -2,11 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Stack, Typography } from '@mui/material';
 import ListTable from '@components/table/ListTable';
-import { useAuthContext } from 'src/auth/useAuthContext';
 
 const DetailTable = ({ selectedNode, list }) => {
-  const { roles } = useAuthContext();
-
   const TABLE_HEADER = {
     name: {
       id: 'name',
@@ -16,10 +13,11 @@ const DetailTable = ({ selectedNode, list }) => {
       id: 'phone',
       label: 'Phone',
     },
-    age: {
-      id: 'age',
-      label: 'Age',
-    },
+    // TODO: fix in the backend from DOB
+    // age: {
+    //   id: 'age',
+    //   label: 'Age',
+    // },
     gender: {
       id: 'gender',
       label: 'Gender',
@@ -28,9 +26,17 @@ const DetailTable = ({ selectedNode, list }) => {
       id: 'claimed',
       label: 'Claimed',
     },
-    tokenIssued: {
-      id: 'tokenIssued',
-      label: 'Token Issued',
+    totalTokenIssued: {
+      id: 'totalTokenIssued',
+      label: 'Total Token Issued',
+    },
+    tokenBalance: {
+      id: 'tokenBalance',
+      label: 'Token Balance',
+    },
+    cashBalance: {
+      id: 'cashBalance',
+      label: 'Cash Balance',
     },
   };
 
@@ -40,6 +46,7 @@ const DetailTable = ({ selectedNode, list }) => {
         <Typography variant="body3">Please select a node from the tree to view details</Typography>
       </Stack>
     );
+
   return (
     <Stack
       sx={{
@@ -48,14 +55,7 @@ const DetailTable = ({ selectedNode, list }) => {
         mt: 3,
       }}
     >
-      <ListTable
-        tableRowsList={list.map((d) => {
-          let { name, ...rest } = d;
-          if (!roles.isPalika) name = 'xxxxxx';
-          return { name, ...rest };
-        })}
-        tableHeadersList={TABLE_HEADER}
-      />
+      <ListTable tableRowsList={list} tableHeadersList={TABLE_HEADER} />
     </Stack>
   );
 };
