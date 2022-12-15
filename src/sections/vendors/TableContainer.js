@@ -48,7 +48,9 @@ const TableContainer = () => {
   const { getVendorsList, vendors } = useVendorsContext();
 
   useEffect(() => {
-    getVendorsList();
+    getVendorsList({
+      limit: 50,
+    });
   }, [getVendorsList]);
 
   const handleView = (id) => () => {
