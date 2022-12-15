@@ -31,7 +31,7 @@ const WardLandOwnershipInfoCard = ({ selectedWard }) => {
   return (
     <Box>
       <BarchartSingle
-        title={`Ward Wise Land Ownership Distribution for Ward ${selectedWard}`}
+        title={`By Land Ownership (Ward ${selectedWard})`}
         chart={{
           colors: [
             theme.palette.primary.main,

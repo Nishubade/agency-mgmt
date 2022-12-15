@@ -30,12 +30,12 @@ const WardDisabilityInfoCard = ({ selectedWard }) => {
   return (
     <Box>
       <BarchartSingle
-        title={`Ward Wise Disability Distribution for Ward ${selectedWard}`}
+        title={`People with Disability (Ward ${selectedWard})`}
         chart={{
           colors: [
-            theme.palette.primary.main,
             theme.palette.info.main,
             theme.palette.error.main,
+            theme.palette.primary.main,
             theme.palette.warning.main,
           ],
           options: {

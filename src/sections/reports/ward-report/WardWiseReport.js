@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import { Grid, useTheme } from '@mui/material';
 import BarchartSingle from './BarchartSingle';
-import { useRouter } from 'next/router';
 import { useModuleContext } from './context';
 import WardGenderInfoCard from './WardGenderInfoCard';
-import WardClaimInfoCard from './WardClaimInfoCard';
+import WardDailyWageInfoCard from './WardDailyWageInfoCard';
 import WardLandOwnershipInfoCard from './WardLandOwnershipInfoCard';
 import WardDisabilityInfoCard from './WardDisabilityInfoCard';
 
@@ -33,7 +31,7 @@ function WardWiseReport() {
              chanrt 2 - male females
         */}
         <BarchartSingle
-          title="Ward Wise Claim"
+          title="Ward Wise Claims"
           chart={{
             colors: [
               theme.palette.primary.main,
@@ -64,7 +62,7 @@ function WardWiseReport() {
         <WardGenderInfoCard selectedWard={selectedWard} />
       </Grid>
       <Grid item xs={12} md={4}>
-        <WardClaimInfoCard selectedWard={selectedWard} />
+        <WardDailyWageInfoCard selectedWard={selectedWard} />
       </Grid>
       <Grid item xs={12} md={4}>
         <WardLandOwnershipInfoCard selectedWard={selectedWard} />

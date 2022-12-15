@@ -4,14 +4,14 @@ import { useEffect } from 'react';
 import BarchartSingle from './BarchartSingle';
 import { useModuleContext } from './context';
 
-const WardClaimInfoCard = ({ selectedWard }) => {
+const WardDailyWage = ({ selectedWard }) => {
   const theme = useTheme();
-  const { wardByClaim, getWardClaimChart } = useModuleContext();
+  const { dailyWageByWard, getWardDailyWageChart } = useModuleContext();
 
   useEffect(() => {
     if (!selectedWard) return;
-    getWardClaimChart(selectedWard);
-  }, [getWardClaimChart, selectedWard]);
+    getWardDailyWageChart(selectedWard);
+  }, [getWardDailyWageChart, selectedWard]);
 
   if (!selectedWard || selectedWard === 'undefined')
     return (
@@ -30,28 +30,28 @@ const WardClaimInfoCard = ({ selectedWard }) => {
   return (
     <Box>
       <BarchartSingle
-        title={`Ward Wise Claim Distribution for Ward ${selectedWard}`}
+        title={`Daily Wage Workers (Ward ${selectedWard})`}
         chart={{
           colors: [
+            theme.palette.warning.main,
+            theme.palette.error.main,
             theme.palette.primary.main,
             theme.palette.info.main,
-            theme.palette.error.main,
-            theme.palette.warning.main,
           ],
           options: {
             chart: {
               stacked: true,
             },
           },
-          ...wardByClaim,
+          ...dailyWageByWard,
         }}
       />
     </Box>
   );
 };
 
-WardClaimInfoCard.propTypes = {
+WardDailyWage.propTypes = {
   selectedWard: PropTypes.string.required,
 };
 
-export default WardClaimInfoCard;
+export default WardDailyWage;

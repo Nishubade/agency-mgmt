@@ -9,7 +9,7 @@ export const getTransactionsCountByMethod = () => client.get('/reporting/transac
 
 export const getTransactionsCountByMode = () => client.get('/reporting/transactions/count-by-mode');
 
-export const getTransactionsClaimCountByWard = () => client.get('/reporting/real-time/transactions/count-by-ward');
+export const getTransactionsClaimCountByWard = () => client.get('/reporting/beneficiary/claim-distribution-by-ward');
 
 export const countGenderByWard = () => client.get('/reporting/real-time/beneficiary/count-gender-ward');
 
@@ -40,6 +40,13 @@ export const groupWardByLandOwnership = (ward) =>
 
 export const groupWardByDisability = (ward) =>
   client.get('/reporting/real-time/beneficiary/group-ward-disability', {
+    params: {
+      ward,
+    },
+  });
+
+export const groupWardByDailyWage = (ward) =>
+  client.get('/reporting/real-time/beneficiary/group-ward-dailywage', {
     params: {
       ward,
     },

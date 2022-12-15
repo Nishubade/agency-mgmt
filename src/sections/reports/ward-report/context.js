@@ -21,7 +21,7 @@ const initialState = {
     ],
     chartLabel: [],
   },
-  wardByClaim: {
+  dailyWageByWard: {
     chartData: [
       {
         data: [],
@@ -51,7 +51,7 @@ const initialState = {
   getTransactionsCountByWard: () => {},
 
   getWardGenderChart: (ward) => {},
-  getWardClaimChart: (ward) => {},
+  getWardDailyWageChart: (ward) => {},
   getWardLandOwnershipChart: (ward) => {},
   getWardDisabilityChart: (ward) => {},
 };
@@ -63,9 +63,26 @@ export const ContextProvider = ({ children }) => {
 
   const getTransactionsCountByWard = useCallback(async () => {
     const response = await ReportingService.getTransactionsClaimCountByWard();
+
+    const chartLabel = response.data.data.map((d) => `Ward ${d.ward}`);
+
+    const chartData = [
+      {
+        name: 'Claimed',
+        data: response.data.data.map((d) => d.claimed),
+      },
+      {
+        name: 'Not Claimed',
+        data: response.data.data.map((d) => d.notClaimed),
+      },
+    ];
+
     setState((prevState) => ({
       ...prevState,
-      wardChartData: response.data.data,
+      wardChartData: {
+        chartLabel,
+        chartData,
+      },
     }));
   }, []);
 
@@ -77,11 +94,11 @@ export const ContextProvider = ({ children }) => {
     }));
   }, []);
 
-  const getWardClaimChart = useCallback(async (ward) => {
-    const response = await Service.groupClaimByWard(ward);
+  const getWardDailyWageChart = useCallback(async (ward) => {
+    const response = await Service.groupWardByDailyWage(ward);
     setState((prevState) => ({
       ...prevState,
-      wardByClaim: response.data.data,
+      dailyWageByWard: response.data.data,
     }));
   }, []);
 
@@ -104,7 +121,7 @@ export const ContextProvider = ({ children }) => {
     ...state,
     getWardGenderChart,
     getTransactionsCountByWard,
-    getWardClaimChart,
+    getWardDailyWageChart,
     getWardLandOwnershipChart,
     getWardDisabilityChart,
   };
