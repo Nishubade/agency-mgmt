@@ -95,7 +95,7 @@ const TableContainer = () => {
         }
       </ListTable>
       <Pagination
-        count={beneficiaries?.total}
+        count={beneficiaries?.total / pagination?.limit}
         page={pagination.start / pagination.limit}
         onChange={(e, page) => {
           setPagination({ start: page, limit: pagination.limit });

@@ -63,9 +63,26 @@ export const ContextProvider = ({ children }) => {
 
   const getTransactionsCountByWard = useCallback(async () => {
     const response = await ReportingService.getTransactionsClaimCountByWard();
+
+    const chartLabel = response.data.data.map((d) => `Ward ${d.ward}`);
+
+    const chartData = [
+      {
+        name: 'Claimed',
+        data: response.data.data.map((d) => d.claimed),
+      },
+      {
+        name: 'Not Claimed',
+        data: response.data.data.map((d) => d.notClaimed),
+      },
+    ];
+
     setState((prevState) => ({
       ...prevState,
-      wardChartData: response.data.data,
+      wardChartData: {
+        chartLabel,
+        chartData,
+      },
     }));
   }, []);
 
