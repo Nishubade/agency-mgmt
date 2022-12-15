@@ -9,7 +9,7 @@ const TreeTracker = dynamic(() => import('@components/tree/TreeOrganization'), {
 
 let tree = [
   {
-    nodeName: 'Jaleswor Palika',
+    nodeName: 'Jaleswor Nagarpalika, Nepal',
     childNode: [],
   },
 ];

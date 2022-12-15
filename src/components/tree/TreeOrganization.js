@@ -4,7 +4,6 @@ import styled from '@emotion/styled';
 import { Button, Grid, Stack, Typography } from '@mui/material';
 import { useTheme } from '@mui/system';
 import PropTypes from 'prop-types';
-import Iconify from '@components/iconify';
 
 // const TreeImport = dynamic(() => import('react-organizational-chart'), { ssr: false });
 
@@ -28,14 +27,23 @@ const StyledNode = styled(Button)`
 `;
 
 const TreeNodeCard = ({ node, theme, onNodeClick, selectedNode }) => (
-  <StyledNode theme={theme} onClick={() => onNodeClick(node)}>
+  <StyledNode
+    theme={theme}
+    onClick={() => onNodeClick(node)}
+    sx={{
+      'background-color':
+        selectedNode?.nodeName === node?.nodeName
+          ? `${theme.palette.success.main} !important`
+          : theme.palette.text.primary,
+    }}
+  >
     <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={12}>
       <Grid container direction="column" justifyContent="center" alignItems="center">
         <Typography
           fontWeight={700}
           variant="button"
           sx={{
-            color: selectedNode?.nodeName === node?.nodeName ? theme.palette.success.main : theme.palette.text.primary,
+            color: selectedNode?.nodeName === node?.nodeName ? '#fff' : theme.palette.text.primary,
           }}
         >
           {node?.nodeName}

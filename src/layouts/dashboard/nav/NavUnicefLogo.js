@@ -9,11 +9,12 @@ export default function NavUnicefLogo() {
       spacing={3}
       sx={{
         px: 7,
-        pb: 25,
-        pt: 0,
-        mt: 2,
-        display: 'block',
+        pb: 5,
         textAlign: 'center',
+        marginTop: 'calc(10% + 60px)',
+        width: '100%',
+        position: 'relative',
+        bottom: 0,
       }}
     >
       <Box

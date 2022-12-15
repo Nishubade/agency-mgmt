@@ -45,6 +45,7 @@ const DetailTable = ({ selectedNode, list }) => {
       sx={{
         height: '100%',
         p: 2,
+        mt: 3,
       }}
     >
       <ListTable
