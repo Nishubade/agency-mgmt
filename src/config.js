@@ -4,7 +4,7 @@ import { PATH_DASHBOARD } from './routes/paths';
 // API
 // ----------------------------------------------------------------------
 
-export const DEBUG_MODE = process.env.NEXT_PUBLIC_DEBUG_MODE || false;
+export const DEBUG_MODE = process.env.NEXT_PUBLIC_DEBUG_MODE === 'true' || false;
 export const HOST_API = process.env.NEXT_PUBLIC_HOST_API || '';
 export const RAHAT_BACKEND = process.env.NEXT_PUBLIC_RAHAT_BACKEND || '';
 
