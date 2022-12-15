@@ -9,11 +9,17 @@ const initialState = {
   refresh: false,
   filter: {},
   wards: [],
+  pagination: {
+    page: 0,
+    limit: 10,
+    total: 0,
+  },
   getBeneficiariesList: () => {},
   getBeneficiaryById: () => {},
   setChainData: () => {},
   refreshData: () => {},
   setFilter: () => {},
+  setPagination: () => {},
   getAllWards: () => {},
 };
 
@@ -23,10 +29,26 @@ export const BeneficiaryProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
   const refreshData = () => setState((prev) => ({ ...prev, refresh: !prev.refresh }));
 
-  const setFilter = (filter) => setState((prev) => ({ ...prev, filter }));
+  const setFilter = (filter) =>
+    setState((prev) => ({
+      ...prev,
+      pagination: {
+        start: 0,
+      },
+      filter,
+    }));
+
+  const setPagination = (pagination) => setState((prev) => ({ ...prev, pagination }));
 
   const getBeneficiariesList = useCallback(async () => {
-    let filter = state.filter;
+    let filter = {
+      limit: state.pagination?.limit,
+      start: state.pagination?.start,
+      // page: state.pagination?.page <= 0 ? 1 : state.pagination?.page,
+      name: state.filter?.name?.length > 3 ? state.filter?.name : undefined,
+      phone: state.filter?.phone?.length > 3 ? state.filter?.phone : undefined,
+    };
+    console.log('filter', filter);
     // let filter = state.filter?.name?.length > 3 || state.filter?.phone?.length > 3 ? state.filter : {};
 
     const response = await BeneficiaryService.getBeneficiariesList(filter);
@@ -40,10 +62,21 @@ export const BeneficiaryProvider = ({ children }) => {
 
     setState((prevState) => ({
       ...prevState,
-      beneficiaries: formatted,
+      beneficiaries: {
+        data: formatted,
+        total: response.data.total,
+        start: response.data.start,
+        limit: response.data.limit,
+      },
+      // pagination: {
+      //   ...prevState.pagination,
+      //   total: response.data.total,
+      //   start: response.data.start,
+      //   limit: response.data.limit,
+      // },
     }));
     return formatted;
-  }, [state.filter]);
+  }, [state.filter, state.pagination]);
 
   const setChainData = useCallback((chainData) => {
     setState((prev) => ({
@@ -98,6 +131,7 @@ export const BeneficiaryProvider = ({ children }) => {
     ...state,
     refreshData,
     setFilter,
+    setPagination,
     setChainData,
     getBeneficiariesList,
     getBeneficiaryById,

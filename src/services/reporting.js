@@ -9,10 +9,9 @@ export const getTransactionsCountByMethod = () => client.get('/reporting/transac
 
 export const getTransactionsCountByMode = () => client.get('/reporting/transactions/count-by-mode');
 
-export const getTransactionsCountByWard = (year) =>
-  client.get('/reporting/real-time/transactions/count-by-ward', { params: { year } });
+export const getTransactionsClaimCountByWard = () => client.get('/reporting/real-time/transactions/count-by-ward');
 
-export const getStackedWardGender = () => client.get('/reporting/real-time/beneficiary/stacked-ward-gender');
+export const countGenderByWard = () => client.get('/reporting/real-time/beneficiary/count-gender-ward');
 
 export const getBeneficiariesCounts = () => client.get('/reporting/real-time/beneficiary/counts');
 
@@ -45,3 +44,7 @@ export const groupWardByDisability = (ward) =>
       ward,
     },
   });
+
+export const getMiscValueByName = (name) => client.get(`/misc/${name}`);
+
+export const cashTrackerSummary = () => getMiscValueByName('cash-tracker-summary');

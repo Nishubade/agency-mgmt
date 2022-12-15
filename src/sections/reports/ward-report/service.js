@@ -1,9 +1,9 @@
 import {
-  getStackedWardGender,
+  countGenderByWard,
   groupGenderByWard,
   groupClaimByWard,
   groupWardByLandOwnership,
   groupWardByDisability,
 } from '@services/reporting';
 
-export { getStackedWardGender, groupGenderByWard, groupClaimByWard, groupWardByLandOwnership, groupWardByDisability };
+export { countGenderByWard, groupGenderByWard, groupClaimByWard, groupWardByLandOwnership, groupWardByDisability };

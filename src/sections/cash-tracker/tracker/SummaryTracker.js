@@ -66,6 +66,7 @@ const StepConnector = styled(MUIStepConnector)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 SummaryTracker.propTypes = {
+  trackerSummary: PropTypes.array,
   sx: PropTypes.object,
 };
 

@@ -10,6 +10,7 @@ import {
   PATH_VENDORS,
   PATH_CASH_TRACKER,
   PATH_PHOTO_GALLERY,
+  PATH_TRANSACTIONS,
 } from '@routes/paths';
 // components
 import Iconify from '@components/iconify';
@@ -23,6 +24,7 @@ const ICONS = {
   admin: icon('ic:outline-admin-panel-settings'),
   projects: icon('pajamas:project'),
   cashTracker: icon('mdi:cash-clock'),
+  transactions: icon('eos-icons:blockchain'),
   beneficiary: icon('mdi:user-convert'),
   dashboard: icon('carbon:dashboard'),
   vendors: icon('material-symbols:anchor'),
@@ -51,6 +53,11 @@ const navConfig = [
         title: 'Claims',
         path: PATH_CASH_TRACKER.root,
         icon: ICONS.cashTracker,
+      },
+      {
+        title: 'Live Transactions',
+        path: PATH_TRANSACTIONS.root,
+        icon: ICONS.transactions,
       },
       {
         title: 'Beneficiary',

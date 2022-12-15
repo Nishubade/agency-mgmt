@@ -1,4 +1,4 @@
-import { DashboardService } from '@services';
+import { DashboardService, ReportingService } from '@services';
 import { createContext, useCallback, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -17,12 +17,24 @@ const initialState = {
     ],
     chartLabel: [],
   },
+  genderWardChart: {
+    chartData: [
+      {
+        data: [],
+        name: '',
+      },
+    ],
+    chartLabel: [],
+  },
+  cashTrackerSummary: {},
   getSummary: () => {},
   getGeoMapData: () => {},
   getGenderDistribution: () => {},
   getBankedUnbanked: () => {},
   getPhoneOwnership: () => {},
   getBeneficiariesByWard: () => {},
+  getCashTrackerSummary: () => {},
+  getWardGenderChart: () => {},
 };
 
 const DashboardContext = createContext(initialState);
@@ -116,6 +128,43 @@ export const DashboardProvider = ({ children }) => {
     return response.data;
   }, []);
 
+  const getCashTrackerSummary = useCallback(async () => {
+    const response = await ReportingService.cashTrackerSummary();
+    setState((prev) => ({
+      ...prev,
+      cashTrackerSummary: response.data.data.value,
+    }));
+    return response.data;
+  }, []);
+
+  const getWardGenderChart = useCallback(async () => {
+    const response = await ReportingService.countGenderByWard();
+    const chartLabel = response.data.data?.map((d) => `Ward ${d.ward}`);
+    const chartData = [
+      {
+        name: 'Male',
+        data: response.data.data?.map((d) => d.male),
+      },
+      {
+        name: 'Female',
+        data: response.data.data?.map((d) => d.female),
+      },
+      {
+        name: 'Other',
+        data: response.data.data?.map((d) => d.other),
+      },
+      {
+        name: 'Unknown',
+        data: response.data.data?.map((d) => d.unknown),
+      },
+    ];
+
+    setState((prevState) => ({
+      ...prevState,
+      genderWardChart: { chartLabel, chartData },
+    }));
+  }, []);
+
   const contextValue = {
     ...state,
     getSummary,
@@ -124,6 +173,8 @@ export const DashboardProvider = ({ children }) => {
     getBankedUnbanked,
     getPhoneOwnership,
     getBeneficiariesByWard,
+    getCashTrackerSummary,
+    getWardGenderChart,
   };
 
   return <DashboardContext.Provider value={contextValue}>{children}</DashboardContext.Provider>;

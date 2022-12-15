@@ -19,6 +19,7 @@ const ContainerComponent = ({ children, title, action, breadcrumbLinks, nocard =
               <Stack direction="row" alignItems="center" spacing={1}>
                 <IconButton
                   size="small"
+                  sx={{ mr: 1 }}
                   onClick={() => {
                     window.history.back();
                   }}

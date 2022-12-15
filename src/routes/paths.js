@@ -7,6 +7,7 @@ function path(root, sublink) {
 const ROOTS_DASHBOARD = '/dashboard';
 const ROOTS_PROJECTS = '/projects';
 const ROOT_CASH_TRACKER = '/cash-tracker';
+const ROOT_TRANSACTIONS = '/transactions';
 const ROOTS_BENEFICIARY = '/beneficiaries';
 const ROOTS_VENDORS = '/vendors';
 const ROOTS_MOBILIZERS = '/mobilizers';
@@ -39,6 +40,9 @@ export const PATH_PROJECTS = {
 export const PATH_CASH_TRACKER = {
   root: ROOT_CASH_TRACKER,
   tracker: path(ROOT_CASH_TRACKER, '/tracker'),
+};
+export const PATH_TRANSACTIONS = {
+  root: ROOT_TRANSACTIONS,
 };
 
 export const PATH_BENEFICIARY = {

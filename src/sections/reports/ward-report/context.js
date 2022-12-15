@@ -1,3 +1,4 @@
+import { ReportingService } from '@services';
 import { createContext, useCallback, useContext, useState } from 'react';
 import * as Service from './service';
 
@@ -61,7 +62,7 @@ export const ContextProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
 
   const getTransactionsCountByWard = useCallback(async () => {
-    const response = await Service.getStackedWardGender();
+    const response = await ReportingService.getTransactionsClaimCountByWard();
     setState((prevState) => ({
       ...prevState,
       wardChartData: response.data.data,
