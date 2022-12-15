@@ -31,12 +31,12 @@ const WardGenderInfoCard = ({ selectedWard }) => {
   return (
     <Box>
       <BarchartSingle
-        title={`Ward Wise Gender Claim Distribution for Ward ${selectedWard}`}
+        title={`Gender Claim Distribution (Ward ${selectedWard})`}
         chart={{
           colors: [
             theme.palette.primary.main,
-            theme.palette.info.main,
             theme.palette.error.main,
+            theme.palette.info.main,
             theme.palette.warning.main,
           ],
           options: {

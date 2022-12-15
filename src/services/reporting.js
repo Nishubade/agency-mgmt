@@ -45,6 +45,13 @@ export const groupWardByDisability = (ward) =>
     },
   });
 
+export const groupWardByDailyWage = (ward) =>
+  client.get('/reporting/real-time/beneficiary/group-ward-dailywage', {
+    params: {
+      ward,
+    },
+  });
+
 export const getMiscValueByName = (name) => client.get(`/misc/${name}`);
 
 export const cashTrackerSummary = () => getMiscValueByName('cash-tracker-summary');

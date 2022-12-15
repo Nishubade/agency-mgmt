@@ -21,7 +21,7 @@ const initialState = {
     ],
     chartLabel: [],
   },
-  wardByClaim: {
+  dailyWageByWard: {
     chartData: [
       {
         data: [],
@@ -51,7 +51,7 @@ const initialState = {
   getTransactionsCountByWard: () => {},
 
   getWardGenderChart: (ward) => {},
-  getWardClaimChart: (ward) => {},
+  getWardDailyWageChart: (ward) => {},
   getWardLandOwnershipChart: (ward) => {},
   getWardDisabilityChart: (ward) => {},
 };
@@ -94,11 +94,11 @@ export const ContextProvider = ({ children }) => {
     }));
   }, []);
 
-  const getWardClaimChart = useCallback(async (ward) => {
-    const response = await Service.groupClaimByWard(ward);
+  const getWardDailyWageChart = useCallback(async (ward) => {
+    const response = await Service.groupWardByDailyWage(ward);
     setState((prevState) => ({
       ...prevState,
-      wardByClaim: response.data.data,
+      dailyWageByWard: response.data.data,
     }));
   }, []);
 
@@ -121,7 +121,7 @@ export const ContextProvider = ({ children }) => {
     ...state,
     getWardGenderChart,
     getTransactionsCountByWard,
-    getWardClaimChart,
+    getWardDailyWageChart,
     getWardLandOwnershipChart,
     getWardDisabilityChart,
   };
