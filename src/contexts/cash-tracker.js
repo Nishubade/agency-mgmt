@@ -1,6 +1,7 @@
 import { BeneficiaryService } from '@services';
 import { createContext, useCallback, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useAuthContext } from 'src/auth/useAuthContext';
 
 const initialState = {
   beneficiariesByWard: [],
@@ -11,13 +12,17 @@ const CashTrackerContext = createContext(initialState);
 
 export const CashTrackerProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
-
+  const { roles } = useAuthContext();
   const getBeneficiariesByWard = useCallback(async (params) => {
     const response = await BeneficiaryService.getBeneficiariesByWard(params);
 
     const formatted = response?.data?.data?.map((item) => ({
       ...item,
       claimed: item?.claimed ? 'Yes' : 'No',
+      name: !roles.isPalika ? 'xxxxxx' : item.name,
+      totalTokenIssued: item.totalTokenIssued?.toString(),
+      cashBalance: item.cashBalance?.toString(),
+      tokenBalance: item.tokenBalance?.toString(),
     }));
     setState((prevState) => ({
       ...prevState,
