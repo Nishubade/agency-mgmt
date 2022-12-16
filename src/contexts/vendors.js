@@ -24,7 +24,9 @@ export const VendorProvider = ({ children }) => {
 
     const formatted = response.data.data.map((item) => ({
       ...item,
-
+      status: '...',
+      cash: 0,
+      token: 0,
       id: item?._id,
       registrationDate: item?.created_at,
       registeredBy: `${item?.created_by?.name?.first} ${item?.created_by?.name?.last}`,
@@ -34,6 +36,7 @@ export const VendorProvider = ({ children }) => {
       ...prevState,
       vendors: formatted,
     }));
+    return formatted;
   }, []);
 
   const setChainData = useCallback((chainData) => {
