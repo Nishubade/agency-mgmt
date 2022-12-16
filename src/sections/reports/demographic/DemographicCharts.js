@@ -1,36 +1,57 @@
-import React, { useEffect } from 'react';
-import { Grid, useTheme } from '@mui/material';
+import React, { useCallback, useEffect } from 'react';
+import { Grid, Skeleton, useTheme } from '@mui/material';
 import Barchart from './Barchart';
 import { useReportsContext } from '@contexts/reports';
 import { SPACING } from '@config';
 import { useState } from 'react';
+
+const LoadingScreen = () => (
+  <Grid container spacing={SPACING.GRID_SPACING}>
+    <Grid item xs={12} md={6} lg={6}>
+      <Skeleton variant="rectangular" height={200} />
+    </Grid>
+    <Grid item xs={12} md={6} lg={6}>
+      <Skeleton variant="rectangular" height={200} />
+    </Grid>
+    <Grid item xs={12} md={6} lg={6}>
+      <Skeleton variant="rectangular" height={200} />
+    </Grid>
+    <Grid item xs={12} md={6} lg={6}>
+      <Skeleton variant="rectangular" height={200} />
+    </Grid>
+  </Grid>
+);
 
 function DemographicCharts() {
   const theme = useTheme();
   const [loadingGraph, setLoadingGraph] = useState(true);
   const { demographicReportData, getDemographicDataByWard } = useReportsContext();
 
-  useEffect(() => {
-    getDemographicDataByWard({
+  const fetchData = useCallback(async () => {
+    await getDemographicDataByWard({
       filterKey: 'noLand',
     });
-    getDemographicDataByWard({
+    await getDemographicDataByWard({
       filterKey: 'hasPhone',
     });
-    getDemographicDataByWard({
+    await getDemographicDataByWard({
       filterKey: 'hasBank',
     });
-    getDemographicDataByWard({
+    await getDemographicDataByWard({
       filterKey: 'dailyWage',
     });
-    getDemographicDataByWard({
+    await getDemographicDataByWard({
       filterKey: 'disability',
     });
     setLoadingGraph(false);
-  }, [getDemographicDataByWard]);
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   if (loadingGraph) {
-    return <div>Loading...</div>;
+    return <LoadingScreen />;
   }
 
   return (
