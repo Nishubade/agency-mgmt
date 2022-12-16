@@ -8,4 +8,8 @@ export const AppService = {
   getContract(contractName) {
     return rahatApi.get(`/app/contracts/${contractName}`);
   },
+
+  getAdmins() {
+    return rahatApi.get(`/app/admins`);
+  },
 };
