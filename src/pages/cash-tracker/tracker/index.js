@@ -3,7 +3,6 @@ import DashboardLayout from '@layouts/dashboard';
 import { Page } from '@components/page';
 import { useSettingsContext } from '@components/settings';
 import { Tracker } from '@sections/cash-tracker/tracker';
-import AuthGuard from '@guards/AuthGuard';
 import { CashTrackerProvider } from '@contexts/cash-tracker';
 
 // ----------------------------------------------------------------------

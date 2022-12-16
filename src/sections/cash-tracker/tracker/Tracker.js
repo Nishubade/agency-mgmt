@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import { useCashTrackerContext } from '@contexts/cash-tracker';
 import { BeneficiaryService } from '@services/beneficiaries';
 import SummaryTracker from './SummaryTracker';
+import { Skeleton } from '@mui/material';
 
 const TreeTracker = dynamic(() => import('@components/tree/TreeOrganization'), { ssr: false });
 
@@ -17,6 +18,7 @@ let tree = [
 
 const Tracker = () => {
   const [selectedNode, setSelectedNode] = useState(null);
+  const [loadTreeData, setLoadTreeData] = useState(true);
   const [treeData, setTreeData] = useState(tree);
 
   const { beneficiariesByWard, getBeneficiariesByWard } = useCashTrackerContext();
@@ -39,6 +41,7 @@ const Tracker = () => {
         id: w,
       }));
     setTreeData(tree);
+    setLoadTreeData(false);
   }, [tree]);
 
   useEffect(() => {
@@ -48,8 +51,18 @@ const Tracker = () => {
   return (
     <div style={{ paddingTop: 15 }}>
       <SummaryTracker />
-      <TreeTracker tree={treeData} onNodeClick={handleNodeClick} selectedNode={selectedNode} />
-      <DetailTable selectedNode={selectedNode} list={beneficiariesByWard} />
+      {loadTreeData ? (
+        <>
+          <Skeleton />
+          <Skeleton animation="wave" />
+          <Skeleton animation={false} />
+        </>
+      ) : (
+        <>
+          <TreeTracker tree={treeData} onNodeClick={handleNodeClick} selectedNode={selectedNode} />
+          <DetailTable selectedNode={selectedNode} list={beneficiariesByWard} />
+        </>
+      )}
     </div>
   );
 };
