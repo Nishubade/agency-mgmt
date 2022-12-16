@@ -5,6 +5,19 @@ const initialState = {
   demographicReportData: {
     hasBank: {},
   },
+  groupingData: {
+    dailyWage: [],
+    landOwner: [],
+    // ageRange: {
+    //   chartData: [],
+    //   chartLabels: [],
+    // },
+    disability: [],
+    phoneOwnership: [],
+    hasBank: [],
+    hasPhone: [],
+  },
+  getGroupingData: () => {},
   getDemographicDataByWard: () => {},
 };
 
@@ -12,6 +25,16 @@ const ReportsContext = createContext(initialState);
 
 export const ReportsProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
+
+  const getGroupingData = useCallback(async () => {
+    const {
+      data: { data: groupingData },
+    } = await ReportingService.getBeneficiaryGroupingData();
+    setState((prevState) => ({
+      ...prevState,
+      groupingData,
+    }));
+  }, []);
 
   const getDemographicDataByWard = useCallback(async (data) => {
     const response = await ReportingService.getDemographicDataByWard(data);
@@ -101,6 +124,7 @@ export const ReportsProvider = ({ children }) => {
   const contextValue = {
     ...state,
     getDemographicDataByWard,
+    getGroupingData,
   };
 
   return <ReportsContext.Provider value={contextValue}>{children}</ReportsContext.Provider>;

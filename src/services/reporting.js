@@ -15,8 +15,6 @@ export const countGenderByWard = () => client.get('/reporting/real-time/benefici
 
 export const getBeneficiariesCounts = () => client.get('/reporting/real-time/beneficiary/counts');
 
-export const getBeneficiaryGroupingData = () => client.get('/reporting/end-of-day/beneficiary/grouping-data');
-
 export const groupGenderByWard = (ward) =>
   client.get('/reporting/real-time/beneficiary/group-ward-gender', {
     params: {
@@ -59,5 +57,7 @@ export const cashTrackerSummary = () => getMiscValueByName('cash-tracker-summary
 //#region  Demographic
 
 export const getDemographicDataByWard = (data) => client.get('reporting/demographic/ward', { params: data });
+
+export const getBeneficiaryGroupingData = () => client.get('/reporting/end-of-day/beneficiary/grouping-data');
 
 // #endregion

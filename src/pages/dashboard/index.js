@@ -4,7 +4,6 @@ import { Page } from '@components/page';
 import { useSettingsContext } from '@components/settings';
 import { DashboardComponent } from '@sections/dashboard';
 import { ContextProvider } from '@sections/dashboard/context';
-import AuthGuard from '@guards/AuthGuard';
 import { DashboardProvider } from '@contexts/dashboard';
 
 // ----------------------------------------------------------------------
@@ -15,16 +14,14 @@ export default function Dashboard() {
   const { themeStretch } = useSettingsContext();
 
   return (
-    <AuthGuard>
-      <DashboardProvider>
-        <ContextProvider>
-          <Page title="" nocard>
-            <Container maxWidth={themeStretch ? false : 'xl'}>
-              <DashboardComponent />
-            </Container>
-          </Page>
-        </ContextProvider>
-      </DashboardProvider>
-    </AuthGuard>
+    <DashboardProvider>
+      <ContextProvider>
+        <Page title="" nocard>
+          <Container maxWidth={themeStretch ? false : 'xl'}>
+            <DashboardComponent />
+          </Container>
+        </Page>
+      </ContextProvider>
+    </DashboardProvider>
   );
 }

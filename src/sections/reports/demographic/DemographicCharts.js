@@ -4,6 +4,7 @@ import Barchart from './Barchart';
 import { useReportsContext } from '@contexts/reports';
 import { SPACING } from '@config';
 import { useState } from 'react';
+import Piechart from './Piechart';
 
 const LoadingScreen = () => (
   <Grid container spacing={SPACING.GRID_SPACING}>
@@ -25,9 +26,10 @@ const LoadingScreen = () => (
 function DemographicCharts() {
   const theme = useTheme();
   const [loadingGraph, setLoadingGraph] = useState(true);
-  const { demographicReportData, getDemographicDataByWard } = useReportsContext();
+  const { demographicReportData, getDemographicDataByWard, groupingData, getGroupingData } = useReportsContext();
 
   const fetchData = useCallback(async () => {
+    await getGroupingData();
     await getDemographicDataByWard({
       filterKey: 'noLand',
     });
@@ -56,6 +58,81 @@ function DemographicCharts() {
 
   return (
     <Grid container spacing={SPACING.GRID_SPACING}>
+      <Grid item xs={12} md={2.4}>
+        <Piechart
+          title="Has Bank"
+          chart={{
+            colors: [
+              theme.palette.primary.light,
+              theme.palette.success.light,
+              theme.palette.warning.light,
+              theme.palette.error.light,
+            ],
+
+            series: groupingData?.hasBank,
+          }}
+        />
+      </Grid>
+      <Grid item xs={12} md={2.4}>
+        <Piechart
+          title="Has Phone"
+          chart={{
+            colors: [
+              theme.palette.primary.light,
+              theme.palette.success.light,
+              theme.palette.warning.light,
+              theme.palette.error.light,
+            ],
+
+            series: groupingData?.hasPhone,
+          }}
+        />
+      </Grid>
+      <Grid item xs={12} md={2.4}>
+        <Piechart
+          title="Daily Wage"
+          chart={{
+            colors: [
+              theme.palette.primary.light,
+              theme.palette.success.light,
+              theme.palette.warning.light,
+              theme.palette.error.light,
+            ],
+
+            series: groupingData?.dailyWage,
+          }}
+        />
+      </Grid>
+      <Grid item xs={12} md={2.4}>
+        <Piechart
+          title="Land Owner"
+          chart={{
+            colors: [
+              theme.palette.primary.light,
+              theme.palette.success.light,
+              theme.palette.warning.light,
+              theme.palette.error.light,
+            ],
+
+            series: groupingData?.landOwner,
+          }}
+        />
+      </Grid>
+      <Grid item xs={12} md={2.4}>
+        <Piechart
+          title="Disability"
+          chart={{
+            colors: [
+              theme.palette.primary.light,
+              theme.palette.success.light,
+              theme.palette.warning.light,
+              theme.palette.error.light,
+            ],
+
+            series: groupingData?.disability,
+          }}
+        />
+      </Grid>
       <Grid item xs={12} md={6} lg={6}>
         <Barchart
           title="Land Ownership"
