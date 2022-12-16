@@ -100,25 +100,21 @@ const navConfig = [
       //     },
       //   ],
       // },
-      // {
-      //   title: 'Reports',
-      //   path: PATH_REPORTS.root,
-      //   icon: ICONS.reports,
-      //   children: [
-      //     {
-      //       title: 'Real Time',
-      //       path: PATH_REPORTS.realTime,
-      //     },
-      //     {
-      //       title: 'Demographic',
-      //       path: PATH_REPORTS.demographic,
-      //     },
-      //     {
-      //       title: 'Anomaly',
-      //       path: PATH_REPORTS.anomaly,
-      //     },
-      //   ],
-      // },
+      {
+        title: 'Reports',
+        path: PATH_REPORTS.root,
+        icon: ICONS.reports,
+        children: [
+          {
+            title: 'Demographic',
+            path: PATH_REPORTS.demographic,
+          },
+          {
+            title: 'Ward Report',
+            path: PATH_REPORTS.wardReport,
+          },
+        ],
+      },
     ],
   },
 ];

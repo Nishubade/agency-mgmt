@@ -55,3 +55,9 @@ export const groupWardByDailyWage = (ward) =>
 export const getMiscValueByName = (name) => client.get(`/misc/${name}`);
 
 export const cashTrackerSummary = () => getMiscValueByName('cash-tracker-summary');
+
+//#region  Demographic
+
+export const getDemographicDataByWard = (data) => client.get('reporting/demographic/ward', { params: data });
+
+// #endregion
