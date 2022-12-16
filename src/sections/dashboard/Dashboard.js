@@ -5,7 +5,7 @@ import SummaryCard from '@components/SummaryCard';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import BarchartSingle from './BarchartSingle';
-import Piechart from './Piechart';
+import Piechart from '@components/chart/Piechart';
 import { useRouter } from 'next/router';
 import { PATH_REPORTS } from '@routes/paths';
 import Iconify from '@components/iconify';

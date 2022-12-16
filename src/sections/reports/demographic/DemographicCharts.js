@@ -4,7 +4,7 @@ import Barchart from './Barchart';
 import { useReportsContext } from '@contexts/reports';
 import { SPACING } from '@config';
 import { useState } from 'react';
-import Piechart from './Piechart';
+import Piechart from '@components/chart/Piechart';
 
 const LoadingScreen = () => (
   <Grid container spacing={SPACING.GRID_SPACING}>

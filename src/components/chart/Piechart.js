@@ -9,9 +9,9 @@ import Chart, { useChart } from '@components/chart';
 
 // ----------------------------------------------------------------------
 
-const CHART_HEIGHT = 400;
+const CHART_HEIGHT = 340;
 
-const LEGEND_HEIGHT = 72;
+// const LEGEND_HEIGHT = 72;
 
 const StyledChart = styled('div')(({ theme }) => ({
   height: CHART_HEIGHT,
@@ -23,11 +23,12 @@ const StyledChart = styled('div')(({ theme }) => ({
     overflow: 'visible',
   },
   '& .apexcharts-legend': {
-    height: LEGEND_HEIGHT,
-    alignContent: 'center',
-    position: 'relative !important',
-    borderTop: `solid 1px ${theme.palette.divider}`,
-    top: `calc(${CHART_HEIGHT - LEGEND_HEIGHT}px) !important`,
+    display: 'none',
+    // height: LEGEND_HEIGHT,
+    // alignContent: 'center',
+    // position: 'relative !important',
+    // // borderTop: `solid 1px ${theme.palette.divider}`,
+    // top: `calc(${CHART_HEIGHT - LEGEND_HEIGHT}px) !important`,
   },
 }));
 
@@ -70,6 +71,9 @@ export default function Piechart({ title, subheader, chart, footer, ...other }) 
       pie: {
         donut: {
           size: '98%',
+          legend: {
+            show: false,
+          },
           labels: {
             show: false,
             value: {
