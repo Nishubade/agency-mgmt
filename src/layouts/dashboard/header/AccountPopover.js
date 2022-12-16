@@ -100,7 +100,7 @@ export default function AccountPopover() {
           <Typography variant="body2" sx={{ color: 'text.secondary', mt: 1 }} noWrap>
             {user?.email}
           </Typography>
-          <Button href={`${BLOCKCHAIN_EXPLORER}/tx/${wallet?.address}`} target="_blank" rel="noopener noreferrer">
+          <Button href={`${BLOCKCHAIN_EXPLORER}/address/${wallet?.address}`} target="_blank" rel="noopener noreferrer">
             {truncateEthAddress(wallet?.address)}
           </Button>
         </Box>
