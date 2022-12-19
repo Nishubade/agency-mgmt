@@ -83,8 +83,10 @@ export const useRahat = () => {
         const key = Web3Utils.keccak256('9670');
         const benExists = await registryContract?.exists(benId);
         if (!benExists) {
-          const benWallet = await BrainWallet.generate(benId, key, (p) =>
-            console.info('Completed: ' + Math.trunc(100 * p) + '%')
+          const benWallet = await BrainWallet.generate(
+            benId,
+            key
+            //, (p) => console.info('Completed: ' + Math.trunc(100 * p) + '%')
           );
           await registryContract?.addId2AddressMap(benId, benWallet.address);
         }
