@@ -33,8 +33,7 @@ export const ProjectProvider = ({ children }) => {
         ? `${item?.project_manager?.name?.first} ${item?.project_manager?.name?.last}`
         : '-',
       createdAt: item?.created_at,
-      balance: item?.allocations[0]?.amount,
-      id: item?._id,
+      balance: item?.tokenBalance || 0,
     }));
 
     setState((prevState) => ({

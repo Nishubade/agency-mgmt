@@ -1,4 +1,4 @@
-import { rahatApi } from '@utils/client';
+import clientApi, { rahatApi } from '@utils/client';
 
 export const ProjectService = {
   getProjectsList(params) {

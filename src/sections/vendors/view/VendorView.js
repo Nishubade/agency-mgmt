@@ -35,9 +35,11 @@ const TRANSACTION_TABLE_HEADER_LIST = {
 };
 
 export default function VendorView() {
-  const { getVendorById, setChainData, chainData, refreshData, refresh, singleVendor } = useVendorsContext();
+  const { getVendorById, setChainData, chainData, refreshData, refresh, getVendorEthBalance, vendorEthBalance } =
+    useVendorsContext();
   const { vendorBalance, contract, claimLogs, getVendorClaimLogs } = useRahat();
   const { contractWS: RahatCash } = useRahatCash();
+
   const {
     query: { vendorId },
   } = useRouter();
@@ -50,6 +52,8 @@ export default function VendorView() {
     const _vendorData = await getVendorById(vendorId);
     if (!_vendorData?.wallet_address) return;
     const _chainData = await vendorBalance(_vendorData?.wallet_address);
+    await getVendorEthBalance(_vendorData?.wallet_address);
+
     setChainData(_chainData);
     await getVendorClaimLogs('0x2e38580a0ea254895b3f28f3aa95221124c102df');
   }, [vendorId, contract, refresh]);
@@ -69,7 +73,7 @@ export default function VendorView() {
           <BasicInfoCard chainData={chainData} />
         </Grid>
         <Grid item xs={12} md={6}>
-          <TokenDetails chainData={chainData} />
+          <TokenDetails chainData={chainData} ethBalance={vendorEthBalance} />
         </Grid>
         {/* <Grid item xs={12} md={4}>
             <MoreInfoCard />

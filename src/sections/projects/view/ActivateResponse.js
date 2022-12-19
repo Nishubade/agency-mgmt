@@ -8,6 +8,7 @@ import { useAuthContext } from 'src/auth/useAuthContext';
 import ActivateResponseModal from './ActivateReponseModal';
 import { useRouter } from 'next/router';
 import { useProjectContext } from '@contexts/projects';
+import { AppService } from '@services/app';
 
 export default function ActivateResponse() {
   // #region State and Hooks
@@ -35,8 +36,20 @@ export default function ActivateResponse() {
     fetchAdminList: useCallback(async () => {
       if (!contract) return;
 
+      const adminNames = await AppService.getAdmins();
+
+      console.log('adminNames', adminNames);
+
       let admins = await listTriggerConfirmations(projectId);
-      setTriggerAdmins(admins);
+      const adminMod = admins.map((admin) => {
+        const adminOrg = adminNames.data.find((adminName) => adminName.address === admin.address);
+
+        return {
+          ...admin,
+          org: adminOrg?.name,
+        };
+      });
+      setTriggerAdmins(adminMod);
     }, [contract, listTriggerConfirmations, projectId]),
 
     fetchIsLiveStatus: useCallback(async () => {

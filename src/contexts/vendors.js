@@ -1,22 +1,29 @@
 import { VendorService } from '@services';
 import { createContext, useCallback, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useAuthContext } from 'src/auth/useAuthContext';
+import { ethers } from 'ethers';
+import { useWallet } from '@hooks/useWallet';
 
 const initialState = {
   vendors: [],
   singleVendor: {},
   chainData: {},
   refresh: false,
+  vendorEthBalance: 0,
   getVendorsList: () => {},
   getVendorById: () => {},
   setChainData: () => {},
   refreshData: () => {},
+  getVendorEthBalance: () => {},
 };
 
 const VendorsContext = createContext(initialState);
 
 export const VendorProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
+  const wallet = useWallet();
+
   const refreshData = () => setState((prev) => ({ ...prev, refresh: !prev.refresh }));
 
   const getVendorsList = useCallback(async (params) => {
@@ -24,7 +31,6 @@ export const VendorProvider = ({ children }) => {
 
     const formatted = response.data?.data?.data?.map((item) => ({
       ...item,
-
       id: item?.id,
       registrationDate: item?.created_at,
       cashBalance: item?.cashBalance || 0,
@@ -70,12 +76,25 @@ export const VendorProvider = ({ children }) => {
     return formatted;
   }, []);
 
+  const getVendorEthBalance = useCallback(async () => {
+    if (!wallet) return;
+    if (!state?.singleVendor?.wallet_address) throw new Error('Address is required');
+    const balance = await ethers?.utils?.formatEther(
+      await wallet?.provider.getBalance(state.singleVendor?.wallet_address)
+    );
+    setState((prev) => ({
+      ...prev,
+      vendorEthBalance: balance,
+    }));
+  }, [state.singleVendor?.wallet_address, wallet]);
+
   const contextValue = {
     ...state,
     refreshData,
     setChainData,
     getVendorsList,
     getVendorById,
+    getVendorEthBalance,
   };
 
   return <VendorsContext.Provider value={contextValue}>{children}</VendorsContext.Provider>;

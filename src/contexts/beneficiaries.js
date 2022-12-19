@@ -49,7 +49,6 @@ export const BeneficiaryProvider = ({ children }) => {
       phone: state.filter?.phone?.length > 3 ? state.filter?.phone : undefined,
       ward: state.filter?.ward,
     };
-    console.log('filter', filter);
     // let filter = state.filter?.name?.length > 3 || state.filter?.phone?.length > 3 ? state.filter : {};
 
     const response = await BeneficiaryService.getBeneficiariesList(filter);
@@ -60,8 +59,6 @@ export const BeneficiaryProvider = ({ children }) => {
       registrationDate: item?.created_at,
       registeredBy: item?.mobilizer,
     }));
-
-    console.log('response.data', response.data);
 
     setState((prevState) => ({
       ...prevState,

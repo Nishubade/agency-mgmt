@@ -5,13 +5,10 @@ import NextLink from 'next/link';
 import { Box, Card, Link, Stack, Fab, Button, Typography } from '@mui/material';
 // routes
 // utils
-import { fCurrency } from '@utils/formatNumber';
 // redux
 // components
-import Iconify from '@components/iconify';
 import Label from '@components/label';
 import Image from '@components/image';
-import { ColorPreview } from '@components/color-utils';
 import moment from 'moment';
 
 // ----------------------------------------------------------------------
@@ -21,7 +18,7 @@ ProjectCard.propTypes = {
 };
 
 export default function ProjectCard({ project }) {
-  const { id, name, location, projectManager, created_at, status, balance } = project;
+  const { id, name, created_at, status, balance } = project;
 
   return (
     <Card
@@ -67,7 +64,7 @@ export default function ProjectCard({ project }) {
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           <Typography variant="body2">{moment(created_at).format('MMM DD, YYYY') || 'N/A'}</Typography>
-          <Typography variant="body2"> {balance || '0'}</Typography>
+          <Typography variant="body2">₹ {balance || '0'}</Typography>
         </Stack>
       </Stack>
     </Card>

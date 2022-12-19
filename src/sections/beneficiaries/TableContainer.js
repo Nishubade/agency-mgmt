@@ -1,4 +1,4 @@
-import { Box, Button, Chip, Pagination, TableCell, TableRow } from '@mui/material';
+import { Box, Button, Pagination, TableCell, TableRow } from '@mui/material';
 import React, { useEffect } from 'react';
 import ListTableToolbar from './ListTableToolbar';
 import { useRouter } from 'next/router';
@@ -74,8 +74,6 @@ const TableContainer = () => {
     },
   };
   // #endregion
-
-  console.log('pagination', beneficiaries);
 
   return (
     <Box>

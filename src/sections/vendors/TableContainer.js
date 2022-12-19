@@ -61,7 +61,6 @@ const TableContainer = () => {
   };
 
   const paginateFilter = <Pagination count={vendors?.start} />;
-  console.log('vendors', vendors);
 
   return (
     <Box>

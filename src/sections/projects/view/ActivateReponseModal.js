@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import { Grid, IconButton, Skeleton, Stack } from '@mui/material';
 import truncateEthAddress from '@utils/truncateEthAddress';
 import Iconify from '@components/iconify';
+import WalletExplorerButton from '@components/button/WalletExplorerButton';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -63,18 +64,21 @@ export default function ActivateResponseModal({
                 <Stack
                   key={`${item.name}-${index}`}
                   direction="row"
-                  justifyContent="space-between"
+                  justifyContent="space-evenly"
                   alignItems="center"
                   spacing={12}
                   sx={{ color: 'text.secondary', mb: 0.5, p: 0.5 }}
                 >
-                  <Grid container direction="column" justifyContent="center" alignItems="flex-start">
+                  <Grid container direction="column">
                     <Typography variant="body1">{item.name}</Typography>
                   </Grid>
-                  <Grid container direction="column" justifyContent="center" alignItems="flex-start">
-                    <Typography variant="body1">{truncateEthAddress(item.address)}</Typography>
+                  <Grid container direction="column">
+                    <WalletExplorerButton address={item?.address} />
                   </Grid>
-                  <Grid container direction="column" justifyContent="center" alignItems="flex-start">
+                  <Grid container direction="column">
+                    <Typography variant="body1">{truncateEthAddress(item.org)}</Typography>
+                  </Grid>
+                  <Grid container direction="column">
                     <Typography variant="body1">{item.isConfirmed ? 'Triggered' : 'Not Triggered'}</Typography>
                   </Grid>
                 </Stack>
