@@ -1,11 +1,12 @@
 import { Box, Button, Chip, TableCell, TableRow } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import ListTableToolbar from './ListTableToolbar';
 import { useRouter } from 'next/router';
 import Iconify from '@components/iconify';
 import ListTable from '@components/table/ListTable';
 import { useVendorsContext } from '@contexts/vendors';
 import moment from 'moment';
+import { useRahat } from '@services/contracts/useRahat';
 
 const TABLE_HEAD = {
   name: {
@@ -46,12 +47,21 @@ const TABLE_HEAD = {
 const TableContainer = () => {
   const router = useRouter();
   const { getVendorsList, vendors } = useVendorsContext();
+  const { vendorsBalance, contract } = useRahat();
 
-  useEffect(() => {
-    getVendorsList({
+  let getVendorBalance = useCallback(async () => {
+    const vlist = await getVendorsList({
       limit: 50,
     });
-  }, [getVendorsList]);
+    if (!contract) return;
+    vendorsBalance(vlist.map((d) => d.wallet_address)).then((d) => {
+      console.log(d);
+    });
+  }, [contract]);
+
+  useEffect(() => {
+    getVendorBalance();
+  }, [getVendorBalance, contract]);
 
   const handleView = (id) => () => {
     router.push(`/vendors/${id}`);

@@ -88,7 +88,7 @@ export default function ActionMenu({ actionTitle }) {
   return (
     <>
       <AmountForm
-        title="Send Cash to Palika"
+        title="Issue Token to Beneficiary"
         description={<>Please select the claim amount to issue to beneficiary.</>}
         approveCashTransfer={Actions.issueToken}
         handleClose={hideDialog}

@@ -83,8 +83,10 @@ export const useRahat = () => {
         const key = Web3Utils.keccak256('9670');
         const benExists = await registryContract?.exists(benId);
         if (!benExists) {
-          const benWallet = await BrainWallet.generate(benId, key, (p) =>
-            console.info('Completed: ' + Math.trunc(100 * p) + '%')
+          const benWallet = await BrainWallet.generate(
+            benId,
+            key
+            //, (p) => console.info('Completed: ' + Math.trunc(100 * p) + '%')
           );
           await registryContract?.addId2AddressMap(benId, benWallet.address);
         }
@@ -106,7 +108,6 @@ export const useRahat = () => {
       contract?.acceptCashForVendor(vendorAddress, amount).catch(handleContractError),
 
     async projectBalance(projectId) {
-      console.log('ppp');
       projectId = Web3Utils.keccak256(projectId);
       try {
         const projectBalanceData = await contract?.projectBalance(projectId, contracts[CONTRACTS.ADMIN]);
@@ -128,7 +129,6 @@ export const useRahat = () => {
     },
 
     async vendorBalance(vendorAddress) {
-      console.log('vvv');
       try {
         const vendorBalanceData = await contract?.vendorBalance(vendorAddress);
         const data = {
@@ -148,8 +148,31 @@ export const useRahat = () => {
       }
     },
 
+    async vendorsBalance(vendorAddresses) {
+      try {
+        const callData = vendorAddresses.map(async (vAddr) =>
+          contract?.interface.encodeFunctionData('vendorBalance', [vAddr])
+        );
+        const balance = await contract?.callStatic.multicall(callData);
+        const decodedData = balance?.map((vendorId) => {
+          const { cashAllowance, cashBalance, hasVendorRole, tokenBalance, walletAddress } =
+            contract?.interface.decodeFunctionResult('vendorBalance', vendorId);
+          return {
+            cashAllowance: cashAllowance.toNumber(),
+            cashBalance: cashBalance.toNumber(),
+            tokenBalance: tokenBalance.toNumber(),
+            hasVendorRole,
+            walletAddress,
+          };
+        });
+        return decodedData;
+      } catch (e) {
+        console.log(e);
+        //handleContractError(e);
+      }
+    },
+
     async beneficiaryBalance(phone) {
-      console.log('bbb');
       try {
         const balanceData = await contract?.beneficiaryBalance(phone);
         const data = {
