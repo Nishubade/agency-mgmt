@@ -70,13 +70,14 @@ SummaryTracker.propTypes = {
   sx: PropTypes.object,
 };
 
-export default function SummaryTracker({ sx, ...other }) {
+export default function SummaryTracker({ setCashSummaryData, sx, ...other }) {
   const [trackData, setTrackData] = useState(STEPS);
   const [activeStep, setActiveStep] = useState(0);
 
   const getData = useCallback(async () => {
     const res = await DashboardService.getCashTrackerSummary();
     let _tData = res.data.data;
+    setCashSummaryData(_tData);
 
     setTrackData([_tData.donor, _tData.agency, _tData.palika, _tData.wards, _tData.beneficiaries]);
     if (_tData.donor.isActive) setActiveStep(1);
