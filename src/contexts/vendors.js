@@ -36,6 +36,7 @@ export const VendorProvider = ({ children }) => {
       cashBalance: item?.cashBalance || 0,
       cashAllowance: item?.cashAllowance || 0,
       tokenBalance: item?.tokenBalance || 0,
+      hasVendorRole: String(item?.hasVendorRole) || 'N/A',
     }));
 
     setState((prevState) => ({

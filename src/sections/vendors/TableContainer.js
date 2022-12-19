@@ -35,6 +35,11 @@ const TABLE_HEAD = {
     label: 'Phone',
     align: 'left',
   },
+  hasVendorRole: {
+    id: 'hasVendorRole',
+    label: 'Has Vendor Role',
+    align: 'left',
+  },
 
   registrationDate: {
     id: 'registrationDate',
@@ -75,6 +80,7 @@ const TableContainer = () => {
               <TableCell align={tableHeadersList['tokenBalance'].align}>{row.tokenBalance}</TableCell>
 
               <TableCell align={tableHeadersList['phone'].align}>{row.phone}</TableCell>
+              <TableCell align={tableHeadersList['hasVendorRole'].align}>{row.hasVendorRole}</TableCell>
 
               <TableCell align={tableHeadersList['registrationDate'].align}>
                 {' '}

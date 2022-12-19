@@ -38,8 +38,6 @@ export default function ActivateResponse() {
 
       const adminNames = await AppService.getAdmins();
 
-      console.log('adminNames', adminNames);
-
       let admins = await listTriggerConfirmations(projectId);
       const adminMod = admins.map((admin) => {
         const adminOrg = adminNames.data.find((adminName) => adminName.address === admin.address);

@@ -25,6 +25,7 @@ export const ProjectProvider = ({ children }) => {
 
   const refreshData = () => setState((prev) => ({ ...prev, refresh: !prev.refresh }));
   const setRahatResponseStatus = (isRahatResponseLive) => setState((prev) => ({ ...prev, isRahatResponseLive }));
+
   const getProjectsList = useCallback(async (params) => {
     const response = await ProjectService.getProjectsList(params);
     const formatted = response.data.data.map((item) => ({
@@ -34,6 +35,7 @@ export const ProjectProvider = ({ children }) => {
         : '-',
       createdAt: item?.created_at,
       balance: item?.tokenBalance || 0,
+      id: item?._id || item?.id,
     }));
 
     setState((prevState) => ({
