@@ -10,9 +10,9 @@ const initialState = {
   filter: {},
   wards: [],
   pagination: {
-    page: 0,
-    limit: 10,
-    total: 0,
+    start: 0,
+    limit: 50,
+    count: 0,
   },
   getBeneficiariesList: () => {},
   getBeneficiaryById: () => {},
@@ -33,7 +33,7 @@ export const BeneficiaryProvider = ({ children }) => {
     setState((prev) => ({
       ...prev,
       pagination: {
-        start: 0,
+        ...prev.pagination,
       },
       filter,
     }));
@@ -47,26 +47,30 @@ export const BeneficiaryProvider = ({ children }) => {
       // page: state.pagination?.page <= 0 ? 1 : state.pagination?.page,
       name: state.filter?.name?.length > 3 ? state.filter?.name : undefined,
       phone: state.filter?.phone?.length > 3 ? state.filter?.phone : undefined,
+      ward: state.filter?.ward,
     };
     console.log('filter', filter);
     // let filter = state.filter?.name?.length > 3 || state.filter?.phone?.length > 3 ? state.filter : {};
 
     const response = await BeneficiaryService.getBeneficiariesList(filter);
 
-    const formatted = response.data.data.map((item) => ({
+    const formatted = response.data.data?.data?.map((item) => ({
       ...item,
-      id: item?._id,
+      id: item?.id,
       registrationDate: item?.created_at,
-      registeredBy: `${item?.created_by?.name?.first} ${item?.created_by?.name?.last}`,
+      registeredBy: item?.mobilizer,
     }));
+
+    console.log('response.data', response.data);
 
     setState((prevState) => ({
       ...prevState,
       beneficiaries: {
         data: formatted,
-        total: response.data.total,
-        start: response.data.start,
-        limit: response.data.limit,
+        count: response.data?.data.count,
+        start: response.data?.data.start,
+        limit: response.data?.data.limit,
+        totalPage: response.data?.data.totalPage,
       },
       // pagination: {
       //   ...prevState.pagination,

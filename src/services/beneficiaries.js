@@ -2,7 +2,7 @@ import clientApi, { rahatApi } from '@utils/client';
 
 export const BeneficiaryService = {
   getBeneficiariesList(params) {
-    return rahatApi.get('/beneficiaries', {
+    return clientApi.get('/beneficiaries', {
       params,
     });
   },

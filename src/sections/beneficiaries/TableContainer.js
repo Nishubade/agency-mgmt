@@ -41,11 +41,7 @@ const TableContainer = () => {
       label: 'Phone',
       align: 'left',
     },
-    address: {
-      id: 'address',
-      label: 'Address',
-      align: 'left',
-    },
+
     registrationDate: {
       id: 'registrationDate',
       label: 'Registration Date',
@@ -56,9 +52,19 @@ const TableContainer = () => {
       label: 'Registered By',
       align: 'left',
     },
-    balance: {
-      id: 'balance',
-      label: 'Balance',
+    cashBalance: {
+      id: 'cashBalance',
+      label: 'Cash Balance',
+      align: 'left',
+    },
+    tokenBalance: {
+      id: 'tokenBalance',
+      label: 'Remaining Token Claims',
+      align: 'left',
+    },
+    totalTokenIssued: {
+      id: 'totalTokenIssued',
+      label: 'Claimed Tokens',
       align: 'left',
     },
     action: {
@@ -69,6 +75,8 @@ const TableContainer = () => {
   };
   // #endregion
 
+  console.log('pagination', beneficiaries);
+
   return (
     <Box>
       <ListTableToolbar />
@@ -78,13 +86,15 @@ const TableContainer = () => {
             <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
               {roles.isPalika && <TableCell align={tableHeadersList['name'].align}>{row.name}</TableCell>}
               <TableCell align={tableHeadersList['phone'].align}>{row.phone}</TableCell>
-              <TableCell align={tableHeadersList['address'].align}>{row.address}</TableCell>
+
               <TableCell align={tableHeadersList['registrationDate'].align}>
-                {moment(row.registrationDate).format('MMMM Do, YYYY')}
+                {moment(row.registrationDate).format('MM/DD/YYYY')}
               </TableCell>
               <TableCell align={tableHeadersList['registeredBy'].align}>{row.registeredBy}</TableCell>
 
-              <TableCell align={tableHeadersList['balance'].align}>{row.balance}</TableCell>
+              <TableCell align={tableHeadersList['cashBalance'].align}>{row.cashBalance}</TableCell>
+              <TableCell align={tableHeadersList['tokenBalance'].align}>{row.tokenBalance}</TableCell>
+              <TableCell align={tableHeadersList['totalTokenIssued'].align}>{row.totalTokenIssued}</TableCell>
               <TableCell align={tableHeadersList['action'].align}>
                 <Button onClick={handleView(row.id)} variant="text">
                   <Iconify icon="ic:outline-remove-red-eye" />
@@ -95,8 +105,8 @@ const TableContainer = () => {
         }
       </ListTable>
       <Pagination
-        count={beneficiaries?.total / pagination?.limit}
-        page={pagination.start / pagination.limit}
+        count={beneficiaries?.totalPage}
+        page={+pagination.start}
         onChange={(e, page) => {
           setPagination({ start: page, limit: pagination.limit });
         }}
