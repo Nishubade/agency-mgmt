@@ -22,19 +22,24 @@ export const VendorProvider = ({ children }) => {
   const getVendorsList = useCallback(async (params) => {
     const response = await VendorService.getVendorsList(params);
 
-    const formatted = response.data.data.map((item) => ({
+    const formatted = response.data?.data?.data?.map((item) => ({
       ...item,
-      status: '...',
-      cash: 0,
-      token: 0,
-      id: item?._id,
+
+      id: item?.id,
       registrationDate: item?.created_at,
-      registeredBy: `${item?.created_by?.name?.first} ${item?.created_by?.name?.last}`,
+      cashBalance: item?.cashBalance || 0,
+      cashAllowance: item?.cashAllowance || 0,
+      tokenBalance: item?.tokenBalance || 0,
     }));
 
     setState((prevState) => ({
       ...prevState,
-      vendors: formatted,
+      vendors: {
+        data: formatted,
+        start: response.data?.data?.start,
+        limit: response.data?.data?.limit,
+        totalPage: response.data?.data?.totalPage,
+      },
     }));
     return formatted;
   }, []);
