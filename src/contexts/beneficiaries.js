@@ -43,7 +43,10 @@ export const BeneficiaryProvider = ({ children }) => {
   const getBeneficiariesList = useCallback(async () => {
     let filter = {
       limit: state.pagination?.limit,
-      start: state.pagination?.start,
+      start:
+        state.filter?.name?.length > 3 || state.filter?.phone?.length || state.filter?.ward
+          ? 0
+          : state.pagination?.start,
       // page: state.pagination?.page <= 0 ? 1 : state.pagination?.page,
       name: state.filter?.name?.length > 3 ? state.filter?.name : undefined,
       phone: state.filter?.phone?.length > 3 ? state.filter?.phone : undefined,
@@ -60,8 +63,7 @@ export const BeneficiaryProvider = ({ children }) => {
       registeredBy: item?.mobilizer,
     }));
 
-    setState((prevState) => ({
-      ...prevState,
+    let stateData = {
       beneficiaries: {
         data: formatted,
         count: response.data?.data.count,
@@ -69,14 +71,13 @@ export const BeneficiaryProvider = ({ children }) => {
         limit: response.data?.data.limit,
         totalPage: response.data?.data.totalPage,
       },
-      // pagination: {
-      //   ...prevState.pagination,
-      //   total: response.data.total,
-      //   start: response.data.start,
-      //   limit: response.data.limit,
-      // },
+    };
+
+    setState((prevState) => ({
+      ...prevState,
+      ...stateData,
     }));
-    return formatted;
+    return stateData;
   }, [state.filter, state.pagination]);
 
   const setChainData = useCallback((chainData) => {
