@@ -60,6 +60,11 @@ const navConfig = [
         icon: ICONS.transactions,
       },
       {
+        title: 'Communications',
+        path: PATH_TRANSACTIONS.root,
+        icon: ICONS.transactions,
+      },
+      {
         title: 'Beneficiary',
         path: PATH_BENEFICIARY.root,
         icon: ICONS.beneficiary,
