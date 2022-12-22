@@ -16,7 +16,7 @@ export const CashTrackerProvider = ({ children }) => {
   const getBeneficiariesByWard = useCallback(async (params) => {
     const response = await BeneficiaryService.getBeneficiariesByWard(params);
 
-    const formatted = response?.data?.data?.map((item) => ({
+    const formatted = response?.data?.data?.rows?.map((item) => ({
       ...item,
       claimed: item?.claimed ? 'Yes' : 'No',
       name: !roles.isPalika ? 'xxxxxx' : item.name,

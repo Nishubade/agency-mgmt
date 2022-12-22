@@ -79,7 +79,7 @@ export const VendorProvider = ({ children }) => {
 
   const getVendorEthBalance = useCallback(async () => {
     if (!wallet) return;
-    if (!state?.singleVendor?.wallet_address) throw new Error('Address is required');
+    if (!state?.singleVendor?.wallet_address) return;
     const balance = await ethers?.utils?.formatEther(
       await wallet?.provider.getBalance(state.singleVendor?.wallet_address)
     );

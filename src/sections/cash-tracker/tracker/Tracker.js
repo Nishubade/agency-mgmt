@@ -20,6 +20,7 @@ const Tracker = () => {
   const [selectedNode, setSelectedNode] = useState(null);
   const [loadTreeData, setLoadTreeData] = useState(true);
   const [treeData, setTreeData] = useState(tree);
+  const [cashSummaryData, setCashSummaryData] = useState({});
 
   const { beneficiariesByWard, getBeneficiariesByWard } = useCashTrackerContext();
 
@@ -50,7 +51,7 @@ const Tracker = () => {
 
   return (
     <div style={{ paddingTop: 15 }}>
-      <SummaryTracker />
+      <SummaryTracker setCashSummaryData={setCashSummaryData} />
       {loadTreeData ? (
         <>
           <Skeleton />

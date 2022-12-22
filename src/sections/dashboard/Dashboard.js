@@ -38,6 +38,7 @@ const DashboardComponent = () => {
   } = useDashboardContext();
 
   const [flickImages, setFlickImages] = useState([]);
+  const [cashSummaryData, setCashSummaryData] = useState({});
 
   useEffect(() => {
     getSummary();
@@ -139,14 +140,19 @@ const DashboardComponent = () => {
             />
           </Grid>
           <Grid item xs={12} md={4}>
-            <SummaryCard icon="material-symbols:token" title="Token Issued" total={0} subtitle={'tokens'} />
+            <SummaryCard
+              icon="material-symbols:token"
+              title="Token Issued"
+              total={cashSummaryData?.beneficiaries?.claims}
+              subtitle={'tokens'}
+            />
           </Grid>
           <Grid item xs={12} md={4}>
             <SummaryCard
               color="info"
               icon="ph:currency-circle-dollar-light"
               title="Token Redeemed"
-              total={0}
+              total={cashSummaryData?.beneficiaries?.received}
               subtitle={'tokens'}
             />
           </Grid>
@@ -160,7 +166,7 @@ const DashboardComponent = () => {
         <Grid item xs={12}>
           <Card>
             <CardHeader title="Cash Tracker" />
-            <SummaryTracker />
+            <SummaryTracker setCashSummaryData={setCashSummaryData} />
           </Card>
         </Grid>
 
