@@ -82,11 +82,11 @@ export default function Donor() {
             <Stack sx={{ p: 2 }} direction="row" justifyContent="space-between" alignItems="center" spacing={12}>
               <Grid container direction="column" justifyContent="center" alignItems="center">
                 <Typography variant="h4" sx={{ fontWeight: 400 }}>
-                  <small>₹</small> {data?.totalSupply || '0'}
+                  <small>रु </small> {data?.totalSupply || '0'}
                 </Typography>
                 <small>Total Cash Disbursed</small>
                 <Typography variant="h5" sx={{ fontWeight: 200 }}>
-                  <small>₹</small> {data?.agencyAllowance || '0'}
+                  <small>रु </small> {data?.agencyAllowance || '0'}
                 </Typography>
                 <small>Pending Acceptance by Country Office</small>
                 <Button sx={{ mt: 2 }} size="small" variant="outlined" onClick={showDialog}>

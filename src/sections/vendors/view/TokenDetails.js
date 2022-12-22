@@ -16,7 +16,7 @@ export default function TokenDetails({ chainData, ethBalance }) {
         </Stack>
 
         {chainData?.cashAllowance > 0 && (
-          <Alert sx={{ mt: 2 }}> This vendor have yet to accept ₹ {chainData?.cashAllowance}.</Alert>
+          <Alert sx={{ mt: 2 }}> This vendor have yet to accept रु {chainData?.cashAllowance}.</Alert>
         )}
 
         <Stack sx={{ pt: 1 }} direction="row" justifyContent="space-between" alignItems="center" spacing={1}>
