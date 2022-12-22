@@ -6,7 +6,7 @@ import { BLOCKCHAIN_EXPLORER } from '@config';
 
 const WalletExplorerButton = ({ address, type = 'tx', ...props }) => (
   <Button {...props} href={`${BLOCKCHAIN_EXPLORER}/${type}/${address}`} target="_blank" rel="noopener noreferrer">
-    {truncateEthAddress(address) || 'N/A'}
+    {props.children || truncateEthAddress(address) || 'N/A'}
   </Button>
 );
 

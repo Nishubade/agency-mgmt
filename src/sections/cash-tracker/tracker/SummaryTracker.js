@@ -17,6 +17,8 @@ import {
 import Iconify from '@components/iconify';
 import { DashboardService } from '@services/dashboard';
 import { useCallback, useEffect, useState } from 'react';
+import moment from 'moment';
+import WalletExplorerButton from '@components/button/WalletExplorerButton';
 
 const STEPS = [
   {
@@ -97,6 +99,13 @@ export default function SummaryTracker({ setCashSummaryData, sx, ...other }) {
         <>
           <Typography variant="caption">Budget: {step.budget} </Typography>
           <Typography variant="caption">Balance: {step.balance} </Typography>
+          {step.timestamp > 0 && (
+            <WalletExplorerButton address={step.txHash} type="tx">
+              <Typography variant="caption">
+                Date: {moment.unix(step.timestamp).format('DD/MM/YYYY, h:mm:ss a')}{' '}
+              </Typography>
+            </WalletExplorerButton>
+          )}
         </>
       );
     if (step.label === 'Wards')
@@ -104,6 +113,13 @@ export default function SummaryTracker({ setCashSummaryData, sx, ...other }) {
         <>
           <Typography variant="caption">Received: {step.received} </Typography>
           <Typography variant="caption">Disbursed: {step.disbursed} </Typography>
+          {step.timestamp > 0 && (
+            <WalletExplorerButton address={step.txHash} type="tx">
+              <Typography variant="caption">
+                Date: {moment.unix(step.timestamp).format('DD/MM/YYYY, h:mm:ss a')}{' '}
+              </Typography>
+            </WalletExplorerButton>
+          )}
         </>
       );
     if (step.label === 'Beneficiaries')
@@ -111,12 +127,26 @@ export default function SummaryTracker({ setCashSummaryData, sx, ...other }) {
         <>
           <Typography variant="caption">Claims: {step.claims} </Typography>
           <Typography variant="caption">Received: {step.received} </Typography>
+          {step.timestamp > 0 && (
+            <WalletExplorerButton address={step.txHash} type="tx">
+              <Typography variant="caption">
+                Date: {moment.unix(step.timestamp).format('DD/MM/YYYY, h:mm:ss a')}{' '}
+              </Typography>
+            </WalletExplorerButton>
+          )}
         </>
       );
     return (
       <>
         <Typography variant="caption">Received: {step.received} </Typography>
         <Typography variant="caption">Balance: {step.balance} </Typography>
+        {step.timestamp > 0 && (
+          <WalletExplorerButton address={step.txHash} type="tx">
+            <Typography variant="caption">
+              Date: {moment.unix(step.timestamp).format('DD/MM/YYYY, h:mm:ss a')}{' '}
+            </Typography>
+          </WalletExplorerButton>
+        )}
       </>
     );
   };
