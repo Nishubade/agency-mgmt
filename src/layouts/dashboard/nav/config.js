@@ -11,6 +11,7 @@ import {
   PATH_CASH_TRACKER,
   PATH_PHOTO_GALLERY,
   PATH_TRANSACTIONS,
+  PATH_COMMUNICATIONS,
 } from '@routes/paths';
 // components
 import Iconify from '@components/iconify';
@@ -61,7 +62,7 @@ const navConfig = [
       },
       {
         title: 'Communications',
-        path: PATH_TRANSACTIONS.root,
+        path: PATH_COMMUNICATIONS.root,
         icon: ICONS.transactions,
       },
       {
