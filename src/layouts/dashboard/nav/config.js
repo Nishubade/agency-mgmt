@@ -26,6 +26,7 @@ const ICONS = {
   projects: icon('pajamas:project'),
   cashTracker: icon('mdi:cash-clock'),
   transactions: icon('eos-icons:blockchain'),
+  communications: icon('material-symbols:perm-phone-msg-outline-sharp'),
   beneficiary: icon('mdi:user-convert'),
   dashboard: icon('carbon:dashboard'),
   vendors: icon('material-symbols:anchor'),
@@ -63,7 +64,7 @@ const navConfig = [
       {
         title: 'Communications',
         path: PATH_COMMUNICATIONS.root,
-        icon: ICONS.transactions,
+        icon: ICONS.communications,
       },
       {
         title: 'Beneficiary',

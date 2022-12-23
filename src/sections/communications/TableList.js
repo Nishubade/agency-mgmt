@@ -14,11 +14,7 @@ const TABLE_HEADERS = {
     label: 'To',
     align: 'left',
   },
-  price: {
-    id: 'price',
-    label: 'Price',
-    align: 'left',
-  },
+
   communication_type: {
     id: 'communication_type',
     label: 'Type',
@@ -37,11 +33,6 @@ const TABLE_HEADERS = {
   status: {
     id: 'status',
     label: 'Status',
-    align: 'left',
-  },
-  uri: {
-    id: 'uri',
-    label: 'URI',
     align: 'left',
   },
 };
