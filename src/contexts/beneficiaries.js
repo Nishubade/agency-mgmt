@@ -1,4 +1,4 @@
-import { BeneficiaryService } from '@services';
+import { BeneficiaryService, CommunicationsService } from '@services';
 import { createContext, useCallback, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -14,6 +14,7 @@ const initialState = {
     limit: 50,
     count: 0,
   },
+  communicationsTableData: [],
   getBeneficiariesList: () => {},
   getBeneficiaryById: () => {},
   setChainData: () => {},
@@ -21,6 +22,7 @@ const initialState = {
   setFilter: () => {},
   setPagination: () => {},
   getAllWards: () => {},
+  getCommunicationByBeneficiaryId: () => {},
 };
 
 const BeneficiaryContext = createContext(initialState);
@@ -129,6 +131,20 @@ export const BeneficiaryProvider = ({ children }) => {
     return formatted;
   }, []);
 
+  const getCommunicationByBeneficiaryId = useCallback(async (id) => {
+    const response = await CommunicationsService.getCommunicationByBeneficiaryId(id);
+    const formatted = response.data.data.map((item) => ({
+      ...item,
+    }));
+    console.log('resposne', formatted);
+    setState((prev) => ({
+      ...prev,
+      communicationsTableData: formatted,
+    }));
+
+    return response.data;
+  }, []);
+
   const contextValue = {
     ...state,
     refreshData,
@@ -138,6 +154,7 @@ export const BeneficiaryProvider = ({ children }) => {
     getBeneficiariesList,
     getBeneficiaryById,
     getAllWards,
+    getCommunicationByBeneficiaryId,
   };
 
   return <BeneficiaryContext.Provider value={contextValue}>{children}</BeneficiaryContext.Provider>;

@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { useRahat } from '@services/contracts/useRahat';
 import { useRahatCash } from '@services/contracts/useRahatCash';
 import { useAuthContext } from 'src/auth/useAuthContext';
+import ViewTabs from './ViewTabs';
 
 BeneficiaryView.propTypes = {};
 
@@ -41,7 +42,7 @@ const TABLE_HEAD = {
 export default function BeneficiaryView() {
   const { roles } = useAuthContext();
   const { getBeneficiaryById, setChainData, chainData, refresh, refreshData } = useBeneficiaryContext();
-  const { beneficiaryBalance, contract, contractWS, getBeneficiaryClaimLogs, claimLogs } = useRahat();
+  const { beneficiaryBalance, contract, contractWS, getBeneficiaryClaimLogs } = useRahat();
   const { contractWS: RahatCash } = useRahatCash();
 
   const {
@@ -92,8 +93,11 @@ export default function BeneficiaryView() {
         </Stack>
       )}
       <Stack sx={{ mt: 1 }}>
-        <HistoryTable tableHeadersList={TABLE_HEAD} tableRowsList={claimLogs} />
+        <ViewTabs />
       </Stack>
+      {/* <Stack sx={{ mt: 1 }}>
+        <HistoryTable tableHeadersList={TABLE_HEAD} tableRowsList={claimLogs} />
+      </Stack> */}
     </>
   );
 }
