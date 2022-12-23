@@ -22,12 +22,12 @@ import WalletExplorerButton from '@components/button/WalletExplorerButton';
 
 const STEPS = [
   {
-    label: 'Unicef Innovation Fund',
+    label: 'Unicef - Nepal',
     budget: 0,
     balance: 0,
   },
   {
-    label: 'Unicef Nepal',
+    label: 'Unicef - Janakpur',
     received: 0,
     balance: 0,
   },

@@ -85,7 +85,7 @@ export default function Agency({ rahatChainData }) {
           <CardContent>
             <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={12}>
               <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                Cash Fund Tracker (Agency)
+                Cash Fund Tracker (Field Office)
               </Typography>
             </Stack>
 
