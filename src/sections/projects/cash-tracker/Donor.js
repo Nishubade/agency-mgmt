@@ -59,11 +59,11 @@ export default function Donor() {
   return (
     <>
       <AmountForm
-        title="Send Cash to UNICEF Nepal"
+        title="Send Cash to Field Office"
         description={
           <>
-            Please enter the amount you wish to send to palika. Palika has to accept the cash before it is fully
-            transferred and allowed for disbursement.
+            Please enter the amount you wish to send to field office. Field office representative has to accept the cash
+            before it is fully transferred and allowed for disbursement.
           </>
         }
         approveCashTransfer={CashActions.sendCashToAgency}
@@ -75,7 +75,7 @@ export default function Donor() {
           <CardContent>
             <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={12}>
               <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                Cash Fund Tracker (Donor)
+                Cash Fund Tracker (Country Office)
               </Typography>
             </Stack>
 
@@ -88,9 +88,9 @@ export default function Donor() {
                 <Typography variant="h5" sx={{ fontWeight: 200 }}>
                   <small>₹</small> {data?.agencyAllowance || '0'}
                 </Typography>
-                <small>Pending Acceptance by Country Office</small>
+                <small>Pending Acceptance by Field Office</small>
                 <Button sx={{ mt: 2 }} size="small" variant="outlined" onClick={showDialog}>
-                  Send cash to UNICEF Nepal
+                  Send cash to Field Office
                 </Button>
               </Grid>
             </Stack>
