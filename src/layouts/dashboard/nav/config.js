@@ -1,6 +1,6 @@
 // routes
 import {
-  PATH_ADMINISTRATION,
+  // PATH_ADMINISTRATION,
   PATH_BENEFICIARY,
   PATH_DASHBOARD,
   PATH_FINANCIAL_INSTITUTIONS,
@@ -11,6 +11,7 @@ import {
   PATH_CASH_TRACKER,
   PATH_PHOTO_GALLERY,
   PATH_TRANSACTIONS,
+  PATH_COMMUNICATIONS,
 } from '@routes/paths';
 // components
 import Iconify from '@components/iconify';
@@ -25,6 +26,7 @@ const ICONS = {
   projects: icon('pajamas:project'),
   cashTracker: icon('mdi:cash-clock'),
   transactions: icon('eos-icons:blockchain'),
+  communications: icon('material-symbols:perm-phone-msg-outline-sharp'),
   beneficiary: icon('mdi:user-convert'),
   dashboard: icon('carbon:dashboard'),
   vendors: icon('material-symbols:anchor'),
@@ -58,6 +60,11 @@ const navConfig = [
         title: 'Live Transactions',
         path: PATH_TRANSACTIONS.root,
         icon: ICONS.transactions,
+      },
+      {
+        title: 'Communications',
+        path: PATH_COMMUNICATIONS.root,
+        icon: ICONS.communications,
       },
       {
         title: 'Beneficiary',

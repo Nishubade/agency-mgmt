@@ -18,6 +18,7 @@ const ROOTS_REPORTS = '/reports';
 const ROOTS_AUTH = '/auth';
 const ROOTS_APP = '/app';
 const ROOTS_PHOTO_GALLERY = '/photo-gallery';
+const ROOTS_COMMUNICATIONS = '/communications';
 
 // ----------------------------------------------------------------------
 
@@ -86,4 +87,8 @@ export const PATH_APP = {
 
 export const PATH_PHOTO_GALLERY = {
   root: ROOTS_PHOTO_GALLERY,
+};
+
+export const PATH_COMMUNICATIONS = {
+  root: ROOTS_COMMUNICATIONS,
 };

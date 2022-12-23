@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import TableHeadCustom from './TableHeadCustom';
 import Scrollbar from '@components/scrollbar';
+import TableNoData from './TableNoData';
 
 ListTable.propTypes = {
   size: PropTypes.string,
@@ -19,9 +20,9 @@ export default function ListTable({
   size = 'small',
   tableRowsList = [{ basic: 'Initial Table' }],
   tableHeadersList = {
-    basic: {
-      id: 'basic',
-      label: 'basic',
+    noContent: {
+      id: 'noContent',
+      label: 'No Content',
       align: 'left',
     },
   },
@@ -69,11 +70,14 @@ export default function ListTable({
           <Scrollbar>
             <Table size={size} stickyHeader {...other}>
               <TableHeadCustom headLabel={tableHeadersList} />
+
               <TableBody>
                 {children
                   ? children(tableRowsList, tableHeadersList)
                   : renderTableCell(tableRowsList, tableHeadersList)}
               </TableBody>
+
+              <TableNoData isNotFound={!children || tableRowsList.length > 0} />
             </Table>
           </Scrollbar>
           {footer}
