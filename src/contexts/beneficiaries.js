@@ -136,7 +136,6 @@ export const BeneficiaryProvider = ({ children }) => {
     const formatted = response.data.data.map((item) => ({
       ...item,
     }));
-    console.log('resposne', formatted);
     setState((prev) => ({
       ...prev,
       communicationsTableData: formatted,
