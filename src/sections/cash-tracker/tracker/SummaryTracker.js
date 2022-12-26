@@ -94,16 +94,14 @@ export default function SummaryTracker({ setCashSummaryData, sx, ...other }) {
   }, []);
 
   const renderBalance = (step) => {
-    if (step.label === 'Unicef Innovation Fund')
+    if (step.label === 'Unicef - Nepal')
       return (
         <>
           <Typography variant="caption">Budget: {step.budget} </Typography>
           <Typography variant="caption">Balance: {step.balance} </Typography>
           {step.timestamp > 0 && (
             <WalletExplorerButton address={step.txHash} type="tx">
-              <Typography variant="caption">
-                Date: {moment.unix(step.timestamp).format('DD/MM/YYYY, h:mm:ss a')}{' '}
-              </Typography>
+              <Typography variant="caption">{moment.unix(step.timestamp).format('DD/MM/YYYY')} </Typography>
             </WalletExplorerButton>
           )}
         </>
@@ -115,9 +113,7 @@ export default function SummaryTracker({ setCashSummaryData, sx, ...other }) {
           <Typography variant="caption">Disbursed: {step.disbursed} </Typography>
           {step.timestamp > 0 && (
             <WalletExplorerButton address={step.txHash} type="tx">
-              <Typography variant="caption">
-                Date: {moment.unix(step.timestamp).format('DD/MM/YYYY, h:mm:ss a')}{' '}
-              </Typography>
+              <Typography variant="caption">{moment.unix(step.timestamp).format('DD/MM/YYYY')} </Typography>
             </WalletExplorerButton>
           )}
         </>
@@ -129,9 +125,7 @@ export default function SummaryTracker({ setCashSummaryData, sx, ...other }) {
           <Typography variant="caption">Received: {step.received} </Typography>
           {step.timestamp > 0 && (
             <WalletExplorerButton address={step.txHash} type="tx">
-              <Typography variant="caption">
-                Date: {moment.unix(step.timestamp).format('DD/MM/YYYY, h:mm:ss a')}{' '}
-              </Typography>
+              <Typography variant="caption">{moment.unix(step.timestamp).format('DD/MM/YYYY')} </Typography>
             </WalletExplorerButton>
           )}
         </>
@@ -142,9 +136,7 @@ export default function SummaryTracker({ setCashSummaryData, sx, ...other }) {
         <Typography variant="caption">Balance: {step.balance} </Typography>
         {step.timestamp > 0 && (
           <WalletExplorerButton address={step.txHash} type="tx">
-            <Typography variant="caption">
-              Date: {moment.unix(step.timestamp).format('DD/MM/YYYY, h:mm:ss a')}{' '}
-            </Typography>
+            <Typography variant="caption">{moment.unix(step.timestamp).format('DD/MM/YYYY')} </Typography>
           </WalletExplorerButton>
         )}
       </>
