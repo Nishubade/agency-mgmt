@@ -77,7 +77,7 @@ export default function ListTable({
                   : renderTableCell(tableRowsList, tableHeadersList)}
               </TableBody>
 
-              <TableNoData isNotFound={!children || tableRowsList.length > 0} />
+              <TableNoData isNotFound={!children || tableRowsList.length === 0} />
             </Table>
           </Scrollbar>
           {footer}

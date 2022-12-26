@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Stack, Typography } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 // components
 import ListSearchField from './ListSearchField.js';
 import ListSelectFilter from './SelectFilter';
@@ -58,6 +58,9 @@ export default function ListTableToolbar() {
         />
         <ListSearchField label={'Enter Phone'} value={filter?.phone || ''} onChange={onSearch} name={'phone'} />
         <ListSearchField label={'Enter Name'} value={filter?.name || ''} onChange={onSearch} name={'name'} />
+        <Button variant="contained" onClick={() => setFilter(null)}>
+          Clear
+        </Button>
       </Stack>
     </>
   );
