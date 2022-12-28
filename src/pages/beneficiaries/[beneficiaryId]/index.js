@@ -1,11 +1,8 @@
 import React from 'react';
-import { useRouter } from 'next/router';
-import { Container, Grid, Stack } from '@mui/material';
-
+import { Container } from '@mui/material';
 import DashboardLayout from '@layouts/dashboard';
 import { Page } from '@components/page';
 import { useSettingsContext } from '@components/settings';
-
 import { ActionMenu, BeneficiaryViewComp } from '@sections/beneficiaries/view';
 import { BeneficiaryProvider } from '@contexts/beneficiaries';
 import { useAuthContext } from 'src/auth/useAuthContext';

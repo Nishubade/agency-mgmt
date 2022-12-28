@@ -44,9 +44,14 @@ export const DashboardProvider = ({ children }) => {
 
   const getSummary = useCallback(async () => {
     const response = await DashboardService.getBeneficiarySummary();
+    const reportingSummaryResponse = await ReportingService.getBeneficiariesCounts();
+
     setState((prev) => ({
       ...prev,
-      summary: response.data,
+      summary: {
+        ...response.data,
+        ...reportingSummaryResponse.data?.data?.impacted,
+      },
     }));
     return response.data;
   }, []);
