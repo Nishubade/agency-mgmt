@@ -32,9 +32,9 @@ const DashboardComponent = () => {
     getBankedUnbanked,
     getPhoneOwnership,
     getWardGenderChart,
-    getBeneficiariesByWard,
+    // getBeneficiariesByWard,
     getCashTrackerSummary,
-    cashTrackerSummary,
+    // cashTrackerSummary,
   } = useDashboardContext();
 
   const [flickImages, setFlickImages] = useState([]);
