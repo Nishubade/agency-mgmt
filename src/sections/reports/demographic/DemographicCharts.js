@@ -58,7 +58,7 @@ function DemographicCharts() {
 
   return (
     <Grid container spacing={SPACING.GRID_SPACING}>
-      <Grid item xs={12} md={2.4}>
+      <Grid item xs={12} md={3}>
         <Piechart
           title="Has Bank"
           chart={{
@@ -73,7 +73,7 @@ function DemographicCharts() {
           }}
         />
       </Grid>
-      <Grid item xs={12} md={2.4}>
+      <Grid item xs={12} md={3}>
         <Piechart
           title="Has Phone"
           chart={{
@@ -88,7 +88,7 @@ function DemographicCharts() {
           }}
         />
       </Grid>
-      <Grid item xs={12} md={2.4}>
+      <Grid item xs={12} md={3}>
         <Piechart
           title="Daily Wage"
           chart={{
@@ -103,7 +103,7 @@ function DemographicCharts() {
           }}
         />
       </Grid>
-      <Grid item xs={12} md={2.4}>
+      <Grid item xs={12} md={3}>
         <Piechart
           title="Land Owner"
           chart={{
@@ -118,7 +118,7 @@ function DemographicCharts() {
           }}
         />
       </Grid>
-      <Grid item xs={12} md={2.4}>
+      <Grid item xs={12} md={4}>
         <Piechart
           title="Disability"
           chart={{
@@ -133,7 +133,7 @@ function DemographicCharts() {
           }}
         />
       </Grid>
-      <Grid item xs={12} md={6} lg={6}>
+      <Grid item xs={12} md={6} lg={8}>
         <Barchart
           title="Land Ownership"
           chart={{

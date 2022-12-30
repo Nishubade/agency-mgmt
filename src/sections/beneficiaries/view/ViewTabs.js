@@ -74,7 +74,7 @@ const communicationsTableHead = {
   },
 };
 // #endregion
-export default function ViewTabs() {
+export default function ViewTabs({ transactionClaimLogs }) {
   const [value, setValue] = useState('transactionHistory');
 
   const {
@@ -106,7 +106,7 @@ export default function ViewTabs() {
               </TabList>
             </Box>
             <TabPanel value="transactionHistory">
-              <HistoryTable tableHeadersList={TABLE_HEAD} tableRowsList={claimLogs} />
+              <HistoryTable tableHeadersList={TABLE_HEAD} tableRowsList={transactionClaimLogs} />
             </TabPanel>
             <TabPanel value="communications">
               <CommunicationsTable tableHeadersList={communicationsTableHead} tableRowsList={communicationsTableData} />

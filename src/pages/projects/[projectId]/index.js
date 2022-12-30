@@ -7,7 +7,7 @@ import { useSettingsContext } from '@components/settings';
 import { Container } from '@mui/material';
 import { ActionMenu, ProjectViewComp } from '@sections/projects/view';
 import { useRouter } from 'next/router';
-import { ProjectProvider, useProjectContext } from '@contexts/projects';
+import { ProjectProvider } from '@contexts/projects';
 import { useAuthContext } from 'src/auth/useAuthContext';
 
 const PAGE_TITLE = `Project: Detail`;
@@ -26,11 +26,11 @@ export default function ProjectView(props) {
       href: `/projects/${projectId}/edit`,
       onClick: () => routerPush(`/projects/${projectId}/edit`),
     },
-    {
-      name: 'Add Budget',
-      href: `/projects/${projectId}/add-budget`,
-      onClick: () => routerPush(`/projects/${projectId}/add-budget`),
-    },
+    // {
+    //   name: 'Add Budget',
+    //   href: `/projects/${projectId}/add-budget`,
+    //   onClick: () => routerPush(`/projects/${projectId}/add-budget`),
+    // },
   ];
 
   return (

@@ -28,7 +28,7 @@ export default function BasicInfoCard({ rahatChainData, ...other }) {
             <Typography variant="h5" sx={{ fontWeight: 600 }}>
               {rahatChainData.totalBudget || 0}
             </Typography>
-            <Typography variant="body2">Allocated Budget</Typography>
+            <Typography variant="body2">Received Budget</Typography>
           </Grid>
           <Grid container direction="column" justifyContent="center" alignItems="flex-start">
             <Typography variant="h5" sx={{ fontWeight: 600 }}>
