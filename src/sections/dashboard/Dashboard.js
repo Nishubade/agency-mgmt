@@ -89,12 +89,14 @@ const DashboardComponent = () => {
         <Grid
           container
           lg={7}
+          md={12}
+          sm={12}
           spacing={theme.spacing(SPACING.GRID_SPACING)}
           sx={{
             px: theme.spacing(SPACING.GRID_SPACING),
           }}
         >
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={4} lg={4} sm={4}>
             <SummaryCard
               color="warning"
               icon="material-symbols:person-4"
@@ -104,7 +106,7 @@ const DashboardComponent = () => {
             />
           </Grid>
 
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={4} lg={4} sm={4}>
             <SummaryCard
               color="error"
               icon={'fa6-solid:children'}
@@ -115,11 +117,11 @@ const DashboardComponent = () => {
             />
           </Grid>
 
-          {/* <Grid item xs={12} md={4}>
+          {/* <Grid item xs={12} md={4} lg={4} sm={4}>
           <ActivateResponse />
         </Grid> */}
 
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={4} lg={4} sm={4}>
             <SummaryCard
               color="success"
               icon={'fa6-solid:users'}
@@ -129,7 +131,7 @@ const DashboardComponent = () => {
               subtitle={'people'}
             />
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={4} lg={4} sm={4}>
             <SummaryCard
               color="secondary"
               title="Unbanked"
@@ -139,7 +141,7 @@ const DashboardComponent = () => {
               subtitle={'persons'}
             />
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={4} lg={4} sm={4}>
             <SummaryCard
               icon="material-symbols:token"
               title="Token Issued"
@@ -147,7 +149,7 @@ const DashboardComponent = () => {
               subtitle={'tokens'}
             />
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={4} lg={4} sm={4}>
             <SummaryCard
               color="info"
               icon="ph:currency-circle-dollar-light"
@@ -156,7 +158,7 @@ const DashboardComponent = () => {
               subtitle={'tokens'}
             />
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={4} lg={4} sm={4}>
             <SummaryCard
               color="info"
               icon="ph:currency-circle-dollar-light"
@@ -165,7 +167,7 @@ const DashboardComponent = () => {
               subtitle={'people'}
             />
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={4} lg={4} sm={4}>
             <SummaryCard
               color="info"
               icon="ph:currency-circle-dollar-light"
@@ -174,7 +176,7 @@ const DashboardComponent = () => {
               subtitle={'people'}
             />
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={4} lg={4} sm={4}>
             <SummaryCard
               color="info"
               icon="ph:currency-circle-dollar-light"
@@ -184,7 +186,7 @@ const DashboardComponent = () => {
             />
           </Grid>
         </Grid>
-        <Grid container xs={12} md={6} lg={5}>
+        <Grid container xs={12} md={12} lg={5} sm={12} spacing={SPACING.GRID_SPACING}>
           <Grid item xs={12} md={12}>
             <PhotoGallery list={flickImages} />
           </Grid>
@@ -197,7 +199,7 @@ const DashboardComponent = () => {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={4} lg={4}>
           <Piechart
             title="Gender Distribution"
             chart={{
