@@ -3,33 +3,29 @@ import React from 'react';
 import DashboardLayout from '@layouts/dashboard';
 import { Page } from '@components/page';
 import { useSettingsContext } from '@components/settings';
-import { Button, Container } from '@mui/material';
+import { Button, Container, Stack } from '@mui/material';
 import { CommunicationsProvider } from '@contexts/communications';
-import { CommunicationsTable } from '@sections/communications';
 import Iconify from '@components/iconify';
-import { useRouter } from 'next/router';
-import { PATH_COMMUNICATIONS } from '@routes/paths';
+import { CreateCallView } from '@sections/communications/create-call';
 
-const PAGE_TITLE = 'Communications';
+const PAGE_TITLE = 'Communications: Calls';
 
 export default function CommunicationsList() {
   const { themeStretch } = useSettingsContext();
-  const router = useRouter();
 
-  const breadcrumAction = (
-    <Button
-      variant="outlined"
-      startIcon={<Iconify icon="material-symbols:settings" />}
-      onClick={() => router.push(PATH_COMMUNICATIONS.settings)}
-    >
-      Communication Settings
-    </Button>
+  const ActionItems = (
+    <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={1}>
+      <Button startIcon={<Iconify icon="bx:bx-upload" />} variant="outlined" color="primary">
+        Upload Audio
+      </Button>
+    </Stack>
   );
+
   return (
     <CommunicationsProvider>
-      <Page title={PAGE_TITLE} nocard breadcrumbAction={breadcrumAction}>
+      <Page title={PAGE_TITLE} nocard breadcrumbAction={ActionItems}>
         <Container maxWidth={themeStretch ? false : 'xl'}>
-          <CommunicationsTable />
+          <CreateCallView />
         </Container>
       </Page>
     </CommunicationsProvider>

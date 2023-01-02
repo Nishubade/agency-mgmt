@@ -1,6 +1,7 @@
 import { BeneficiaryService, CommunicationsService } from '@services';
 import { createContext, useCallback, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
+import { TwimlService } from '@services/twiml';
 
 const initialState = {
   beneficiaries: [],
@@ -15,6 +16,7 @@ const initialState = {
     count: 0,
   },
   communicationsTableData: [],
+  callBeneficiaryAudioList: [],
   getBeneficiariesList: () => {},
   getBeneficiaryById: () => {},
   setChainData: () => {},
@@ -23,6 +25,7 @@ const initialState = {
   setPagination: () => {},
   getAllWards: () => {},
   getCommunicationByBeneficiaryId: () => {},
+  getCallBeneficiaryAudioList: () => {},
 };
 
 const BeneficiaryContext = createContext(initialState);
@@ -144,6 +147,20 @@ export const BeneficiaryProvider = ({ children }) => {
     return response.data;
   }, []);
 
+  const getCallBeneficiaryAudioList = useCallback(async (params) => {
+    const response = await TwimlService.getAudios(params);
+
+    const formatted = response?.data?.data.map((item) => ({
+      label: item,
+      value: item,
+    }));
+
+    setState((prevState) => ({
+      ...prevState,
+      callBeneficiaryAudioList: formatted,
+    }));
+  }, []);
+
   const contextValue = {
     ...state,
     refreshData,
@@ -154,6 +171,7 @@ export const BeneficiaryProvider = ({ children }) => {
     getBeneficiaryById,
     getAllWards,
     getCommunicationByBeneficiaryId,
+    getCallBeneficiaryAudioList,
   };
 
   return <BeneficiaryContext.Provider value={contextValue}>{children}</BeneficiaryContext.Provider>;

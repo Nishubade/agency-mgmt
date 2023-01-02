@@ -91,4 +91,6 @@ export const PATH_PHOTO_GALLERY = {
 
 export const PATH_COMMUNICATIONS = {
   root: ROOTS_COMMUNICATIONS,
+  createCall: path(ROOTS_COMMUNICATIONS, '/create-call'),
+  settings: path(ROOTS_COMMUNICATIONS, '/settings'),
 };

@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Grid, Stack } from '@mui/material';
 import BasicInfoCard from './BasicInfoCard';
 import TokenDetails from './TokenDetails';
@@ -9,10 +9,14 @@ import { useBeneficiaryContext } from '@contexts/beneficiaries';
 import { useRouter } from 'next/router';
 import { useRahat } from '@services/contracts/useRahat';
 import { useRahatCash } from '@services/contracts/useRahatCash';
+import PropTypes from 'prop-types';
 import { useAuthContext } from 'src/auth/useAuthContext';
 import ViewTabs from './ViewTabs';
+import CallBeneficiary from './CallBeneficiary';
 
-BeneficiaryView.propTypes = {};
+BeneficiaryView.propTypes = {
+  handleBeneficiaryCallModal: PropTypes.func,
+};
 
 // #region Table Headers
 const TABLE_HEAD = {
@@ -39,9 +43,10 @@ const TABLE_HEAD = {
 };
 // #endregion
 
-export default function BeneficiaryView() {
+export default function BeneficiaryView({ handleBeneficiaryCallModal, beneficiaryCallModalOpen }) {
   const { roles } = useAuthContext();
-  const { getBeneficiaryById, setChainData, chainData, refresh, refreshData } = useBeneficiaryContext();
+  const { getBeneficiaryById, setChainData, chainData, refresh, refreshData, getCallBeneficiaryAudioList } =
+    useBeneficiaryContext();
   const { beneficiaryBalance, contract, contractWS, getBeneficiaryClaimLogs, claimLogs } = useRahat();
   const { contractWS: RahatCash } = useRahatCash();
 
@@ -69,8 +74,13 @@ export default function BeneficiaryView() {
     };
   }, [init, RahatCash, contractWS]);
 
+  useEffect(() => {
+    getCallBeneficiaryAudioList();
+  }, []);
+
   return (
     <>
+      <CallBeneficiary open={beneficiaryCallModalOpen} handleClose={handleBeneficiaryCallModal} />
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
           <BasicInfoCard chainData={chainData} />

@@ -7,6 +7,10 @@ import { PATH_DASHBOARD } from './routes/paths';
 export const DEBUG_MODE = process.env.NEXT_PUBLIC_DEBUG_MODE === 'true' || false;
 export const HOST_API = process.env.NEXT_PUBLIC_HOST_API || '';
 export const RAHAT_BACKEND = process.env.NEXT_PUBLIC_RAHAT_BACKEND || '';
+export const TWIML_API = process.env.NEXT_PUBLIC_TWIML_API || 'https://twiml.rahat.io/api/v1';
+export const SOMLENG_API = process.env.NEXT_PUBLIC_SOMLENG_API || 'https://api.somleng.org';
+export const SOMLENG_API_KEY = process.env.NEXT_PUBLIC_SOMLENG_API_KEY || '';
+export const SOMLENG_API_TOKEN = process.env.NEXT_PUBLIC_SOMLENG_API_TOKEN || '';
 
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || 'Rahat';
 
