@@ -1,54 +1,55 @@
 import { Upload } from '@components/upload';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack } from '@mui/material';
-import { useCallback, useEffect, useState } from 'react';
+import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack } from '@mui/material';
+import { useCallback, useState } from 'react';
 import Iconify from '@components/iconify';
+import useAwsS3 from '@hooks/useAwsS3';
+import { TwimlService } from '@services/twiml';
+import { useErrorHandler } from '@hooks/useErrorHandler';
 
 const UploadAudioDialog = ({
-  title = 'Upload Files',
   open,
   onClose,
-  //
   onCreate,
   onUpdate,
-  //
-  folderName,
-  onChangeFolderName,
-  handleClose,
+
   ...other
 }) => {
-  const [files, setFiles] = useState([]);
+  const awsS3 = useAwsS3();
+  const { handleError } = useErrorHandler();
 
-  useEffect(() => {
-    if (!open) {
-      setFiles([]);
-    }
-  }, [open]);
+  const [file, setFile] = useState(null);
 
-  const handleDrop = useCallback(
-    (acceptedFiles) => {
-      const newFiles = acceptedFiles.map((file) =>
+  const handleDropSingleFile = useCallback((acceptedFiles) => {
+    const file = acceptedFiles[0];
+    if (file) {
+      setFile(
         Object.assign(file, {
           preview: URL.createObjectURL(file),
         })
       );
+    }
+  }, []);
 
-      setFiles([...files, ...newFiles]);
-    },
-    [files]
-  );
+  const handleUpload = async () => {
+    // onClose();
 
-  const handleUpload = () => {
-    onClose();
-    console.log('ON UPLOAD');
-  };
-
-  const handleRemoveFile = (inputFile) => {
-    const filtered = files.filter((file) => file !== inputFile);
-    setFiles(filtered);
+    TwimlService.uploadAudio(file)
+      .then(() => {
+        setFile(null);
+        onClose();
+      })
+      .catch(handleError);
+    // awsS3
+    //   .uploadFile(file)
+    //   .then(() => {
+    //     setFile(null);
+    //     onClose();
+    //   })
+    //   .catch(handleError);
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} onBa>
+    <Dialog open={open} onClose={onClose}>
       <DialogTitle>Upload Audio Files</DialogTitle>
       <DialogContent>
         <Box
@@ -57,7 +58,12 @@ const UploadAudioDialog = ({
             mb: 1,
           }}
         >
-          <Upload files={files} onDrop={handleDrop} onRemove={handleRemoveFile} />
+          {awsS3.s3Error && (
+            <Alert severity="error" sx={{ mb: 1 }}>
+              {awsS3.s3Error?.message}
+            </Alert>
+          )}
+          <Upload file={file} onDrop={handleDropSingleFile} onDelete={() => setFile(null)} />
         </Box>
       </DialogContent>{' '}
       <DialogActions>

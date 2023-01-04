@@ -15,13 +15,24 @@ export const TwimlService = {
   },
 
   uploadAudio(file) {
-    const formData = new FormData();
-    formData.append('file', file);
-    return api.post('/upload-audios', formData);
+    // const formData = new FormData();
+    // formData.append('file', file);
+    // console.log('formData', formData);
+    return api.post(
+      '/upload-audio',
+      {
+        audioUpload: file,
+      },
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
   },
 
   deleteAudio(id) {
-    return api.delete(`/uploaded-audios/${id}`);
+    return api.delete(`/audio/${id}`);
   },
 
   getAudioSample(audioName) {

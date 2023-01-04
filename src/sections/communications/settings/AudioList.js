@@ -4,6 +4,7 @@ import {
   Card,
   CardContent,
   CardHeader,
+  Divider,
   IconButton,
   List,
   ListItem,
@@ -14,6 +15,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import Iconify from '@components/iconify';
 import UploadAudioDialog from './UploadAudioDialog';
+import { TwimlService } from '@services/twiml';
 
 const AudioList = () => {
   const { getAudiosList, audiosList } = useCommunicationsContext();
@@ -22,11 +24,11 @@ const AudioList = () => {
 
   useEffect(() => {
     getAudiosList();
-  }, []);
+  }, [openUploadModal]);
 
   return (
     <>
-      <UploadAudioDialog handleClose={() => setOpenUploadModal((prev) => !prev)} open={openUploadModal} />
+      <UploadAudioDialog onClose={() => setOpenUploadModal((prev) => !prev)} open={openUploadModal} />
       <Card>
         <CardHeader
           title="Audio List"
@@ -43,19 +45,29 @@ const AudioList = () => {
         <CardContent>
           <List>
             {audiosList.map((item, index) => (
-              <ListItem
-                secondaryAction={
-                  <IconButton edge="end" aria-label="delete" onClick={() => console.log('delete', item)}>
-                    <Iconify icon="material-symbols:delete-outline" />
-                  </IconButton>
-                }
-                disablePadding
-                key={`${item}-${index}`}
-              >
-                <ListItemButton>
-                  <ListItemText primary={item} />
-                </ListItemButton>
-              </ListItem>
+              <>
+                <ListItem
+                  secondaryAction={
+                    <IconButton
+                      edge="end"
+                      aria-label="delete"
+                      onClick={async () => {
+                        await TwimlService.deleteAudio(item);
+                        await getAudiosList();
+                      }}
+                    >
+                      <Iconify icon="material-symbols:delete-outline" />
+                    </IconButton>
+                  }
+                  disablePadding
+                  key={`${item}-${index}`}
+                >
+                  <ListItemButton>
+                    <ListItemText primary={item} />
+                  </ListItemButton>
+                </ListItem>
+                <Divider />
+              </>
             ))}
           </List>
         </CardContent>

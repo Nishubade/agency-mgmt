@@ -77,6 +77,12 @@ export default function Upload({
 
   return (
     <Box sx={{ width: 1, position: 'relative', ...sx }}>
+      {hasFile && (
+        <Typography variant="body1" sx={{ color: 'text.secondary', p: 1 }}>
+          {file.name}
+        </Typography>
+      )}
+
       <StyledDropZone
         {...getRootProps()}
         sx={{
