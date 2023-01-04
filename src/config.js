@@ -40,6 +40,8 @@ export const WSS_EVENTS = {
   rahat_claimed: 'rahat_claimed',
 };
 
+export const PHONE_CODE = '977';
+
 // ROOT PATH AFTER LOGIN SUCCESSFUL
 export const PATH_AFTER_LOGIN = PATH_DASHBOARD;
 

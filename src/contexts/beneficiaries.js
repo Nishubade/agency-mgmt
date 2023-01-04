@@ -2,6 +2,7 @@ import { BeneficiaryService, CommunicationsService } from '@services';
 import { createContext, useCallback, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { TwimlService } from '@services/twiml';
+import { useSnackbar } from 'notistack';
 
 const initialState = {
   beneficiaries: [],
@@ -26,6 +27,7 @@ const initialState = {
   getAllWards: () => {},
   getCommunicationByBeneficiaryId: () => {},
   getCallBeneficiaryAudioList: () => {},
+  callBeneficiary: () => {},
 };
 
 const BeneficiaryContext = createContext(initialState);
@@ -33,6 +35,8 @@ const BeneficiaryContext = createContext(initialState);
 export const BeneficiaryProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
   const refreshData = () => setState((prev) => ({ ...prev, refresh: !prev.refresh }));
+
+  const snackBar = useSnackbar();
 
   const setFilter = (filter) =>
     setState((prev) => ({
@@ -161,6 +165,20 @@ export const BeneficiaryProvider = ({ children }) => {
     }));
   }, []);
 
+  const callBeneficiary = useCallback(async (payload) => {
+    try {
+      const response = await TwimlService.createCall(payload);
+      snackBar.enqueueSnackbar(response?.data?.message || 'Calling the beneficiary.', {
+        variant: 'success',
+      });
+      return response;
+    } catch (e) {
+      snackBar.enqueueSnackbar(e?.response?.data?.message || 'Cannot call beneficiary at the moment.', {
+        variant: 'error',
+      });
+    }
+  }, []);
+
   const contextValue = {
     ...state,
     refreshData,
@@ -172,6 +190,7 @@ export const BeneficiaryProvider = ({ children }) => {
     getAllWards,
     getCommunicationByBeneficiaryId,
     getCallBeneficiaryAudioList,
+    callBeneficiary,
   };
 
   return <BeneficiaryContext.Provider value={contextValue}>{children}</BeneficiaryContext.Provider>;

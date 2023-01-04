@@ -1,15 +1,20 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ListSelectFilter from '../SelectFilter';
 import { useBeneficiaryContext } from '@contexts/beneficiaries';
-import { TWIML_API } from '@config';
-import { SomlengService } from '@services/somleng';
+import { PHONE_CODE, TWIML_API } from '@config';
 
 const CallBeneficiary = ({ open, handleClose }) => {
-  const { callBeneficiaryAudioList } = useBeneficiaryContext();
+  const { callBeneficiaryAudioList, getCallBeneficiaryAudioList, callBeneficiary, singleBeneficiary } =
+    useBeneficiaryContext();
   const [selectedAudio, setSelectedAudio] = useState(null);
+  const [callLoading, setCallLoading] = useState(false);
 
+  useEffect(() => {
+    if (!open) return;
+    getCallBeneficiaryAudioList();
+  }, [open]);
   const handleAudioSelect = (e) => {
     const { value } = e.target;
     setSelectedAudio(value);
@@ -17,18 +22,16 @@ const CallBeneficiary = ({ open, handleClose }) => {
 
   const handleCall = async () => {
     if (!selectedAudio) return;
+    setCallLoading(true);
     const payload = {
       From: '9779801109726',
-      To: '9779865430408',
-      Url: `${TWIML_API}/audio/${selectedAudio}}`,
+      // To: '9779865430408',
+      To: `${PHONE_CODE}${singleBeneficiary?.phone}`,
+      Url: `${TWIML_API}/audio/${selectedAudio}`,
+      // Url: `https://twiml.rahat.io/api/v1/audio/1-maithili.mp3`,
     };
-    try {
-      console.log('Calling Beneficiary...');
-      const callResponse = await SomlengService.createCall(payload);
-      console.log('callResponse', callResponse);
-    } catch (err) {
-      console.log('err', err);
-    }
+    await callBeneficiary(payload);
+    setCallLoading(false);
   };
 
   return (
@@ -53,7 +56,7 @@ const CallBeneficiary = ({ open, handleClose }) => {
       <DialogActions>
         <Box sx={{ flex: 1 }} />
         <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleCall} variant="outlined">
+        <Button onClick={handleCall} variant="outlined" disabled={callLoading} loading={callLoading}>
           Call
         </Button>
       </DialogActions>

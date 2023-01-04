@@ -27,4 +27,8 @@ export const TwimlService = {
   getAudioSample(audioName) {
     return api.get(`/audio/${audioName}`);
   },
+
+  createCall(payload) {
+    return api.post('/create-call', payload);
+  },
 };

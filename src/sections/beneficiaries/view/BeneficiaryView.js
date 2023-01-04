@@ -43,10 +43,9 @@ const TABLE_HEAD = {
 };
 // #endregion
 
-export default function BeneficiaryView({ handleBeneficiaryCallModal, beneficiaryCallModalOpen }) {
+export default function BeneficiaryView({ handleBeneficiaryModal, beneficiaryCallModalOpen }) {
   const { roles } = useAuthContext();
-  const { getBeneficiaryById, setChainData, chainData, refresh, refreshData, getCallBeneficiaryAudioList } =
-    useBeneficiaryContext();
+  const { getBeneficiaryById, setChainData, chainData, refresh, refreshData } = useBeneficiaryContext();
   const { beneficiaryBalance, contract, contractWS, getBeneficiaryClaimLogs, claimLogs } = useRahat();
   const { contractWS: RahatCash } = useRahatCash();
 
@@ -74,13 +73,9 @@ export default function BeneficiaryView({ handleBeneficiaryCallModal, beneficiar
     };
   }, [init, RahatCash, contractWS]);
 
-  useEffect(() => {
-    getCallBeneficiaryAudioList();
-  }, []);
-
   return (
     <>
-      <CallBeneficiary open={beneficiaryCallModalOpen} handleClose={handleBeneficiaryCallModal} />
+      <CallBeneficiary open={beneficiaryCallModalOpen} handleClose={handleBeneficiaryModal} />
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
           <BasicInfoCard chainData={chainData} />
