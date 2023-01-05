@@ -18,6 +18,7 @@ const UploadAudioDialog = ({
   const { handleError } = useErrorHandler();
 
   const [file, setFile] = useState(null);
+  const [uploadingInProgress, setUploadingInProgress] = useState(false);
 
   const handleDropSingleFile = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0];
@@ -32,6 +33,7 @@ const UploadAudioDialog = ({
 
   const handleUpload = async () => {
     // onClose();
+    setUploadingInProgress(true);
 
     TwimlService.uploadAudio(file)
       .then(() => {
@@ -39,6 +41,16 @@ const UploadAudioDialog = ({
         onClose();
       })
       .catch(handleError);
+    // try {
+    //   const r = await awsS3.uploadFile(file);
+    //   console.log('r', r);
+    //   setFile(null);
+    //   // onClose();
+    // } catch (error) {
+    //   handleError(error);
+    // } finally {
+    //   setUploadingInProgress(false);
+    // }
     // awsS3
     //   .uploadFile(file)
     //   .then(() => {
@@ -46,6 +58,8 @@ const UploadAudioDialog = ({
     //     onClose();
     //   })
     //   .catch(handleError);
+
+    // setUploadingInProgress(false);
   };
 
   return (
@@ -67,23 +81,15 @@ const UploadAudioDialog = ({
         </Box>
       </DialogContent>{' '}
       <DialogActions>
-        <Button variant="contained" startIcon={<Iconify icon="eva:cloud-upload-fill" />} onClick={handleUpload}>
+        <Button
+          disabled={uploadingInProgress}
+          loading={uploadingInProgress}
+          variant="contained"
+          startIcon={<Iconify icon="eva:cloud-upload-fill" />}
+          onClick={handleUpload}
+        >
           Upload
         </Button>
-
-        {/* {!!files.length && (
-          <Button variant="outlined" color="inherit" onClick={handleRemoveAllFiles}>
-            Remove all
-          </Button>
-        )} */}
-
-        {(onCreate || onUpdate) && (
-          <Stack direction="row" justifyContent="flex-end" flexGrow={1}>
-            <Button variant="soft" onClick={onCreate || onUpdate}>
-              {onUpdate ? 'Save' : 'Create'}
-            </Button>
-          </Stack>
-        )}
       </DialogActions>
     </Dialog>
   );

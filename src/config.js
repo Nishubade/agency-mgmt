@@ -22,6 +22,11 @@ export const FLICKR_APIKEY = process.env.NEXT_PUBLIC_FLICKR_APIKEY || '';
 export const FLICKR_PHOTOSET = process.env.NEXT_PUBLIC_FLICKR_PHOTOSET || '';
 export const IPFS_GATEWAY = process.env.NEXT_PUBLIC_IPFS_GATEWAY || '';
 
+export const AWS_BUCKET_NAME = process.env.NEXT_PUBLIC_AWS_BUCKET_NAME || '';
+export const AWS_ACCESS_KEY_ID = process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID || '';
+export const AWS_SECRET_ACCESS_KEY = process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY || '';
+export const AWS_REGION = process.env.NEXT_PUBLIC_AWS_BUCKET_REGION || '';
+
 export const COGNITO_API = {
   userPoolId: process.env.AWS_COGNITO_USER_POOL_ID,
   clientId: process.env.AWS_COGNITO_CLIENT_ID,
