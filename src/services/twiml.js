@@ -26,6 +26,7 @@ export const TwimlService = {
       {
         headers: {
           'Content-Type': 'multipart/form-data',
+          'Access-Control-Allow-Origin': '*',
         },
       }
     );

@@ -38,6 +38,7 @@ const UploadAudioDialog = ({
     TwimlService.uploadAudio(file)
       .then(() => {
         setFile(null);
+        setUploadingInProgress(false);
         onClose();
       })
       .catch(handleError);
@@ -58,8 +59,6 @@ const UploadAudioDialog = ({
     //     onClose();
     //   })
     //   .catch(handleError);
-
-    // setUploadingInProgress(false);
   };
 
   return (
