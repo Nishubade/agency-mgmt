@@ -52,21 +52,21 @@ const TableContainer = () => {
       label: 'Registered By',
       align: 'left',
     },
-    cashBalance: {
-      id: 'cashBalance',
-      label: 'Cash Balance',
-      align: 'left',
-    },
     tokenBalance: {
       id: 'tokenBalance',
-      label: 'Remaining Token Claims',
+      label: 'Token Balance',
       align: 'left',
     },
-    totalTokenIssued: {
-      id: 'totalTokenIssued',
-      label: 'Claimed Tokens',
+    cashBalance: {
+      id: 'cashBalance',
+      label: 'Cash Received',
       align: 'left',
     },
+    // totalTokenIssued: {
+    //   id: 'totalTokenIssued',
+    //   label: 'Claimed Tokens',
+    //   align: 'left',
+    // },
     action: {
       id: 'action',
       label: 'Action',
@@ -90,9 +90,9 @@ const TableContainer = () => {
               </TableCell>
               <TableCell align={tableHeadersList['registeredBy'].align}>{row.registeredBy}</TableCell>
 
-              <TableCell align={tableHeadersList['cashBalance'].align}>{row.cashBalance}</TableCell>
               <TableCell align={tableHeadersList['tokenBalance'].align}>{row.tokenBalance}</TableCell>
-              <TableCell align={tableHeadersList['totalTokenIssued'].align}>{row.totalTokenIssued}</TableCell>
+              <TableCell align={tableHeadersList['cashBalance'].align}>{row.cashBalance}</TableCell>
+              {/* <TableCell align={tableHeadersList['totalTokenIssued'].align}>{row.totalTokenIssued}</TableCell> */}
               <TableCell align={tableHeadersList['action'].align}>
                 <Button onClick={handleView(row.id)} variant="text">
                   <Iconify icon="ic:outline-remove-red-eye" />

@@ -62,16 +62,6 @@ const TableList = () => {
               <TableCell align={tableHeadersList['type'].align}>{row.type}</TableCell>
               <TableCell align={tableHeadersList['timestamp'].align}>{row.timestamp}</TableCell>
               <TableCell align={tableHeadersList['status'].align}>{row.status}</TableCell>
-
-              {/* {row?.isBeneficiary ? (
-                <TableCell align={tableHeadersList['actionBeneficiaryView'].align}>
-                  <Button variant="text" onClick={handleBeneficiaryView(row.beneficiaryId)}>
-                    <Iconify icon="ic:outline-remove-red-eye" />
-                  </Button>
-                </TableCell>
-              ) : (
-                'Not a Beneficiary'
-              )} */}
             </TableRow>
           ))
         }
