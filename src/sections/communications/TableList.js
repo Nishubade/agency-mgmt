@@ -4,6 +4,7 @@ import { Button, Card, TableCell, TableRow } from '@mui/material';
 import { useEffect } from 'react';
 import Iconify from '@components/iconify';
 import { useRouter } from 'next/router';
+import moment from 'moment';
 
 const TABLE_HEADERS = {
   // from: {
@@ -60,7 +61,9 @@ const TableList = () => {
                 </Button>
               </TableCell>
               <TableCell align={tableHeadersList['type'].align}>{row.type}</TableCell>
-              <TableCell align={tableHeadersList['timestamp'].align}>{row.timestamp}</TableCell>
+              <TableCell align={tableHeadersList['timestamp'].align}>
+                {moment.unix(row.timestamp).format('DD/MM/YY, h:mm a')}
+              </TableCell>
               <TableCell align={tableHeadersList['status'].align}>{row.status}</TableCell>
             </TableRow>
           ))
