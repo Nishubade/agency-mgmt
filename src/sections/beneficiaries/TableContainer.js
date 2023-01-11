@@ -1,4 +1,4 @@
-import { Box, Button, Pagination, TableCell, TableRow } from '@mui/material';
+import { Box, Button, Pagination, TableCell, TablePagination, TableRow } from '@mui/material';
 import React, { useEffect } from 'react';
 import ListTableToolbar from './ListTableToolbar';
 import { useRouter } from 'next/router';
@@ -78,7 +78,30 @@ const TableContainer = () => {
   return (
     <Box>
       <ListTableToolbar />
-      <ListTable tableRowsList={beneficiaries.data} tableHeadersList={TABLE_HEAD} errorMessage={errorMessage}>
+      <ListTable
+        footer={
+          <TablePagination
+            component="div"
+            count={beneficiaries?.count}
+            rowsPerPage={pagination.limit}
+            page={+pagination.start}
+            onPageChange={(e, page) => {
+              setPagination({ start: page, limit: pagination.limit });
+            }}
+            variant="head"
+            size="large"
+            // page={page}
+            // onPageChange={handleChangePage}
+            // rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={(e) => {
+              setPagination({ start: pagination.start, limit: +e.target.value });
+            }}
+          />
+        }
+        tableRowsList={beneficiaries.data}
+        tableHeadersList={TABLE_HEAD}
+        errorMessage={errorMessage}
+      >
         {(rows, tableHeadersList) =>
           rows.map((row) => (
             <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -102,13 +125,14 @@ const TableContainer = () => {
           ))
         }
       </ListTable>
-      <Pagination
+      {/* <Pagination
+        variant="outlined"
         count={beneficiaries?.totalPage}
         page={+pagination.start}
         onChange={(e, page) => {
           setPagination({ start: page, limit: pagination.limit });
         }}
-      />
+      /> */}
     </Box>
   );
 };

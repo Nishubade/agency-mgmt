@@ -10,7 +10,7 @@ import { useBeneficiaryContext } from '@contexts/beneficiaries.js';
 ListTableToolbar.propTypes = {};
 
 export default function ListTableToolbar() {
-  const { filter, setFilter, wards } = useBeneficiaryContext();
+  const { filter, setFilter, setPagination, wards, pagination } = useBeneficiaryContext();
 
   const onSearch = (e) => {
     const { name, value } = e.target;
@@ -58,7 +58,13 @@ export default function ListTableToolbar() {
         />
         <ListSearchField label={'Enter Phone'} value={filter?.phone || ''} onChange={onSearch} name={'phone'} />
         <ListSearchField label={'Enter Name'} value={filter?.name || ''} onChange={onSearch} name={'name'} />
-        <Button variant="contained" onClick={() => setFilter(null)}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            setFilter(null);
+            setPagination({ start: 0, limit: pagination.limit });
+          }}
+        >
           Clear
         </Button>
       </Stack>
