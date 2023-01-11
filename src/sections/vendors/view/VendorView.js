@@ -55,7 +55,7 @@ export default function VendorView() {
     await getVendorEthBalance(_vendorData?.wallet_address);
 
     setChainData(_chainData);
-    await getVendorClaimLogs('0x2e38580a0ea254895b3f28f3aa95221124c102df');
+    await getVendorClaimLogs(_vendorData?.wallet_address);
   }, [vendorId, contract, refresh]);
 
   useEffect(() => {
