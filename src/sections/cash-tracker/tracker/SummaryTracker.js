@@ -10,8 +10,6 @@ import {
   StepConnector as MUIStepConnector,
   Grid,
   Typography,
-  Card,
-  CardHeader,
 } from '@mui/material';
 // components
 import Iconify from '@components/iconify';
@@ -70,9 +68,10 @@ const StepConnector = styled(MUIStepConnector)(({ theme }) => ({
 SummaryTracker.propTypes = {
   trackerSummary: PropTypes.array,
   sx: PropTypes.object,
+  footer: PropTypes.node,
 };
 
-export default function SummaryTracker({ setCashSummaryData, sx, ...other }) {
+export default function SummaryTracker({ setCashSummaryData, sx, footer, ...other }) {
   const [trackData, setTrackData] = useState(STEPS);
   const [activeStep, setActiveStep] = useState(0);
 
@@ -144,29 +143,32 @@ export default function SummaryTracker({ setCashSummaryData, sx, ...other }) {
   };
 
   return (
-    <Stepper alternativeLabel activeStep={activeStep} connector={<StepConnector />} sx={{ m: 2, ...sx }}>
-      {trackData.map((step) => (
-        <Step key={step.label}>
-          <StepLabel
-            StepIconComponent={StepIcon}
-            sx={{
-              '& .MuiStepLabel-label': {
-                typography: 'subtitle2',
-              },
-            }}
-          >
-            <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={12}>
-              <Grid container direction="column" justifyContent="center" alignItems="center">
-                <Typography fontWeight={700} variant="caption">
-                  {step?.label}
-                </Typography>
-                {renderBalance(step)}
-              </Grid>
-            </Stack>
-          </StepLabel>
-        </Step>
-      ))}
-    </Stepper>
+    <>
+      <Stepper alternativeLabel activeStep={activeStep} connector={<StepConnector />} sx={{ m: 2, ...sx }}>
+        {trackData.map((step) => (
+          <Step key={step.label}>
+            <StepLabel
+              StepIconComponent={StepIcon}
+              sx={{
+                '& .MuiStepLabel-label': {
+                  typography: 'subtitle2',
+                },
+              }}
+            >
+              <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={12}>
+                <Grid container direction="column" justifyContent="center" alignItems="center">
+                  <Typography fontWeight={700} variant="caption">
+                    {step?.label}
+                  </Typography>
+                  {renderBalance(step)}
+                </Grid>
+              </Stack>
+            </StepLabel>
+          </Step>
+        ))}
+      </Stepper>
+      {footer}
+    </>
   );
 }
 

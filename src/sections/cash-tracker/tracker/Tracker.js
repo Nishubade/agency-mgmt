@@ -6,6 +6,7 @@ import { useCashTrackerContext } from '@contexts/cash-tracker';
 import { BeneficiaryService } from '@services/beneficiaries';
 import SummaryTracker from './SummaryTracker';
 import { Skeleton } from '@mui/material';
+import Stats from './Stats';
 
 const TreeTracker = dynamic(() => import('@components/tree/TreeOrganization'), { ssr: false });
 
@@ -24,6 +25,7 @@ const Tracker = () => {
 
   const { beneficiariesByWard, getBeneficiariesByWard } = useCashTrackerContext();
 
+  console.log('beneficiariesByWard', beneficiariesByWard);
   const handleNodeClick = async (node) => {
     if (!node.id) return;
     setSelectedNode(node);
@@ -61,7 +63,8 @@ const Tracker = () => {
       ) : (
         <>
           <TreeTracker tree={treeData} onNodeClick={handleNodeClick} selectedNode={selectedNode} />
-          <DetailTable selectedNode={selectedNode} list={beneficiariesByWard} />
+          {/* <Stats /> */}
+          <DetailTable selectedNode={selectedNode} list={beneficiariesByWard.data} />
         </>
       )}
     </div>

@@ -1,6 +1,6 @@
 import ListTable from '@components/table/ListTable';
 import { useCommunicationsContext } from '@contexts/communications';
-import { Button, Card, TableCell, TableRow } from '@mui/material';
+import { Button, Card, TableCell, TablePagination, TableRow } from '@mui/material';
 import { useEffect } from 'react';
 import Iconify from '@components/iconify';
 import { useRouter } from 'next/router';
@@ -49,9 +49,24 @@ const TableList = () => {
     router.push(`/beneficiaries/${id}`);
   };
 
+  console.log('communicationsList', communicationsList);
+
   return (
     <Card>
-      <ListTable tableHeadersList={TABLE_HEADERS} tableRowsList={communicationsList}>
+      <ListTable
+        tableHeadersList={TABLE_HEADERS}
+        tableRowsList={communicationsList}
+        footer={
+          <TablePagination
+            component="div"
+            count={100}
+            // page={page}
+            // onPageChange={handleChangePage}
+            // rowsPerPage={rowsPerPage}
+            // onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        }
+      >
         {(rows, tableHeadersList) =>
           rows.map((row) => (
             <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
