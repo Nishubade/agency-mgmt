@@ -50,7 +50,7 @@ export const useRahat = () => {
     //   beneficiary: d.args.beneficiary?.toNumber(),
     //   amount: d.args.amount?.toNumber(),
     // }));
-    setClaimLogs(logData);
+    setClaimLogs(logData.reverse());
     return logData;
   };
 
