@@ -131,7 +131,7 @@ const DashboardComponent = () => {
               subtitle={'people'}
             />
           </Grid>
-          <Grid item xs={12} md={4} lg={4} sm={4}>
+          {/* <Grid item xs={12} md={4} lg={4} sm={4}>
             <SummaryCard
               color="secondary"
               title="Unbanked"
@@ -140,8 +140,8 @@ const DashboardComponent = () => {
               // total={beneficiaryCounts?.impacted?.totalFamilyCount}
               subtitle={'persons'}
             />
-          </Grid>
-          <Grid item xs={12} md={4} lg={4} sm={4}>
+          </Grid> */}
+          {/* <Grid item xs={12} md={4} lg={4} sm={4}>
             <SummaryCard
               icon="material-symbols:token"
               title="Token Issued"
@@ -157,7 +157,7 @@ const DashboardComponent = () => {
               total={cashSummaryData?.beneficiaries?.received}
               subtitle={'tokens'}
             />
-          </Grid>
+          </Grid> */}
           <Grid item xs={12} md={4} lg={4} sm={4}>
             <SummaryCard
               color="info"
