@@ -162,8 +162,8 @@ const DashboardComponent = () => {
             <SummaryCard
               color="info"
               icon="ph:currency-circle-dollar-light"
-              title="Total Land Owners"
-              total={summary?.totalWithLand}
+              title="Total Landless"
+              total={summary?.totalNoLand}
               subtitle={'people'}
             />
           </Grid>
