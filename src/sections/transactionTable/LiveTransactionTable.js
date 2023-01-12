@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, Button, Card, CardHeader, Grid, Stack, Typography } from '@mui/material';
+import { Alert, Button, Card, CardHeader, Grid, Stack, TablePagination, Typography } from '@mui/material';
 import ListTable from '@components/table/ListTable';
 import useWSTransaction from '@hooks/useWSTransaction';
 import * as TXService from '@services/transactionTable';
@@ -20,8 +20,8 @@ const TABLE_HEAD = {
     label: 'TxHash',
     align: 'left',
   },
-  name: {
-    id: 'name',
+  beneficiary: {
+    id: 'beneficiary',
     label: 'Beneficiary',
     align: 'left',
   },
@@ -52,6 +52,10 @@ const TABLE_HEAD = {
 const LiveTransactionTable = (props) => {
   const [list, setList] = useState([]);
   const [error, setError] = useState(null);
+  const [pagination, setPagination] = useState({
+    start: 0,
+    limit: 5,
+  });
 
   const router = useRouter();
 
@@ -63,19 +67,28 @@ const LiveTransactionTable = (props) => {
     setList((prev) => [wsTableData?.data, ...prev]);
   }, [wsTableData]);
 
-  const fetchTransactionList = async () => {
+  const fetchTransactionList = useCallback(async (query) => {
     try {
-      const response = await TXService.transactionList();
-      setList(response?.data?.data);
+      const response = await TXService.transactionList(query);
+      setList(response?.data?.data?.data);
+      setPagination((prev) => ({
+        ...prev,
+        count: response?.data?.data?.count,
+        start: response?.data?.data?.start,
+        limit: response?.data?.data?.limit,
+      }));
     } catch (error) {
       console.error(error);
       setError(error?.message);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    fetchTransactionList();
-  }, []);
+    fetchTransactionList({
+      start: pagination.start,
+      limit: pagination.limit,
+    });
+  }, [pagination.start, pagination.limit, fetchTransactionList]);
 
   const tableFooter = (
     <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2} sx={{ p: 2 }}>
@@ -96,14 +109,53 @@ const LiveTransactionTable = (props) => {
           title={
             <Grid container spacing={0.5}>
               <Typography variant="h6" sx={{ mt: -1.8 }}>
-                Live Claimed Transactions ( {`${list.length}`} )
+                Live Claimed Transactions ( {`${pagination.count}`} )
               </Typography>
             </Grid>
           }
         />
       </Stack>
       {error && <Alert severity="error">{error}</Alert>}
-      <ListTable tableHeadersList={TABLE_HEAD} tableRowsList={list} />
+      <TablePagination
+        component="div"
+        count={pagination?.count}
+        rowsPerPage={pagination.limit}
+        page={+pagination.start}
+        onPageChange={(e, page) => {
+          setPagination({ start: page, limit: pagination.limit });
+        }}
+        variant="head"
+        size="large"
+        // page={page}
+        // onPageChange={handleChangePage}
+        // rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={(e) => {
+          setPagination({ start: pagination.start, limit: +e.target.value });
+        }}
+      />
+      <ListTable
+        footer={
+          <TablePagination
+            component="div"
+            count={pagination?.count}
+            rowsPerPage={pagination.limit}
+            page={+pagination.start}
+            onPageChange={(e, page) => {
+              setPagination({ start: page, limit: pagination.limit });
+            }}
+            variant="head"
+            size="large"
+            // page={page}
+            // onPageChange={handleChangePage}
+            // rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={(e) => {
+              setPagination({ start: pagination.start, limit: +e.target.value });
+            }}
+          />
+        }
+        tableHeadersList={TABLE_HEAD}
+        tableRowsList={list}
+      />
     </Card>
   );
 };

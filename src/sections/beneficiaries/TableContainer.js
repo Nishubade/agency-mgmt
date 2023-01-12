@@ -90,9 +90,6 @@ const TableContainer = () => {
             }}
             variant="head"
             size="large"
-            // page={page}
-            // onPageChange={handleChangePage}
-            // rowsPerPage={rowsPerPage}
             onRowsPerPageChange={(e) => {
               setPagination({ start: pagination.start, limit: +e.target.value });
             }}
