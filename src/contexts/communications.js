@@ -28,6 +28,8 @@ export const CommunicationsProvider = ({ children }) => {
       ...prevState,
       communicationsList: formatted,
     }));
+
+    return response.data.data;
   }, []);
 
   const getBeneficiariesList = useCallback(async (params) => {

@@ -1,7 +1,7 @@
 import ListTable from '@components/table/ListTable';
 import { useCommunicationsContext } from '@contexts/communications';
 import { Button, Card, TableCell, TablePagination, TableRow } from '@mui/material';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Iconify from '@components/iconify';
 import { useRouter } from 'next/router';
 import moment from 'moment';
@@ -40,33 +40,55 @@ const TableList = () => {
   const { getCommunicationsList, communicationsList } = useCommunicationsContext();
   const router = useRouter();
 
+  const [pagination, setPagination] = useState({
+    limit: 100,
+    count: 0,
+    start: 0,
+  });
+
+  const handleFetch = useCallback(async () => {
+    const res = await getCommunicationsList({
+      limit: pagination.limit,
+      start: pagination.start,
+    });
+    setPagination((prev) => ({
+      ...prev,
+      limit: res.limit,
+      start: res.start,
+      count: res.count,
+    }));
+  }, [pagination.start, pagination.limit]);
+
   useEffect(() => {
-    getCommunicationsList();
-  }, [getCommunicationsList]);
+    handleFetch();
+  }, [handleFetch, pagination.start, pagination.limit]);
 
   const handleBeneficiaryView = (id) => () => {
     if (!id) return;
     router.push(`/beneficiaries/${id}`);
   };
 
-  console.log('communicationsList', communicationsList);
+  const paginationView = (
+    <TablePagination
+      component="div"
+      count={pagination?.count}
+      rowsPerPage={pagination.limit}
+      page={+pagination.start}
+      onPageChange={(e, page) => {
+        setPagination({ start: page, limit: pagination.limit });
+      }}
+      variant="head"
+      size="large"
+      onRowsPerPageChange={(e) => {
+        setPagination({ start: pagination.start, limit: +e.target.value });
+      }}
+    />
+  );
 
   return (
     <Card>
-      <ListTable
-        tableHeadersList={TABLE_HEADERS}
-        tableRowsList={communicationsList}
-        footer={
-          <TablePagination
-            component="div"
-            count={100}
-            // page={page}
-            // onPageChange={handleChangePage}
-            // rowsPerPage={rowsPerPage}
-            // onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        }
-      >
+      {paginationView}
+      <ListTable tableHeadersList={TABLE_HEADERS} tableRowsList={communicationsList} footer={paginationView}>
         {(rows, tableHeadersList) =>
           rows.map((row) => (
             <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>

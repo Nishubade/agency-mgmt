@@ -37,16 +37,16 @@ const TABLE_HEAD = {
     label: 'Ward',
     align: 'left',
   },
-  method: {
-    id: 'method',
-    label: 'Method',
-    align: 'left',
-  },
-  mode: {
-    id: 'mode',
-    label: 'Mode',
-    align: 'left',
-  },
+  // method: {
+  //   id: 'method',
+  //   label: 'Method',
+  //   align: 'left',
+  // },
+  // mode: {
+  //   id: 'mode',
+  //   label: 'Mode',
+  //   align: 'left',
+  // },
 };
 
 const LiveTransactionTable = (props) => {
@@ -126,9 +126,6 @@ const LiveTransactionTable = (props) => {
         }}
         variant="head"
         size="large"
-        // page={page}
-        // onPageChange={handleChangePage}
-        // rowsPerPage={rowsPerPage}
         onRowsPerPageChange={(e) => {
           setPagination({ start: pagination.start, limit: +e.target.value });
         }}
