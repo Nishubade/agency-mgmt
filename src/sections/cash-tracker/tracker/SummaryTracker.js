@@ -22,26 +22,31 @@ import WalletExplorerButton from '@components/button/WalletExplorerButton';
 
 const STEPS = [
   {
+    name: 'donor',
     label: 'Unicef - Nepal',
     budget: 0,
     balance: 0,
   },
   {
+    name: 'agency',
     label: 'Unicef - Janakpur',
     received: 0,
     balance: 0,
   },
   {
+    name: 'palika',
     label: 'Jaleshwor Palika',
     received: 0,
     balance: 0,
   },
   {
+    name: 'wards',
     label: 'Wards',
     received: 0,
     disbursed: 0,
   },
   {
+    name: 'beneficiaries',
     label: 'Beneficiaries',
     claims: 0,
     received: 0,
@@ -94,7 +99,7 @@ export default function SummaryTracker({ setCashSummaryData, sx, ...other }) {
   }, []);
 
   const renderBalance = (step) => {
-    if (step.label === 'Unicef - Nepal')
+    if (step.name === 'donor')
       return (
         <>
           <Typography variant="caption">Budget: {step.budget} </Typography>
@@ -106,7 +111,7 @@ export default function SummaryTracker({ setCashSummaryData, sx, ...other }) {
           )}
         </>
       );
-    if (step.label === 'Wards')
+    if (step.name === 'wards')
       return (
         <>
           <Typography variant="caption">Received: {step.received} </Typography>
@@ -118,7 +123,7 @@ export default function SummaryTracker({ setCashSummaryData, sx, ...other }) {
           )}
         </>
       );
-    if (step.label === 'Beneficiaries')
+    if (step.name === 'beneficiaries')
       return (
         <>
           <Typography variant="caption">Claims: {step.claims} </Typography>
