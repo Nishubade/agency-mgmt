@@ -90,20 +90,26 @@ const LiveTransactionTable = (props) => {
     });
   }, [pagination.start, pagination.limit, fetchTransactionList]);
 
-  const tableFooter = (
-    <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2} sx={{ p: 2 }}>
-      <Button
-        onClick={() => router.push(PATH_REPORTS.transaction)}
-        endIcon={<Iconify icon={'material-symbols:chevron-right-rounded'} />}
-      >
-        View All
-      </Button>
-    </Stack>
+  const paginationView = (
+    <TablePagination
+      component="div"
+      count={pagination?.count}
+      rowsPerPage={pagination.limit}
+      page={+pagination.start}
+      onPageChange={(e, page) => {
+        setPagination({ start: page, limit: pagination.limit });
+      }}
+      variant="head"
+      size="large"
+      onRowsPerPageChange={(e) => {
+        setPagination({ start: pagination.start, limit: +e.target.value });
+      }}
+    />
   );
 
   return (
     <Card>
-      {' '}
+      {paginationView}
       <Stack spacing={2} direction={{ xs: 'column', sm: 'row' }} sx={{ py: 2 }} md={12}>
         <CardHeader
           title={
@@ -116,43 +122,8 @@ const LiveTransactionTable = (props) => {
         />
       </Stack>
       {error && <Alert severity="error">{error}</Alert>}
-      <TablePagination
-        component="div"
-        count={pagination?.count}
-        rowsPerPage={pagination.limit}
-        page={+pagination.start}
-        onPageChange={(e, page) => {
-          setPagination({ start: page, limit: pagination.limit });
-        }}
-        variant="head"
-        size="large"
-        onRowsPerPageChange={(e) => {
-          setPagination({ start: pagination.start, limit: +e.target.value });
-        }}
-      />
-      <ListTable
-        footer={
-          <TablePagination
-            component="div"
-            count={pagination?.count}
-            rowsPerPage={pagination.limit}
-            page={+pagination.start}
-            onPageChange={(e, page) => {
-              setPagination({ start: page, limit: pagination.limit });
-            }}
-            variant="head"
-            size="large"
-            // page={page}
-            // onPageChange={handleChangePage}
-            // rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={(e) => {
-              setPagination({ start: pagination.start, limit: +e.target.value });
-            }}
-          />
-        }
-        tableHeadersList={TABLE_HEAD}
-        tableRowsList={list}
-      />
+
+      <ListTable footer={paginationView} tableHeadersList={TABLE_HEAD} tableRowsList={list} />
     </Card>
   );
 };
