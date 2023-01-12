@@ -60,7 +60,6 @@ export const BeneficiaryProvider = ({ children }) => {
       isClaimed:
         state.filter?.isClaimed !== undefined ? (state.filter?.isClaimed === 'true' ? true : false) : undefined,
     };
-    console.log('filter', filter);
 
     const response = await BeneficiaryService.getBeneficiariesList(filter);
 

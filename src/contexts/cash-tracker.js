@@ -16,9 +16,9 @@ const CashTrackerContext = createContext(initialState);
 export const CashTrackerProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
   const { roles } = useAuthContext();
+
   const getBeneficiariesByWard = useCallback(async (params) => {
     const response = await BeneficiaryService.getBeneficiariesByWard(params);
-    console.log('response', response);
 
     const formatted = response?.data?.data?.data?.map((item) => ({
       ...item,
@@ -27,7 +27,10 @@ export const CashTrackerProvider = ({ children }) => {
       totalTokenIssued: item.totalTokenIssued?.toString(),
       cashBalance: item.cashBalance?.toString(),
       tokenBalance: item.tokenBalance?.toString(),
+      mode: item.isOffline ? 'Offline' : 'Online',
+      method: item.isQR ? 'QR' : 'SMS',
     }));
+    console.log('formatted', formatted);
     setState((prevState) => ({
       ...prevState,
       beneficiariesByWard: {

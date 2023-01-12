@@ -1,37 +1,35 @@
 import PropTypes from 'prop-types';
 import { Button, Stack, Typography } from '@mui/material';
 // components
-import ListSearchField from './ListSearchField.js';
+// import ListSearchField from './ListSearchField';
 import ListSelectFilter from './SelectFilter';
-import { useBeneficiaryContext } from '@contexts/beneficiaries.js';
+import { useCommunicationsContext } from '@contexts/communications';
 
 // ----------------------------------------------------------------------
 
 ListTableToolbar.propTypes = {};
 
-const bankedOptions = [
+const statusOptions = [
   {
-    label: 'Banked',
-    value: 'true',
+    label: 'Success',
+    value: 'success',
   },
   {
-    label: 'Unbanked',
-    value: 'false',
-  },
-];
-const cashReceivedOptions = [
-  {
-    label: 'Cash Received',
-    value: 'true',
+    label: 'Unanswered',
+    value: 'unanswered',
   },
   {
-    label: 'Cash Not Received',
-    value: 'false',
+    label: 'Failed',
+    value: 'fail',
+  },
+  {
+    label: 'Busy',
+    value: 'busy',
   },
 ];
 
 export default function ListTableToolbar() {
-  const { filter, setFilter, setPagination, wards, pagination } = useBeneficiaryContext();
+  const { filter, setFilter, wards, pagination } = useCommunicationsContext();
 
   const onSearch = (e) => {
     const { name, value } = e.target;
@@ -70,34 +68,26 @@ export default function ListTableToolbar() {
         )}
       </Stack>
       <Stack spacing={2} direction={{ xs: 'column', sm: 'row' }} sx={{ py: 2.5, px: 0 }} justifyContent={'flex-end'}>
-        <ListSelectFilter
+        {/* <ListSelectFilter
           label={'Ward'}
           name={'ward'}
           options={wards}
           onSelectChange={onSearch}
           value={filter?.ward || ''}
-        />
+        /> */}
         <ListSelectFilter
-          label={'Bank/Unbanked'}
-          name={'hasBank'}
-          options={bankedOptions}
+          label={'Status'}
+          name={'status'}
+          options={statusOptions}
           onSelectChange={onSearch}
-          value={filter?.hasBank || ''}
+          value={filter?.status || ''}
         />
-        <ListSelectFilter
-          label={'Cash Received'}
-          name={'isClaimed'}
-          options={cashReceivedOptions}
-          onSelectChange={onSearch}
-          value={filter?.isClaimed || ''}
-        />
-        <ListSearchField label={'Enter Phone'} value={filter?.phone || ''} onChange={onSearch} name={'phone'} />
-        <ListSearchField label={'Enter Name'} value={filter?.name || ''} onChange={onSearch} name={'name'} />
+
         <Button
           variant="contained"
           onClick={() => {
             setFilter(null);
-            setPagination({ start: 0, limit: pagination.limit });
+            // setPagination({ start: 0, limit: pagination.limit });
           }}
         >
           Clear

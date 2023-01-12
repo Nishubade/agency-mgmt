@@ -25,7 +25,6 @@ const Tracker = () => {
 
   const { beneficiariesByWard, getBeneficiariesByWard } = useCashTrackerContext();
 
-  console.log('beneficiariesByWard', beneficiariesByWard);
   const handleNodeClick = async (node) => {
     if (!node.id) return;
     setSelectedNode(node);

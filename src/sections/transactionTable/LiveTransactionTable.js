@@ -37,16 +37,16 @@ const TABLE_HEAD = {
     label: 'Ward',
     align: 'left',
   },
-  // method: {
-  //   id: 'method',
-  //   label: 'Method',
-  //   align: 'left',
-  // },
-  // mode: {
-  //   id: 'mode',
-  //   label: 'Mode',
-  //   align: 'left',
-  // },
+  isQR: {
+    id: 'isQR',
+    label: 'Method',
+    align: 'left',
+  },
+  isOffline: {
+    id: 'isOffline',
+    label: 'Mode',
+    align: 'left',
+  },
 };
 
 const LiveTransactionTable = (props) => {
@@ -70,7 +70,13 @@ const LiveTransactionTable = (props) => {
   const fetchTransactionList = useCallback(async (query) => {
     try {
       const response = await TXService.transactionList(query);
-      setList(response?.data?.data?.data);
+      const formatted = response?.data?.data?.data?.map((item) => ({
+        ...item,
+        isQR: item?.isQR ? 'QR' : 'SMS',
+        isOffline: item?.isOffline ? 'Offline' : 'Online',
+      }));
+
+      setList(formatted);
       setPagination((prev) => ({
         ...prev,
         count: response?.data?.data?.count,
