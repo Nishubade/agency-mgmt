@@ -24,6 +24,7 @@ export const CommunicationsProvider = ({ children }) => {
     const formatted = response?.data?.data?.data?.map((item) => ({
       ...item,
     }));
+
     setState((prevState) => ({
       ...prevState,
       communicationsList: formatted,
