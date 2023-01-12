@@ -75,26 +75,29 @@ const TableContainer = () => {
   };
   // #endregion
 
+  const paginationView = (
+    <TablePagination
+      component="div"
+      count={beneficiaries?.count}
+      rowsPerPage={pagination.limit}
+      page={+pagination.start}
+      onPageChange={(e, page) => {
+        setPagination({ start: page, limit: pagination.limit });
+      }}
+      variant="head"
+      size="large"
+      onRowsPerPageChange={(e) => {
+        setPagination({ start: pagination.start, limit: +e.target.value });
+      }}
+    />
+  );
+
   return (
     <Box>
       <ListTableToolbar />
+      {paginationView}
       <ListTable
-        footer={
-          <TablePagination
-            component="div"
-            count={beneficiaries?.count}
-            rowsPerPage={pagination.limit}
-            page={+pagination.start}
-            onPageChange={(e, page) => {
-              setPagination({ start: page, limit: pagination.limit });
-            }}
-            variant="head"
-            size="large"
-            onRowsPerPageChange={(e) => {
-              setPagination({ start: pagination.start, limit: +e.target.value });
-            }}
-          />
-        }
+        footer={paginationView}
         tableRowsList={beneficiaries.data}
         tableHeadersList={TABLE_HEAD}
         errorMessage={errorMessage}

@@ -52,18 +52,15 @@ export const BeneficiaryProvider = ({ children }) => {
   const getBeneficiariesList = useCallback(async () => {
     let filter = {
       limit: state.pagination?.limit,
-      start:
-        // state.filter?.name?.length > 3 || state.filter?.phone?.length || state.filter?.ward
-        //   ? 0
-        state.pagination?.start,
-      // page: state.pagination?.page <= 0 ? 1 : state.pagination?.page,
+      start: state.pagination?.start,
       name: state.filter?.name?.length > 3 ? state.filter?.name : undefined,
       phone: state.filter?.phone?.length > 3 ? state.filter?.phone : undefined,
       ward: state.filter?.ward,
+      hasBank: state.filter?.hasBank !== undefined ? (state.filter?.hasBank === 'true' ? true : false) : undefined,
+      isClaimed:
+        state.filter?.isClaimed !== undefined ? (state.filter?.isClaimed === 'true' ? true : false) : undefined,
     };
-
     console.log('filter', filter);
-    // let filter = state.filter?.name?.length > 3 || state.filter?.phone?.length > 3 ? state.filter : {};
 
     const response = await BeneficiaryService.getBeneficiariesList(filter);
 

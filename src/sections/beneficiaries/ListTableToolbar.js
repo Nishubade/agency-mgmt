@@ -9,6 +9,27 @@ import { useBeneficiaryContext } from '@contexts/beneficiaries.js';
 
 ListTableToolbar.propTypes = {};
 
+const bankedOptions = [
+  {
+    label: 'Banked',
+    value: 'true',
+  },
+  {
+    label: 'Unbanked',
+    value: 'false',
+  },
+];
+const cashReceivedOptions = [
+  {
+    label: 'Cash Received',
+    value: 'true',
+  },
+  {
+    label: 'Cash Not Received',
+    value: 'false',
+  },
+];
+
 export default function ListTableToolbar() {
   const { filter, setFilter, setPagination, wards, pagination } = useBeneficiaryContext();
 
@@ -55,6 +76,20 @@ export default function ListTableToolbar() {
           options={wards}
           onSelectChange={onSearch}
           value={filter?.ward || ''}
+        />
+        <ListSelectFilter
+          label={'Bank/Unbanked'}
+          name={'hasBank'}
+          options={bankedOptions}
+          onSelectChange={onSearch}
+          value={filter?.hasBank || ''}
+        />
+        <ListSelectFilter
+          label={'Cash Received'}
+          name={'isClaimed'}
+          options={cashReceivedOptions}
+          onSelectChange={onSearch}
+          value={filter?.isClaimed || ''}
         />
         <ListSearchField label={'Enter Phone'} value={filter?.phone || ''} onChange={onSearch} name={'phone'} />
         <ListSearchField label={'Enter Name'} value={filter?.name || ''} onChange={onSearch} name={'name'} />

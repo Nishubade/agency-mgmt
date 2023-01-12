@@ -90,20 +90,27 @@ const TableList = () => {
       {paginationView}
       <ListTable tableHeadersList={TABLE_HEADERS} tableRowsList={communicationsList} footer={paginationView}>
         {(rows, tableHeadersList) =>
-          rows.map((row) => (
-            <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-              <TableCell align={tableHeadersList['to'].align}>
-                <Button variant="text" disabled={!row.beneficiaryId} onClick={handleBeneficiaryView(row.beneficiaryId)}>
-                  {row.to}
-                </Button>
-              </TableCell>
-              <TableCell align={tableHeadersList['type'].align}>{row.type}</TableCell>
-              <TableCell align={tableHeadersList['timestamp'].align}>
-                {moment.unix(row.timestamp).format('DD/MM/YY, h:mm a')}
-              </TableCell>
-              <TableCell align={tableHeadersList['status'].align}>{row.status}</TableCell>
-            </TableRow>
-          ))
+          rows.map(
+            (row) =>
+              row.beneficiaryId && (
+                <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  <TableCell align={tableHeadersList['to'].align}>
+                    <Button
+                      variant="text"
+                      disabled={!row.beneficiaryId}
+                      onClick={handleBeneficiaryView(row.beneficiaryId)}
+                    >
+                      {row.to}
+                    </Button>
+                  </TableCell>
+                  <TableCell align={tableHeadersList['type'].align}>{row.type}</TableCell>
+                  <TableCell align={tableHeadersList['timestamp'].align}>
+                    {moment.unix(row.timestamp).format('DD/MM/YY, h:mm a')}
+                  </TableCell>
+                  <TableCell align={tableHeadersList['status'].align}>{row.status}</TableCell>
+                </TableRow>
+              )
+          )
         }
       </ListTable>
     </Card>
