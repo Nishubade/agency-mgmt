@@ -1,4 +1,4 @@
-import { Box, Button, Pagination, TableCell, TableRow } from '@mui/material';
+import { Box, Button, Pagination, TableCell, TablePagination, TableRow } from '@mui/material';
 import React, { useEffect } from 'react';
 import ListTableToolbar from './ListTableToolbar';
 import { useRouter } from 'next/router';
@@ -52,21 +52,21 @@ const TableContainer = () => {
       label: 'Registered By',
       align: 'left',
     },
-    cashBalance: {
-      id: 'cashBalance',
-      label: 'Cash Balance',
-      align: 'left',
-    },
     tokenBalance: {
       id: 'tokenBalance',
-      label: 'Remaining Token Claims',
+      label: 'Token Balance',
       align: 'left',
     },
-    totalTokenIssued: {
-      id: 'totalTokenIssued',
-      label: 'Claimed Tokens',
+    cashBalance: {
+      id: 'cashBalance',
+      label: 'Cash Received',
       align: 'left',
     },
+    // totalTokenIssued: {
+    //   id: 'totalTokenIssued',
+    //   label: 'Claimed Tokens',
+    //   align: 'left',
+    // },
     action: {
       id: 'action',
       label: 'Action',
@@ -75,10 +75,33 @@ const TableContainer = () => {
   };
   // #endregion
 
+  const paginationView = (
+    <TablePagination
+      component="div"
+      count={beneficiaries?.count}
+      rowsPerPage={pagination.limit}
+      page={+pagination.start}
+      onPageChange={(e, page) => {
+        setPagination({ start: page, limit: pagination.limit });
+      }}
+      variant="head"
+      size="large"
+      onRowsPerPageChange={(e) => {
+        setPagination({ start: pagination.start, limit: +e.target.value });
+      }}
+    />
+  );
+
   return (
     <Box>
       <ListTableToolbar />
-      <ListTable tableRowsList={beneficiaries.data} tableHeadersList={TABLE_HEAD} errorMessage={errorMessage}>
+      {paginationView}
+      <ListTable
+        footer={paginationView}
+        tableRowsList={beneficiaries.data}
+        tableHeadersList={TABLE_HEAD}
+        errorMessage={errorMessage}
+      >
         {(rows, tableHeadersList) =>
           rows.map((row) => (
             <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -90,9 +113,9 @@ const TableContainer = () => {
               </TableCell>
               <TableCell align={tableHeadersList['registeredBy'].align}>{row.registeredBy}</TableCell>
 
-              <TableCell align={tableHeadersList['cashBalance'].align}>{row.cashBalance}</TableCell>
               <TableCell align={tableHeadersList['tokenBalance'].align}>{row.tokenBalance}</TableCell>
-              <TableCell align={tableHeadersList['totalTokenIssued'].align}>{row.totalTokenIssued}</TableCell>
+              <TableCell align={tableHeadersList['cashBalance'].align}>{row.cashBalance}</TableCell>
+              {/* <TableCell align={tableHeadersList['totalTokenIssued'].align}>{row.totalTokenIssued}</TableCell> */}
               <TableCell align={tableHeadersList['action'].align}>
                 <Button onClick={handleView(row.id)} variant="text">
                   <Iconify icon="ic:outline-remove-red-eye" />
@@ -102,13 +125,14 @@ const TableContainer = () => {
           ))
         }
       </ListTable>
-      <Pagination
+      {/* <Pagination
+        variant="outlined"
         count={beneficiaries?.totalPage}
         page={+pagination.start}
         onChange={(e, page) => {
           setPagination({ start: page, limit: pagination.limit });
         }}
-      />
+      /> */}
     </Box>
   );
 };

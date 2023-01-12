@@ -5,38 +5,27 @@ import ListTable from '@components/table/ListTable';
 
 const DetailTable = ({ selectedNode, list }) => {
   const TABLE_HEADER = {
-    name: {
-      id: 'name',
-      label: 'Name',
+    createdAt: {
+      id: 'timestamp',
+      // id: 'timestamp',
+      label: 'Timestamp',
+      align: 'left',
     },
-    phone: {
-      id: 'phone',
-      label: 'Phone',
+    txHash: {
+      id: 'txHash',
+      label: 'TxHash',
+      align: 'left',
     },
-    // TODO: fix in the backend from DOB
-    // age: {
-    //   id: 'age',
-    //   label: 'Age',
-    // },
-    gender: {
-      id: 'gender',
-      label: 'Gender',
+    beneficiary: {
+      id: 'beneficiary',
+      label: 'Beneficiary',
+      align: 'left',
     },
-    claimed: {
-      id: 'claimed',
-      label: 'Claimed',
-    },
-    totalTokenIssued: {
-      id: 'totalTokenIssued',
-      label: 'Total Token Issued',
-    },
-    tokenBalance: {
-      id: 'tokenBalance',
-      label: 'Token Balance',
-    },
-    cashBalance: {
-      id: 'cashBalance',
-      label: 'Cash Balance',
+
+    amount: {
+      id: 'amount',
+      label: 'Amount',
+      align: 'left',
     },
   };
 

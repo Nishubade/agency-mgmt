@@ -1,6 +1,8 @@
 import { BeneficiaryService, CommunicationsService } from '@services';
 import { createContext, useCallback, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
+import { TwimlService } from '@services/twiml';
+import { useSnackbar } from 'notistack';
 
 const initialState = {
   beneficiaries: [],
@@ -15,6 +17,7 @@ const initialState = {
     count: 0,
   },
   communicationsTableData: [],
+  callBeneficiaryAudioList: [],
   getBeneficiariesList: () => {},
   getBeneficiaryById: () => {},
   setChainData: () => {},
@@ -23,6 +26,8 @@ const initialState = {
   setPagination: () => {},
   getAllWards: () => {},
   getCommunicationByBeneficiaryId: () => {},
+  getCallBeneficiaryAudioList: () => {},
+  callBeneficiary: () => {},
 };
 
 const BeneficiaryContext = createContext(initialState);
@@ -30,6 +35,8 @@ const BeneficiaryContext = createContext(initialState);
 export const BeneficiaryProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
   const refreshData = () => setState((prev) => ({ ...prev, refresh: !prev.refresh }));
+
+  const snackBar = useSnackbar();
 
   const setFilter = (filter) =>
     setState((prev) => ({
@@ -45,16 +52,15 @@ export const BeneficiaryProvider = ({ children }) => {
   const getBeneficiariesList = useCallback(async () => {
     let filter = {
       limit: state.pagination?.limit,
-      start:
-        state.filter?.name?.length > 3 || state.filter?.phone?.length || state.filter?.ward
-          ? 0
-          : state.pagination?.start,
-      // page: state.pagination?.page <= 0 ? 1 : state.pagination?.page,
+      start: state.pagination?.start,
       name: state.filter?.name?.length > 3 ? state.filter?.name : undefined,
       phone: state.filter?.phone?.length > 3 ? state.filter?.phone : undefined,
       ward: state.filter?.ward,
+      hasBank: state.filter?.hasBank !== undefined ? (state.filter?.hasBank === 'true' ? true : false) : undefined,
+      isClaimed:
+        state.filter?.isClaimed !== undefined ? (state.filter?.isClaimed === 'true' ? true : false) : undefined,
     };
-    // let filter = state.filter?.name?.length > 3 || state.filter?.phone?.length > 3 ? state.filter : {};
+    console.log('filter', filter);
 
     const response = await BeneficiaryService.getBeneficiariesList(filter);
 
@@ -144,6 +150,34 @@ export const BeneficiaryProvider = ({ children }) => {
     return response.data;
   }, []);
 
+  const getCallBeneficiaryAudioList = useCallback(async (params) => {
+    const response = await TwimlService.getAudios(params);
+
+    const formatted = response?.data?.data.map((item) => ({
+      label: item,
+      value: item,
+    }));
+
+    setState((prevState) => ({
+      ...prevState,
+      callBeneficiaryAudioList: formatted,
+    }));
+  }, []);
+
+  const callBeneficiary = useCallback(async (payload) => {
+    try {
+      const response = await TwimlService.createCall(payload);
+      snackBar.enqueueSnackbar(response?.data?.message || 'Calling the beneficiary.', {
+        variant: 'success',
+      });
+      return response;
+    } catch (e) {
+      snackBar.enqueueSnackbar(e?.response?.data?.message || 'Cannot call beneficiary at the moment.', {
+        variant: 'error',
+      });
+    }
+  }, []);
+
   const contextValue = {
     ...state,
     refreshData,
@@ -154,6 +188,8 @@ export const BeneficiaryProvider = ({ children }) => {
     getBeneficiaryById,
     getAllWards,
     getCommunicationByBeneficiaryId,
+    getCallBeneficiaryAudioList,
+    callBeneficiary,
   };
 
   return <BeneficiaryContext.Provider value={contextValue}>{children}</BeneficiaryContext.Provider>;

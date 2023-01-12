@@ -12,12 +12,16 @@ import { useAuthContext } from 'src/auth/useAuthContext';
 import { useTheme } from '@mui/system';
 import { SPACING } from '@config';
 import { useRahatCash } from '@services/contracts/useRahatCash';
+import SummaryCard from '@components/SummaryCard';
+import SummaryTracker from '@sections/cash-tracker/tracker/SummaryTracker';
 
 const ProjectView = () => {
   const { roles } = useAuthContext();
   const { getProjectById, refresh, refreshData } = useProjectContext();
   const { projectBalance, rahatChainData, contract } = useRahat();
   const { contractWS: RahatCash } = useRahatCash();
+
+  const [cashSummaryData, setCashSummaryData] = useState({});
 
   const {
     query: { projectId },
@@ -57,7 +61,7 @@ const ProjectView = () => {
             <ViewTabs />
           </Stack>
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid spacing={SPACING.GRID_SPACING} item xs={12} md={4}>
           {roles.isPalika && (
             <PalikaCash
               projectId={projectId}
@@ -68,6 +72,22 @@ const ProjectView = () => {
           )}
           {roles.isAgency && <AgencyCash rahatChainData={rahatChainData} />}
           {roles.isDonor && <DonorCash rahatChainData={rahatChainData} />}
+
+          {/* TODO: Refactor */}
+          <SummaryTracker sx={{ display: 'none' }} setCashSummaryData={setCashSummaryData} />
+          <SummaryCard
+            icon="material-symbols:token"
+            title="Token Issued"
+            total={cashSummaryData?.beneficiaries?.claims}
+            subtitle={'tokens'}
+          />
+          <SummaryCard
+            color="info"
+            icon="ph:currency-circle-dollar-light"
+            title="Token Redeemed"
+            total={cashSummaryData?.beneficiaries?.received}
+            subtitle={'tokens'}
+          />
           <ChartCard rahatChainData={rahatChainData} />
           {/* <Grid item xs={12} md={4}> */}
           {/* </Grid> */}

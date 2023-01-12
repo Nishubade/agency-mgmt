@@ -7,6 +7,10 @@ import { PATH_DASHBOARD } from './routes/paths';
 export const DEBUG_MODE = process.env.NEXT_PUBLIC_DEBUG_MODE === 'true' || false;
 export const HOST_API = process.env.NEXT_PUBLIC_HOST_API || '';
 export const RAHAT_BACKEND = process.env.NEXT_PUBLIC_RAHAT_BACKEND || '';
+export const TWIML_API = process.env.NEXT_PUBLIC_TWIML_API || 'https://twiml.rahat.io/api/v1';
+export const SOMLENG_API = process.env.NEXT_PUBLIC_SOMLENG_API || 'https://api.somleng.org';
+export const SOMLENG_API_KEY = process.env.NEXT_PUBLIC_SOMLENG_API_KEY || '';
+export const SOMLENG_API_TOKEN = process.env.NEXT_PUBLIC_SOMLENG_API_TOKEN || '';
 
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || 'Rahat';
 
@@ -17,6 +21,11 @@ export const BLOCKCHAIN_EXPLORER = process.env.NEXT_PUBLIC_BLOCKCHAIN_EXPLORER |
 export const FLICKR_APIKEY = process.env.NEXT_PUBLIC_FLICKR_APIKEY || '';
 export const FLICKR_PHOTOSET = process.env.NEXT_PUBLIC_FLICKR_PHOTOSET || '';
 export const IPFS_GATEWAY = process.env.NEXT_PUBLIC_IPFS_GATEWAY || '';
+
+export const AWS_BUCKET_NAME = process.env.NEXT_PUBLIC_AWS_BUCKET_NAME || '';
+export const AWS_ACCESS_KEY_ID = process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID || '';
+export const AWS_SECRET_ACCESS_KEY = process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY || '';
+export const AWS_REGION = process.env.NEXT_PUBLIC_AWS_BUCKET_REGION || '';
 
 export const COGNITO_API = {
   userPoolId: process.env.AWS_COGNITO_USER_POOL_ID,
@@ -35,6 +44,8 @@ export const WSS_EVENTS = {
   notification: 'notification',
   rahat_claimed: 'rahat_claimed',
 };
+
+export const PHONE_CODE = '977';
 
 // ROOT PATH AFTER LOGIN SUCCESSFUL
 export const PATH_AFTER_LOGIN = PATH_DASHBOARD;

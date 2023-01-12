@@ -9,6 +9,7 @@ const accessToken = getAccessToken();
 const api = axios.create({
   //   baseURL: 'https://minimal-assets-api-dev.vercel.app',
   baseURL: HOST_API,
+  // baseURL: HOST_API,
   headers: {
     'Content-Type': 'application/json',
     'X-Requested-With': 'XMLHttpRequest',

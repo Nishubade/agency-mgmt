@@ -43,6 +43,8 @@ export default function ListTable({
         return moment.unix(row).fromNow();
       case 'createdAt':
         return moment(row).fromNow();
+      case 'status':
+        return <Chip label={row} />;
       default:
         return row;
     }
@@ -77,7 +79,7 @@ export default function ListTable({
                   : renderTableCell(tableRowsList, tableHeadersList)}
               </TableBody>
 
-              <TableNoData isNotFound={!children || tableRowsList.length === 0} />
+              <TableNoData isNotFound={tableRowsList.length === 0} />
             </Table>
           </Scrollbar>
           {footer}

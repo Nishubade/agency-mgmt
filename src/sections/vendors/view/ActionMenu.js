@@ -25,7 +25,6 @@ export default function ActionMenu({ actionTitle }) {
   const { singleVendor, refreshData, chainData } = useVendorsContext();
   const { addVendor, removeVendor, acceptCashForVendor } = useRahat();
   const { isLive } = useRahatTrigger();
-  const { handleError } = useErrorHandler();
   const open = Boolean(anchorEl);
 
   const Actions = {

@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 import { useAuthContext } from 'src/auth/useAuthContext';
 
 const initialState = {
-  beneficiariesByWard: [],
+  beneficiariesByWard: {
+    data: [],
+    count: 0,
+  },
   getBeneficiariesByWard: () => {},
 };
 
@@ -15,8 +18,9 @@ export const CashTrackerProvider = ({ children }) => {
   const { roles } = useAuthContext();
   const getBeneficiariesByWard = useCallback(async (params) => {
     const response = await BeneficiaryService.getBeneficiariesByWard(params);
+    console.log('response', response);
 
-    const formatted = response?.data?.data?.rows?.map((item) => ({
+    const formatted = response?.data?.data?.data?.map((item) => ({
       ...item,
       claimed: item?.claimed ? 'Yes' : 'No',
       name: !roles.isPalika ? 'xxxxxx' : item.name,
@@ -26,7 +30,10 @@ export const CashTrackerProvider = ({ children }) => {
     }));
     setState((prevState) => ({
       ...prevState,
-      beneficiariesByWard: formatted,
+      beneficiariesByWard: {
+        data: formatted,
+        count: response?.data?.data?.count,
+      },
     }));
   }, []);
 

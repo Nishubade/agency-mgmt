@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Button, Card, CardHeader, Grid, Stack } from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, CardHeader, Grid, Stack } from '@mui/material';
 import SummaryCard from '@components/SummaryCard';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import BarchartSingle from './BarchartSingle';
 import Piechart from '@components/chart/Piechart';
 import { useRouter } from 'next/router';
-import { PATH_REPORTS } from '@routes/paths';
+import { PATH_CASH_TRACKER, PATH_REPORTS } from '@routes/paths';
 import Iconify from '@components/iconify';
 import { getFlickrImages } from '@services/flickr';
 import PhotoGallery from './PhotoGallery';
@@ -131,7 +131,7 @@ const DashboardComponent = () => {
               subtitle={'people'}
             />
           </Grid>
-          <Grid item xs={12} md={4} lg={4} sm={4}>
+          {/* <Grid item xs={12} md={4} lg={4} sm={4}>
             <SummaryCard
               color="secondary"
               title="Unbanked"
@@ -140,8 +140,8 @@ const DashboardComponent = () => {
               // total={beneficiaryCounts?.impacted?.totalFamilyCount}
               subtitle={'persons'}
             />
-          </Grid>
-          <Grid item xs={12} md={4} lg={4} sm={4}>
+          </Grid> */}
+          {/* <Grid item xs={12} md={4} lg={4} sm={4}>
             <SummaryCard
               icon="material-symbols:token"
               title="Token Issued"
@@ -157,13 +157,13 @@ const DashboardComponent = () => {
               total={cashSummaryData?.beneficiaries?.received}
               subtitle={'tokens'}
             />
-          </Grid>
+          </Grid> */}
           <Grid item xs={12} md={4} lg={4} sm={4}>
             <SummaryCard
               color="info"
               icon="ph:currency-circle-dollar-light"
-              title="Total Land Owners"
-              total={summary?.totalWithLand}
+              title="Total Landless"
+              total={summary?.totalNoLand}
               subtitle={'people'}
             />
           </Grid>
@@ -195,7 +195,23 @@ const DashboardComponent = () => {
         <Grid item xs={12}>
           <Card>
             <CardHeader title="Cash Tracker" />
-            <SummaryTracker setCashSummaryData={setCashSummaryData} />
+            <CardContent>
+              <SummaryTracker setCashSummaryData={setCashSummaryData} />
+              <Stack
+                direction="row"
+                justifyContent="flex-end"
+                alignItems="center"
+                spacing={SPACING.GRID_SPACING}
+                sx={{ pr: 2 }}
+              >
+                <Button
+                  onClick={() => router.push(PATH_CASH_TRACKER.tracker)}
+                  endIcon={<Iconify sx={{ ml: -1 }} icon={'material-symbols:chevron-right-rounded'} />}
+                >
+                  View Details
+                </Button>
+              </Stack>
+            </CardContent>
           </Card>
         </Grid>
 

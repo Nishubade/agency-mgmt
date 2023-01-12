@@ -52,21 +52,17 @@ const communicationsTableHead = {
     align: 'left',
   },
 
-  communication_type: {
-    id: 'communication_type',
+  timestamp: {
+    id: 'timestamp',
+    label: 'Date',
+    align: 'left',
+  },
+  type: {
+    id: 'type',
     label: 'Type',
     align: 'left',
   },
-  date_created: {
-    id: 'date_created',
-    label: 'Date of Communication',
-    align: 'left',
-  },
-  direction: {
-    id: 'direction',
-    label: 'Direction',
-    align: 'left',
-  },
+
   status: {
     id: 'status',
     label: 'Status',

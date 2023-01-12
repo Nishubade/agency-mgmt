@@ -1,9 +1,10 @@
 import ListTable from '@components/table/ListTable';
 import { useCommunicationsContext } from '@contexts/communications';
-import { Button, Card, TableCell, TableRow } from '@mui/material';
-import { useEffect } from 'react';
+import { Button, Card, TableCell, TablePagination, TableRow } from '@mui/material';
+import { useCallback, useEffect, useState } from 'react';
 import Iconify from '@components/iconify';
 import { useRouter } from 'next/router';
+import moment from 'moment';
 
 const TABLE_HEADERS = {
   // from: {
@@ -17,35 +18,20 @@ const TABLE_HEADERS = {
     align: 'left',
   },
 
-  communication_type: {
-    id: 'communication_type',
+  type: {
+    id: 'type',
     label: 'Type',
     align: 'left',
   },
-  date_created: {
-    id: 'date_created',
-    label: 'Date of Communication',
-    align: 'left',
-  },
-  direction: {
-    id: 'direction',
-    label: 'Direction',
-    align: 'left',
-  },
-  status: {
-    id: 'status',
-    label: 'Status',
+  timestamp: {
+    id: 'timestamp',
+    label: 'Date',
     align: 'left',
   },
 
-  actionUri: {
-    id: 'actionUri',
-    label: 'URI',
-    align: 'left',
-  },
-  actionBeneficiaryView: {
-    id: 'actionBeneficiaryView',
-    label: 'View Beneficiary',
+  status: {
+    id: 'status',
+    label: 'Status',
     align: 'left',
   },
 };
@@ -54,40 +40,68 @@ const TableList = () => {
   const { getCommunicationsList, communicationsList } = useCommunicationsContext();
   const router = useRouter();
 
+  const [pagination, setPagination] = useState({
+    limit: 100,
+    count: 0,
+    start: 0,
+  });
+
+  const handleFetch = useCallback(async () => {
+    const res = await getCommunicationsList({
+      limit: pagination.limit,
+      start: pagination.start,
+    });
+    setPagination((prev) => ({
+      ...prev,
+      limit: res.limit,
+      start: res.start,
+      count: res.count,
+    }));
+  }, [pagination.start, pagination.limit]);
+
   useEffect(() => {
-    getCommunicationsList();
-  }, [getCommunicationsList]);
+    handleFetch();
+  }, [handleFetch, pagination.start, pagination.limit]);
 
   const handleBeneficiaryView = (id) => () => {
+    if (!id) return;
     router.push(`/beneficiaries/${id}`);
   };
 
+  const paginationView = (
+    <TablePagination
+      component="div"
+      count={pagination?.count}
+      rowsPerPage={pagination.limit}
+      page={+pagination.start}
+      onPageChange={(e, page) => {
+        setPagination({ start: page, limit: pagination.limit });
+      }}
+      variant="head"
+      size="large"
+      onRowsPerPageChange={(e) => {
+        setPagination({ start: pagination.start, limit: +e.target.value });
+      }}
+    />
+  );
+
   return (
     <Card>
-      <ListTable tableHeadersList={TABLE_HEADERS} tableRowsList={communicationsList}>
+      {paginationView}
+      <ListTable tableHeadersList={TABLE_HEADERS} tableRowsList={communicationsList} footer={paginationView}>
         {(rows, tableHeadersList) =>
           rows.map((row) => (
             <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-              <TableCell align={tableHeadersList['to'].align}>{row.to}</TableCell>
-              <TableCell align={tableHeadersList['communication_type'].align}>{row.communication_type}</TableCell>
-              <TableCell align={tableHeadersList['date_created'].align}>{row.date_created}</TableCell>
-              <TableCell align={tableHeadersList['direction'].align}>{row.direction}</TableCell>
-              <TableCell align={tableHeadersList['status'].align}>{row.status}</TableCell>
-
-              <TableCell align={tableHeadersList['actionUri'].align}>
-                <Button variant="text">
-                  <Iconify icon="ic:outline-remove-red-eye" />
+              <TableCell align={tableHeadersList['to'].align}>
+                <Button variant="text" disabled={!row.beneficiaryId} onClick={handleBeneficiaryView(row.beneficiaryId)}>
+                  {row.to}
                 </Button>
               </TableCell>
-              {row?.isBeneficiary ? (
-                <TableCell align={tableHeadersList['actionBeneficiaryView'].align}>
-                  <Button variant="text" onClick={handleBeneficiaryView(row.beneficiaryId)}>
-                    <Iconify icon="ic:outline-remove-red-eye" />
-                  </Button>
-                </TableCell>
-              ) : (
-                'Not a Beneficiary'
-              )}
+              <TableCell align={tableHeadersList['type'].align}>{row.type}</TableCell>
+              <TableCell align={tableHeadersList['timestamp'].align}>
+                {moment.unix(row.timestamp).format('DD/MM/YY, h:mm a')}
+              </TableCell>
+              <TableCell align={tableHeadersList['status'].align}>{row.status}</TableCell>
             </TableRow>
           ))
         }
