@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import Iconify from '@components/iconify';
 import { useRouter } from 'next/router';
 import moment from 'moment';
+import ListTableToolbar from './ListTableToolbar';
 
 const TABLE_HEADERS = {
   // from: {
@@ -37,7 +38,7 @@ const TABLE_HEADERS = {
 };
 
 const TableList = () => {
-  const { getCommunicationsList, communicationsList } = useCommunicationsContext();
+  const { getCommunicationsList, communicationsList, getWards, filter } = useCommunicationsContext();
   const router = useRouter();
 
   const [pagination, setPagination] = useState({
@@ -47,9 +48,13 @@ const TableList = () => {
   });
 
   const handleFetch = useCallback(async () => {
+    const filterObj = {
+      ...filter,
+    };
     const res = await getCommunicationsList({
       limit: pagination.limit,
       start: pagination.start,
+      ...filterObj,
     });
     setPagination((prev) => ({
       ...prev,
@@ -57,7 +62,9 @@ const TableList = () => {
       start: res.start,
       count: res.count,
     }));
-  }, [pagination.start, pagination.limit]);
+
+    await getWards();
+  }, [pagination.start, pagination.limit, filter]);
 
   useEffect(() => {
     handleFetch();
@@ -87,6 +94,7 @@ const TableList = () => {
 
   return (
     <Card>
+      <ListTableToolbar />
       {paginationView}
       <ListTable tableHeadersList={TABLE_HEADERS} tableRowsList={communicationsList} footer={paginationView}>
         {(rows, tableHeadersList) =>

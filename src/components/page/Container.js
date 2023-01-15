@@ -6,7 +6,7 @@ import { PATH_DASHBOARD } from '@routes/paths';
 import Headerbreadcrumbs from '@components/HeaderBreadcrumbs';
 import { useSettingsContext } from '@components/settings';
 
-const ContainerComponent = ({ children, title, action, breadcrumbLinks, nocard = false }) => {
+const ContainerComponent = ({ children, title, action, breadcrumbLinks, nocard = false, showBackTitle = true }) => {
   const { themeStretch } = useSettingsContext();
 
   return (
@@ -15,6 +15,7 @@ const ContainerComponent = ({ children, title, action, breadcrumbLinks, nocard =
       <MuiContainer maxWidth={themeStretch ? false : 'lg'}>
         <Headerbreadcrumbs
           heading={
+            showBackTitle &&
             title && (
               <Stack direction="row" alignItems="center" spacing={1}>
                 <IconButton
@@ -44,6 +45,7 @@ ContainerComponent.propTypes = {
   action: PropTypes.node,
   breadcrumbLinks: PropTypes.array,
   nocard: PropTypes.bool,
+  showBackTitle: PropTypes.bool,
 };
 
 export default ContainerComponent;

@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useState } from 'react';
-import { Grid, Stack } from '@mui/material';
+import { Alert, Card, CardContent, Grid, Stack } from '@mui/material';
 import BasicInfoCard from './BasicInfoCard';
 import { PalikaCash, DonorCash, AgencyCash } from '../cash-tracker';
 import MoreInfoCard from './MoreInfoCard';
@@ -14,14 +14,19 @@ import { SPACING } from '@config';
 import { useRahatCash } from '@services/contracts/useRahatCash';
 import SummaryCard from '@components/SummaryCard';
 import SummaryTracker from '@sections/cash-tracker/tracker/SummaryTracker';
+import { Page } from '@components/page';
+import { getFlickrImages } from '@services/flickr';
+import ImageSlider from './ImageSlider';
+import TitleCard from './TitleActionCard';
 
 const ProjectView = () => {
   const { roles } = useAuthContext();
-  const { getProjectById, refresh, refreshData } = useProjectContext();
+  const { getProjectById, refresh, refreshData, singleProject } = useProjectContext();
   const { projectBalance, rahatChainData, contract } = useRahat();
   const { contractWS: RahatCash } = useRahatCash();
 
   const [cashSummaryData, setCashSummaryData] = useState({});
+  const [flickImages, setFlickImages] = useState([]);
 
   const {
     query: { projectId },
@@ -49,51 +54,64 @@ const ProjectView = () => {
     return () => RahatCash?.removeAllListeners();
   }, [RahatCash]);
 
+  useEffect(() => {
+    const getFlickPics = async () => {
+      const params = {
+        per_page: 10,
+      };
+      const res = await getFlickrImages(params);
+      setFlickImages(res.photo);
+    };
+    getFlickPics();
+
+    return () => {
+      setFlickImages([]);
+    };
+  }, []);
+
   return (
-    <>
+    <Page title={`${singleProject?.name}`} showBackTitle={false} nocard>
       <Grid container spacing={theme.spacing(SPACING.GRID_SPACING)}>
         <Grid item xs={12} md={8}>
-          <Grid container direction="column" justifyContent="center" alignItems="flex-start">
-            <BasicInfoCard rahatChainData={rahatChainData} />
-            <MoreInfoCard />
+          <Grid container spacing={SPACING.GRID_SPACING}>
+            <Grid item xs={12} md={12}>
+              <ImageSlider list={flickImages} projectName={singleProject?.name} />
+              <BasicInfoCard cashTrackerData={cashSummaryData} rahatChainData={rahatChainData} />
+              <Card
+                sx={{
+                  mt: SPACING.GRID_SPACING,
+                  mb: SPACING.GRID_SPACING,
+                }}
+              >
+                <CardContent>
+                  <SummaryTracker setCashSummaryData={setCashSummaryData} />
+                </CardContent>
+              </Card>
+            </Grid>
           </Grid>
-          <Stack sx={{ mt: theme.spacing(SPACING.GRID_SPACING) }}>
-            <ViewTabs />
-          </Stack>
         </Grid>
-        <Grid spacing={SPACING.GRID_SPACING} item xs={12} md={4}>
-          {roles.isPalika && (
-            <PalikaCash
-              projectId={projectId}
-              rahatChainData={rahatChainData}
-              refresh={refresh}
-              refreshData={refreshData}
-            />
-          )}
-          {roles.isAgency && <AgencyCash rahatChainData={rahatChainData} />}
-          {roles.isDonor && <DonorCash rahatChainData={rahatChainData} />}
 
-          {/* TODO: Refactor */}
-          <SummaryTracker sx={{ display: 'none' }} setCashSummaryData={setCashSummaryData} />
-          <SummaryCard
-            icon="material-symbols:token"
-            title="Token Issued"
-            total={cashSummaryData?.beneficiaries?.claims}
-            subtitle={'tokens'}
-          />
-          <SummaryCard
-            color="info"
-            icon="ph:currency-circle-dollar-light"
-            title="Token Redeemed"
-            total={cashSummaryData?.beneficiaries?.received}
-            subtitle={'tokens'}
-          />
-          <ChartCard rahatChainData={rahatChainData} />
-          {/* <Grid item xs={12} md={4}> */}
-          {/* </Grid> */}
+        <Grid item xs={12} md={4}>
+          <Grid container spacing={3}>
+            <TitleCard rahatChainData={rahatChainData} />
+            {false && (
+              <Grid item xs={12} md={12}>
+                <Alert severity={alert.type}> {alert?.message} </Alert>
+              </Grid>
+            )}
+            <Grid item xs={12} md={12}>
+              <MoreInfoCard />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <ChartCard rahatChainData={rahatChainData} />
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
-    </>
+
+      {/* <Grid item xs={12} md={4}> */}
+      {/* </Grid> */}
+    </Page>
   );
 };
 

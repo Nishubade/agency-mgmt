@@ -1,6 +1,3 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-
 import DashboardLayout from '@layouts/dashboard';
 import { Page } from '@components/page';
 import { useSettingsContext } from '@components/settings';
@@ -12,7 +9,7 @@ import { useAuthContext } from 'src/auth/useAuthContext';
 
 const PAGE_TITLE = `Project: Detail`;
 
-export default function ProjectView(props) {
+export default function ProjectView() {
   const { themeStretch } = useSettingsContext();
   const { roles } = useAuthContext();
   const {
@@ -35,15 +32,15 @@ export default function ProjectView(props) {
 
   return (
     <ProjectProvider>
-      <Page
+      {/* <Page
         title={PAGE_TITLE}
         nocard
         action={roles.isAgencyOrPalika() && <ActionMenu menuItems={actionMenuItems} actionTitle={'Actions'} />}
-      >
-        <Container maxWidth={themeStretch ? false : 'xl'}>
-          <ProjectViewComp />
-        </Container>
-      </Page>
+      > */}
+      <Container maxWidth={themeStretch ? false : 'xl'}>
+        <ProjectViewComp />
+      </Container>
+      {/* </Page> */}
     </ProjectProvider>
   );
 }

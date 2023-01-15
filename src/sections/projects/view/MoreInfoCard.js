@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardContent, Grid, Stack, Typography } from '@mui/material';
+import { Card, CardContent, Chip, Grid, Stack, Typography } from '@mui/material';
 import { useProjectContext } from '@contexts/projects';
 import moment from 'moment';
 
 const MoreInfoCard = (props) => {
-  const { singleProject } = useProjectContext();
+  const { singleProject, isRahatResponseLive } = useProjectContext();
   return (
     <Card sx={{ width: '100%' }}>
       <CardContent>
@@ -34,10 +34,25 @@ const MoreInfoCard = (props) => {
             </Typography>
             <Typography variant="body2">Location</Typography>
           </Grid>
+          <Grid container direction="column" justifyContent="center" alignItems="center">
+            <Chip
+              variant="h5"
+              color={isRahatResponseLive ? 'success' : 'error'}
+              sx={{
+                fontWeight: 600,
+                padding: 2,
+                // backgroundColor: isRahatResponseLive ? 'success.main' : 'error.main',
+                // color: 'white',
+              }}
+              label={isRahatResponseLive ? 'Response Activated' : 'Response Not Triggered'}
+            />
+
+            <Typography variant="body2">Response Trigger Status</Typography>
+          </Grid>
         </Stack>
 
         <Stack sx={{ p: 2 }}>
-          <Typography variant="body1">Cash distribution to five more single women</Typography>
+          <Typography variant="body1">{'Cash distribution to five more single women'}</Typography>
         </Stack>
       </CardContent>
     </Card>

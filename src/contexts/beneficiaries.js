@@ -38,14 +38,25 @@ export const BeneficiaryProvider = ({ children }) => {
 
   const snackBar = useSnackbar();
 
-  const setFilter = (filter) =>
-    setState((prev) => ({
-      ...prev,
-      pagination: {
-        ...prev.pagination,
-      },
-      filter,
-    }));
+  const setFilter = (filter) => {
+    if (!filter) {
+      setState((prev) => ({
+        ...prev,
+        filter: null,
+      }));
+    } else {
+      setState((prev) => ({
+        ...prev,
+        pagination: {
+          ...prev.pagination,
+        },
+        filter: {
+          ...prev.filter,
+          ...filter,
+        },
+      }));
+    }
+  };
 
   const setPagination = (pagination) => setState((prev) => ({ ...prev, pagination }));
 
@@ -60,7 +71,6 @@ export const BeneficiaryProvider = ({ children }) => {
       isClaimed:
         state.filter?.isClaimed !== undefined ? (state.filter?.isClaimed === 'true' ? true : false) : undefined,
     };
-    console.log('filter', filter);
 
     const response = await BeneficiaryService.getBeneficiariesList(filter);
 

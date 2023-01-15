@@ -21,10 +21,19 @@ const DetailTable = ({ list }) => {
       label: 'Beneficiary',
       align: 'left',
     },
-
     amount: {
       id: 'amount',
       label: 'Amount',
+      align: 'left',
+    },
+    method: {
+      id: 'method',
+      label: 'Method',
+      align: 'left',
+    },
+    mode: {
+      id: 'mode',
+      label: 'Mode',
       align: 'left',
     },
   };

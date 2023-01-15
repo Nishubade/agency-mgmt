@@ -30,6 +30,8 @@ export const CashTrackerProvider = ({ children }) => {
       totalTokenIssued: item.totalTokenIssued?.toString(),
       cashBalance: item.cashBalance?.toString(),
       tokenBalance: item.tokenBalance?.toString(),
+      mode: item.isOffline ? 'Offline' : 'Online',
+      method: item.isQR ? 'QR' : 'SMS',
     }));
     setState((prevState) => ({
       ...prevState,
@@ -40,7 +42,6 @@ export const CashTrackerProvider = ({ children }) => {
       },
       vendorByWard: vendorResponse?.data?.data,
     }));
-    console.log('state', state);
   }, []);
 
   const contextValue = {

@@ -29,6 +29,7 @@ export default function ActionMenu({ menuItems, actionTitle }) {
       <Stack sx={{ ml: -10 }} direction="row" justifyContent="space-between" alignItems="center" spacing={1}>
         {roles.isAgencyOrPalika && <ActivateResponse />}
         <Button
+          disabled={menuItems.length === 0}
           id="basic-button"
           aria-controls={open ? 'basic-menu' : undefined}
           aria-haspopup="true"
