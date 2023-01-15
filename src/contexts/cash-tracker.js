@@ -1,4 +1,4 @@
-import { BeneficiaryService } from '@services';
+import { BeneficiaryService, VendorService } from '@services';
 import { createContext, useCallback, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useAuthContext } from 'src/auth/useAuthContext';
@@ -7,7 +7,9 @@ const initialState = {
   beneficiariesByWard: {
     data: [],
     count: 0,
+    numOfBenefRemainingToClaim: 0,
   },
+  vendorByWard: {},
   getBeneficiariesByWard: () => {},
 };
 
@@ -16,9 +18,10 @@ const CashTrackerContext = createContext(initialState);
 export const CashTrackerProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
   const { roles } = useAuthContext();
+
   const getBeneficiariesByWard = useCallback(async (params) => {
     const response = await BeneficiaryService.getBeneficiariesByWard(params);
-    console.log('response', response);
+    const vendorResponse = await VendorService.getVendorsByWard(params);
 
     const formatted = response?.data?.data?.data?.map((item) => ({
       ...item,
@@ -33,8 +36,11 @@ export const CashTrackerProvider = ({ children }) => {
       beneficiariesByWard: {
         data: formatted,
         count: response?.data?.data?.count,
+        numOfBenefRemainingToClaim: response?.data?.data?.numOfBenefRemainingToClaim,
       },
+      vendorByWard: vendorResponse?.data?.data,
     }));
+    console.log('state', state);
   }, []);
 
   const contextValue = {
