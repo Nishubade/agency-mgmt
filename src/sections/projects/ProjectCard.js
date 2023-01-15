@@ -10,6 +10,7 @@ import { Box, Card, Link, Stack, Fab, Button, Typography } from '@mui/material';
 import Label from '@components/label';
 import Image from '@components/image';
 import moment from 'moment';
+import { numberWithCommas } from '@utils/formatNumber';
 
 // ----------------------------------------------------------------------
 
@@ -18,7 +19,9 @@ ProjectCard.propTypes = {
 };
 
 export default function ProjectCard({ project }) {
-  const { id, name, created_at, status, balance } = project;
+  const { id, name, created_at, balance } = project;
+
+  console.log('project', project);
 
   return (
     <Card
@@ -29,7 +32,7 @@ export default function ProjectCard({ project }) {
       }}
     >
       <Box sx={{ position: 'relative', p: 1 }}>
-        {status && (
+        {/* {status && (
           <Label
             variant="filled"
             color={(status === 'sale' && 'error') || 'info'}
@@ -43,7 +46,7 @@ export default function ProjectCard({ project }) {
           >
             {status}
           </Label>
-        )}
+        )} */}
 
         <NextLink href={`projects/${id}`} passHref>
           <Image
@@ -64,7 +67,7 @@ export default function ProjectCard({ project }) {
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           <Typography variant="body2">{moment(created_at).format('MMM DD, YYYY') || 'N/A'}</Typography>
-          <Typography variant="body2">रु {balance || '0'}</Typography>
+          <Typography variant="body2">रु {numberWithCommas(balance) || '0'}</Typography>
         </Stack>
       </Stack>
     </Card>
