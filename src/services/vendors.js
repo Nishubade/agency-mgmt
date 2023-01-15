@@ -11,11 +11,7 @@ export const VendorService = {
     return rahatApi.get(`/vendors/${id}`);
   },
 
-  //   getBeneficiariesByProject(projectId) {
-  //     return rahatApi.get(`/projects/${projectId}/vendors`);
-  //   },
-
-  //   getVendorsByProject(projectId) {
-  //     return rahatApi.get(`/projects/${projectId}/vendors`);
-  //   },
+  getVendorsByWard(ward) {
+    return clientApi.get(`/vendors/ward/${ward}`);
+  },
 };

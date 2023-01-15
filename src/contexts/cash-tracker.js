@@ -1,4 +1,4 @@
-import { BeneficiaryService } from '@services';
+import { BeneficiaryService, VendorService } from '@services';
 import { createContext, useCallback, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useAuthContext } from 'src/auth/useAuthContext';
@@ -7,7 +7,9 @@ const initialState = {
   beneficiariesByWard: {
     data: [],
     count: 0,
+    numOfBenefRemainingToClaim: 0,
   },
+  vendorByWard: {},
   getBeneficiariesByWard: () => {},
 };
 
@@ -19,6 +21,7 @@ export const CashTrackerProvider = ({ children }) => {
 
   const getBeneficiariesByWard = useCallback(async (params) => {
     const response = await BeneficiaryService.getBeneficiariesByWard(params);
+    const vendorResponse = await VendorService.getVendorsByWard(params);
 
     const formatted = response?.data?.data?.data?.map((item) => ({
       ...item,
@@ -30,13 +33,14 @@ export const CashTrackerProvider = ({ children }) => {
       mode: item.isOffline ? 'Offline' : 'Online',
       method: item.isQR ? 'QR' : 'SMS',
     }));
-    console.log('formatted', formatted);
     setState((prevState) => ({
       ...prevState,
       beneficiariesByWard: {
         data: formatted,
         count: response?.data?.data?.count,
+        numOfBenefRemainingToClaim: response?.data?.data?.numOfBenefRemainingToClaim,
       },
+      vendorByWard: vendorResponse?.data?.data,
     }));
   }, []);
 

@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import { useCashTrackerContext } from '@contexts/cash-tracker';
 import { BeneficiaryService } from '@services/beneficiaries';
 import SummaryTracker from './SummaryTracker';
-import { Skeleton } from '@mui/material';
+import { Skeleton, Stack, Typography } from '@mui/material';
 import Stats from './Stats';
 
 const TreeTracker = dynamic(() => import('@components/tree/TreeOrganization'), { ssr: false });
@@ -23,7 +23,7 @@ const Tracker = () => {
   const [treeData, setTreeData] = useState(tree);
   const [cashSummaryData, setCashSummaryData] = useState({});
 
-  const { beneficiariesByWard, getBeneficiariesByWard } = useCashTrackerContext();
+  const { beneficiariesByWard, getBeneficiariesByWard, vendorByWard } = useCashTrackerContext();
 
   const handleNodeClick = async (node) => {
     if (!node.id) return;
@@ -62,8 +62,17 @@ const Tracker = () => {
       ) : (
         <>
           <TreeTracker tree={treeData} onNodeClick={handleNodeClick} selectedNode={selectedNode} />
-          {/* <Stats /> */}
-          <DetailTable selectedNode={selectedNode} list={beneficiariesByWard.data} />
+          {selectedNode && (
+            <>
+              <Stats vendor={vendorByWard} beneficiary={beneficiariesByWard} />
+              <DetailTable selectedNode={selectedNode} list={beneficiariesByWard.data} />
+            </>
+          )}
+          {!selectedNode && (
+            <Stack direction="column" justifyContent="center" alignItems="center" sx={{ height: '100%', p: 2, mt: 3 }}>
+              <Typography variant="body3">Please select a node from the tree to view details</Typography>
+            </Stack>
+          )}
         </>
       )}
     </div>
