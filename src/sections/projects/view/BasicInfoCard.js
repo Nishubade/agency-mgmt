@@ -1,43 +1,58 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardContent, Chip, Grid, Stack, Typography } from '@mui/material';
-import { useProjectContext } from '@contexts/projects';
+import { Grid } from '@mui/material';
+import SummaryCard from '@components/SummaryCard';
+import { SPACING } from '@config';
+import { numberWithCommas } from '@utils/formatNumber';
 
 BasicInfoCard.propTypes = {
   rahatChainData: PropTypes.object,
 };
 
-export default function BasicInfoCard({ rahatChainData, ...other }) {
-  const { singleProject, isRahatResponseLive } = useProjectContext();
+export default function BasicInfoCard({ rahatChainData, cashTrackerData, sx, ...other }) {
+  console.log('cashTrackerData', cashTrackerData);
   return (
-    <Card sx={{ width: '100%', mb: 1 }} {...other}>
-      <CardContent>
-        <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={12}>
-          <Typography variant="h4">{singleProject?.name}</Typography>
+    <Grid container alignItems="flex-start" justifyContent="center" spacing={SPACING.GRID_SPACING} pt={2}>
+      <Grid item xs={12} md={3}>
+        <SummaryCard
+          color="warning"
+          icon="ph:money"
+          title="Received Budget"
+          total={numberWithCommas(rahatChainData.totalBudget)}
+          subtitle={'tokens'}
+          sx={sx}
+        />
+      </Grid>
+      <Grid item xs={12} md={3}>
+        <SummaryCard
+          color="warning"
+          icon="ph:money"
+          title="Remaining Balance"
+          total={numberWithCommas(rahatChainData.tokenBalance)}
+          subtitle={'tokens'}
+          sx={sx}
+        />
+      </Grid>
 
-          {isRahatResponseLive ? (
-            <Chip color="success" label="Response Activated" />
-          ) : (
-            <Chip variant="outlined" color="error" label="Response Not Triggered" />
-          )}
-          {/* <Chip label="DEFAULT PROJECT" /> */}
-        </Stack>
+      <Grid item xs={12} md={3}>
+        <SummaryCard
+          icon="material-symbols:token"
+          title="Token Issued"
+          total={numberWithCommas(cashTrackerData?.beneficiaries?.claims)}
+          subtitle={'tokens'}
+        />
+      </Grid>
+      <Grid item xs={12} md={3}>
+        <SummaryCard
+          color="info"
+          icon="ph:money"
+          title="Token Redeemed"
+          total={numberWithCommas(cashTrackerData?.beneficiaries?.received)}
+          subtitle={'tokens'}
+        />
+      </Grid>
 
-        <Stack sx={{ p: 2 }} direction="row" justifyContent="space-between" alignItems="center" spacing={12}>
-          <Grid container direction="column" justifyContent="center" alignItems="flex-start">
-            <Typography variant="h5" sx={{ fontWeight: 600 }}>
-              {rahatChainData.totalBudget || 0}
-            </Typography>
-            <Typography variant="body2">Received Budget</Typography>
-          </Grid>
-          <Grid container direction="column" justifyContent="center" alignItems="flex-start">
-            <Typography variant="h5" sx={{ fontWeight: 600 }}>
-              {rahatChainData.tokenBalance || 0}
-            </Typography>
-            <Typography variant="body2">Remaining Balance</Typography>
-          </Grid>
-        </Stack>
-      </CardContent>
-    </Card>
+      {/* <Chip label="DEFAULT PROJECT" /> */}
+    </Grid>
   );
 }
