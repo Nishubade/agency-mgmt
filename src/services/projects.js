@@ -2,7 +2,7 @@ import clientApi, { rahatApi } from '@utils/client';
 
 export const ProjectService = {
   getProjectsList(params) {
-    return rahatApi.get('/projects', {
+    return clientApi.get('/projects', {
       params,
     });
   },
