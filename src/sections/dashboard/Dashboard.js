@@ -162,6 +162,15 @@ const DashboardComponent = () => {
             <SummaryCard
               color="info"
               icon="ph:currency-circle-dollar-light"
+              title="Daily Wagers"
+              total={summary?.totalDailyWage}
+              subtitle={'people'}
+            />
+          </Grid>
+          <Grid item xs={12} md={4} lg={4} sm={4}>
+            <SummaryCard
+              color="info"
+              icon="ph:currency-circle-dollar-light"
               title="Total Landless"
               total={summary?.totalNoLand}
               subtitle={'people'}
@@ -173,15 +182,6 @@ const DashboardComponent = () => {
               icon="ph:currency-circle-dollar-light"
               title="Total Disabled"
               total={summary?.totalDisability}
-              subtitle={'people'}
-            />
-          </Grid>
-          <Grid item xs={12} md={4} lg={4} sm={4}>
-            <SummaryCard
-              color="info"
-              icon="ph:currency-circle-dollar-light"
-              title="Daily Wagers"
-              total={summary?.totalDailyWage}
               subtitle={'people'}
             />
           </Grid>
