@@ -10,7 +10,7 @@ const WardDisabilityInfoCard = ({ selectedWard }) => {
 
   useEffect(() => {
     if (!selectedWard) return;
-    getWardDisabilityChart(selectedWard);
+    getWardDisabilityChart(selectedWard, 'disability');
   }, [getWardDisabilityChart, selectedWard]);
 
   if (!selectedWard || selectedWard === 'undefined')
