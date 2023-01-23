@@ -10,7 +10,7 @@ const WardDailyWage = ({ selectedWard }) => {
 
   useEffect(() => {
     if (!selectedWard) return;
-    getWardDailyWageChart(selectedWard);
+    getWardDailyWageChart(selectedWard, 'dailyWage');
   }, [getWardDailyWageChart, selectedWard]);
 
   if (!selectedWard || selectedWard === 'undefined')

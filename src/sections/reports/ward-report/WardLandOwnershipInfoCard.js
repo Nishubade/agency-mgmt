@@ -11,7 +11,7 @@ const WardLandOwnershipInfoCard = ({ selectedWard }) => {
 
   useEffect(() => {
     if (!selectedWard) return;
-    getWardLandOwnershipChart(selectedWard);
+    getWardLandOwnershipChart(selectedWard, 'noLand');
   }, [getWardLandOwnershipChart, selectedWard]);
 
   if (!selectedWard || selectedWard === 'undefined')

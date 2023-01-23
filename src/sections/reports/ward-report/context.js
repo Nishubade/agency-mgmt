@@ -86,34 +86,82 @@ export const ContextProvider = ({ children }) => {
     }));
   }, []);
 
-  const getWardGenderChart = useCallback(async (ward) => {
-    const response = await Service.groupGenderByWard(ward);
+  const getWardGenderChart = useCallback(async (ward, filterKey) => {
+    const response = await Service.getGroupWardClaimByKeys(ward, filterKey);
+    const chartLabel = ['Claimed', 'Not Claimed'];
+
+    const chartData = response.data.data.map((d) => ({
+      name: d[filterKey],
+      data: [d.claimed, d.unclaimed],
+    }));
+
+    const claimChartData = {
+      chartLabel,
+      chartData,
+    };
+
     setState((prevState) => ({
       ...prevState,
-      wardByGenderChart: response.data.data,
+      wardByGenderChart: claimChartData,
     }));
   }, []);
 
-  const getWardDailyWageChart = useCallback(async (ward) => {
-    const response = await Service.groupWardByDailyWage(ward);
+  const getWardDailyWageChart = useCallback(async (ward, filterKey) => {
+    const response = await Service.getGroupWardClaimByKeys(ward, filterKey);
+    const chartLabel = ['Claimed', 'Not Claimed'];
+
+    const chartData = response.data.data.map((d) => ({
+      name: d[filterKey] === true ? 'Daily Wage' : 'Not Daily Wage',
+      data: [d.claimed, d.unclaimed],
+    }));
+
+    const claimChartData = {
+      chartLabel,
+      chartData,
+    };
+
     setState((prevState) => ({
       ...prevState,
-      dailyWageByWard: response.data.data,
+      dailyWageByWard: claimChartData,
     }));
   }, []);
 
-  const getWardLandOwnershipChart = useCallback(async (ward) => {
-    const response = await Service.groupWardByLandOwnership(ward);
+  const getWardLandOwnershipChart = useCallback(async (ward, filterKey) => {
+    const response = await Service.getGroupWardClaimByKeys(ward, filterKey);
+    const chartLabel = ['Claimed', 'Not Claimed'];
+
+    const chartData = response.data.data.map((d) => ({
+      name: d[filterKey] === true ? 'No Land' : 'Has Land',
+      data: [d.claimed, d.unclaimed],
+    }));
+
+    const claimChartData = {
+      chartLabel,
+      chartData,
+    };
+
     setState((prevState) => ({
       ...prevState,
-      wardByLandOwnership: response.data.data,
+      wardByLandOwnership: claimChartData,
     }));
   }, []);
-  const getWardDisabilityChart = useCallback(async (ward) => {
-    const response = await Service.groupWardByDisability(ward);
+  const getWardDisabilityChart = useCallback(async (ward, filterKey) => {
+    const response = await Service.getGroupWardClaimByKeys(ward, filterKey);
+    const chartLabel = ['Claimed', 'Not Claimed'];
+
+    const chartData = response.data.data.map((d) => ({
+      name: d[filterKey] === true ? 'Disabled' : 'Not Disabled',
+      data: [d.claimed, d.unclaimed],
+    }));
+
+    const claimChartData = {
+      chartLabel,
+      chartData,
+    };
+
     setState((prevState) => ({
       ...prevState,
-      wardByDisability: response.data.data,
+      wardByDisability: claimChartData,
     }));
   }, []);
 

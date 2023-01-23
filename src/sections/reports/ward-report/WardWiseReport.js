@@ -20,16 +20,6 @@ function WardWiseReport() {
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} md={8}>
-        {/* TODO: 
-
-        More details in ward 
-          // Claim count of beneficiaries by ward (isClaimed and total beneficiaries)
-
-           - TOtal Beneficiaeris
-           - no. of ben that claimed
-            - no. of ben that not claimed
-             chanrt 2 - male females
-        */}
         <BarchartSingle
           title="Ward Wise Claims"
           chart={{

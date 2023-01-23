@@ -11,7 +11,7 @@ const WardGenderInfoCard = ({ selectedWard }) => {
 
   useEffect(() => {
     if (!selectedWard) return;
-    getWardGenderChart(selectedWard);
+    getWardGenderChart(selectedWard, 'gender');
   }, [getWardGenderChart, selectedWard]);
 
   if (!selectedWard || selectedWard === 'undefined')

@@ -1,6 +1,6 @@
 import ListTable from '@components/table/ListTable';
 import { useCommunicationsContext } from '@contexts/communications';
-import { Button, Card, TableCell, TablePagination, TableRow } from '@mui/material';
+import { Button, Card, Chip, TableCell, TablePagination, TableRow } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import Iconify from '@components/iconify';
 import { useRouter } from 'next/router';
@@ -8,11 +8,6 @@ import moment from 'moment';
 import ListTableToolbar from './ListTableToolbar';
 
 const TABLE_HEADERS = {
-  // from: {
-  //   id: 'from',
-  //   label: 'From',
-  //   align: 'left',
-  // },
   to: {
     id: 'to',
     label: 'To',
@@ -27,6 +22,12 @@ const TABLE_HEADERS = {
   timestamp: {
     id: 'timestamp',
     label: 'Date',
+    align: 'left',
+  },
+
+  duration: {
+    id: 'duration',
+    label: 'Duration',
     align: 'left',
   },
 
@@ -109,7 +110,10 @@ const TableList = () => {
               <TableCell align={tableHeadersList['timestamp'].align}>
                 {moment.unix(row.timestamp).format('DD/MM/YY, h:mm a')}
               </TableCell>
-              <TableCell align={tableHeadersList['status'].align}>{row.status}</TableCell>
+              <TableCell align={tableHeadersList['duration'].align}>{row.duration} seconds</TableCell>
+              <TableCell align={tableHeadersList['status'].align}>
+                <Chip label={row.status} color={row.status === 'success' ? 'success' : 'error'} />
+              </TableCell>
             </TableRow>
           ))
         }

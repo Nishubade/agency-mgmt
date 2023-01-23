@@ -15,6 +15,14 @@ export const countGenderByWard = () => client.get('/reporting/real-time/benefici
 
 export const getBeneficiariesCounts = () => client.get('/reporting/real-time/beneficiary/counts');
 
+export const getGroupWardClaimByKeys = (ward, filterKey) =>
+  client.get(`/reporting/beneficiary/ward-claim-distribution`, {
+    params: {
+      ward,
+      filterKey,
+    },
+  });
+
 export const groupGenderByWard = (ward) =>
   client.get('/reporting/real-time/beneficiary/group-ward-gender', {
     params: {

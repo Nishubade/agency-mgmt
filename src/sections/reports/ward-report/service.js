@@ -5,6 +5,7 @@ import {
   groupWardByLandOwnership,
   groupWardByDisability,
   groupWardByDailyWage,
+  getGroupWardClaimByKeys,
 } from '@services/reporting';
 
 export {
@@ -14,4 +15,5 @@ export {
   groupWardByLandOwnership,
   groupWardByDisability,
   groupWardByDailyWage,
+  getGroupWardClaimByKeys,
 };
