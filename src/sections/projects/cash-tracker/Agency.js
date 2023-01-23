@@ -103,23 +103,21 @@ export default function Agency({ rahatChainData }) {
               </Alert>
             )}
 
-            {rahatChainData?.cashBalance > 0 && (
-              <Stack sx={{ p: 2 }} direction="row" justifyContent="space-between" alignItems="center" spacing={12}>
-                <Grid container direction="column" justifyContent="center" alignItems="center">
-                  <Typography variant="h4" sx={{ fontWeight: 400 }}>
-                    <small>रु.</small> {agencyChainData?.cashBalance || '0'}
-                  </Typography>
-                  <small>Your cash balance</small>
-                  <Typography variant="h5" sx={{ fontWeight: 200 }}>
-                    <small>रु.</small> {rahatChainData.cashAllowance || '0'}
-                  </Typography>
-                  <small>Pending Acceptance by Palika</small>
-                  <Button sx={{ mt: 2 }} size="small" variant="outlined" onClick={showDialog}>
-                    Send cash to Palika
-                  </Button>
-                </Grid>
-              </Stack>
-            )}
+            <Stack sx={{ p: 2 }} direction="row" justifyContent="space-between" alignItems="center" spacing={12}>
+              <Grid container direction="column" justifyContent="center" alignItems="center">
+                <Typography variant="h4" sx={{ fontWeight: 400 }}>
+                  <small>रु.</small> {agencyChainData?.cashBalance || '0'}
+                </Typography>
+                <small>Your cash balance</small>
+                <Typography variant="h5" sx={{ fontWeight: 200 }}>
+                  <small>रु.</small> {rahatChainData.cashAllowance || '0'}
+                </Typography>
+                <small>Pending Acceptance by Palika</small>
+                <Button sx={{ mt: 2 }} size="small" variant="outlined" onClick={showDialog}>
+                  Send cash to Palika
+                </Button>
+              </Grid>
+            </Stack>
           </CardContent>
         </Card>
       </LoadingOverlay>

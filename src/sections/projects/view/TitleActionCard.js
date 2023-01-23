@@ -52,7 +52,7 @@ const TitleCard = () => {
           <Stack sx={{ p: 1 }} direction="row" justifyContent="space-between" alignItems="center">
             <Button variant="outlined" onClick={handleBeneficiaryRouteAction}>
               {' '}
-              Beneficiaries
+              Beneficiary List
             </Button>
             <ActionMenu menuItems={menuItems} actionTitle="Actions" />
           </Stack>

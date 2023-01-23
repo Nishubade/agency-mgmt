@@ -27,7 +27,6 @@ export default function ActionMenu({ menuItems, actionTitle }) {
   return (
     <div>
       <Stack sx={{ ml: -10 }} direction="row" justifyContent="space-between" alignItems="center" spacing={1}>
-        {roles.isAgencyOrPalika && <ActivateResponse />}
         <Button
           disabled={menuItems.length === 0}
           id="basic-button"
@@ -55,6 +54,11 @@ export default function ActionMenu({ menuItems, actionTitle }) {
             {item.name}
           </MenuItem>
         ))}
+        {roles.isAgencyOrPalika && (
+          <MenuItem>
+            <ActivateResponse />
+          </MenuItem>
+        )}
       </Menu>
     </div>
   );

@@ -17,7 +17,7 @@ export default function BasicInfoCard({ rahatChainData, cashTrackerData, sx, ...
         <SummaryCard
           color="warning"
           icon="ph:money"
-          title="Received Budget"
+          title="Budget"
           total={numberWithCommas(rahatChainData.totalBudget)}
           subtitle={'tokens'}
           sx={sx}
@@ -26,8 +26,8 @@ export default function BasicInfoCard({ rahatChainData, cashTrackerData, sx, ...
       <Grid item xs={12} md={3}>
         <SummaryCard
           color="warning"
-          icon="ph:money"
-          title="Remaining Balance"
+          icon="material-symbols:account-balance-wallet-outline-rounded"
+          title="Balance"
           total={numberWithCommas(rahatChainData.tokenBalance)}
           subtitle={'tokens'}
           sx={sx}
@@ -45,7 +45,7 @@ export default function BasicInfoCard({ rahatChainData, cashTrackerData, sx, ...
       <Grid item xs={12} md={3}>
         <SummaryCard
           color="info"
-          icon="ph:money"
+          icon="game-icons:token"
           title="Token Redeemed"
           total={numberWithCommas(cashTrackerData?.beneficiaries?.received)}
           subtitle={'tokens'}

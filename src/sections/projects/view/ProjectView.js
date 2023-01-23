@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useState } from 'react';
-import { Alert, Card, CardContent, Grid, Stack } from '@mui/material';
+import { Alert, Button, Card, CardContent, CardHeader, Grid, Stack } from '@mui/material';
 import BasicInfoCard from './BasicInfoCard';
 import { PalikaCash, DonorCash, AgencyCash } from '../cash-tracker';
 import MoreInfoCard from './MoreInfoCard';
@@ -18,6 +18,8 @@ import { Page } from '@components/page';
 import { getFlickrImages } from '@services/flickr';
 import ImageSlider from './ImageSlider';
 import TitleCard from './TitleActionCard';
+import Iconify from '@components/iconify';
+import { PATH_CASH_TRACKER } from '@routes/paths';
 
 const ProjectView = () => {
   const { roles } = useAuthContext();
@@ -30,6 +32,7 @@ const ProjectView = () => {
 
   const {
     query: { projectId },
+    push,
   } = useRouter();
   const theme = useTheme();
 
@@ -77,14 +80,24 @@ const ProjectView = () => {
             <Grid item xs={12} md={12}>
               <ImageSlider list={flickImages} projectName={singleProject?.name} />
               <BasicInfoCard cashTrackerData={cashSummaryData} rahatChainData={rahatChainData} />
-              <Card
-                sx={{
-                  mt: SPACING.GRID_SPACING,
-                  mb: SPACING.GRID_SPACING,
-                }}
-              >
+              <Card sx={{ mt: SPACING.GRID_SPACING, mb: SPACING.GRID_SPACING }}>
+                <CardHeader title="Cash Tracker" />
                 <CardContent>
                   <SummaryTracker setCashSummaryData={setCashSummaryData} />
+                  <Stack
+                    direction="row"
+                    justifyContent="flex-end"
+                    alignItems="center"
+                    spacing={SPACING.GRID_SPACING}
+                    sx={{ pr: 2 }}
+                  >
+                    <Button
+                      onClick={() => push(PATH_CASH_TRACKER.tracker)}
+                      endIcon={<Iconify sx={{ ml: -1 }} icon={'material-symbols:chevron-right-rounded'} />}
+                    >
+                      View Details
+                    </Button>
+                  </Stack>
                 </CardContent>
               </Card>
             </Grid>
@@ -94,11 +107,6 @@ const ProjectView = () => {
         <Grid item xs={12} md={4}>
           <Grid container spacing={3}>
             <TitleCard rahatChainData={rahatChainData} />
-            {false && (
-              <Grid item xs={12} md={12}>
-                <Alert severity={alert.type}> {alert?.message} </Alert>
-              </Grid>
-            )}
             <Grid item xs={12} md={12}>
               <MoreInfoCard />
             </Grid>

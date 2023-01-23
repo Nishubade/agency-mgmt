@@ -11,29 +11,25 @@ const MoreInfoCard = (props) => {
       <CardContent>
         <Stack sx={{ p: 2 }} direction="row" justifyContent="space-between" alignItems="center" spacing={12}>
           <Grid container direction="column" justifyContent="center" alignItems="flex-start">
-            <Typography variant="h5" sx={{ fontWeight: 600 }}>
-              {singleProject?.projectManagerName}
-            </Typography>
-            <Typography variant="body2">Project Manager </Typography>
+            <Typography variant="body1">{singleProject?.projectManagerName}</Typography>
+            <Typography variant="caption">Project Manager </Typography>
           </Grid>
           <Grid container direction="column" justifyContent="center" alignItems="flex-start">
             <Grid item xs={12} md={12}>
-              <Typography variant="h5" sx={{ fontWeight: 600 }}>
-                {moment(singleProject?.projectCreatedAt).format('DD MMM, YYYY')}
-              </Typography>
+              <Typography variant="body1">{moment(singleProject?.projectCreatedAt).format('DD MMM, YYYY')}</Typography>
             </Grid>
             <Grid item xs={12} md={12}>
-              <Typography variant="body2">Created At</Typography>
+              <Typography variant="caption">Created At</Typography>
             </Grid>
           </Grid>
         </Stack>
         <Stack sx={{ p: 2 }} direction="row" justifyContent="space-between" alignItems="center" spacing={12}>
           <Grid container direction="column" justifyContent="center" alignItems="flex-start">
-            <Typography variant="h5" sx={{ fontWeight: 600 }}>
-              {singleProject?.location}
-            </Typography>
-            <Typography variant="body2">Location</Typography>
+            <Typography variant="body1">{singleProject?.location}</Typography>
+            <Typography variant="caption">Location</Typography>
           </Grid>
+        </Stack>
+        <Stack sx={{ p: 2 }} direction="row" justifyContent="space-between" alignItems="center" spacing={12}>
           <Grid container direction="column" justifyContent="center" alignItems="center">
             <Chip
               variant="h5"
@@ -46,8 +42,6 @@ const MoreInfoCard = (props) => {
               }}
               label={isRahatResponseLive ? 'Response Activated' : 'Response Not Triggered'}
             />
-
-            <Typography variant="body2">Response Trigger Status</Typography>
           </Grid>
         </Stack>
 
