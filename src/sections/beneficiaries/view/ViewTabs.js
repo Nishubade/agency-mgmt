@@ -63,6 +63,12 @@ const communicationsTableHead = {
     align: 'left',
   },
 
+  duration: {
+    id: 'duration',
+    label: 'Duration',
+    align: 'left',
+  },
+
   status: {
     id: 'status',
     label: 'Status',

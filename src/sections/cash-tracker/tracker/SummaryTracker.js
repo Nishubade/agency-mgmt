@@ -126,7 +126,7 @@ export default function SummaryTracker({ setCashSummaryData, sx, footer, ...othe
     if (step.name === 'beneficiaries')
       return (
         <>
-          <Typography variant="caption">Claims: {step.claims} </Typography>
+          <Typography variant="caption">Claims: {fCurrency(step.claims)} </Typography>
           <Typography variant="caption">Received: {fCurrency(step.received)} </Typography>
           {step.timestamp > 0 && (
             <WalletExplorerButton address={step.txHash} type="tx">
