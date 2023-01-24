@@ -2,8 +2,9 @@ import numeral from 'numeral';
 
 // ----------------------------------------------------------------------
 
-export function fCurrency(number) {
-  return numeral(number).format(Number.isInteger(number) ? '$0,0' : '$0,0.00');
+export function fCurrency(number, minimum = 9999) {
+  if (number <= minimum) return number;
+  return numeral(number).format('(0.0 a)');
 }
 
 export function fPercent(number) {
@@ -25,4 +26,8 @@ export function fData(number) {
 export function numberWithCommas(x) {
   if (!x) return 0;
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+export function prettyNumbers(x) {
+  if (!x) return 0;
 }
