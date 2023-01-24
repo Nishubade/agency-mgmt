@@ -37,8 +37,6 @@ const MoreInfoCard = (props) => {
               sx={{
                 fontWeight: 600,
                 padding: 2,
-                // backgroundColor: isRahatResponseLive ? 'success.main' : 'error.main',
-                // color: 'white',
               }}
               label={isRahatResponseLive ? 'Response Activated' : 'Response Not Triggered'}
             />
