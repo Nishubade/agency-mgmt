@@ -46,7 +46,7 @@ const MoreInfoCard = (props) => {
         </Stack>
 
         <Stack sx={{ p: 2 }}>
-          <Typography variant="body1">{'Cash distribution to five more single women'}</Typography>
+          <Typography variant="body1">{singleProject?.description}</Typography>
         </Stack>
       </CardContent>
     </Card>
