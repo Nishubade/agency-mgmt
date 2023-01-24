@@ -65,7 +65,7 @@ const communicationsTableHead = {
 
   duration: {
     id: 'duration',
-    label: 'Duration',
+    label: 'Duration (s)',
     align: 'left',
   },
 
