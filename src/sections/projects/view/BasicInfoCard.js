@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Grid } from '@mui/material';
 import SummaryCard from '@components/SummaryCard';
 import { SPACING } from '@config';
-import { numberWithCommas } from '@utils/formatNumber';
 
 BasicInfoCard.propTypes = {
   rahatChainData: PropTypes.object,
@@ -18,7 +17,7 @@ export default function BasicInfoCard({ rahatChainData, cashTrackerData, sx, ...
           color="warning"
           icon="ph:money"
           title="Budget"
-          total={numberWithCommas(rahatChainData.totalBudget)}
+          total={rahatChainData.totalBudget}
           subtitle={'tokens'}
           sx={sx}
         />
@@ -28,7 +27,7 @@ export default function BasicInfoCard({ rahatChainData, cashTrackerData, sx, ...
           color="warning"
           icon="material-symbols:account-balance-wallet-outline-rounded"
           title="Balance"
-          total={numberWithCommas(rahatChainData.tokenBalance)}
+          total={rahatChainData.tokenBalance}
           subtitle={'tokens'}
           sx={sx}
         />
@@ -38,7 +37,7 @@ export default function BasicInfoCard({ rahatChainData, cashTrackerData, sx, ...
         <SummaryCard
           icon="material-symbols:token"
           title="Token Issued"
-          total={numberWithCommas(cashTrackerData?.beneficiaries?.claims)}
+          total={cashTrackerData?.beneficiaries?.claims}
           subtitle={'tokens'}
         />
       </Grid>
@@ -47,7 +46,7 @@ export default function BasicInfoCard({ rahatChainData, cashTrackerData, sx, ...
           color="info"
           icon="game-icons:token"
           title="Token Redeemed"
-          total={numberWithCommas(cashTrackerData?.beneficiaries?.received)}
+          total={cashTrackerData?.beneficiaries?.received}
           subtitle={'tokens'}
         />
       </Grid>

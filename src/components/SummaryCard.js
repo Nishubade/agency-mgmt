@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Card, Typography, Stack, Box } from '@mui/material';
+import { Card, Typography, Stack, Box, Tooltip } from '@mui/material';
 // utils
-import { fCurrency, fPercent } from '@utils/formatNumber';
+import { fCurrency, numberWithCommas } from '@utils/formatNumber';
 // components
 import Iconify from '@components/iconify';
 import Chart, { useChart } from '@components/chart';
@@ -50,14 +50,15 @@ export default function SummaryCard({ title, total, icon, subtitle, color = 'pri
           //bgcolor: (theme) => theme.palette[color].dark,
         }}
       />
-
-      <Stack spacing={1} sx={{ p: 3 }}>
-        <Typography variant="subtitle2">{title}</Typography>
-        <Typography variant="h3">{total}</Typography>
-        <Box component="span" sx={{ opacity: 0.72, typography: 'body2' }}>
-          {subtitle}
-        </Box>
-      </Stack>
+      <Tooltip title={'रु ' + numberWithCommas(total)}>
+        <Stack spacing={1} sx={{ p: 3 }}>
+          <Typography variant="subtitle2">{title}</Typography>
+          <Typography variant="h3">{fCurrency(total)}</Typography>
+          <Box component="span" sx={{ opacity: 0.72, typography: 'body2' }}>
+            {subtitle}
+          </Box>
+        </Stack>
+      </Tooltip>
     </Card>
   );
 }
