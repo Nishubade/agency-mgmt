@@ -67,5 +67,6 @@ export const cashTrackerSummary = () => getMiscValueByName('cash-tracker-summary
 export const getDemographicDataByWard = (data) => client.get('reporting/demographic/ward', { params: data });
 
 export const getBeneficiaryGroupingData = () => client.get('/reporting/end-of-day/beneficiary/grouping-data');
+export const getDistributionSummary = () => client.get('/reporting/summary/distribution');
 
 // #endregion

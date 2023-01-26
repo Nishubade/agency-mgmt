@@ -115,7 +115,6 @@ const LiveTransactionTable = (props) => {
 
   return (
     <Card>
-      {paginationView}
       <Stack spacing={2} direction={{ xs: 'column', sm: 'row' }} sx={{ py: 2 }} md={12}>
         <CardHeader
           title={
