@@ -96,7 +96,6 @@ const TableList = () => {
   return (
     <Card>
       <ListTableToolbar />
-      {paginationView}
       <ListTable tableHeadersList={TABLE_HEADERS} tableRowsList={communicationsList} footer={paginationView}>
         {(rows, tableHeadersList) =>
           rows.map((row) => (
