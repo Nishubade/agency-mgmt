@@ -32,7 +32,7 @@ PhotoGallery.propTypes = {
 
 export default function PhotoGallery({ list, ...other }) {
   const theme = useTheme();
-  list = list.sort((a, b) => a.id.localeCompare(b.id));
+  list = list.sort((a, b) => parseInt(b.id) - parseInt(b.id));
 
   const carouselRef = useRef(null);
 
