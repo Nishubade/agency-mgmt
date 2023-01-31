@@ -28,6 +28,7 @@ const initialState = {
   user: null,
   keyData: null,
   chainUrl: null,
+  chainId: null,
   chainWebSocket: null,
   claimToken: null,
   contracts: null,
@@ -89,6 +90,7 @@ function AuthProvider({ children }) {
             user: localUser,
             keyData: localKey,
             chainUrl: appSettings?.networkUrl,
+            chainId: appSettings?.chainId,
             chainWebSocket: appSettings?.chainWebSocket,
             claimToken: {
               ...appSettings?.agency?.token,
