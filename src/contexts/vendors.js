@@ -32,7 +32,7 @@ export const VendorProvider = ({ children }) => {
     const formatted = response.data?.data?.data?.map((item) => ({
       ...item,
       id: item?.id,
-      registrationDate: item?.created_at,
+      registrationDate: item?.createdAt,
       cashBalance: item?.cashBalance || 0,
       cashAllowance: item?.cashAllowance || 0,
       tokenBalance: item?.tokenBalance || 0,

@@ -1,4 +1,4 @@
-import { ProjectService } from '@services';
+import { DashboardService, ProjectService, ReportingService } from '@services';
 import { createContext, useCallback, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -10,12 +10,14 @@ const initialState = {
   refresh: false,
   isRahatResponseLive: false,
   error: {},
+  projectSummary: {},
   getProjectsList: () => {},
   getProjectById: () => {},
   getBeneficiariesByProject: () => {},
   getVendorsByProject: () => {},
   refreshData: () => {},
   setRahatResponseStatus: () => {},
+  getProjectReportSummary: () => {},
 };
 
 const ProjectsContext = createContext(initialState);
@@ -25,6 +27,21 @@ export const ProjectProvider = ({ children }) => {
 
   const refreshData = () => setState((prev) => ({ ...prev, refresh: !prev.refresh }));
   const setRahatResponseStatus = (isRahatResponseLive) => setState((prev) => ({ ...prev, isRahatResponseLive }));
+
+  const getProjectReportSummary = useCallback(async (projectId) => {
+    const response = await ReportingService.getBeneficiariesCounts();
+
+    const impacted = {
+      ...response?.data?.data?.impacted,
+    };
+
+    setState((prev) => ({
+      ...prev,
+      projectSummary: impacted,
+    }));
+
+    return impacted;
+  }, []);
 
   const getProjectsList = useCallback(async (params) => {
     const response = await ProjectService.getProjectsList(params);
@@ -95,6 +112,7 @@ export const ProjectProvider = ({ children }) => {
     getProjectById,
     getBeneficiariesByProject,
     getVendorsByProject,
+    getProjectReportSummary,
   };
 
   return <ProjectsContext.Provider value={contextValue}>{children}</ProjectsContext.Provider>;

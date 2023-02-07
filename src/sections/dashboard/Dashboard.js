@@ -101,6 +101,7 @@ const DashboardComponent = () => {
               title="Beneficiaries"
               total={summary?.total_beneficiaries}
               subtitle={'households'}
+              tooltipText="Total number of beneficiaries"
             />
           </Grid>
 
@@ -112,6 +113,7 @@ const DashboardComponent = () => {
               total={summary?.total_children}
               // total={beneficiaryCounts?.impacted}
               subtitle={'children'}
+              tooltipText="Total number of children under 5 years"
             />
           </Grid>
 
@@ -127,35 +129,10 @@ const DashboardComponent = () => {
               total={summary?.total_persons}
               // total={beneficiaryCounts?.impacted?.totalFamilyCount}
               subtitle={'people'}
+              tooltipText="Total number of people impacted"
             />
           </Grid>
-          {/* <Grid item xs={12} md={4} lg={4} sm={4}>
-            <SummaryCard
-              color="secondary"
-              title="Unbanked"
-              icon="mdi:bank-transfer-out"
-              total={summary?.total_unbanked}
-              // total={beneficiaryCounts?.impacted?.totalFamilyCount}
-              subtitle={'persons'}
-            />
-          </Grid> */}
-          {/* <Grid item xs={12} md={4} lg={4} sm={4}>
-            <SummaryCard
-              icon="material-symbols:token"
-              title="Token Issued"
-              total={cashSummaryData?.beneficiaries?.claims}
-              subtitle={'tokens'}
-            />
-          </Grid>
-          <Grid item xs={12} md={4} lg={4} sm={4}>
-            <SummaryCard
-              color="info"
-              icon="ph:currency-circle-dollar-light"
-              title="Token Redeemed"
-              total={cashSummaryData?.beneficiaries?.received}
-              subtitle={'tokens'}
-            />
-          </Grid> */}
+
           <Grid item xs={12} md={4} lg={4} sm={4}>
             <SummaryCard
               color="info"
@@ -163,6 +140,7 @@ const DashboardComponent = () => {
               title="Daily Wagers"
               total={summary?.totalDailyWage}
               subtitle={'people'}
+              tooltipText="Total number of daily wagers"
             />
           </Grid>
           <Grid item xs={12} md={4} lg={4} sm={4}>
@@ -172,6 +150,7 @@ const DashboardComponent = () => {
               title="Total Landless"
               total={summary?.totalNoLand}
               subtitle={'people'}
+              tooltipText="Total number of landless people"
             />
           </Grid>
           <Grid item xs={12} md={4} lg={4} sm={4}>
@@ -181,6 +160,7 @@ const DashboardComponent = () => {
               title="Total Disabled"
               total={summary?.totalDisability}
               subtitle={'people'}
+              tooltipText="Total number of disabled people"
             />
           </Grid>
         </Grid>

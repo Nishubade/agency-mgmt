@@ -50,8 +50,6 @@ const Tracker = () => {
     buildTreeData();
   }, [buildTreeData, treeData]);
 
-  console.log('vendorByWard', vendorByWard);
-
   return (
     <div style={{ paddingTop: 15 }}>
       <SummaryTracker setCashSummaryData={setCashSummaryData} />

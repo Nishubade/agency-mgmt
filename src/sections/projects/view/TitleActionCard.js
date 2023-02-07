@@ -15,21 +15,12 @@ import { PATH_REPORTS } from '@routes/paths';
 const TitleCard = () => {
   const { roles } = useAuthContext();
 
-  const { projectBalance, rahatChainData, contract } = useRahat();
-  const { isDialogShow, showDialog, hideDialog } = useDialog();
-  const { getProjectById, refresh, refreshData, singleProject } = useProjectContext();
+  const { rahatChainData } = useRahat();
+  const { refresh, refreshData } = useProjectContext();
   const {
     push,
     query: { projectId },
   } = useRouter();
-  const [createTokenDialog, setCreateTokenDialog] = useState(false);
-  const [transferTokenDialog, setTransferTokenDialog] = useState(false);
-  const { sendCashToAgency } = useRahatDonor();
-  const { loading, showLoading, hideLoading } = useLoading();
-
-  const handleAddBudgetModel = () => {
-    showDialog();
-  };
 
   const handleBeneficiaryRouteAction = () => {
     push(`/beneficiaries`);

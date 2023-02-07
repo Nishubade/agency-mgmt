@@ -14,11 +14,11 @@ const TABLE_HEAD = {
     label: 'Name',
     align: 'left',
   },
-  cashAllowance: {
-    id: 'cashAllowance',
-    label: 'Cash Allowance',
-    align: 'left',
-  },
+  // cashAllowance: {
+  //   id: 'cashAllowance',
+  //   label: 'Cash Allowance',
+  //   align: 'left',
+  // },
   cashBalance: {
     id: 'cashBalance',
     label: 'Cash Balance',
@@ -35,11 +35,11 @@ const TABLE_HEAD = {
     label: 'Phone',
     align: 'left',
   },
-  hasVendorRole: {
-    id: 'hasVendorRole',
-    label: 'Has Vendor Role',
-    align: 'left',
-  },
+  // hasVendorRole: {
+  //   id: 'hasVendorRole',
+  //   label: 'Has Vendor Role',
+  //   align: 'left',
+  // },
 
   registrationDate: {
     id: 'registrationDate',
@@ -75,12 +75,12 @@ const TableContainer = () => {
           rows.map((row) => (
             <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
               <TableCell align={tableHeadersList['name'].align}>{row.name}</TableCell>
-              <TableCell align={tableHeadersList['cashAllowance'].align}>{row.cashAllowance}</TableCell>
+              {/* <TableCell align={tableHeadersList['cashAllowance'].align}>{row.cashAllowance}</TableCell> */}
               <TableCell align={tableHeadersList['cashBalance'].align}>{row.cashBalance}</TableCell>
               <TableCell align={tableHeadersList['tokenBalance'].align}>{row.tokenBalance}</TableCell>
 
               <TableCell align={tableHeadersList['phone'].align}>{row.phone}</TableCell>
-              <TableCell align={tableHeadersList['hasVendorRole'].align}>{row.hasVendorRole}</TableCell>
+              {/* <TableCell align={tableHeadersList['hasVendorRole'].align}>{row.hasVendorRole}</TableCell> */}
 
               <TableCell align={tableHeadersList['registrationDate'].align}>
                 {' '}

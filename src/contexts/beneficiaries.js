@@ -77,7 +77,7 @@ export const BeneficiaryProvider = ({ children }) => {
     const formatted = response.data.data?.data?.map((item) => ({
       ...item,
       id: item?.id,
-      registrationDate: item?.created_at,
+      registrationDate: item?.registrationDate,
       registeredBy: item?.mobilizer,
     }));
 

@@ -4,8 +4,9 @@ import { Card, CardContent, Chip, Grid, Stack, Typography } from '@mui/material'
 import { useProjectContext } from '@contexts/projects';
 import moment from 'moment';
 
-const MoreInfoCard = (props) => {
+const MoreInfoCard = () => {
   const { singleProject, isRahatResponseLive } = useProjectContext();
+
   return (
     <Card sx={{ width: '100%' }}>
       <CardContent>

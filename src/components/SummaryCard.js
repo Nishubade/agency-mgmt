@@ -19,9 +19,21 @@ SummaryCard.propTypes = {
   total: PropTypes.number,
   percent: PropTypes.number,
   icon: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
+  showTooltip: PropTypes.bool,
+  tooltipText: PropTypes.string,
 };
 
-export default function SummaryCard({ title, total, icon, subtitle, color = 'primary', sx, ...other }) {
+export default function SummaryCard({
+  title,
+  total,
+  icon,
+  subtitle,
+  color = 'primary',
+  sx,
+  showTooltip = true,
+  tooltipText,
+  ...other
+}) {
   const theme = useTheme();
 
   return (
@@ -50,7 +62,9 @@ export default function SummaryCard({ title, total, icon, subtitle, color = 'pri
           //bgcolor: (theme) => theme.palette[color].dark,
         }}
       />
-      <Tooltip title={'रु ' + numberWithCommas(total)}>
+      <Tooltip
+        title={showTooltip ? (tooltipText ? tooltipText : 'रु ' + numberWithCommas(total)) : numberWithCommas(total)}
+      >
         <Stack spacing={1} sx={{ p: 3 }}>
           <Typography variant="subtitle2">{title}</Typography>
           <Typography variant="h3">{fCurrency(total)}</Typography>

@@ -1,10 +1,6 @@
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardActions from '@mui/material/CardActions';
-import { Button, Chip, Grid, Stack } from '@mui/material';
+import { Button } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { useRahatTrigger } from '@services/contracts/useRahatTrigger';
-import { useAuthContext } from 'src/auth/useAuthContext';
 import ActivateResponseModal from './ActivateReponseModal';
 import { useRouter } from 'next/router';
 import { useProjectContext } from '@contexts/projects';
@@ -12,7 +8,6 @@ import { AppService } from '@services/app';
 
 export default function ActivateResponse() {
   // #region State and Hooks
-  const { roles } = useAuthContext();
   const { setRahatResponseStatus, isRahatResponseLive } = useProjectContext();
   const { listTriggerConfirmations, isLive, contract, activateResponse, deactivateResponse } = useRahatTrigger();
 
@@ -50,14 +45,14 @@ export default function ActivateResponse() {
       setTriggerAdmins(adminMod);
     }, [contract, listTriggerConfirmations, projectId]),
 
-    fetchIsLiveStatus: useCallback(async () => {
-      setLoading(true);
-      if (!contract) return;
+    // fetchIsLiveStatus: useCallback(async () => {
+    //   setLoading(true);
+    //   if (!contract) return;
 
-      const isLiveStatus = await isLive();
-      setRahatResponseStatus(isLiveStatus);
-      setLoading(false);
-    }, [contract]),
+    //   const isLiveStatus = await isLive();
+    //   setRahatResponseStatus(isLiveStatus);
+    //   setLoading(false);
+    // }, [contract]),
   };
 
   const ActivateFunctions = {
@@ -82,12 +77,12 @@ export default function ActivateResponse() {
 
   // #region UseEffects
 
-  useEffect(() => {
-    FetchFunctions.fetchIsLiveStatus();
-    // return () => {
-    //   setRahatResponseStatus(false);
-    // };
-  }, [FetchFunctions.fetchIsLiveStatus]);
+  // useEffect(() => {
+  //   FetchFunctions.fetchIsLiveStatus();
+  //   // return () => {
+  //   //   setRahatResponseStatus(false);
+  //   // };
+  // }, [FetchFunctions.fetchIsLiveStatus]);
 
   useEffect(() => {
     if (!projectId) return;

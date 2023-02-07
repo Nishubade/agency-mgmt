@@ -20,12 +20,22 @@ import ImageSlider from './ImageSlider';
 import TitleCard from './TitleActionCard';
 import Iconify from '@components/iconify';
 import { PATH_CASH_TRACKER } from '@routes/paths';
+import { useRahatTrigger } from '@services/contracts/useRahatTrigger';
 
 const ProjectView = () => {
   const { roles } = useAuthContext();
-  const { getProjectById, refresh, refreshData, singleProject } = useProjectContext();
+  const {
+    getProjectById,
+    refresh,
+    refreshData,
+    singleProject,
+    setRahatResponseStatus,
+    getProjectReportSummary,
+    projectSummary,
+  } = useProjectContext();
   const { projectBalance, rahatChainData, contract } = useRahat();
   const { contractWS: RahatCash } = useRahatCash();
+  const { isLive } = useRahatTrigger();
 
   const [cashSummaryData, setCashSummaryData] = useState({});
   const [flickImages, setFlickImages] = useState([]);
@@ -36,9 +46,15 @@ const ProjectView = () => {
   } = useRouter();
   const theme = useTheme();
 
+  const fetchIsLiveStatus = useCallback(async () => {
+    const isLiveStatus = await isLive();
+    setRahatResponseStatus(isLiveStatus);
+  }, [contract]);
+
   const init = useCallback(async () => {
     if (!RahatCash) return;
     await projectBalance(projectId);
+    await fetchIsLiveStatus();
   }, [projectId, contract, RahatCash, refresh]);
 
   useEffect(() => {
@@ -72,6 +88,10 @@ const ProjectView = () => {
     };
   }, []);
 
+  useEffect(() => {
+    getProjectReportSummary();
+  }, [projectId]);
+
   return (
     <Page title={`${singleProject?.name}`} showBackTitle={false} nocard>
       <Grid container spacing={theme.spacing(SPACING.GRID_SPACING)}>
@@ -79,7 +99,11 @@ const ProjectView = () => {
           <Grid container spacing={SPACING.GRID_SPACING}>
             <Grid item xs={12} md={12}>
               <ImageSlider list={flickImages} projectName={singleProject?.name} />
-              <BasicInfoCard cashTrackerData={cashSummaryData} rahatChainData={rahatChainData} />
+              <BasicInfoCard
+                cashTrackerData={cashSummaryData}
+                rahatChainData={rahatChainData}
+                projectSummary={projectSummary}
+              />
               <Card sx={{ mt: SPACING.GRID_SPACING, mb: SPACING.GRID_SPACING }}>
                 <CardHeader title="Cash Tracker" />
                 <CardContent>

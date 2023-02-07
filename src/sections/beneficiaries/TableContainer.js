@@ -47,9 +47,9 @@ const TableContainer = () => {
       label: 'Registration Date',
       align: 'left',
     },
-    registeredBy: {
-      id: 'registeredBy',
-      label: 'Registered By',
+    ward: {
+      id: 'ward',
+      label: 'Ward',
       align: 'left',
     },
     tokenBalance: {
@@ -111,7 +111,7 @@ const TableContainer = () => {
               <TableCell align={tableHeadersList['registrationDate'].align}>
                 {moment(row.registrationDate).format('MM/DD/YYYY')}
               </TableCell>
-              <TableCell align={tableHeadersList['registeredBy'].align}>{row.registeredBy}</TableCell>
+              <TableCell align={tableHeadersList['ward'].align}>{row.ward}</TableCell>
 
               <TableCell align={tableHeadersList['tokenBalance'].align}>{row.tokenBalance}</TableCell>
               <TableCell align={tableHeadersList['cashBalance'].align}>{row.cashBalance}</TableCell>
