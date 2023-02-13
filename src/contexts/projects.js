@@ -11,6 +11,12 @@ const initialState = {
   isRahatResponseLive: false,
   error: {},
   projectSummary: {},
+  distributionSummary: {
+    issuedToBanked: 0,
+    issuedToUnbanked: 0,
+    cashToBanked: 0,
+    cashToUnbanked: 0,
+  },
   getProjectsList: () => {},
   getProjectById: () => {},
   getBeneficiariesByProject: () => {},
@@ -18,6 +24,7 @@ const initialState = {
   refreshData: () => {},
   setRahatResponseStatus: () => {},
   getProjectReportSummary: () => {},
+  getDistributionSummary: () => {},
 };
 
 const ProjectsContext = createContext(initialState);
@@ -104,6 +111,15 @@ export const ProjectProvider = ({ children }) => {
     return formatted;
   }, []);
 
+  const getDistributionSummary = useCallback(async (projectId) => {
+    const { data } = await ReportingService.getDistributionSummary();
+    setState((prev) => ({
+      ...prev,
+      distributionSummary: data.data,
+    }));
+    return data.data;
+  }, []);
+
   const contextValue = {
     ...state,
     refreshData,
@@ -113,6 +129,7 @@ export const ProjectProvider = ({ children }) => {
     getBeneficiariesByProject,
     getVendorsByProject,
     getProjectReportSummary,
+    getDistributionSummary,
   };
 
   return <ProjectsContext.Provider value={contextValue}>{children}</ProjectsContext.Provider>;

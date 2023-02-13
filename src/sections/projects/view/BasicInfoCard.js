@@ -8,10 +8,10 @@ BasicInfoCard.propTypes = {
   rahatChainData: PropTypes.object,
   cashTrackerData: PropTypes.object,
   sx: PropTypes.object,
-  projectSummary: PropTypes.object,
+  distributionSummary: PropTypes.object,
 };
 
-export default function BasicInfoCard({ rahatChainData, cashTrackerData, sx, projectSummary }) {
+export default function BasicInfoCard({ rahatChainData, cashTrackerData, sx, distributionSummary }) {
   return (
     <Grid container alignItems="flex-start" justifyContent="center" spacing={SPACING.GRID_SPACING} pt={2}>
       <Grid item xs={12} md={3}>
@@ -61,40 +61,41 @@ export default function BasicInfoCard({ rahatChainData, cashTrackerData, sx, pro
         <SummaryCard
           color="info"
           icon="game-icons:token"
-          title="Total Claimed"
-          total={projectSummary?.totalClaimed}
-          subtitle={'beneficiaries'}
-          tooltipText="Beneficiaries who have claimed their tokens"
+          title="Token Issued"
+          total={distributionSummary?.issuedToBanked}
+          subtitle={'Banked Beneficiaries'}
+          tooltipText="Tokens issued to banked beneficiaries"
+        />
+      </Grid>
+
+      <Grid item xs={12} md={3}>
+        <SummaryCard
+          color="warning"
+          icon="game-icons:token"
+          title="Cash Distributed"
+          total={distributionSummary?.cashToBanked}
+          subtitle={'Banked Beneficiaries'}
+          tooltipText="Cash distributed to banked beneficiaries"
         />
       </Grid>
       <Grid item xs={12} md={3}>
         <SummaryCard
           color="info"
           icon="game-icons:token"
-          title="Impacted Claims"
-          total={projectSummary?.claimedFamilySizeTotal}
-          subtitle={'beneficiaries'}
-          tooltipText="Beneficiaries who have claimed tokens and have a family size greater than 1"
+          title="Token Issued"
+          total={distributionSummary?.issuedToUnbanked}
+          subtitle={'Unbanked Beneficiaries'}
+          tooltipText="Tokens issued to unbanked beneficiaries"
         />
       </Grid>
       <Grid item xs={12} md={3}>
         <SummaryCard
           color="warning"
           icon="game-icons:token"
-          title="Remaining Claims"
-          total={projectSummary?.unclaimedBeneficiariesTotal}
-          subtitle={'beneficiaries'}
-          tooltipText="Beneficiaries who have not claimed their tokens yet"
-        />
-      </Grid>
-      <Grid item xs={12} md={3}>
-        <SummaryCard
-          color="warning"
-          icon="game-icons:token"
-          title="Impacted Children"
-          total={projectSummary?.claimedBelow5CountTotal}
-          subtitle={'claimed'}
-          tooltipText="Beneficiaries who have claimed tokens and have children below 5 years old"
+          title="Cash Distributed"
+          total={distributionSummary?.cashToUnbanked}
+          subtitle={'Unbanked Beneficiaries'}
+          tooltipText="Cash distributed to unbanked beneficiaries"
         />
       </Grid>
 

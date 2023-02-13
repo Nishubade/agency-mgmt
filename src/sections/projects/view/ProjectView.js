@@ -31,7 +31,8 @@ const ProjectView = () => {
     singleProject,
     setRahatResponseStatus,
     getProjectReportSummary,
-    projectSummary,
+    distributionSummary,
+    getDistributionSummary,
   } = useProjectContext();
   const { projectBalance, rahatChainData, contract } = useRahat();
   const { contractWS: RahatCash } = useRahatCash();
@@ -89,7 +90,7 @@ const ProjectView = () => {
   }, []);
 
   useEffect(() => {
-    getProjectReportSummary();
+    getDistributionSummary();
   }, [projectId]);
 
   return (
@@ -102,7 +103,7 @@ const ProjectView = () => {
               <BasicInfoCard
                 cashTrackerData={cashSummaryData}
                 rahatChainData={rahatChainData}
-                projectSummary={projectSummary}
+                distributionSummary={distributionSummary}
               />
               <Card sx={{ mt: SPACING.GRID_SPACING, mb: SPACING.GRID_SPACING }}>
                 <CardHeader title="Cash Tracker" />
