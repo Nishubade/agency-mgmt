@@ -4,17 +4,25 @@ import PropTypes from 'prop-types';
 import { TwimlService } from '@services/twiml';
 
 const initialState = {
-  communicationsList: [],
+  communicationsList: {
+    data: [],
+  },
   beneficiaryOptions: [],
   beneficiaryList: [],
   audiosList: [],
   wards: [],
-  filters: {},
+  filter: {},
+  pagination: {
+    start: 0,
+    limit: 50,
+    count: 0,
+  },
   getCommunicationsList: () => {},
   getBeneficiariesList: () => {},
   getAudiosList: () => {},
   getWards: () => {},
   setFilter: () => {},
+  setPagination: () => {},
 };
 
 const CommunicationsContext = createContext(initialState);
@@ -22,17 +30,41 @@ const CommunicationsContext = createContext(initialState);
 export const CommunicationsProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
 
-  const setFilter = (filter) =>
-    setState((prev) => ({
-      ...prev,
-      // pagination: {
-      //   ...prev.pagination,
-      // },
-      filter,
-    }));
+  const setFilter = (filter) => {
+    if (!filter) {
+      setState((prev) => ({
+        ...prev,
+        filter: null,
+      }));
+    } else {
+      setState((prev) => ({
+        ...prev,
+        // pagination: {
+        //   ...prev.pagination,
+        // },
+        filter: {
+          ...prev.filter,
+          ...filter,
+        },
+      }));
+    }
+  };
+  const setPagination = (pagination) => setState((prev) => ({ ...prev, pagination }));
 
-  const getCommunicationsList = useCallback(async (params) => {
-    const response = await CommunicationsService.getCommunicationsList(params);
+  const getCommunicationsList = useCallback(async () => {
+    let filterObj = {
+      limit: state.pagination?.limit,
+      start: state.pagination?.start,
+      to: state.filter?.to?.length > 3 ? state.filter?.to : undefined,
+      ward: state.filter?.ward,
+      hasBank: state.filter?.hasBank !== undefined ? (state.filter?.hasBank === 'banked' ? true : false) : undefined,
+      type: state.filter?.type,
+      status: state.filter?.status,
+    };
+
+    console.log({ filterObj });
+
+    const response = await CommunicationsService.getCommunicationsList(filterObj);
 
     const formatted = response?.data?.data?.data?.map((item) => ({
       ...item,
@@ -40,11 +72,19 @@ export const CommunicationsProvider = ({ children }) => {
 
     setState((prevState) => ({
       ...prevState,
-      communicationsList: formatted,
+      communicationsList: {
+        data: formatted,
+        count: response.data?.data.count,
+        start: response.data?.data.start,
+        limit: response.data?.data.limit,
+        totalPage: response.data?.data.totalPage,
+      },
     }));
 
     return response.data.data;
-  }, []);
+  }, [state.filter, state.pagination]);
+
+  console.log(state.filter);
 
   const getBeneficiariesList = useCallback(async (params) => {
     const response = await BeneficiaryService.getBeneficiariesList(params);
@@ -90,7 +130,7 @@ export const CommunicationsProvider = ({ children }) => {
       ...prevState,
       wards: formatted,
     }));
-    console.log('formatted', formatted);
+    return formatted;
   }, []);
 
   const contextValue = {
@@ -100,6 +140,7 @@ export const CommunicationsProvider = ({ children }) => {
     getAudiosList,
     getWards,
     setFilter,
+    setPagination,
   };
 
   return <CommunicationsContext.Provider value={contextValue}>{children}</CommunicationsContext.Provider>;

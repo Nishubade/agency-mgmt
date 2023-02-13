@@ -6,6 +6,8 @@ import Iconify from '@components/iconify';
 import { useRouter } from 'next/router';
 import moment from 'moment';
 import ListTableToolbar from './ListTableToolbar';
+import copyToClipboard from '@utils/copyToClipboard';
+import CommunicationsSummary from './CommunicationsSummary';
 
 const TABLE_HEADERS = {
   to: {
@@ -39,37 +41,17 @@ const TABLE_HEADERS = {
 };
 
 const TableList = () => {
-  const { getCommunicationsList, communicationsList, getWards, filter } = useCommunicationsContext();
+  const { getCommunicationsList, communicationsList, getWards, pagination, setPagination, filter } =
+    useCommunicationsContext();
   const router = useRouter();
 
-  const [pagination, setPagination] = useState({
-    limit: 100,
-    count: 0,
-    start: 0,
-  });
-
-  const handleFetch = useCallback(async () => {
-    const filterObj = {
-      ...filter,
-    };
-    const res = await getCommunicationsList({
-      limit: pagination.limit,
-      start: pagination.start,
-      ...filterObj,
-    });
-    setPagination((prev) => ({
-      ...prev,
-      limit: res.limit,
-      start: res.start,
-      count: res.count,
-    }));
-
-    await getWards();
-  }, [pagination.start, pagination.limit, filter]);
+  useEffect(() => {
+    getCommunicationsList();
+  }, [filter, pagination]);
 
   useEffect(() => {
-    handleFetch();
-  }, [handleFetch, pagination.start, pagination.limit]);
+    getWards();
+  }, []);
 
   const handleBeneficiaryView = (id) => () => {
     if (!id) return;
@@ -79,9 +61,9 @@ const TableList = () => {
   const paginationView = (
     <TablePagination
       component="div"
-      count={pagination?.count}
-      rowsPerPage={pagination.limit}
-      page={+pagination.start}
+      count={communicationsList?.count}
+      rowsPerPage={pagination?.limit}
+      page={+pagination?.start}
       onPageChange={(e, page) => {
         setPagination({ start: page, limit: pagination.limit });
       }}
@@ -96,7 +78,8 @@ const TableList = () => {
   return (
     <Card>
       <ListTableToolbar />
-      <ListTable tableHeadersList={TABLE_HEADERS} tableRowsList={communicationsList} footer={paginationView}>
+      <CommunicationsSummary list={communicationsList?.data} filter={filter} />
+      <ListTable tableHeadersList={TABLE_HEADERS} tableRowsList={communicationsList?.data} footer={paginationView}>
         {(rows, tableHeadersList) =>
           rows.map((row) => (
             <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -104,6 +87,13 @@ const TableList = () => {
                 <Button variant="text" disabled={!row.beneficiaryId} onClick={handleBeneficiaryView(row.beneficiaryId)}>
                   {row.to}
                 </Button>
+                <Button
+                  size="small"
+                  variant="text"
+                  disabled={!row.beneficiaryId}
+                  onClick={() => copyToClipboard(row.to)}
+                  startIcon={<Iconify icon="bx:bx-copy" />}
+                />
               </TableCell>
               <TableCell align={tableHeadersList['type'].align}>{row.type}</TableCell>
               <TableCell align={tableHeadersList['timestamp'].align}>
