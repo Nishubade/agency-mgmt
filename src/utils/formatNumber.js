@@ -4,7 +4,7 @@ import numeral from 'numeral';
 
 export function fCurrency(number, minimum = 9999) {
   if (number <= minimum) return number;
-  return numeral(number).format('(0.0 a)');
+  return numeral(number).format('(0.00 a)');
 }
 
 export function fPercent(number) {
