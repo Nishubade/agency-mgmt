@@ -119,13 +119,13 @@ export default function ListTableToolbar() {
           onSelectChange={onSearch}
           value={filter?.hasBank || ''}
         />
-        <ListSelectFilter
+        {/* <ListSelectFilter
           label={'Phone/SMS'}
           name={'type'}
           options={phoneSmsOptions}
           onSelectChange={onSearch}
           value={filter?.type || ''}
-        />
+        /> */}
         <ListSearchField label={'Phone'} name={'to'} onChange={onSearch} value={filter?.to || ''} on />
 
         <Button

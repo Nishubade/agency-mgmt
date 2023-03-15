@@ -92,5 +92,7 @@ export const PATH_PHOTO_GALLERY = {
 export const PATH_COMMUNICATIONS = {
   root: ROOTS_COMMUNICATIONS,
   createCall: path(ROOTS_COMMUNICATIONS, '/create-call'),
+  callLogs: path(ROOTS_COMMUNICATIONS, '/call-logs'),
+  smsLogs: path(ROOTS_COMMUNICATIONS, '/sms-logs'),
   settings: path(ROOTS_COMMUNICATIONS, '/settings'),
 };

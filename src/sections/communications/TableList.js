@@ -8,6 +8,7 @@ import moment from 'moment';
 import ListTableToolbar from './ListTableToolbar';
 import copyToClipboard from '@utils/copyToClipboard';
 import CommunicationsSummary from './CommunicationsSummary';
+import PropTypes from 'prop-types';
 
 const TABLE_HEADERS = {
   to: {
@@ -16,11 +17,12 @@ const TABLE_HEADERS = {
     align: 'left',
   },
 
-  type: {
-    id: 'type',
-    label: 'Type',
+  ward: {
+    id: 'ward',
+    label: 'Ward',
     align: 'left',
   },
+
   timestamp: {
     id: 'timestamp',
     label: 'Date',
@@ -38,16 +40,23 @@ const TABLE_HEADERS = {
     label: 'Status',
     align: 'left',
   },
+  numberOfAttempts: {
+    id: 'numberOfAttempts',
+    label: 'Attempts',
+    align: 'left',
+  },
 };
 
-const TableList = () => {
-  const { getCommunicationsList, communicationsList, getWards, pagination, setPagination, filter } =
+const TableList = ({ communicationType = 'call' }) => {
+  const { getJaleshworCommunicationsList, communicationsList, getWards, pagination, setPagination, filter } =
     useCommunicationsContext();
   const router = useRouter();
 
   useEffect(() => {
-    getCommunicationsList();
-  }, [filter, pagination]);
+    getJaleshworCommunicationsList({
+      type: communicationType,
+    });
+  }, [filter, pagination, communicationType]);
 
   useEffect(() => {
     getWards();
@@ -87,6 +96,7 @@ const TableList = () => {
                 <Button variant="text" disabled={!row.beneficiaryId} onClick={handleBeneficiaryView(row.beneficiaryId)}>
                   {row.to}
                 </Button>
+
                 <Button
                   size="small"
                   variant="text"
@@ -95,7 +105,8 @@ const TableList = () => {
                   startIcon={<Iconify icon="bx:bx-copy" />}
                 />
               </TableCell>
-              <TableCell align={tableHeadersList['type'].align}>{row.type}</TableCell>
+              <TableCell align={tableHeadersList['ward'].align}>{row.ward}</TableCell>
+
               <TableCell align={tableHeadersList['timestamp'].align}>
                 {moment.unix(row.timestamp).format('DD/MM/YY, h:mm a')}
               </TableCell>
@@ -103,12 +114,17 @@ const TableList = () => {
               <TableCell align={tableHeadersList['status'].align}>
                 <Chip label={row.status} color={row.status === 'success' ? 'success' : 'error'} />
               </TableCell>
+              <TableCell align={tableHeadersList['numberOfAttempts'].align}>{row?.numberOfAttempts}</TableCell>
             </TableRow>
           ))
         }
       </ListTable>
     </Card>
   );
+};
+
+TableList.propTypes = {
+  communicationType: PropTypes.string,
 };
 
 export default TableList;
