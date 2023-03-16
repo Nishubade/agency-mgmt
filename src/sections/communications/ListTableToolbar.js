@@ -76,7 +76,7 @@ export default function ListTableToolbar() {
         direction={{ xs: 'column', sm: 'row' }}
         sx={{
           py: 2.5,
-          px: 0,
+          px: 0.5,
         }}
         justifyContent="space-between"
       >
@@ -111,7 +111,7 @@ export default function ListTableToolbar() {
         <ListSearchField label={'Phone'} name={'to'} onChange={onSearch} value={filter?.to || ''} on />
 
         <Button
-          variant="contained"
+          variant="outlined"
           onClick={() => {
             setFilter(null);
             setPagination({ start: 0, limit: pagination.limit });
@@ -119,7 +119,6 @@ export default function ListTableToolbar() {
         >
           Clear
         </Button>
-        <Box p={1} component="img" src="https://www.somleng.org/images/somleng_logo.png" width={80} />
       </Stack>
     </>
   );

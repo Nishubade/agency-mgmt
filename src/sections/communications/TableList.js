@@ -1,6 +1,6 @@
 import ListTable from '@components/table/ListTable';
 import { useCommunicationsContext } from '@contexts/communications';
-import { Button, Card, Chip, TableCell, TablePagination, TableRow } from '@mui/material';
+import { Box, Button, Card, CardHeader, Chip, TableCell, TablePagination, TableRow } from '@mui/material';
 import { useEffect } from 'react';
 import Iconify from '@components/iconify';
 import { useRouter } from 'next/router';
@@ -94,7 +94,11 @@ const TableList = ({ communicationType = 'call' }) => {
 
   return (
     <Card>
-      <ListTableToolbar />
+      <CardHeader
+        title={<ListTableToolbar />}
+        avatar={<Box component="img" src="https://www.somleng.org/images/somleng_logo.png" width={70} mt={3} />}
+      />
+
       {/* <CommunicationsSummary list={communicationsList?.data} filter={filter} /> */}
       <ListTable
         tableHeadersList={TABLE_HEADERS(communicationType)}
