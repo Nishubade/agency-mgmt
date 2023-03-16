@@ -12,4 +12,7 @@ export const CommunicationsService = {
       params,
     });
   },
+  getJaleshworCommunicationByPhone(phone) {
+    return client.get(`/communications/jaleshwor/${phone}`);
+  },
 };

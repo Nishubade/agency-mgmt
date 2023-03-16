@@ -14,17 +14,10 @@ const statusOptions = [
     label: 'Success',
     value: 'success',
   },
-  {
-    label: 'Unanswered',
-    value: 'unanswered',
-  },
+
   {
     label: 'Failed',
     value: 'fail',
-  },
-  {
-    label: 'Busy',
-    value: 'busy',
   },
 ];
 
@@ -36,17 +29,6 @@ const isBankedOptions = [
   {
     label: 'Unbanked',
     value: 'unbanked',
-  },
-];
-
-const phoneSmsOptions = [
-  {
-    label: 'Call',
-    value: 'call',
-  },
-  {
-    label: 'SMS',
-    value: 'sms',
   },
 ];
 

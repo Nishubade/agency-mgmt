@@ -14,11 +14,13 @@ const initialState = {
   filter: {},
   pagination: {
     start: 0,
-    limit: 50,
+    limit: 100,
     count: 0,
   },
+  jaleshworCommunicationByPhone: [],
   getCommunicationsList: (params) => {},
   getJaleshworCommunicationsList: (params) => {},
+  getJaleshworCommunicationByPhone: (phone) => console.log('getJaleshworCommunicationByPhone not implemented ' + phone),
   getBeneficiariesList: () => {},
   getAudiosList: () => {},
   getWards: () => {},
@@ -64,7 +66,7 @@ export const CommunicationsProvider = ({ children }) => {
         status: state.filter?.status,
       };
 
-      const response = await CommunicationsService.getJaleshworCommunicationsList({
+      const response = await CommunicationsService.getCommunicationsList({
         ...params,
         ...filterObj,
       });
@@ -88,6 +90,7 @@ export const CommunicationsProvider = ({ children }) => {
     },
     [state.filter, state.pagination]
   );
+
   const getJaleshworCommunicationsList = useCallback(
     async (params) => {
       let filterObj = {
@@ -96,10 +99,8 @@ export const CommunicationsProvider = ({ children }) => {
         to: state.filter?.to?.length > 3 ? state.filter?.to : undefined,
         ward: state?.filter?.ward ? state.filter?.ward : undefined,
         hasBank: state.filter?.hasBank !== undefined ? (state.filter?.hasBank === 'banked' ? true : false) : undefined,
-        type: state.filter?.type,
         status: state.filter?.status,
       };
-
       const response = await CommunicationsService.getJaleshworCommunicationsList({
         ...params,
         ...filterObj,
@@ -125,7 +126,21 @@ export const CommunicationsProvider = ({ children }) => {
     [state.filter, state.pagination]
   );
 
-  console.log(state.filter);
+  const getJaleshworCommunicationByPhone = useCallback(async (phone) => {
+    const response = await CommunicationsService.getJaleshworCommunicationByPhone(phone);
+
+    const formatted = response?.data?.data.map((item) => ({
+      ...item,
+      duration: item?.duration ? `${item.duration} seconds` : '-',
+    }));
+
+    setState((prev) => ({
+      ...prev,
+      jaleshworCommunicationByPhone: formatted,
+    }));
+
+    return formatted;
+  }, []);
 
   const getBeneficiariesList = useCallback(async (params) => {
     const response = await BeneficiaryService.getBeneficiariesList(params);
@@ -179,6 +194,7 @@ export const CommunicationsProvider = ({ children }) => {
     getCommunicationsList,
     getBeneficiariesList,
     getJaleshworCommunicationsList,
+    getJaleshworCommunicationByPhone,
     getAudiosList,
     getWards,
     setFilter,
