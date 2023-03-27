@@ -12,6 +12,12 @@ export const SOMLENG_API = process.env.NEXT_PUBLIC_SOMLENG_API || 'https://api.s
 export const SOMLENG_API_KEY = process.env.NEXT_PUBLIC_SOMLENG_API_KEY || '';
 export const SOMLENG_API_TOKEN = process.env.NEXT_PUBLIC_SOMLENG_API_TOKEN || '';
 
+export const GITHUB_API_URL = process.env.NEXT_PUBLIC_GITHUB_API_URL || 'https://api.github.com';
+
+export const GITHUB_API_BRANCH = process.env.NEXT_PUBLIC_GITHUB_API_BRANCH || 'stage';
+export const GITHUB_USERNAME = process.env.NEXT_PUBLIC_GITHUB_USERNAME || 'rahataid';
+export const GITHUB_REPOSITORY = process.env.NEXT_PUBLIC_GITHUB_REPOSITORY || 'agency-mgmt';
+
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || 'Rahat';
 
 export const WSS_SERVER = HOST_API.replace('http', 'ws');
