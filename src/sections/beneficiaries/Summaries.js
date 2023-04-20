@@ -10,7 +10,6 @@ const Summaries = () => {
   const [otherSummaries, setOtherSummaries] = useState({
     totalCollected: 0,
     totalValidated: 0,
-    totalApproved: 0
   });
 
   const fetchSummary = async () => {
@@ -25,6 +24,7 @@ const Summaries = () => {
   }, []);
 
   useEffect(() => {
+    fetchSummary();
     fetchSummaryGithub();
   }, []);
 
@@ -37,7 +37,7 @@ const Summaries = () => {
         <SummaryCard title={'Total Validated'} total={otherSummaries?.totalValidated} color="warning" subtitle={'households'} />
       </Grid>
       <Grid item xs={4}>
-        <SummaryCard title={'Total Approved'} total={otherSummaries?.totalApproved} color="success" subtitle={'households'} />
+        <SummaryCard title={'Total Approved'} total={totalBeneficiaries} color="success" subtitle={'households'} />
       </Grid>
     </Grid>
   );

@@ -28,8 +28,12 @@ export const getFolders = async () => {
 
 export const getFileContent = async (folderName, fileName) => {
   try {
+    // const response = await axios.get(
+    //   `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPOSITORY}/${GITHUB_API_BRANCH}/${folderName}/${fileName}`
+    // );
+
     const response = await axios.get(
-      `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPOSITORY}/${GITHUB_API_BRANCH}/${folderName}/${fileName}`
+      `https://gist.githubusercontent.com/santosh-rumsan/8bcf027b38fffb888f8bc825764630f6/raw/jaleshwor-ben.json`
     );
     return response.data;
   } catch (error) {
