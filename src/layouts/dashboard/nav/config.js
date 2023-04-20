@@ -63,11 +63,16 @@ const navConfig = [
       },
       {
         title: 'Communications',
+        path: PATH_COMMUNICATIONS.root,
         icon: ICONS.communications,
         children: [
           {
-            title: 'History',
-            path: PATH_COMMUNICATIONS.root,
+            title: 'Call Logs',
+            path: PATH_COMMUNICATIONS.callLogs,
+          },
+          {
+            title: 'SMS Logs',
+            path: PATH_COMMUNICATIONS.smsLogs,
           },
           {
             title: 'Create Call',

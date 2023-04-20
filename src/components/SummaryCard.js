@@ -6,7 +6,6 @@ import { Card, Typography, Stack, Box, Tooltip } from '@mui/material';
 import { fCurrency, numberWithCommas } from '@utils/formatNumber';
 // components
 import Iconify from '@components/iconify';
-import Chart, { useChart } from '@components/chart';
 
 // ----------------------------------------------------------------------
 
@@ -34,8 +33,6 @@ export default function SummaryCard({
   tooltipText,
   ...other
 }) {
-  const theme = useTheme();
-
   return (
     <Card
       sx={{
