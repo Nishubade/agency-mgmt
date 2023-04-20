@@ -1,6 +1,13 @@
 import axios from 'axios';
 import { GITHUB_API_URL, GITHUB_USERNAME, GITHUB_REPOSITORY, GITHUB_API_BRANCH } from '@config';
 
+function generateRandomNumber() {
+  var minm = 1000000000;
+  var maxm = 9999999999;
+  return Math.floor(Math
+  .random() * (maxm - minm + 1)) + minm;
+}
+
 export const getFolders = async () => {
   try {
     const response = await axios.get(`${GITHUB_API_URL}/repos/${GITHUB_USERNAME}/${GITHUB_REPOSITORY}/contents`);
@@ -33,7 +40,7 @@ export const getFileContent = async (folderName, fileName) => {
     // );
 
     const response = await axios.get(
-      `https://gist.githubusercontent.com/santosh-rumsan/8bcf027b38fffb888f8bc825764630f6/raw/jaleshwor-ben.json`
+      `https://gist.githubusercontent.com/santosh-rumsan/8bcf027b38fffb888f8bc825764630f6/raw/jaleshwor-ben.json?v${generateRandomNumber()}`
     );
     return response.data;
   } catch (error) {
