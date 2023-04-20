@@ -1,4 +1,4 @@
-import { Box, Button, Pagination, TableCell, TablePagination, TableRow } from '@mui/material';
+import { Box, Button, TableCell, TablePagination, TableRow } from '@mui/material';
 import React, { useEffect } from 'react';
 import ListTableToolbar from './ListTableToolbar';
 import { useRouter } from 'next/router';
@@ -7,6 +7,7 @@ import ListTable from '@components/table/ListTable';
 import { useBeneficiaryContext } from '@contexts/beneficiaries';
 import moment from 'moment';
 import { useAuthContext } from 'src/auth/useAuthContext';
+import Summaries from './Summaries';
 
 const TableContainer = () => {
   const router = useRouter();
@@ -94,6 +95,7 @@ const TableContainer = () => {
 
   return (
     <Box>
+      <Summaries />
       <ListTableToolbar />
       {paginationView}
       <ListTable
