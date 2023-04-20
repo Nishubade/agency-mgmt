@@ -8,8 +8,9 @@ import { useCallback, useEffect, useState } from 'react';
 const Summaries = () => {
   const [totalBeneficiaries, setTotalBeneficiaries] = useState(0);
   const [otherSummaries, setOtherSummaries] = useState({
-    totalTargeted: 0,
+    totalCollected: 0,
     totalValidated: 0,
+    totalApproved: 0
   });
 
   const fetchSummary = async () => {
@@ -24,20 +25,19 @@ const Summaries = () => {
   }, []);
 
   useEffect(() => {
-    fetchSummary();
     fetchSummaryGithub();
   }, []);
 
   return (
     <Grid container spacing={SPACING.GRID_SPACING}>
       <Grid item xs={4}>
-        <SummaryCard title={'Total'} total={totalBeneficiaries} subtitle={'households'} />
+        <SummaryCard title={'Total Collected'} total={otherSummaries?.totalCollected} subtitle={'households'} />
       </Grid>
       <Grid item xs={4}>
-        <SummaryCard title={'Targeted'} total={otherSummaries?.totalTargeted} subtitle={'households'} />
+        <SummaryCard title={'Total Validated'} total={otherSummaries?.totalValidated} color="warning" subtitle={'households'} />
       </Grid>
       <Grid item xs={4}>
-        <SummaryCard title={'Validated'} total={otherSummaries?.totalValidated} subtitle={'households'} />
+        <SummaryCard title={'Total Approved'} total={otherSummaries?.totalApproved} color="success" subtitle={'households'} />
       </Grid>
     </Grid>
   );
