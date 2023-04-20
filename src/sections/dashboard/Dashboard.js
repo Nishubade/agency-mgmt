@@ -15,6 +15,7 @@ import { SPACING } from '@config';
 import { MapView } from './maps';
 import { useDashboardContext } from '@contexts/dashboard';
 import SummaryTracker from '@sections/cash-tracker/tracker/SummaryTracker';
+import { getFileContent } from '@services/github';
 
 const DashboardComponent = () => {
   const theme = useTheme();
@@ -40,8 +41,22 @@ const DashboardComponent = () => {
   const [flickImages, setFlickImages] = useState([]);
   const [cashSummaryData, setCashSummaryData] = useState({});
 
+  const [otherSummaries, setOtherSummaries] = useState({
+    totalCollected: 0,
+    totalValidated: 0,
+    totalDailyWagers: 0,
+    totalLandless: 0,
+    totalDisabilities: 0
+  });
+
+  const fetchSummaryGithub = useCallback(async () => {
+    const fetched = await getFileContent('data', 'beneficiary-summary.json');
+    setOtherSummaries(fetched);
+  }, []);
+
   useEffect(() => {
     getSummary();
+    fetchSummaryGithub();
   }, [getSummary]);
 
   useEffect(() => {
@@ -138,7 +153,7 @@ const DashboardComponent = () => {
               color="info"
               icon="ph:currency-circle-dollar-light"
               title="Daily Wagers"
-              total={summary?.totalDailyWage}
+              total={otherSummaries?.totalDailyWagers}
               subtitle={'people'}
               tooltipText="Total number of daily wagers"
             />
@@ -148,7 +163,7 @@ const DashboardComponent = () => {
               color="info"
               icon="ph:currency-circle-dollar-light"
               title="Total Landless"
-              total={summary?.totalNoLand}
+              total={otherSummaries?.totalLandless}
               subtitle={'people'}
               tooltipText="Total number of landless people"
             />
@@ -158,7 +173,7 @@ const DashboardComponent = () => {
               color="info"
               icon="ph:currency-circle-dollar-light"
               title="Total Disabled"
-              total={summary?.totalDisability}
+              total={otherSummaries?.totalDisabilities}
               subtitle={'people'}
               tooltipText="Total number of disabled people"
             />
