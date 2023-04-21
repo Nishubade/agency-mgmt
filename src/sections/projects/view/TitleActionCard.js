@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Grid, Stack, Button } from '@mui/material';
 import { useProjectContext } from '@contexts/projects';
@@ -15,7 +15,7 @@ import { PATH_REPORTS } from '@routes/paths';
 const TitleCard = () => {
   const { roles } = useAuthContext();
 
-  const { rahatChainData } = useRahat();
+  const { rahatChainData, projectBalance, contract } = useRahat();
   const { refresh, refreshData } = useProjectContext();
   const {
     push,
@@ -36,6 +36,19 @@ const TitleCard = () => {
       onClick: () => push(PATH_REPORTS.wardReport),
     },
   ];
+
+  const init = useCallback(
+    async (projectId) => {
+      await projectBalance(projectId);
+    },
+    [contract]
+  );
+
+  useEffect(() => {
+    init(projectId);
+  }, [init]);
+
+  console.log({ rahatChainData })
   return (
     <>
       <Grid item xs={12} md={12}>
